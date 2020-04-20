@@ -10,7 +10,7 @@ using System.Collections.Specialized;
 
 using System.Data.Common;
 using log4net;
-
+using Microsoft.Data.SqlClient;
 
 namespace PCAxis.Sql.SqlClientCleanup
 {

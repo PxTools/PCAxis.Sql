@@ -26,7 +26,7 @@ namespace PCAxis.PlugIn.Sql
     {
         
 #if DEBUG
-        private static readonly ILog logTime = LogManager.GetLogger("LogTime");
+        private static readonly ILog logTime = LogManager.GetLogger("PCAxis.Sql","LogTime");
 #endif
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSQLBuilder));

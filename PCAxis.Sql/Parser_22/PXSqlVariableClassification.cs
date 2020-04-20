@@ -1050,7 +1050,6 @@ namespace PCAxis.Sql.Parser_22
         internal void ParseHierarchyNames(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes)
         {
             string subkey = this.Name;
-            string noLanguage = null;
             StringCollection values = new StringCollection();
             //HIERARCYNAMES
             foreach (string langCode in LanguageCodes)

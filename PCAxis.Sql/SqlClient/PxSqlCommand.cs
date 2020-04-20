@@ -43,7 +43,7 @@ namespace PCAxis.Sql.DbClient {
         private static readonly ILog log = LogManager.GetLogger(typeof(PxSqlCommand));
 
         #if DEBUG
-                 private static readonly log4net.ILog logTime = log4net.LogManager.GetLogger("LogTime");
+                 private static readonly log4net.ILog logTime = log4net.LogManager.GetLogger("PCAxis.Sql", "LogTime");
         #endif
 
                  private readonly string connectionString;
@@ -77,11 +77,15 @@ namespace PCAxis.Sql.DbClient {
                 myDbVendor = new MyDbVendorIsOracle(connectionString);
             } else if (lDataProvider.Equals("SQL")) {
                 myDbVendor = new MyDbVendorIsSql(connectionString);
-            } else if (lDataProvider.Equals("OLEDB")) {
+            } 
+            /*
+            else if (lDataProvider.Equals("OLEDB")) {
                 myDbVendor = new MyDbVendorIsOledb(connectionString);
             } else if (lDataProvider.Equals("ODBC")) {
                 myDbVendor = new MyDbVendorIsOdbc(connectionString);
-            } else {
+            } 
+            */
+            else {
                 // lDataProvider.Equals("SQLCE") could not find namespace
                 throw new PxsException(39, "\"OleDb\",\"Oracle\",\"Sql\", \"Odbc\"", dataProvider);
 
@@ -170,7 +174,7 @@ namespace PCAxis.Sql.DbClient {
                     //TODO: Check for pxDataAdapter.FillError???
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 foreach (DbParameter para in parameters)
                 {

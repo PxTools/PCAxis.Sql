@@ -8,6 +8,7 @@ using Oracle.ManagedDataAccess.Client;
 using System.Data.Odbc;
 using System.Data.SqlClient;
 using System.Text;// For Oracle-connections.
+using Microsoft.Data.SqlClient;
 
 namespace PCAxis.Sql.DbConfig
 {
@@ -296,6 +297,7 @@ namespace PCAxis.Sql.DbConfig
             {
                 myOut = new SqlParameter();
             }
+            /*
             else if (lDataProvider.Equals("OLEDB"))
             {
                 myOut = new OleDbParameter();
@@ -304,6 +306,7 @@ namespace PCAxis.Sql.DbConfig
             {
                 myOut = new OdbcParameter();
             }
+            */
             else
             {
                 throw new Exceptions.ConfigException(dataProvider + " should be one of  \"OleDb\",\"Oracle\",\"Sql\", \"Odbc\"");
