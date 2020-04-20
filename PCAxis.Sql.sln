@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCAxis.Sql", "PCAxis.Sql\PCAxis.Sql.csproj", "{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89E147DF-F924-45E5-82F2-70D23FE4DCA1}
+	EndGlobalSection
+EndGlobal
