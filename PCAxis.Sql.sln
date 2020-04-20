@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCAxis.Sql", "PCAxis.Sql\PCAxis.Sql.csproj", "{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCAxis.Sql.UnitTest", "PCAxis.Sql.UnitTest\PCAxis.Sql.UnitTest.csproj", "{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE6BCE11-CDA2-4916-9D88-86FCAD382ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
