@@ -24,9 +24,9 @@ namespace PCAxis.PlugIn.Sql
     /// </summary>
     public class PXSQLBuilder : PCAxis.Paxiom.PXModelBuilderAdapter, IDisposable, PCAxis.PlugIn.IPlugIn
     {
-        
+
 #if DEBUG
-        private static readonly ILog logTime = LogManager.GetLogger("PCAxis.Sql","LogTime");
+        private static readonly ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
 #endif
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSQLBuilder));

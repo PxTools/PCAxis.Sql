@@ -42,11 +42,11 @@ namespace PCAxis.Sql.DbClient {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PxSqlCommand));
 
-        #if DEBUG
-                 private static readonly log4net.ILog logTime = log4net.LogManager.GetLogger("PCAxis.Sql", "LogTime");
-        #endif
+#if DEBUG
+                 private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
+#endif
 
-                 private readonly string connectionString;
+        private readonly string connectionString;
         //this indicates which SQL version to use. Not needed?
         private readonly string mDataBaseType = "";
 

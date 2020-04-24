@@ -27,7 +27,7 @@ namespace PCAxis.Sql.QueryLib_23
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MetaQuery));
 #if DEBUG
-        private static readonly log4net.ILog logTime = log4net.LogManager.GetLogger("PCAxis.Sql", "LogTime");
+        private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
 #endif
 
 
