@@ -176,9 +176,13 @@ namespace PCAxis.Sql.DbClient {
             }
             catch (Exception)
             {
-                foreach (DbParameter para in parameters)
+                log.ErrorFormat("Bad Sql:{0}", selectString);
+                if (parameters != null)
                 {
-                    log.Error("para name=" + para.ParameterName + " value=" + para.Value.ToString());
+                    foreach (DbParameter para in parameters)
+                    {
+                        log.Error("para name=" + para.ParameterName + " value=" + para.Value.ToString());
+                    }
                 }
                 throw;
             }

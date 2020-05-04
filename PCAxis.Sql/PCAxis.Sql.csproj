@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-beta2</Version>
+    <Version>1.0.0-beta4</Version>
     <Description>Reading Sql-database into Paxiom.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/statisticssweden/PCAxis.Sql</PackageProjectUrl>
