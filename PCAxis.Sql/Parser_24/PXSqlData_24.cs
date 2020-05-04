@@ -166,7 +166,7 @@ namespace PCAxis.Sql.Parser_24
             this.npm = mMeta.SpecCharExists;
             this.hasGrouping = mMeta.Variables.HasAnyoneGroupingOnNonstoredData();
             //                .HasAnyoneGrouping();
-
+            log.Info("mMeta.Variables.HasAnyoneGroupingOnNonstoredData: " + mMeta.Variables.HasAnyoneGroupingOnNonstoredData());
             this.eliminationBySum = mMeta.EliminatedVariablesExist;
 
             //System.Console.WriteLine("DEBUG tukler med nmp og summ");
@@ -174,6 +174,7 @@ namespace PCAxis.Sql.Parser_24
             //alwaysUseSum = true;
 
             this.useSum = hasGrouping || eliminationBySum;
+            log.Info("hasGrouping:" + hasGrouping + " | eliminationBySum:" + eliminationBySum);
 
             this.hasAttributes = mMeta.Attributes.HasAttributes;
 
@@ -279,14 +280,19 @@ namespace PCAxis.Sql.Parser_24
 
 
 
-            string sqlString = "select /" + "*+STAR_TRANSFORMATION *" + "/ ";
+            string sqlStringTemp = " /* STAR TRANSFORMATION */ ";
+            string sqlString = "";
 
 
             int TempNumber = 25;
 
             string sqlJoinString = "";
+            string sqlJoinStringOuter = "";
             string sqlGroupByString = "";
             string tempGroupFactorSQL = "";
+            // Modification for NMP && SUM
+            string sqlOuterString = "";
+            string sqlOuterJoinString = "";
 
 
             foreach (string key in variableIDsInReverseOutputOrder)
@@ -300,7 +306,9 @@ namespace PCAxis.Sql.Parser_24
                     //TODO piv
                     if (hasAttributes)
                     {
-                        sqlString += key + ",";
+                        sqlStringTemp += key + ",";
+                        // Modification for NMP && SUM
+                        sqlOuterString += "first(" + key + ") as " + key + ",";
                     }
                     var.TempTableNo = TempNumber.ToString();
                     TempNumber++;
@@ -338,6 +346,7 @@ namespace PCAxis.Sql.Parser_24
                     if (useSum)
                     {
                         sqlGroupByString += ", Groupnr" + var.TempTableNo;
+                        sqlOuterJoinString += " Groupnr" + var.TempTableNo + ", ";
                     }
 
                     if (npm)
@@ -348,7 +357,8 @@ namespace PCAxis.Sql.Parser_24
                             sqlGroupByString += ", Group" + var.TempTableNo;
                         }
                         DataNoteCellId_Columns.Add("Group" + var.TempTableNo);
-                        sqlString += "Group" + var.TempTableNo + ", ";
+                        sqlStringTemp += "Group" + var.TempTableNo + ", ";
+                        sqlOuterString += "Group" + var.TempTableNo + ", ";
                     }
 
                     // tempGroupFactorSQL will be used in an UPDATE statement to adjust the GroupFactor in the temptables
@@ -398,12 +408,21 @@ namespace PCAxis.Sql.Parser_24
 
             foreach (string contCode in contKeys)
             {
-                sqlString += getContSelectPart(contCode, useSum, npm);
+                sqlStringTemp += getContSelectPart(contCode, useSum, npm);
+                // Modification for NMP && SUM
+                sqlOuterString += " sum( " + contCode + " ) as " + contCode + " , \n";
+                sqlOuterString += " sum( " + contCode + "_NilCnt ) as " + contCode + "_NilCnt , \n";
+                sqlOuterString += " max( " + contCode + "_xMax ) as " + contCode + "_xMax , \n";
+                sqlOuterString += " min( " + contCode + "_3MIN ) as " + contCode + "_3Min , \n";
+                sqlOuterString += " min( " + contCode + "_1MIN ) as " + contCode + "_1Min , \n";
+                sqlOuterString += " sum( " + contCode + "_xCount ) as " + contCode + "_xCount , \n";
+                sqlJoinStringOuter += ", " + contCode + "_X";
             }
 
             if (useSum)
             {
-                sqlString += " COUNT(*) AS SqlMarx777777, ";
+                sqlStringTemp += " COUNT(*) AS SqlMarx777777, ";
+                sqlOuterString += "Sum(SqlMarx777777) as SqlMarx777777, ";
             } //else {
             //  sqlString += " 1 SqlMarx777777 , ";
             //}
@@ -423,36 +442,57 @@ namespace PCAxis.Sql.Parser_24
             }
             mindexSQLString += "0) AS " + MINDEX_COL + " \n";
 
-            sqlString += mindexSQLString;
+            sqlStringTemp += mindexSQLString;
+            // Modification for NMP && SUM
+            sqlOuterString += mindexSQLString;
 
             if (needGroupingFactor)
             {
-                sqlString += ", " + tempGroupFactorSQL + " GroupFactor ";
+                sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactorInner ";
+                // Modification for NMP && SUM
+                sqlOuterString += ", MAX(GroupFactorInner) GroupFactor ";
             }
             //TODO piv
             if (hasAttributes)
             {
-                sqlString += getAttrSelectPart(mMeta.Attributes) + " ";
+                sqlStringTemp += getAttrSelectPart(mMeta.Attributes) + " ";
+                // Modification for NMP && SUM
+                sqlOuterString += ", FIRST(" + attributeResultColumn + ") AS " + attributeResultColumn;
             }
 
             // FROM & JOIN 
 
-            sqlString += getFROMClause() + sqlJoinString;
+            sqlStringTemp += getFROMClause() + sqlJoinString;
 
-            sqlString += "\n WHERE 1=1 ";
+            sqlStringTemp += "\n WHERE 1=1 ";
             foreach (string key in keysOfEliminatedByValue)
             {
                 foreach (PXSqlValue val in mMeta.Variables[key].Values.Values)
                 { // there will only be one
-                    sqlString += " AND " + key + " = '" + val.ValueCode + "'";
+                    sqlStringTemp += " AND " + key + " = '" + val.ValueCode + "'";
                 }
             }
 
             // GROUP BY
             if (useSum)
             {
-                sqlString += " GROUP BY " + sqlGroupByString.Substring(1);
+                if (npm)
+                {
+                    //sqlString += " GROUP BY " + sqlGroupByString.Substring(1);
+                    sqlString = "select /* useSum = true & NPM=TRUE */ " + sqlOuterString + " from ( select " + sqlOuterJoinString + sqlStringTemp + " GROUP BY " + sqlGroupByString.Substring(1);
+                    sqlString += sqlJoinStringOuter + " ) npmFix " + " GROUP BY " + sqlGroupByString.Substring(1);
+                }
+                else
+                {
+                    sqlString = "select /* useSum = true npm = false*/ " + sqlOuterJoinString + sqlStringTemp + " GROUP BY " + sqlGroupByString.Substring(1);
+
+                }
             }
+            else
+            {
+                sqlString = "select /* useSum = false */ " + sqlStringTemp;
+            }
+            log.Info("SQL:\n" + sqlString);
 
             return sqlString;
             //log.Debug("SQL:\n" + sqlString);
@@ -1225,7 +1265,7 @@ namespace PCAxis.Sql.Parser_24
                 myOut += "\n      ";
                 if (Sum)
                 {
-                    myOut += "MAX(";
+                    myOut += "(";
                 }
 
                 string[] tmpConcatArray = new string[2];
@@ -1233,7 +1273,7 @@ namespace PCAxis.Sql.Parser_24
                 tmpConcatArray[1] = "st." + SpecialCharacter.CharacterTypeCol.PureColumnName();
 
 
-                myOut += "(SELECT " + mMeta.MetaQuery.GetPxSqlCommand().getConcatString(tmpConcatArray) + " x_x\n";
+                myOut += "(SELECT MAX(" + mMeta.MetaQuery.GetPxSqlCommand().getConcatString(tmpConcatArray) + ") x_x\n";
 
                 //                myOut += "(SELECT CONCAT(" + caseString + ", st." +
                 //                               SpecialCharacter.CharacterType + ") x_x\n";
@@ -1250,16 +1290,16 @@ namespace PCAxis.Sql.Parser_24
                 {
                     //        min(select st.TeckenTyp from StatMeta.SpecialTecken st
                     //            where  st.TeckenTyp = dt.Sysselsatte_x and st.Summerbar = 'N') Sysselsatte_xMin_3
-                    myOut += " MIN((";
-                    myOut += " SELECT  st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + "\n";
+                    myOut += " ((";
+                    myOut += " SELECT  MIN(st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + ") \n";
                     myOut += "      FROM " + mMeta.MetaQuery.DB.MetaOwner + SpecialCharacter.TableName + " st \n";
                     myOut += "      WHERE st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + " = dt." + contCode + "_X AND st." + SpecialCharacter.AggregPossibleCol.PureColumnName() + " = " + CodeForNo + ")) \n";
 
                     myOut += " AS " + contCode + "_3MIN , ";
                     myOut += "\n ";
 
-                    myOut += " MIN((";
-                    myOut += " SELECT  st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + "\n";
+                    myOut += " ((";
+                    myOut += " SELECT  MIN(st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + ") \n";
                     myOut += "      FROM " + mMeta.MetaQuery.DB.MetaOwner + SpecialCharacter.TableName + " st \n";
                     myOut += "      WHERE st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + " = dt." + contCode + "_X AND st." + SpecialCharacter.AggregPossibleCol.PureColumnName() + " = " + CodeForYes + " AND st." + SpecialCharacter.DataCellPresCol.PureColumnName() + " = " + CodeForYes + ")) \n";
 
@@ -1269,7 +1309,7 @@ namespace PCAxis.Sql.Parser_24
                     // sum((select count(*) 
                     // from StatMeta.SpecialTecken st 
                     // where st.TeckenTyp = dt.Sysselsatte_x and category is 2 or 3)) Sysselsatte_xCount,
-                    myOut += " SUM((SELECT COUNT(*) ";
+                    myOut += " ((SELECT COUNT(*) ";
                     myOut += "      FROM " + mMeta.MetaQuery.DB.MetaOwner + SpecialCharacter.TableName + " st \n";
                     myOut += "      WHERE st." + SpecialCharacter.CharacterTypeCol.PureColumnName() + " = dt." + contCode + "_X  AND st." + SpecialCharacter.AggregPossibleCol.PureColumnName() + " = " + CodeForNo + ")) AS " + contCode + "_XCount, \n";
                 }
