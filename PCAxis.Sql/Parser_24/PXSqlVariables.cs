@@ -39,28 +39,29 @@ namespace PCAxis.Sql.Parser_24
         /// </summary>
         internal bool HasAnyoneGroupingOnNonstoredData()
         {
-           
-                foreach (PXSqlVariable var in this.Values)
+
+            foreach (PXSqlVariable var in this.Values)
+            {
+                if (var.UsesGroupingOnNonstoredData())
                 {
-                    if (var.UsesGroupingOnNonstoredData() )
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-                return false;
-           
+            }
+            return false;
+
         }
 
 
         internal void setStubHeadPxs()
         {
-            int highestUsedStubIndex = 0 ;
+            int highestUsedStubIndex = 0;
             if (meta.PxsFile.Presentation.Stub != null)
-                foreach (  AxisType stub in meta.PxsFile.Presentation.Stub)
+                foreach (AxisType stub in meta.PxsFile.Presentation.Stub)
                 {
                     //mSqlVariable = this[stub.code];
                     this[stub.code].Index = stub.index;
-                    if(stub.index > highestUsedStubIndex ) {
+                    if (stub.index > highestUsedStubIndex)
+                    {
                         highestUsedStubIndex = stub.index;
                     }
                     this[stub.code].IsStub = true;
@@ -71,13 +72,15 @@ namespace PCAxis.Sql.Parser_24
                 foreach (AxisType heading in meta.PxsFile.Presentation.Heading)
                 {
                     //mSqlVariable = this[heading.code];
-                     this[heading.code].Index = heading.index;
-                     this[heading.code].IsHeading = true;
+                    this[heading.code].Index = heading.index;
+                    this[heading.code].IsHeading = true;
                 }
             }
 
-            foreach (PXSqlVariable tmpVar in this.Values) {
-                if (tmpVar.isSelected && (!tmpVar.IsHeading) && (!tmpVar.IsStub)) {
+            foreach (PXSqlVariable tmpVar in this.Values)
+            {
+                if (tmpVar.isSelected && (!tmpVar.IsHeading) && (!tmpVar.IsStub))
+                {
                     log.Warn("Variable " + tmpVar.Name + " isSelected, but neither Heading nor Stub. Setting it to stub");
                     highestUsedStubIndex++;
                     tmpVar.IsStub = true;
@@ -85,11 +88,12 @@ namespace PCAxis.Sql.Parser_24
 
                 }
             }
-            string shouldPivot = ConfigurationManager.AppSettings["autopivot"];           
-            if (shouldPivot != null) { 
+            string shouldPivot = ConfigurationManager.AppSettings["autopivot"];
+            if (shouldPivot != null)
+            {
                 if (shouldPivot.ToLower() == "yes")
-                { 
-                setStubHeadOverridden();
+                {
+                    setStubHeadOverridden();
                 }
             }
         }
@@ -102,7 +106,7 @@ namespace PCAxis.Sql.Parser_24
             int selectedContentsValuesCount = 0;
             int selectedTimeContentsValuesCount = 0;
             int lowestSelectedClassValues = Int32.MaxValue;
-            string VariableWithLowestSelected="";
+            string VariableWithLowestSelected = "";
 
             //int stubIndex = 1;// eller 0 ??????
             foreach (PXSqlVariable tmpVar in this.Values)
@@ -131,22 +135,27 @@ namespace PCAxis.Sql.Parser_24
             }
             selectedTimeContentsValuesCount = selectedTimeValuesCount * selectedContentsValuesCount;
             pivotAlg = DefaultPivot.alg1;
-            if (selectedTimeContentsValuesCount <= 12 && selectedClassCount > 0){
+            if (selectedTimeContentsValuesCount <= 12 && selectedClassCount > 0)
+            {
                 pivotAlg = DefaultPivot.alg1;
             }
-            if (selectedTimeContentsValuesCount > 12 && selectedTimeValuesCount <= 24) {
+            if (selectedTimeContentsValuesCount > 12 && selectedTimeValuesCount <= 24)
+            {
                 pivotAlg = DefaultPivot.alg2;
             }
-            if(selectedTimeValuesCount > 24){
+            if (selectedTimeValuesCount > 24)
+            {
                 pivotAlg = DefaultPivot.alg3;
             }
-            if(selectedTimeContentsValuesCount <= 12  && selectedClassCount == 0){
+            if (selectedTimeContentsValuesCount <= 12 && selectedClassCount == 0)
+            {
                 pivotAlg = DefaultPivot.alg4;
             }
-            if ((selectedTimeContentsValuesCount == 1 && selectedClassCount > 1) && (lowestSelectedClassValues <= 24) ){
+            if ((selectedTimeContentsValuesCount == 1 && selectedClassCount > 1) && (lowestSelectedClassValues <= 24))
+            {
                 pivotAlg = DefaultPivot.alg5;
-            }            
-            switch(pivotAlg)
+            }
+            switch (pivotAlg)
             {
                 case DefaultPivot.alg1:
                     break;
@@ -321,19 +330,12 @@ namespace PCAxis.Sql.Parser_24
                     }
                 }
             }
-          //  if (this.meta.inSelectionModus)
-          //  {
-           //     mHeadings.Sort(sortForSelection);
-          //  }
-          //  else
-          //  {
-                mHeadings.Sort();
-          //  }
-                return mHeadings; 
+            mHeadings.Sort();
+            return mHeadings;
         }
         internal List<PXSqlVariable> GetStubSorted()
         {
-            List<PXSqlVariable>  mStubs = new List<PXSqlVariable>();
+            List<PXSqlVariable> mStubs = new List<PXSqlVariable>();
             foreach (PXSqlVariable var in this.Values)
             {
                 if (var.isSelected)
@@ -344,14 +346,7 @@ namespace PCAxis.Sql.Parser_24
                     }
                 }
             }
-           // if (this.meta.inSelectionModus)
-           // {
-           //     mStubs.Sort(sortForSelection);
-           // }
-            //else
-           // {
-                mStubs.Sort();
-           // }
+            mStubs.Sort();
             return mStubs;
         }
         internal void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes)
@@ -382,5 +377,5 @@ namespace PCAxis.Sql.Parser_24
     }
 }
 
-    
+
 
