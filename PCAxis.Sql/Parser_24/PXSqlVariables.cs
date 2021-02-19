@@ -16,11 +16,9 @@ namespace PCAxis.Sql.Parser_24
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlVariables));
 
         PXSqlMeta_24 meta;
-        VariableSortForSelection sortForSelection;
         public PXSqlVariables(PXSqlMeta_24 meta)
         {
             this.meta = meta;
-            sortForSelection = new VariableSortForSelection();
         }
 
 
