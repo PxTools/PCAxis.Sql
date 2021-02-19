@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using PCAxis.Sql.QueryLib_23;
 using PCAxis.Paxiom;
 using PCAxis.Sql.Pxs;
+using System.Configuration;
 using log4net;
 
 namespace PCAxis.Sql.Parser_23
@@ -20,6 +21,16 @@ namespace PCAxis.Sql.Parser_23
             this.meta = meta;
         }
 
+
+        internal enum DefaultPivot
+        {
+            alg1,
+            alg2,
+            alg3,
+            alg4,
+            alg5,
+            alg6
+        }
 
         /// <summary>
         /// True if one or more variable has applied grouping and the grouping requires a sum in the dataextraction, i.e. not all data are stored .
@@ -72,10 +83,186 @@ namespace PCAxis.Sql.Parser_23
 
                 }
             }
+            string shouldPivot = ConfigurationManager.AppSettings["autopivot"];           
+            if (shouldPivot != null) { 
+                if (shouldPivot.ToLower() == "yes")
+                { 
+                setStubHeadOverridden();
+                }
+            }
+        }
+        internal void setStubHeadOverridden()
+        {
+            int numberOfVariables = this.Count;
+            DefaultPivot pivotAlg;
+            int selectedClassCount = 0;
+            int selectedTimeValuesCount = 0;
+            int selectedContentsValuesCount = 0;
+            int selectedTimeContentsValuesCount = 0;
+            int lowestSelectedClassValues = Int32.MaxValue;
+            string VariableWithLowestSelected="";
 
+            //int stubIndex = 1;// eller 0 ??????
+            foreach (PXSqlVariable tmpVar in this.Values)
+            {
+                if (tmpVar.isSelected)
+                {
+                    if (tmpVar.IsTimevariable)
+                    {
+                        selectedTimeValuesCount = tmpVar.Values.Count;
+                    }
+                    else if (tmpVar.IsContentVariable)
+                    {
+                        selectedContentsValuesCount = tmpVar.Values.Count;
+                    }
+                    else
+                    {
+                        selectedClassCount += 1;
+                        if (tmpVar.Values.Count < lowestSelectedClassValues)
+                        {
+                            lowestSelectedClassValues = tmpVar.Values.Count;
+                            VariableWithLowestSelected = tmpVar.Name;
+                        }
+                    }
+                }
+
+            }
+            selectedTimeContentsValuesCount = selectedTimeValuesCount * selectedContentsValuesCount;
+            pivotAlg = DefaultPivot.alg1;
+            if (selectedTimeContentsValuesCount <= 12 && selectedClassCount > 0){
+                pivotAlg = DefaultPivot.alg1;
+            }
+            if (selectedTimeContentsValuesCount > 12 && selectedTimeValuesCount <= 24) {
+                pivotAlg = DefaultPivot.alg2;
+            }
+            if(selectedTimeValuesCount > 24){
+                pivotAlg = DefaultPivot.alg3;
+            }
+            if(selectedTimeContentsValuesCount <= 12  && selectedClassCount == 0){
+                pivotAlg = DefaultPivot.alg4;
+            }
+            if ((selectedTimeContentsValuesCount == 1 && selectedClassCount > 1) && (lowestSelectedClassValues <= 24) ){
+                pivotAlg = DefaultPivot.alg5;
+            }            
+            switch(pivotAlg)
+            {
+                case DefaultPivot.alg1:
+                    break;
+                case DefaultPivot.alg2:
+                    foreach (PXSqlVariable tmpVar in this.Values)
+                    {
+                        if (tmpVar.isSelected)
+                        {
+                            if (tmpVar.IsTimevariable)
+                            {
+                                tmpVar.IsHeading = true;
+                                tmpVar.IsStub = false;
+                                tmpVar.Index = -2;
+                            }
+                            else if (tmpVar.IsContentVariable)
+                            {
+                                tmpVar.IsStub = true;
+                                tmpVar.IsHeading = false;
+                                tmpVar.Index = -2;
+                            }
+                            else
+                            {
+                                tmpVar.IsStub = true;
+                                tmpVar.IsHeading = false;
+                            }
+                        }
+                    }
+                    break;
+                case DefaultPivot.alg3:
+                    foreach (PXSqlVariable tmpVar in this.Values)
+                    {
+                        if (tmpVar.isSelected)
+                        {
+                            if (tmpVar.IsTimevariable)
+                            {
+                                tmpVar.IsStub = true;
+                                tmpVar.IsHeading = false;
+                                tmpVar.Index = 100;
+                            }
+                            else if (tmpVar.IsContentVariable)
+                            {
+                                tmpVar.IsHeading = true;
+                                tmpVar.IsStub = false;
+                                tmpVar.Index = -100;
+                            }
+                            else
+                            {
+                                tmpVar.IsStub = true;
+                                tmpVar.IsHeading = false;
+                            }
+                        }
+                    }
+                    break;
+                case DefaultPivot.alg4:
+                    foreach (PXSqlVariable tmpVar in this.Values)
+                    {
+                        if (tmpVar.isSelected)
+                        {
+                            if (tmpVar.IsTimevariable)
+                            {
+                                tmpVar.IsStub = false;
+                                tmpVar.IsHeading = true;
+                                tmpVar.Index = 1;
+                            }
+                            else if (tmpVar.IsContentVariable)
+                            {
+                                tmpVar.IsHeading = false;
+                                tmpVar.IsStub = true;
+                                tmpVar.Index = 1;
+                            }
+                            else
+                            {
+                                log.Warn("Variable " + tmpVar.Name + " isSelected, but neither time  nor contents, something wring with algorithm . Setting it to stub");
+                                tmpVar.IsStub = true;
+                                tmpVar.IsHeading = false;
+                            }
+                        }
+                    }
+                    break;
+                case DefaultPivot.alg5:
+                    foreach (PXSqlVariable tmpVar in this.Values)
+                    {
+                        if (tmpVar.isSelected)
+                        {
+                            if (tmpVar.IsContentVariable)
+                            {
+                                tmpVar.IsHeading = true;
+                                tmpVar.IsStub = false;
+                                tmpVar.Index = -300;
+                            }
+                            else if (tmpVar.IsTimevariable)
+                            {
+                                tmpVar.IsStub = false;
+                                tmpVar.IsHeading = true;
+                                tmpVar.Index = -200;
+                            }
+
+                            else if (tmpVar.Name == VariableWithLowestSelected)
+                            {
+                                tmpVar.IsHeading = true;
+                                tmpVar.IsStub = false;
+                                tmpVar.Index = -100;
+                            }
+                            else
+                            {
+                                tmpVar.IsHeading = false;
+                                tmpVar.IsStub = true;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
 
         }
+
         internal void setStubHeadDefault()
         {
             //int stubIndex = 1;// eller 0 ??????
