@@ -827,6 +827,9 @@ namespace PCAxis.Sql.Parser_23
             // ELIMINATION
             ParseElimination(handler, preferredLanguage);
 
+            //CANDIDATEMUSTSELECT Extendet property
+            ParseCandidateMustSelect(handler, preferredLanguage);
+
             //GROUPING  (only for selected and selectionMode)
             if (this.groupingInfos != null)
             {
@@ -997,6 +1000,64 @@ namespace PCAxis.Sql.Parser_23
             }
 
         }
+
+        internal void ParseCandidateMustSelect(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
+            string subkey = this.Name;
+            string noLanguage = null;
+            StringCollection values = new StringCollection();
+
+
+
+            values.Clear();
+            if (isCandidateMustSelect())
+            {
+                values.Add(PXConstant.YES);
+            }
+            else
+            {
+                values.Add(PXConstant.NO);
+            }
+
+            //handler(PXKeywords.POSSIBLENOTELIM, noLanguage, subkey, values);
+            handler("CandidateMustSelect", noLanguage, subkey, values);
+        }
+
+
+
+
+        internal bool isCandidateMustSelect()
+        {
+            if (this.PaxiomElimination == PXConstant.NO)
+            {
+                return true;
+            }
+            if (this.GroupingInfos != null)
+            {
+                if (this.GroupingInfos.Infos.Count > 0)
+                {
+                    return true;
+                }
+
+            }
+
+            foreach (PXSqlContent pxsqlCont in meta.Contents.Values)
+            {
+                if (!pxsqlCont.AggregPossible)
+                {
+                    foreach (KeyValuePair<string,PXSqlValueSet> vs in this.ValueSets)
+                    {
+                        if (vs.Value.Elimination== PXConstant.YES)
+                            {
+                            return true;
+                        }
+                    }
+                
+                }
+            }
+            return false;
+        }
+
 
 
         internal void ParseForApplyValueSet(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
