@@ -103,19 +103,27 @@ namespace PCAxis.Sql.Parser_24
         ///   </rule>
         /// </PXKeyword>
              internal override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage) {  
-               base.ParseMeta(handler, LanguageCodes, preferredLanguage);  
-               //log.Debug("PPPPPPPPPPPPPPPPPParsing");  
-               //TIMEVAL  
-               if (mHasTimeVal) {  
+               base.ParseMeta(handler, LanguageCodes, preferredLanguage);
+            //log.Debug("PPPPPPPPPPPPPPPPPParsing");  
+            string language;
+            string subkey = this.Name;
+            StringCollection values;
+            //TIMEVAL  
+            if (mHasTimeVal) {  
                      
-                   string language = null;  
-                   string subkey = this.Name;  
-                   StringCollection values = this.mTimeVal;  
+                   language = null;  
+                   values = this.mTimeVal;  
                    handler(PXKeywords.TIMEVAL, language, subkey, values);  
                    values = null;  
-               }  
-             
-           }  
+               }
+            language = null;
+            values = new StringCollection();
+            values.Clear();
+            values.Add(PXConstant.YES);
+            handler("CandidateMustSelect", language, subkey, values);
+
+
+        }
 
 
         private void SetDefaultPresTextOption()
@@ -143,7 +151,7 @@ namespace PCAxis.Sql.Parser_24
                    timeUnit = "W1";  
                else
                {
-                   log.Warn("Wrong Timeunit:" + mTimeScale.TimeUnit);
+                log.InfoFormat("Unknown Timeunit:{0}", mTimeScale.TimeUnit);
                    timeUnit = mTimeScale.TimeUnit;
                }
                
