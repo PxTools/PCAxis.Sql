@@ -1,9 +1,8 @@
 name: Nuget
 
 on:
-  create:
-    tags:
-      - v*
+  release:
+    types: [published]
 
 jobs:
   release:
