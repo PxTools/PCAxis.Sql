@@ -108,6 +108,12 @@ namespace PCAxis.Sql.Parser_24
             values.Add(tmpAggregPossible);
             handler(PXKeywords.AGGREGALLOWED, language, subkey, values);
 
+            language = null;
+            subkey = meta.ContensCode;
+            values = new StringCollection();
+            values.Clear();
+            values.Add(PXConstant.YES);
+            handler("CandidateMustSelect", language, subkey, values);
 
             log.Debug("meta.Contents.Values.Count=" + meta.Contents.Values.Count.ToString());
             // "ContentInfo"

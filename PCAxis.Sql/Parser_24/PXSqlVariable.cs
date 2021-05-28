@@ -305,36 +305,29 @@ namespace PCAxis.Sql.Parser_24
 
         #region CompareTo
         public int CompareTo(object obj)
-        {
-            //if (this.GetType() != obj.GetType())
-            //{
-            //    throw new PCAxis.Sql.Exceptions.BugException(10000);
-            //}
-            //else
+
+       {
+              PXSqlVariable SqlVariableCompare = (PXSqlVariable)obj;
+           // return this.Index.CompareTo(SqlVariableCompare.Index);   //will not compare time-,classification and contens
+            if (this.Index == SqlVariableCompare.Index)
             {
-                PXSqlVariable SqlVariableCompare = (PXSqlVariable)obj;
-                return this.Index.CompareTo(SqlVariableCompare.Index);   //will not compare time-,classification and contens
-                // return ((PXSqlVariable)this).Index.CompareTo(SqlVariableCompare.Index);
-                /*if (this.Index == sqlVariableCompare.Index)
-                {
-                    return(0);
-                }
-                else if(this.Index > sqlVariableCompare.Index)
-                {
-                    return(1);
-                }
-                else if (this.Index < sqlVariableCompare.Index)
-                {
-                    return(-1);
-                }
-                else 
-                {
-                    return(-1);
-                }
-                */
+                return (0);
+            }
+            else if (this.Index > SqlVariableCompare.Index)
+            {
+                return (1);
+            }
+            else if (this.Index < SqlVariableCompare.Index)
+            {
+                return (-1);
+            }
+            else
+            {
+                return (-1);
             }
 
         }
+ 
         #endregion
 
 
@@ -377,6 +370,32 @@ namespace PCAxis.Sql.Parser_24
                 // denne ble kjørt uavhenging av isSelected da den lå i ParseMeta.cs
                 //keyword = "VALUES" and CODES
                 ParseCodeAndValues(handler, LanguageCodes, preferredLanguage);
+
+                //keyword = "VARIABLETYPE"
+                // ADDED 14.01.2019.  Use in jsonstat1/2 serialzer to set role for geo.
+                ParseVariableType(handler);
+            }
+        }
+
+
+        /// <PXKeyword name="VARIABLETYPE">
+        ///   <rule>
+        ///     <description>Variabletype</description>
+        ///     <table modelName ="SubTableVariable">
+        ///     <column modelName="VariableType"/>
+        ///     </table>
+        ///   </rule>
+        /// </PXKeyword>
+        private void ParseVariableType(PCAxis.Paxiom.IPXModelParser.MetaHandler handler)
+        {
+            if (this.VariableType != null )
+            {
+
+                StringCollection values = new StringCollection();
+                string subkey = this.Name;
+                string noLanguage = null;
+                values.Add(this.VariableType);
+                handler(PXKeywords.VARIABLE_TYPE, noLanguage, subkey, values);
             }
         }
 
