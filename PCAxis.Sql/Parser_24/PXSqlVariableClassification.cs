@@ -259,7 +259,7 @@ namespace PCAxis.Sql.Parser_24
         // when no pxs
         internal void SetValues(StringCollection selSubTables)
         {
-           
+
             ValueRow2HMDictionary mValueRowDictionary = meta.MetaQuery.GetValueRowDictionary(meta.MainTable.MainTable, selSubTables, this.Name, this.ValuePool.ValueTextExists);
             Dictionary<string, ValueRow2HM> mValueRows = mValueRowDictionary.ValueRows;
 
@@ -335,7 +335,7 @@ namespace PCAxis.Sql.Parser_24
 
                     documentOrder++;
                 }
-            #endregion foreach var.Values.Items
+                #endregion foreach var.Values.Items
 
 
                 // mSelectedValues now contains all the selected values, including those defined by wildcards
@@ -422,6 +422,12 @@ namespace PCAxis.Sql.Parser_24
         }
 
 
+
+
+
+
+
+
         private void SetSelected()
         {
             this.mIsSelected = false;
@@ -480,7 +486,7 @@ namespace PCAxis.Sql.Parser_24
         private void SetValueset()
         {
             valusetIds = new StringCollection();
-           
+
             List<PXSqlValueSet> sortedValuesets = new List<PXSqlValueSet>();
 
             string defaultInGuiValueset = metaQuery.GetValuesetIdDefaultInGui(meta.MainTable.MainTable, this.Name);
@@ -501,12 +507,12 @@ namespace PCAxis.Sql.Parser_24
                     {
                         var valueSet = new PXSqlValueSet(meta.MetaQuery.GetValueSetRow(valuesetId), meta, isDefault);
                         valueSetsByPresText[valueSet.PresText[this.meta.MainLanguageCode]] = valueSet;
-                    } 
+                    }
                     else
                     {
-                        sortedValuesets.Add(new PXSqlValueSet(meta.MetaQuery.GetValueSetRow(valuesetId),meta,isDefault));
+                        sortedValuesets.Add(new PXSqlValueSet(meta.MetaQuery.GetValueSetRow(valuesetId), meta, isDefault));
                     }
-                    
+
                 }
 
                 if (shouldSubTableVarablesBeSortedAlphabetical)
@@ -524,7 +530,7 @@ namespace PCAxis.Sql.Parser_24
                 // for selected valueset without subtable stored in pxs.
                 bool isDefault = this.pxsQueryVariable.SelectedValueset.Equals(defaultInGuiValueset);
                 sortedValuesets.Add(new PXSqlValueSet(meta.MetaQuery.GetValueSetRow(this.pxsQueryVariable.SelectedValueset), meta, isDefault));
-               
+
             }
 
 
@@ -537,7 +543,7 @@ namespace PCAxis.Sql.Parser_24
             List<EliminationAux> elimValues = new List<EliminationAux>(); // For the magicAll valueSet 
 
             StringCollection tmpValuePres = new StringCollection(); // For the magicAll valueSet 
-			List<string> metaIdValues = new List<string>(); // For all the magicAll ValueSet MetaId
+            List<string> metaIdValues = new List<string>(); // For all the magicAll ValueSet MetaId
 
             foreach (PXSqlValueSet valueSetItem in sortedValuesets)
             {
@@ -580,7 +586,7 @@ namespace PCAxis.Sql.Parser_24
                 this.ValueSets.Add(magicAll.ValueSet, magicAll);
                 foreach (var metaId in metaIdValues)
                 {
-                     addMetaId(metaId);
+                    addMetaId(metaId);
                 }
             }
         }
@@ -644,7 +650,7 @@ namespace PCAxis.Sql.Parser_24
 
 
             if (pxsQueryVariable != null)
-            {                
+            {
                 if (!string.IsNullOrEmpty(this.pxsQueryVariable.StructureId))
                 {
                     int valueSetCount = this.ValueSets.Count();
@@ -695,7 +701,7 @@ namespace PCAxis.Sql.Parser_24
                 NumberOfValuesInValuesets.Add(vs.NumberOfValues);
                 tmpElim = vs.Elimination;
             }
-            
+
             if (tmpElim == meta.Config.Codes.EliminationN || tmpElim.Length == 0)
             {
 
@@ -762,7 +768,7 @@ namespace PCAxis.Sql.Parser_24
             }
 
         }
-        
+
 
 
 
@@ -777,7 +783,7 @@ namespace PCAxis.Sql.Parser_24
             {
                 return new List<PXSqlValue>();
             }
-            
+
             if ((meta.inPresentationModus) && meta.ConstructedFromPxs)
             {
                 return mValues.GetValuesSortedByPxs(mValues.GetValuesForSelectedValueset(selectedValueset));
@@ -837,6 +843,9 @@ namespace PCAxis.Sql.Parser_24
 
             // ELIMINATION
             ParseElimination(handler, preferredLanguage);
+
+            //CANDIDATEMUSTSELECT Extendet property
+            ParseCandidateMustSelect(handler, preferredLanguage);
 
             //GROUPING  (only for selected and selectionMode)
             if (this.groupingInfos != null)
@@ -1009,8 +1018,66 @@ namespace PCAxis.Sql.Parser_24
 
         }
 
+        internal void ParseCandidateMustSelect(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
+            string subkey = this.Name;
+            string noLanguage = null;
+            StringCollection values = new StringCollection();
 
-        internal void ParseForApplyValueSet(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
+
+
+            values.Clear();
+            if (isCandidateMustSelect())
+            {
+                values.Add(PXConstant.YES);
+            }
+            else
+            {
+                values.Add(PXConstant.NO);
+            }
+
+            //handler(PXKeywords.POSSIBLENOTELIM, noLanguage, subkey, values);
+            handler("CandidateMustSelect", noLanguage, subkey, values);
+        }
+
+
+
+
+        internal bool isCandidateMustSelect()
+        {
+            if (this.PaxiomElimination == PXConstant.NO)
+            {
+                return true;
+            }
+            if (this.GroupingInfos != null)
+            {
+                if (this.GroupingInfos.Infos.Count > 0)
+                {
+                    return true;
+                }
+
+            }
+
+            foreach (PXSqlContent pxsqlCont in meta.Contents.Values)
+            {
+                if (!pxsqlCont.AggregPossible)
+                {
+                    foreach (KeyValuePair<string,PXSqlValueSet> vs in this.ValueSets)
+                    {
+                        if (vs.Value.Elimination== PXConstant.YES)
+                            {
+                            return true;
+                        }
+                    }
+                
+                }
+            }
+            return false;
+        }
+
+
+
+    internal void ParseForApplyValueSet(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
         {
             string subkey = this.Name;
 
