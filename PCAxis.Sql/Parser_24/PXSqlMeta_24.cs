@@ -925,7 +925,7 @@ namespace PCAxis.Sql.Parser_24
         {
             if (mVariablesClassification.ContainsKey(variableCode))
             {
-                mVariablesClassification[variableCode].ApplyGrouping(paxiomVariable, groupingId, include);
+                mVariablesClassification[variableCode].ApplyGrouping(paxiomVariable, groupingId, include, false);
             } else
             {
                 throw new ApplicationException("BUG");
