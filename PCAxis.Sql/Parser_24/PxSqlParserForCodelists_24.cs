@@ -19,6 +19,8 @@ namespace PCAxis.Sql.Parser_24
         private List<PXSqlVariableClassification> _variables;
     
         private PXSqlMeta_24 mPXSqlMeta;
+
+        private string variableOfApplyValueSet;
    
         #region Constructors
 
@@ -32,6 +34,7 @@ namespace PCAxis.Sql.Parser_24
              mPXSqlMeta = inPXSqlMeta;
              _variables = new List<PXSqlVariableClassification>();
              _variables.Add(inPXSqlMeta.VariablesClassification[variableCode]);
+            this.variableOfApplyValueSet = variableCode; 
         }
 
 
@@ -49,7 +52,9 @@ namespace PCAxis.Sql.Parser_24
              {
                 
                  variable.ParseForApplyValueSet(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
+                 mPXSqlMeta.TheNotes.ParseNotesApplyValueset(handler, this.variableOfApplyValueSet);
              }
+             
 
 
          }

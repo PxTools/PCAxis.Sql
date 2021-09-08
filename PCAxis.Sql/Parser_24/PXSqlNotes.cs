@@ -1027,9 +1027,26 @@ namespace PCAxis.Sql.Parser_24
             }
 
         }
+
+        /// <summary>
+        /// Bugfix 2021: ValueNotes are lost when ApplyValueset is called. 
+        /// </summary>
+        /// <param name="handler"></param>
+        internal void ParseNotesApplyValueset(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, String vaiableCode)
+        {
+            foreach (AttachedNote note in finalNotes)
+            {
+                if(note.GetType().Name.Equals("ValueAttachedNote"))
+                {
+                    string noteVariable = ((ValueAttachedNote)note).Variable;
+                    if (vaiableCode.Equals(noteVariable))
+                    {
+                        note.ParseNote(mMeta, handler, mMeta.LanguageCodes);
+                    }
+                }
+            }
+        }
     }
-
-
 
 
     //
