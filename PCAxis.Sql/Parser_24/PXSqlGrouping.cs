@@ -601,11 +601,16 @@
         /// <summary>
         /// True if nonHierarchycal or allLevelsStored = N
         /// </summary>
-        /// <returns>Returns TRUE if group is nonhierarchical or AllLevelsStored=N in MainTableVariableHierarchy. Else return False. </returns>
+        /// <returns>Returns TRUE if group is nonhierarchical and requires sum operation or AllLevelsStored=N in MainTableVariableHierarchy. Else return False. </returns>
         internal bool isOnNonstoredData()
         {
             if (!isHierarchy)
             {
+                if (this.Groups != null && this.Groups.All(x => x.IsLeaf))
+                {   //All groups refer to stored data, no summation needed
+                    return false;
+                }
+
                 return true;
             }
             else
