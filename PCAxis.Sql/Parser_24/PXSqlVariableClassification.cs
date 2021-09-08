@@ -450,9 +450,13 @@ namespace PCAxis.Sql.Parser_24
         /// <param name="paxiomVariable">the paxiom Variable </param>
         /// <param name="groupingId">The id of the grouping</param>
         /// <param name="include">Emun value inducating what the new codelist should include:parents,childern or both </param>
-        internal void ApplyGrouping(Variable paxiomVariable, string groupingId, GroupingIncludesType include)
+        /// <param name="skipRecreateValues">should RecreateValues() be called </param>
+        internal void ApplyGrouping(Variable paxiomVariable, string groupingId, GroupingIncludesType include, bool skipRecreateValues)
         {
-            paxiomVariable.RecreateValues();// per inge values for variable must be deleted before created for new valueset.
+            if (!skipRecreateValues)
+            {
+                paxiomVariable.RecreateValues();// per inge old comment: values for variable must be deleted before created for new valueset.
+            }
             paxiomVariable.Hierarchy.Clear(); // must clear hierarchies.
 
             this.currentGrouping = new PXSqlGrouping(this.metaQuery.GetGroupingRow(groupingId), meta, this, include);

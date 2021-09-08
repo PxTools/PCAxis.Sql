@@ -197,7 +197,7 @@ namespace PCAxis.Sql.Parser_24
                             }
 
                             var variable = pxMeta.Variables.GetByCode(varName);
-                            var.Value.ApplyGrouping(variable, groupingInfo.GroupingId, GroupingIncludesType.All);
+                            var.Value.ApplyGrouping(variable, groupingInfo.GroupingId, GroupingIncludesType.All, true);
                         }
                     }
                 }
