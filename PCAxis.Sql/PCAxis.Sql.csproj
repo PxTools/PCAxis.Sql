@@ -46,8 +46,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.110" />
-    <PackageReference Include="PCAxis.Core" Version="1.0.3" />
-    <PackageReference Include="PCAxis.Encryption" Version="1.0.0" />
+    <PackageReference Include="PCAxis.Core" Version="1.1.0" />
+    <PackageReference Include="PCAxis.Encryption" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
