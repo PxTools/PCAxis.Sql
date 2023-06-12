@@ -57,15 +57,16 @@ namespace PCAxis.Sql.Repositories
 
             if (config.MetaModel.Equals("2.1"))
             {
-                //TODO maybe fix it
-                throw new NotImplementedException("CNMM 2.1");
-                //var meta = new PCAxis.Sql.QueryLib_21.MetaQuery((PCAxis.Sql.DbConfig.SqlDbConfig_21)config, config.GetInfoForDbConnection("", ""));
-                //meta.LanguageCodes = config.GetAllLanguages();
+                SqlDbConfig_21 cfg = config as SqlDbConfig_21;
+                sqlGrouping = QueryLib_21.Queries.GetGroupingQuery(cfg, language);
+                sqlValues = QueryLib_21.Queries.GetGroupingValuesQuery(cfg, language);
 
             }
             else if (config.MetaModel.Equals("2.2"))
             {
-
+                SqlDbConfig_22 cfg = config as SqlDbConfig_22;
+                sqlGrouping = QueryLib_22.Queries.GetGroupingQuery(cfg, language);
+                sqlValues = QueryLib_22.Queries.GetGroupingValuesQuery(cfg, language);
             }
             else if (config.MetaModel.Equals("2.3"))
             {
@@ -90,10 +91,11 @@ namespace PCAxis.Sql.Repositories
         private static PCAxis.Sql.Models.Grouping Parse(DataSet valueGroup, DataSet vsValue)
         {
             //Make sure we have a grouping
-            if (valueGroup.Tables[0].Rows.Count < 1) {
+            if (valueGroup.Tables.Count == 0 || valueGroup.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
+            {
                 return null;
             }
-
+            
             var grouping = new PCAxis.Sql.Models.Grouping();
             grouping.Id = valueGroup.Tables[0].Rows[0][0].ToString(); ;
             grouping.Name = valueGroup.Tables[0].Rows[0][1].ToString();

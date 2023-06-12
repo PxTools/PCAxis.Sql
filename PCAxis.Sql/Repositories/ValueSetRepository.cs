@@ -61,15 +61,14 @@ namespace PCAxis.Sql.Repositories
 
             if (config.MetaModel.Equals("2.1"))
             {
-                //TODO maybe fix it
-                throw new NotImplementedException("CNMM 2.1");
-                //var meta = new PCAxis.Sql.QueryLib_21.MetaQuery((PCAxis.Sql.DbConfig.SqlDbConfig_21)config, config.GetInfoForDbConnection("", ""));
-                //meta.LanguageCodes = config.GetAllLanguages();
+                sqlValueset = QueryLib_21.Queries.GetValueSetQuery((SqlDbConfig_21)config, language);
+                sqlValues = QueryLib_21.Queries.GetValueSetValuesQuery((SqlDbConfig_21)config, language);
 
             }
             else if (config.MetaModel.Equals("2.2"))
             {
-
+                sqlValueset = QueryLib_22.Queries.GetValueSetQuery((SqlDbConfig_22)config, language);
+                sqlValues = QueryLib_22.Queries.GetValueSetValuesQuery((SqlDbConfig_22)config, language);
             }
             else if (config.MetaModel.Equals("2.3"))
             {
@@ -86,6 +85,11 @@ namespace PCAxis.Sql.Repositories
 
         private static ValueSet Parse(string name, DataSet valuesetDS, DataSet vsValue)
         {
+            if (valuesetDS.Tables.Count == 0 || valuesetDS.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
+            {
+                return null;
+            }
+
             ValueSet valueset = new ValueSet();
             valueset.Id = name;
             valueset.Name = valuesetDS.Tables[0].Rows[0][1].ToString();
