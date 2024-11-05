@@ -9,17 +9,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    reviewers:
-      - "JohannesFinsveen"
-      - "likp"
-      - "runejo"
     groups:
-      small-change:
-        patterns:
-        - "*"
+      minor-version-updates:
+        applies-to: version-updates
         update-types:
-        - "minor"
-        - "patch"       
+          - "minor"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
