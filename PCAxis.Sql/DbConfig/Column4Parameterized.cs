@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
-using System.Data.OleDb;
 
 using Oracle.ManagedDataAccess.Client;
-using System.Data.Odbc;
-using System.Data.SqlClient;
 using System.Text;// For Oracle-connections.
 using Microsoft.Data.SqlClient;
 
@@ -85,7 +81,7 @@ namespace PCAxis.Sql.DbConfig
         }
 
 
-        
+
 
         /// <summary>
         /// Id() + " = " + parameterRef + "'"

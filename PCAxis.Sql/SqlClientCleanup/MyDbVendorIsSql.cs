@@ -4,7 +4,6 @@ using System.Text;
 
 
 using System.Data; // For DataSet-objects.
-using System.Data.SqlClient; // For MS SQLServer-connections.
 
 using System.Collections.Specialized;
 
@@ -18,10 +17,10 @@ namespace PCAxis.Sql.SqlClientCleanup
     /// <summary> The (MS)Sql version of MyDbVendor.
     /// </summary>
     internal class MyDbVendorIsSql : MyDbVendor {
-        
+
         private static readonly ILog log = LogManager.GetLogger(typeof(MyDbVendorIsSql));
         private static int? CommandTimeout { get; set; }
-       
+
         internal MyDbVendorIsSql(string connectionString)
             : base(new SqlConnection(connectionString), connectionString) {
                mXtraDotForDatatables = ".";
@@ -66,7 +65,7 @@ namespace PCAxis.Sql.SqlClientCleanup
             var cmd = new SqlCommand(selectString, (SqlConnection)this.dbconn);
 
             if (CommandTimeout.HasValue) cmd.CommandTimeout = CommandTimeout.Value;
-    
+
             return new SqlDataAdapter(cmd);
         }
 
