@@ -5,9 +5,6 @@ using System.IO;
 using System.Linq;
 
 using System.Data; // For DataSet-objects.
-using System.Data.SqlClient; // For MS SQLServer-connections.
-//using System.Data.OracleClient; // For Oracle-connections.
-using System.Data.OleDb; // For OleDb-connections.
 using System.Collections.Specialized;
 
 using System.Data.Common;
@@ -16,22 +13,22 @@ using log4net;
 using PCAxis.Sql.Exceptions;
 
 namespace PCAxis.Sql.DbClient {
-    
+
     /// <summary> 13:10
     /// This class represents a "common sql gateway" for all sql databases
     /// supported by the PC-Axis database working group (statistical databanks).
-    /// 
+    ///
     /// List of supported ADO dotNet database connections:
     ///   - Oracle (native)
     ///   - Microsoft Sql Server (native)
     ///   - Sybase (native)????
     ///   - OleDb (Other connections. E.g. MySql, PostgreSql, ...)
-    /// 
+    ///
     /// Developed by:
     ///   Statistics Norway (www.ssb.no), 2007.
-    /// 
+    ///
     /// System specification and development (alphabetic list):
-    ///   Bjørn Roar Joneid (bnj@ssb.no)
+    ///   BjÃ¸rn Roar Joneid (bnj@ssb.no)
     ///   Per Inge Vaaje (piv@ssb.no)
     ///   Thomas Hoel (thh@ssb.no)
     /// </summary>
@@ -77,13 +74,13 @@ namespace PCAxis.Sql.DbClient {
                 myDbVendor = new MyDbVendorIsOracle(connectionString);
             } else if (lDataProvider.Equals("SQL")) {
                 myDbVendor = new MyDbVendorIsSql(connectionString);
-            } 
+            }
             /*
             else if (lDataProvider.Equals("OLEDB")) {
                 myDbVendor = new MyDbVendorIsOledb(connectionString);
             } else if (lDataProvider.Equals("ODBC")) {
                 myDbVendor = new MyDbVendorIsOdbc(connectionString);
-            } 
+            }
             */
             else {
                 // lDataProvider.Equals("SQLCE") could not find namespace
@@ -129,7 +126,7 @@ namespace PCAxis.Sql.DbClient {
             #endif
             DataSet pxDataSet = new DataSet();
             using (DbDataAdapter pxDataAdapter = myDbVendor.GetDbDataAdapter(selectString)) {
-                
+
                 pxDataAdapter.Fill(pxDataSet);
                 //TODO: Check for pxDataAdapter.FillError???
             }
@@ -257,9 +254,9 @@ namespace PCAxis.Sql.DbClient {
         /// <summary>
         /// To be used as partial tablename for temporary tables.
         /// e.g. tmpTabName="A"+getUniqueNumber(8)+"_tmp001"
-        /// Must ensure that the length of the tablename does not excede the max  
+        /// Must ensure that the length of the tablename does not excede the max
         /// length of a tablename for the database.
-        /// 
+        ///
         /// </summary>
         /// <param name="lengthOfOtherChars">The length of the rest of the tablename</param>
         /// <returns></returns>
@@ -281,7 +278,7 @@ namespace PCAxis.Sql.DbClient {
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="commandStrings"></param>
         /// <param name="numberInBulk"></param>
@@ -323,8 +320,8 @@ namespace PCAxis.Sql.DbClient {
             }
 
             /*
-             *jfi: er dette et bedre alt.? 
-            
+             *jfi: er dette et bedre alt.?
+
             for (int i = 0; i < commandStrings.Count; i++) {
                 sqlStrings.Add(commandStrings[i]);
                 if(sqlStrings.Count = numberInBulk || i = commandStrings.Count -1) {
@@ -332,7 +329,7 @@ namespace PCAxis.Sql.DbClient {
                     sqlStrings.Clear();
                 }
             }
-            
+
             */
             #if DEBUG
                   stopWatch.Stop();
@@ -346,7 +343,7 @@ namespace PCAxis.Sql.DbClient {
         private int InsertBulk(StringCollection commandStrings) {
             #if DEBUG
                 System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                stopWatch.Start();                
+                stopWatch.Start();
             #endif
             string command = myDbVendor.joinCommandStrings(commandStrings);
 
@@ -403,9 +400,9 @@ namespace PCAxis.Sql.DbClient {
 
         /// <summary>
         /// For oracle in ssb, In rare cases 1? in 12000? a distinct in the footnote sql caused an 40 second increase in executing time, but/and the rowset was empty,
-        /// which must mean that the distinct somehow changed how the query was executed. 
-        /// The OracleNinjaN hack is a novices way to make oracle first "collect the rows" and then apply the distinct ( on 0 rows) 
-        /// Why this occues only for special case is not understood.  
+        /// which must mean that the distinct somehow changed how the query was executed.
+        /// The OracleNinjaN hack is a novices way to make oracle first "collect the rows" and then apply the distinct ( on 0 rows)
+        /// Why this occues only for special case is not understood.
         /// </summary>
         /// <returns>sql if oracle, for others empty string</returns>
         public string getOracleNinja1()
@@ -421,7 +418,7 @@ namespace PCAxis.Sql.DbClient {
         {
             return " " + myDbVendor.OracleNinja2;
         }
-       
+
 
         /// <summary>
         /// Should clean up be done by this application
@@ -464,11 +461,11 @@ namespace PCAxis.Sql.DbClient {
 
             string sqlString = "INSERT INTO /*** MakeTempTableJustValues_01 ***/ " + tempTableId;
             //sqlString += " VALUES (" + this.GetParameterRef("aValueCode1") + ", " + this.GetParameterRef("aValueCode2") + "," + this.GetParameterRef("aValueCounter") + ")";
-            //is this easier to read?: 
+            //is this easier to read?:
             sqlString += string.Format(" VALUES ({0}, {1}, {2})", this.GetParameterRef("aValueCode1"), this.GetParameterRef("aValueCode2"), this.GetParameterRef("aValueCounter"));
-            
 
-            
+
+
             DbParameter[] parameters = new DbParameter[3];
             parameters[0] = this.GetStringParameter("aValueCode1", "WillBeOverwritten");
             parameters[1] = this.GetStringParameter("aValueCode2","WillBeOverwritten");
@@ -477,7 +474,7 @@ namespace PCAxis.Sql.DbClient {
             parameters[2].ParameterName = "aValueCounter";
             parameters[2].Value = 123;
 
-            // ( all groups have 1 member) 
+            // ( all groups have 1 member)
             int[] parentCodeCounter = Enumerable.Range(1, valueCodes.Count).ToArray();
 
             String[] valueCodesArray = valueCodes.Cast<String>().ToList().Select(c => c).ToArray();
@@ -486,7 +483,7 @@ namespace PCAxis.Sql.DbClient {
             var columnsTempTable = new List<string>();
 
             columnsTempTable.Add("A" + VariableName);
-            columnsTempTable.Add("Group" + VariableNumber); 
+            columnsTempTable.Add("Group" + VariableNumber);
             columnsTempTable.Add("GroupNr" + VariableNumber);
             //createTempTable(tempTableId, VariableName, VariableNumber, makeGroupFactorCol, UseTemporaryTables);
             //sqlString += "(A" + VariableName + " VARCHAR(20), Group" + VariableNumber + " VARCHAR(20), GroupNr" + VariableNumber + " INTEGER";
@@ -521,7 +518,7 @@ namespace PCAxis.Sql.DbClient {
                 sqlString += ",1";
             }
             sqlString += ")";
-            
+
             DbParameter[] parameters = new DbParameter[3];
             parameters[0] = this.GetStringParameter("aValueCode1", "WillBeOverwritten");
             parameters[1] = this.GetStringParameter("aValueCode2", "WillBeOverwritten");
@@ -529,7 +526,7 @@ namespace PCAxis.Sql.DbClient {
             parameters[2].DbType = DbType.Int32;
             parameters[2].ParameterName = "aValueCounter";
             parameters[2].Value = 123;
-            
+
             var childCodesList = new List<string>();
             var parentCodesList = new List<string>();
 
@@ -565,9 +562,9 @@ namespace PCAxis.Sql.DbClient {
         }
 
         /// <summary>
-        /// create a table temp table for a variable containting selected values.  
-        /// It har 3 or 4 columns. The first contains incomming codes, the second output codes and the third is an output code counter used in the extraction-sql group by. 
-        /// The fourth is used to determin if there are missing rows in the datatable, when the extraction uses sum and the default value for a missing row is a npm of type 3.    
+        /// create a table temp table for a variable containting selected values.
+        /// It har 3 or 4 columns. The first contains incomming codes, the second output codes and the third is an output code counter used in the extraction-sql group by.
+        /// The fourth is used to determin if there are missing rows in the datatable, when the extraction uses sum and the default value for a missing row is a npm of type 3.
         /// </summary>
         private void createTempTable(string tempTableId, string VariableName, string  VariableNumber, bool makeGroupFactorCol, bool UseTemporaryTables){
             log.Debug("tempTabellId:" + tempTableId + "        tempTableId len:" + tempTableId.Length);
@@ -580,7 +577,7 @@ namespace PCAxis.Sql.DbClient {
             }
 
             sqlString += " TABLE " + tempTableId;
-          
+
             sqlString += "(A" + VariableName + " VARCHAR(20), Group" + VariableNumber + " VARCHAR(20), GroupNr" + VariableNumber + " INTEGER";
 
             if (makeGroupFactorCol)
@@ -595,7 +592,7 @@ namespace PCAxis.Sql.DbClient {
             }
 
             this.ExecuteNonQuery(sqlString);
-        } 
+        }
 
         private string GetTempTableId(string VariableNumber, bool UseTemporaryTables)
         {
