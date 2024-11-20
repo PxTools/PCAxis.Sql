@@ -48,7 +48,7 @@
     </PackageReference>
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.250" />
     <PackageReference Include="PCAxis.Core" Version="1.2.4" />
-    <PackageReference Include="System.Security.Cryptography.Xml" Version="7.0.1" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
