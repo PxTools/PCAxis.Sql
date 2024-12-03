@@ -58,7 +58,7 @@ namespace ManualTests
         {
             string vsId = "NoSuchVS";
 
-            PCAxis.Sql.BuilderLess.EntryPoint entryPoint = new PCAxis.Sql.BuilderLess.EntryPoint();
+            PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new PCAxis.Sql.ApiUtils.ApiUtil();
             PCAxis.Sql.Models.ValueSet vs = entryPoint.GetValueSet(vsId, "no");
 
             PCAxis.Sql.Models.ValueSet vs_en = entryPoint.GetValueSet(vsId, "en");
@@ -73,7 +73,7 @@ namespace ManualTests
             //string getId = "GrkretsBydel2002";
             string getId = "EUlandNY";
 
-            PCAxis.Sql.BuilderLess.EntryPoint entryPoint = new();
+            PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new();
             PCAxis.Sql.Models.Grouping data_no = entryPoint.GetGrouping(getId, "no");
 
             PCAxis.Sql.Models.Grouping data_en = entryPoint.GetGrouping(getId, "en");
