@@ -1,18 +1,13 @@
-﻿using PCAxis.Sql.DbClient;
-using PCAxis.Sql;
+﻿using System;
+
 using PCAxis.Sql.DbConfig;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PCAxis.Sql.QueryLib_23
 {
     public class Queries
     {
 
-        public static string GetValueSetQuery(SqlDbConfig_23 db, string lang)
+        public static string GetValueSetQuery(SqlDbConfig_23 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");
 
@@ -23,7 +18,7 @@ namespace PCAxis.Sql.QueryLib_23
                         from 
                          {db.ValueSetLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
                         where
-                         {db.ValueSetLang2.ValueSetCol.Id(lang)} = @valueSet";
+                         {db.ValueSetLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}";
 
             //if (db.isSecondaryLanguage(lang))
             //{
@@ -49,11 +44,11 @@ namespace PCAxis.Sql.QueryLib_23
 
         }
 
-        public static string GetValueSetValuesQuery(SqlDbConfig_23 db, string lang)
+        public static string GetValueSetValuesQuery(SqlDbConfig_23 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");
 
-                return $@"SELECT
+            return $@"SELECT
                             {db.ValueLang2.ValueCodeCol.Id(lang)} AS valuecode,
 	                        {db.ValueLang2.ValuePoolCol.Id(lang)}  AS valuepool,
 	                        {db.VSValueLang2.ValueCodeCol.Id(lang)}  AS valueset,
@@ -67,7 +62,7 @@ namespace PCAxis.Sql.QueryLib_23
                             {db.VSValueLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
 	                        ON ( {db.ValueLang2.ValuePoolCol.Id(lang)} = {db.VSValueLang2.ValuePoolCol.Id(lang)}
                                 AND {db.ValueLang2.ValueCodeCol.Id(lang)} = {db.VSValueLang2.ValueCodeCol.Id(lang)} ) 
-                        where {db.VSValueLang2.ValueSetCol.Id(lang)} = @valueSet
+                        where {db.VSValueLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}
 
                         ORDER BY
                             {db.VSValueLang2.SortCodeCol.Id(lang)},
@@ -75,7 +70,7 @@ namespace PCAxis.Sql.QueryLib_23
                             {db.ValueLang2.ValueCodeCol.Id(lang)}";
 
         }
-        public static string GetGroupingQuery(SqlDbConfig_23 db, string lang)
+        public static string GetGroupingQuery(SqlDbConfig_23 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");
 
@@ -85,10 +80,10 @@ namespace PCAxis.Sql.QueryLib_23
                         FROM 
 	                        {db.GroupingLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
                         WHERE
-	                        {db.GroupingLang2.GroupingCol.Id(lang)} = @grouping";
+	                        {db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
         }
 
-        public static string GetGroupingValuesQuery(SqlDbConfig_23 db, string lang)
+        public static string GetGroupingValuesQuery(SqlDbConfig_23 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");
 
@@ -100,7 +95,7 @@ namespace PCAxis.Sql.QueryLib_23
                         from {db.ValueGroup.GetNameAndAlias().RemoveUnderscoreForDefaultLanguage()}
                          join {db.ValueLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()} 
                                 on {db.ValueGroup.ValuePoolCol.Id()} = {db.ValueLang2.ValuePoolCol.Id(lang)} and {db.ValueGroup.GroupCodeCol.Id()} = {db.ValueLang2.ValueCodeCol.Id(lang)}
-                        where {db.ValueGroup.GroupingCol.Id()} = @grouping
+                        where {db.ValueGroup.GroupingCol.Id()} = {sqlCommand.GetParameterRef("aGrouping")}
                         ORDER BY
                         {db.ValueGroup.SortCodeCol.Id()},
                         {db.ValueLang2.SortCodeCol.Id(lang)},
@@ -125,7 +120,7 @@ namespace PCAxis.Sql.QueryLib_23
         {
             if (name.Contains("_ "))
             {
-                return name.Replace("_ "," ");
+                return name.Replace("_ ", " ");
             }
             return name;
         }
