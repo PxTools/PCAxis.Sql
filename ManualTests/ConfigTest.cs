@@ -44,7 +44,7 @@ namespace ManualTests
         public void TestGetValueSet()
         {
             string vsId = "KOKkommuneregion0000008";
-            PCAxis.Sql.BuilderLess.EntryPoint entryPoint = new PCAxis.Sql.BuilderLess.EntryPoint();
+            PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new PCAxis.Sql.ApiUtils.ApiUtil();
             PCAxis.Sql.Models.ValueSet vs = entryPoint.GetValueSet(vsId, "no");
             PCAxis.Sql.Models.ValueSet vs_en = entryPoint.GetValueSet(vsId, "en");
 

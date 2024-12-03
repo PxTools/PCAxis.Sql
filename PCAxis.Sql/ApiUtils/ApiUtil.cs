@@ -7,22 +7,22 @@ using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Models;
 using PCAxis.Sql.Repositories;
 
-namespace PCAxis.Sql.BuilderLess
+namespace PCAxis.Sql.ApiUtils
 {
     //For things not found in PXSQLBuilder
     //needed by Pxwebapi2
     //returned data should be defined in PCAxis.Sql.Models if complex 
-    public class EntryPoint
+    public class ApiUtil
     {
         readonly List<string> _languagesInDbConfig;
-        public EntryPoint()
+        public ApiUtil()
         {
             var config = SqlDbConfigsStatic.DefaultDatabase;
             //stringCollection  --> List<string>
             _languagesInDbConfig = config.GetAllLanguages().Cast<string>().ToList();
         }
 
-        //Exceptions ?  What if the valueset only exists in another language
+        //Exceptions ?  What if the valueset only exists in another language: Exceptions!
         public ValueSet GetValueSet(string name, string language)
         {
             //validate input
