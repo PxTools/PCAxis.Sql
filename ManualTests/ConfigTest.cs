@@ -4,11 +4,11 @@ using PCAxis.Sql.DbConfig;
 
 namespace ManualTests
 {
-
+    [Ignore]
     [TestClass]
     public class ConfigTest
     {
-        [Ignore]
+
         [TestMethod]
         public void TestMethod1()
         {

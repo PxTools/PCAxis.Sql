@@ -22,7 +22,7 @@ namespace PCAxis.Sql.BuilderLess
             _languagesInDbConfig = config.GetAllLanguages().Cast<string>().ToList();
         }
 
-        //Exceptions ?
+        //Exceptions ?  What if the valueset only exists in another language
         public ValueSet GetValueSet(string name, string language)
         {
             //validate input
