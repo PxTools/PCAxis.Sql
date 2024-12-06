@@ -97,9 +97,9 @@ namespace PCAxis.Sql.ApiUtils
                 throw new ArgumentException("The id string cannot be null.");
             }
 
-            if (!Regex.IsMatch(input, @"^[a-zA-Z0-9._]+$", RegexOptions.None, TimeSpan.FromSeconds(2)))
+            if (!Regex.IsMatch(input, @"^[a-zA-Z0-9._\s]+$", RegexOptions.None, TimeSpan.FromSeconds(2)))
             {
-                throw new ArgumentException("The string contains invalid characters. Only digits, letters, underscores, and periods are allowed.");
+                throw new ArgumentException("The string contains invalid characters. Only digits, letters, underscores, periods and spaces are allowed.");
             }
             return input;
         }
