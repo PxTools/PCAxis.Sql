@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCAxis.Sql", "PCAxis.Sql\PC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PCAxis.Sql.UnitTest", "PCAxis.Sql.UnitTest\PCAxis.Sql.UnitTest.csproj", "{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests", "ManualTests\ManualTests.csproj", "{40EF913D-1A04-49EA-8624-6B1CD8B13EE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A2DF24D-3515-4C1F-BE56-ED8637A0A87E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40EF913D-1A04-49EA-8624-6B1CD8B13EE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EF913D-1A04-49EA-8624-6B1CD8B13EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EF913D-1A04-49EA-8624-6B1CD8B13EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EF913D-1A04-49EA-8624-6B1CD8B13EE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

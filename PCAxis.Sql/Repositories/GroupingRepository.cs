@@ -1,23 +1,20 @@
-﻿using PCAxis.Paxiom;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+
 using PCAxis.Sql.DbClient;
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Models;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 
 namespace PCAxis.Sql.Repositories
 {
-    public class GroupingRepository
+    internal class GroupingRepository
     {
-        private string _database;
-        public GroupingRepository(string database)
+        internal GroupingRepository()
         {
-            _database = database;
         }
 
-        public Models.Grouping GetGrouping(string name, string language)
+        internal Models.Grouping GetGrouping(string name, string language)
         {
             //validate input
             if (name == null || language == null)
@@ -29,20 +26,21 @@ namespace PCAxis.Sql.Repositories
             string sqlGrouping;
             string sqlValues;
 
-            var config = SqlDbConfigsStatic.DataBases[_database];
-            GetQueries(language, out sqlGrouping, out sqlValues, config);
+            var config = SqlDbConfigsStatic.DefaultDatabase;
 
             InfoForDbConnection info;
 
             info = config.GetInfoForDbConnection(config.GetDefaultConnString());
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
 
+            GetQueries(language, out sqlGrouping, out sqlValues, config, cmd);
+
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("grouping", name);
+            parameters[0] = cmd.GetStringParameter("aGrouping", name);
             var valueGroup = cmd.ExecuteSelect(sqlGrouping, parameters);
 
             parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("grouping", name);
+            parameters[0] = cmd.GetStringParameter("aGrouping", name);
             var vsValue = cmd.ExecuteSelect(sqlValues, parameters);
 
             grouping = Parse(valueGroup, vsValue);
@@ -50,7 +48,7 @@ namespace PCAxis.Sql.Repositories
             return grouping;
         }
 
-        private static void GetQueries(string language, out string sqlGrouping, out string sqlValues, SqlDbConfig config)
+        private static void GetQueries(string language, out string sqlGrouping, out string sqlValues, SqlDbConfig config, PxSqlCommand sqlCommand)
         {
             sqlGrouping = string.Empty;
             sqlValues = string.Empty;
@@ -58,23 +56,23 @@ namespace PCAxis.Sql.Repositories
             if (config.MetaModel.Equals("2.1"))
             {
                 SqlDbConfig_21 cfg = config as SqlDbConfig_21;
-                sqlGrouping = QueryLib_21.Queries.GetGroupingQuery(cfg, language);
-                sqlValues = QueryLib_21.Queries.GetGroupingValuesQuery(cfg, language);
+                sqlGrouping = QueryLib_21.Queries.GetGroupingQuery(cfg, language, sqlCommand);
+                sqlValues = QueryLib_21.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
             }
             else if (config.MetaModel.Equals("2.2"))
             {
                 SqlDbConfig_22 cfg = config as SqlDbConfig_22;
-                sqlGrouping = QueryLib_22.Queries.GetGroupingQuery(cfg, language);
-                sqlValues = QueryLib_22.Queries.GetGroupingValuesQuery(cfg, language);
+                sqlGrouping = QueryLib_22.Queries.GetGroupingQuery(cfg, language, sqlCommand);
+                sqlValues = QueryLib_22.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
             }
             else if (config.MetaModel.Equals("2.3"))
             {
                 //var meta = new QueryLib_23.MetaQuery((SqlDbConfig_23)config, config.GetInfoForDbConnection("", ""));
                 //meta.LanguageCodes = config.GetAllLanguages();
                 SqlDbConfig_23 cfg = config as SqlDbConfig_23;
-                sqlGrouping = QueryLib_23.Queries.GetGroupingQuery(cfg, language);
-                sqlValues = QueryLib_23.Queries.GetGroupingValuesQuery(cfg, language);
+                sqlGrouping = QueryLib_23.Queries.GetGroupingQuery(cfg, language, sqlCommand);
+                sqlValues = QueryLib_23.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
 
 
@@ -82,8 +80,8 @@ namespace PCAxis.Sql.Repositories
             else if (config.MetaModel.Equals("2.4"))
             {
                 SqlDbConfig_24 cfg = config as SqlDbConfig_24;
-                sqlGrouping = QueryLib_24.Queries.GetGroupingQuery(cfg, language);
-                sqlValues = QueryLib_24.Queries.GetGroupingValuesQuery(cfg, language);
+                sqlGrouping = QueryLib_24.Queries.GetGroupingQuery(cfg, language, sqlCommand);
+                sqlValues = QueryLib_24.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
             }
 
         }
@@ -95,7 +93,7 @@ namespace PCAxis.Sql.Repositories
             {
                 return null;
             }
-            
+
             var grouping = new PCAxis.Sql.Models.Grouping();
             grouping.Id = valueGroup.Tables[0].Rows[0][0].ToString(); ;
             grouping.Name = valueGroup.Tables[0].Rows[0][1].ToString();
@@ -124,6 +122,6 @@ namespace PCAxis.Sql.Repositories
             return grouping;
         }
 
-      
+
     }
 }
