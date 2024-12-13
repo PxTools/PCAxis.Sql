@@ -1,6 +1,7 @@
-﻿using System;
-namespace PCAxis.Sql.QueryLib_21 {
-    public interface IMetaVersionComparator {
+﻿namespace PCAxis.Sql.QueryLib_21
+{
+    public interface IMetaVersionComparator
+    {
         /// <summary>
         /// To determin if a feature( table/ column) should exists.
         /// </summary>

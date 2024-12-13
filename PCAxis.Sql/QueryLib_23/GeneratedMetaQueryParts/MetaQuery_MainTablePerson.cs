@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -25,8 +20,8 @@ namespace PCAxis.Sql.QueryLib_23
             // WHERE MTP.MainTable = <"MainTable as parameter reference for your db vendor">
             //    AND MTP.RolePerson = <"RolePerson as parameter reference for your db vendor">
             //
-            sqlString += " WHERE " + DB.MainTablePerson.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) + 
-                         " AND " +DB.MainTablePerson.RolePersonCol.Is(mSqlCommand.GetParameterRef("aRolePerson"));
+            sqlString += " WHERE " + DB.MainTablePerson.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) +
+                         " AND " + DB.MainTablePerson.RolePersonCol.Is(mSqlCommand.GetParameterRef("aRolePerson"));
 
             // creating the parameters
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[2];
@@ -37,9 +32,9 @@ namespace PCAxis.Sql.QueryLib_23
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " RolePerson = " + aRolePerson);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " RolePerson = " + aRolePerson);
             }
 
             foreach (DataRow sqlRow in myRows)

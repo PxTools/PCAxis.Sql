@@ -1,41 +1,40 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_24;
+
+using log4net;
+
 using PCAxis.Paxiom;
-
-using System.Collections;  
-using log4net; 
-
-
 using PCAxis.Sql.Pxs;
+using PCAxis.Sql.QueryLib_24;
 
 namespace PCAxis.Sql.Parser_24
 {
-    public class PXSqlVariableTime:PXSqlVariable
+    public class PXSqlVariableTime : PXSqlVariable
     {
 
-        private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlVariableTime));  
-           #region props  
-           private PXSqlTimeScale mTimeScale;  
- 
-     
-           private StringCollection mTimeVal;  
-           public StringCollection TimeVal {  
-               get { return mTimeVal; }  
-           }  
-           private bool mHasTimeVal;  
-           public bool HasTimeVal {  
-               get { return mHasTimeVal; }  
-           }
-           //private bool mTableContainsMetaOnly;
-           #endregion props  
+        private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlVariableTime));
+        #region props  
+        private PXSqlTimeScale mTimeScale;
 
 
-    #region  contructor
+        private StringCollection mTimeVal;
+        public StringCollection TimeVal
+        {
+            get { return mTimeVal; }
+        }
+        private bool mHasTimeVal;
+        public bool HasTimeVal
+        {
+            get { return mHasTimeVal; }
+        }
+        //private bool mTableContainsMetaOnly;
+        #endregion props  
+
+
+        #region  contructor
         public PXSqlVariableTime(MainTableVariableRow aTVRow, PXSqlMeta_24 meta)
-            :base(aTVRow.Variable,meta,false,true,false)
+            : base(aTVRow.Variable, meta, false, true, false)
         {
             mStoreColumnNo = int.Parse(aTVRow.StoreColumnNo);
             if (!meta.ConstructedFromPxs)
@@ -44,9 +43,9 @@ namespace PCAxis.Sql.Parser_24
             }
             SetSelected();
             SetPresText();
-            SetDefaultPresTextOption();            
+            SetDefaultPresTextOption();
             SetTimeValues();
-            mTimeScale = new PXSqlTimeScale(meta.MetaQuery.GetTimeScaleRow(meta.MainTable.TimeScale),meta.Config);
+            mTimeScale = new PXSqlTimeScale(meta.MetaQuery.GetTimeScaleRow(meta.MainTable.TimeScale), meta.Config);
             SetTimeVal();
             PossiblyResetPresText();
 
@@ -54,7 +53,7 @@ namespace PCAxis.Sql.Parser_24
 
         }
 
-    #endregion
+        #endregion
         internal void SetSelected()
         {
             this.mIsSelected = false;
@@ -67,10 +66,10 @@ namespace PCAxis.Sql.Parser_24
             {
                 this.mIsSelected = true;
             }
-        }    
+        }
         internal override List<PXSqlValue> GetValuesForParsing()
         {
-            if ((meta.inPresentationModus) && meta.ConstructedFromPxs )
+            if ((meta.inPresentationModus) && meta.ConstructedFromPxs)
             {
                 if ((int)meta.PxsFile.Query.Time.TimeOption == 0)
                 {
@@ -102,20 +101,22 @@ namespace PCAxis.Sql.Parser_24
         ///     </table>
         ///   </rule>
         /// </PXKeyword>
-             internal override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage) {  
-               base.ParseMeta(handler, LanguageCodes, preferredLanguage);
+        internal override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
+        {
+            base.ParseMeta(handler, LanguageCodes, preferredLanguage);
             //log.Debug("PPPPPPPPPPPPPPPPPParsing");  
             string language;
             string subkey = this.Name;
             StringCollection values;
             //TIMEVAL  
-            if (mHasTimeVal) {  
-                     
-                   language = null;  
-                   values = this.mTimeVal;  
-                   handler(PXKeywords.TIMEVAL, language, subkey, values);  
-                   values = null;  
-               }
+            if (mHasTimeVal)
+            {
+
+                language = null;
+                values = this.mTimeVal;
+                handler(PXKeywords.TIMEVAL, language, subkey, values);
+                values = null;
+            }
             language = null;
             values = new StringCollection();
             values.Clear();
@@ -135,58 +136,59 @@ namespace PCAxis.Sql.Parser_24
 
 
 
-        private void SetTimeVal() {  
-               
-               
-               string timeUnit;  
-               if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitA)  
-                   timeUnit = "A1";  
-               else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitH)  
-                   timeUnit = "H1";  
-               else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitM)  
-                   timeUnit = "M1";  
-               else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitQ)  
-                   timeUnit = "Q1";  
-               else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitW)  
-                   timeUnit = "W1";  
-               else
-               {
+        private void SetTimeVal()
+        {
+
+
+            string timeUnit;
+            if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitA)
+                timeUnit = "A1";
+            else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitH)
+                timeUnit = "H1";
+            else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitM)
+                timeUnit = "M1";
+            else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitQ)
+                timeUnit = "Q1";
+            else if (mTimeScale.TimeUnit == meta.Config.Codes.TimeUnitW)
+                timeUnit = "W1";
+            else
+            {
                 log.InfoFormat("Unknown Timeunit:{0}", mTimeScale.TimeUnit);
-                   timeUnit = mTimeScale.TimeUnit;
-               }
-               
-               mTimeVal = new StringCollection();  
-               mTimeVal.Add("TLIST("+timeUnit+")");   
-               mHasTimeVal = true;
-               if (!meta.MainTable.ContainsOnlyMetaData)
-               {
-                   string lowestSelectedTime;
-                   string highestSelectedTime;
-                   ArrayList selectedTimeCodes = new ArrayList();
-                   foreach (KeyValuePair<string, PXSqlValue> val in mValues)
-                   {
-                       selectedTimeCodes.Add(val.Value.ValueCode);
-                   }
-                   selectedTimeCodes.Sort();
-                   lowestSelectedTime = selectedTimeCodes[0].ToString();
-                   highestSelectedTime = selectedTimeCodes[selectedTimeCodes.Count - 1].ToString();
-                   ArrayList allTimeCodes = TimeValueCodesSortedChronologicaly();
-                   int startIndexAllTimes = allTimeCodes.IndexOf(lowestSelectedTime);
-                   int endIndexAllTimes = allTimeCodes.IndexOf(highestSelectedTime);
-                   for (int i = startIndexAllTimes; i <= endIndexAllTimes; i++)
-                   {
-                       mTimeVal.Add(allTimeCodes[i].ToString());
-                       if (!selectedTimeCodes.Contains(allTimeCodes[i]))
-                       {
-                           //TODO; Dette gjøres midlertidig for å sørge for at Timeval 
-                           //vises i serialiseringen
-                           mTimeVal.Clear();
-                           mTimeVal.Add("TLIST(" + timeUnit + ")");
-                           break;
-                       }
-                   }
-               }
-           }
+                timeUnit = mTimeScale.TimeUnit;
+            }
+
+            mTimeVal = new StringCollection();
+            mTimeVal.Add("TLIST(" + timeUnit + ")");
+            mHasTimeVal = true;
+            if (!meta.MainTable.ContainsOnlyMetaData)
+            {
+                string lowestSelectedTime;
+                string highestSelectedTime;
+                ArrayList selectedTimeCodes = new ArrayList();
+                foreach (KeyValuePair<string, PXSqlValue> val in mValues)
+                {
+                    selectedTimeCodes.Add(val.Value.ValueCode);
+                }
+                selectedTimeCodes.Sort();
+                lowestSelectedTime = selectedTimeCodes[0].ToString();
+                highestSelectedTime = selectedTimeCodes[selectedTimeCodes.Count - 1].ToString();
+                ArrayList allTimeCodes = TimeValueCodesSortedChronologicaly();
+                int startIndexAllTimes = allTimeCodes.IndexOf(lowestSelectedTime);
+                int endIndexAllTimes = allTimeCodes.IndexOf(highestSelectedTime);
+                for (int i = startIndexAllTimes; i <= endIndexAllTimes; i++)
+                {
+                    mTimeVal.Add(allTimeCodes[i].ToString());
+                    if (!selectedTimeCodes.Contains(allTimeCodes[i]))
+                    {
+                        //TODO; Dette gjøres midlertidig for å sørge for at Timeval 
+                        //vises i serialiseringen
+                        mTimeVal.Clear();
+                        mTimeVal.Add("TLIST(" + timeUnit + ")");
+                        break;
+                    }
+                }
+            }
+        }
 
 
         /**
@@ -196,33 +198,35 @@ namespace PCAxis.Sql.Parser_24
         {
             if (mTimeScale.UsePresTextFromTimeScale)
             {
-                List<string> keys = new List<string>(this.PresText.Keys); 
-               
+                List<string> keys = new List<string>(this.PresText.Keys);
+
                 foreach (string langCode in keys)
                 {
-                    this.PresText[langCode] =  mTimeScale.getPresText(langCode);
+                    this.PresText[langCode] = mTimeScale.getPresText(langCode);
                 }
 
-                
+
             }
         }
 
 
         private ArrayList TimeValueCodesSortedChronologicaly()
-        {  
-               ArrayList sortedTimeValues = new ArrayList();  
-               System.Data.DataSet mTimeInfoTbl = meta.MetaQuery.GetAllTimeValues(meta.MainTable.MainTable, "asc");  
-                 
-               foreach (System.Data.DataRow row in mTimeInfoTbl.Tables[0].Rows) {
+        {
+            ArrayList sortedTimeValues = new ArrayList();
+            System.Data.DataSet mTimeInfoTbl = meta.MetaQuery.GetAllTimeValues(meta.MainTable.MainTable, "asc");
 
-                   sortedTimeValues.Add(row[meta.MetaQuery.DB.ContentsTime.TimePeriodCol.PureColumnName()].ToString());  
-               }  
-               sortedTimeValues.Sort();  
-               return sortedTimeValues;  
-           }  
+            foreach (System.Data.DataRow row in mTimeInfoTbl.Tables[0].Rows)
+            {
+
+                sortedTimeValues.Add(row[meta.MetaQuery.DB.ContentsTime.TimePeriodCol.PureColumnName()].ToString());
+            }
+            sortedTimeValues.Sort();
+            return sortedTimeValues;
+        }
 
 
-        private void SetTimeValues() {
+        private void SetTimeValues()
+        {
             // time variable values
             //lage flere overloads databasespørringer avhengig av timeopt
             //mValues = new Dictionary<string, PXSqlValue>();

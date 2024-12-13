@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
-using PCAxis.Sql.QueryLib_24;
+
 using PCAxis.Paxiom;
+using PCAxis.Sql.QueryLib_24;
 
 namespace PCAxis.Sql.Parser_24
 {
@@ -435,7 +435,7 @@ namespace PCAxis.Sql.Parser_24
             if (allNoteNos.Count == 0)
             {
                 return;
-                 //that's a good table! :-)
+                //that's a good table! :-)
             }
 
             Dictionary<string, FootnoteRow> footnoteRows = mMeta.MetaQuery.GetFootnoteRows(allNoteNos, true);
@@ -447,7 +447,7 @@ namespace PCAxis.Sql.Parser_24
             //this is the list of bad numbers:
             StringCollection noteNoOfNotSelectedCellnotes = new StringCollection();
 
-            
+
 
             /// the rows in contValueRaw which has Cellnote = YES
             Dictionary<string, List<FootnoteContValueRow>> contValueCells = new Dictionary<string, List<FootnoteContValueRow>>();
@@ -485,7 +485,7 @@ namespace PCAxis.Sql.Parser_24
                 foreach (FootnoteContTimeRow footNoteRow in contTimeRaw[noteno])
                 {
                     isSelected = false;
-                    
+
                     if (mContents.ContainsKey(footNoteRow.Contents) && mTimeVariable.Values.ContainsKey(footNoteRow.TimePeriod))
                     {
                         isSelected = true;
@@ -551,7 +551,7 @@ namespace PCAxis.Sql.Parser_24
                 foreach (FootnoteContValueRow footNoteRow in contValueRaw[noteno])
                 {
                     isSelected = false;
-                    
+
                     if (mContents.ContainsKey(footNoteRow.Contents))
                     {
                         if (mVariables.GetSelectedClassificationVarableIds().Contains(footNoteRow.Variable))
@@ -623,7 +623,7 @@ namespace PCAxis.Sql.Parser_24
             #endregion foreach (string noteno in contValueRaw.Keys)
 
 
-           
+
 
             #region Singlerow notes
             /// 
@@ -689,12 +689,12 @@ namespace PCAxis.Sql.Parser_24
                 timeperiodlistByContentsByNoteno.Remove(noteno);
                 valuelistByVariableByContentsByNoteno.Remove(noteno);
             }
-            
+
             // 
             Dictionary<string, StringCollection> timeperiodlistByContents = new Dictionary<string, StringCollection>();
             Dictionary<string, Dictionary<string, StringCollection>> valueByVariableByContents = new Dictionary<string, Dictionary<string, StringCollection>>();
 
-            
+
 
 
             foreach (string noteno in allNoteNos)
@@ -1036,7 +1036,7 @@ namespace PCAxis.Sql.Parser_24
         {
             foreach (AttachedNote note in finalNotes)
             {
-                if(note.GetType().Name.Equals("ValueAttachedNote"))
+                if (note.GetType().Name.Equals("ValueAttachedNote"))
                 {
                     string noteVariable = ((ValueAttachedNote)note).Variable;
                     if (vaiableCode.Equals(noteVariable))
@@ -1174,7 +1174,7 @@ namespace PCAxis.Sql.Parser_24
             StringCollection parseValue;
             if (this.hasPresCharacter)
             {
-                keyWord = PXKeywords.DATANOTE; 
+                keyWord = PXKeywords.DATANOTE;
                 parseValue = new StringCollection();
                 parseValue.Add(this.presCharacter);
 

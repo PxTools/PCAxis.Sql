@@ -1,10 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_23;
 using System.Collections.Specialized;
+
 using log4net;
+
+using PCAxis.Sql.QueryLib_23;
 namespace PCAxis.Sql.Parser_23
 {
     public class SortByVsValueHelper : IComparer<PXSqlValue>
@@ -13,7 +13,7 @@ namespace PCAxis.Sql.Parser_23
         {
             PXSqlValue valA = a;
             PXSqlValue valB = b;
-            return String.Compare(valA.SortCodeVsValue,valB.SortCodeVsValue);
+            return String.Compare(valA.SortCodeVsValue, valB.SortCodeVsValue);
         }
     }
     public class SortByValueHelper : IComparer<PXSqlValue>
@@ -39,7 +39,7 @@ namespace PCAxis.Sql.Parser_23
                 return 0;
         }
     }
-    public class PXSqlValue:IComparable
+    public class PXSqlValue : IComparable
     {
         #region members
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlValue));
@@ -52,8 +52,8 @@ namespace PCAxis.Sql.Parser_23
         private string mSortCodeValue;
         private string mSortCodeVsValue;
         private string mSortCodeDb; // this is the sortorder returned from dababase sort on vsvalue,value
-        private Dictionary<string,string> mValueTextS =  new Dictionary<string,string>();
-        private Dictionary<string,string> mValueTextL = new Dictionary<string,string>();
+        private Dictionary<string, string> mValueTextS = new Dictionary<string, string>();
+        private Dictionary<string, string> mValueTextL = new Dictionary<string, string>();
         private string mPrecision;
         private bool mIsSelected;
         private bool mExistInDb;
@@ -75,7 +75,7 @@ namespace PCAxis.Sql.Parser_23
         public string ValueCode
         {
             get { return mValueCode; }
-            set { mValueCode = value;}
+            set { mValueCode = value; }
         }
         public string ValuePool
         {
@@ -83,9 +83,9 @@ namespace PCAxis.Sql.Parser_23
             set { mValuePool = value; }
         }
         public string ValueSet
-        {   
+        {
             get { return mValueSet; }
-            set { mValueSet = value; }  
+            set { mValueSet = value; }
         }
         public int SortCodePxs
         {
@@ -108,7 +108,7 @@ namespace PCAxis.Sql.Parser_23
             get { return mSortCodeDb; }
             set { mSortCodeDb = value; }
         }
-        public Dictionary<string,string> ValueTextS
+        public Dictionary<string, string> ValueTextS
         {
             get { return mValueTextS; }
             set { mValueTextS = value; }
@@ -130,13 +130,13 @@ namespace PCAxis.Sql.Parser_23
         }
         public bool ExistInDb
         {
-        get { return mExistInDb; }
-        set { mExistInDb = value; }
+            get { return mExistInDb; }
+            set { mExistInDb = value; }
         }
 
 
 
-        
+
         //private List<FootnoteRow> mFootNoteRows;
         //public List<FootnoteRow> FootNoteRows
         //{
@@ -155,12 +155,13 @@ namespace PCAxis.Sql.Parser_23
 
         public PXSqlValue()
         {
-        //    mFootNotesValue = new List<RelevantFootNotesRow>();
+            //    mFootNotesValue = new List<RelevantFootNotesRow>();
         }
 
 
-        public PXSqlValue(ValueRow2HM myValueRow, StringCollection LanguageCodes, string MainLanguageCode) {
-            
+        public PXSqlValue(ValueRow2HM myValueRow, StringCollection LanguageCodes, string MainLanguageCode)
+        {
+
 
             //this.meta = meta;
             this.mContentsCode = null; // only for contentsvalues
@@ -174,7 +175,8 @@ namespace PCAxis.Sql.Parser_23
             this.mSortCodeVsValue = myValueRow.texts[MainLanguageCode].SortCodeVsValue;
             //this.SecondarySortOrder = myValueRow.ValueSortCode;
             this.SortCodeDb = myValueRow.SortOrder;
-            foreach (string langCode in LanguageCodes) {
+            foreach (string langCode in LanguageCodes)
+            {
                 this.ValueTextS[langCode] = myValueRow.texts[langCode].ValueTextS;
                 this.ValueTextL[langCode] = myValueRow.texts[langCode].ValueTextL;
             }
@@ -216,18 +218,19 @@ namespace PCAxis.Sql.Parser_23
         /// </summary>
         /// <param name="timeCode">Used as ValueCode, ValueTextS and ValueTextL</param>
         /// <param name="LanguageCodes"></param>
-        public PXSqlValue(string timeCode,  StringCollection LanguageCodes)
-            {
+        public PXSqlValue(string timeCode, StringCollection LanguageCodes)
+        {
 
             //this.meta = meta;
-                this.mContentsCode = null; // only for contentsvalues
+            this.mContentsCode = null; // only for contentsvalues
             this.ValueCode = timeCode;
             this.SortCodePxs = 0;  // is sometimes overridden from outside
-            this.mSortCodeValue = timeCode;  
+            this.mSortCodeValue = timeCode;
             this.mSortCodeVsValue = "0"; //hmmm
             this.SortCodeDb = "0"; //hmmm
 
-            foreach (string langCode in LanguageCodes) {
+            foreach (string langCode in LanguageCodes)
+            {
                 this.ValueTextS[langCode] = timeCode;
                 this.ValueTextL[langCode] = timeCode;
             }
@@ -244,9 +247,9 @@ namespace PCAxis.Sql.Parser_23
             this.ValueTextS = content.PresTextS;
             // SortCodePxs and SortCode are now set to the same value. Maybe no a good thing if sortorder should be reset to db
             // default after read from pxs. //TODO send two sortcodes from PXSQlMeta.   
-            this.SortCodePxs = sortCode; 
-            this.mSortCodeValue = sortCode.ToString(); 
-           
+            this.SortCodePxs = sortCode;
+            this.mSortCodeValue = sortCode.ToString();
+
         }
 
 
@@ -256,7 +259,7 @@ namespace PCAxis.Sql.Parser_23
         {
             if (this.GetType() != obj.GetType())
             {
-                throw new PCAxis.Sql.Exceptions.BugException(10000);    
+                throw new PCAxis.Sql.Exceptions.BugException(10000);
             }
             else
             {
@@ -272,7 +275,7 @@ namespace PCAxis.Sql.Parser_23
                 }
             }
         }
-        public  static IComparer<PXSqlValue> SortByVsValue()
+        public static IComparer<PXSqlValue> SortByVsValue()
         {
             return (IComparer<PXSqlValue>)new SortByVsValueHelper();
         }

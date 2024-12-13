@@ -6,8 +6,9 @@ namespace PCAxis.Sql.Parser
     using System.Collections.Generic;
     using System.Collections.Specialized;
 
-    using log4net;
     using DbConfig;
+
+    using log4net;
 
     public abstract class PXSqlData : IDisposable
     {

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PCAxis.Sql.DbConfig 
+﻿namespace PCAxis.Sql.DbConfig
 {
-       public partial class Database
+    public partial class Database
     {
         private LanguageType mainLanguageField;
 
@@ -22,14 +18,17 @@ namespace PCAxis.Sql.DbConfig
         }
 
 
-       public void postSerialize(){
-            foreach (LanguageType lang in Languages) {
-                if (lang.main) {
+        public void postSerialize()
+        {
+            foreach (LanguageType lang in Languages)
+            {
+                if (lang.main)
+                {
                     mainLanguageField = lang;
                     break;
                 }
             }
-    }
+        }
 
-}
+    }
 }

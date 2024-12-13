@@ -1,16 +1,16 @@
 ﻿namespace PCAxis.Sql.Parser_22
 {
-    using log4net;
     using System;
     using System.Collections.Generic;
-    using System.Text;
+
+    using log4net;
 
 
     public class PXSqlGroupingInfo
     {
         /// <summary>The logger to log to. (Stylecop wants documentation)</summary>
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlGroupingInfos));
-       
+
 
         // not used sorting is done in sql 
         public class SortGroupingInfoHelper : IComparer<PXSqlGroupingInfo>
@@ -27,7 +27,7 @@
                 return String.Compare(valA.sortCodeByLanguage[lang], valB.sortCodeByLanguage[lang]);
             }
         }
-       
+
         /// <summary> Database unique ID</summary>
         private string groupingId;
 
@@ -41,7 +41,7 @@
 
 
         /// <summary>The texts which may be displayed to users when selecting a grouping from a list of groupings</summary>
-        private Dictionary<string, string> presTextByLanguage = new Dictionary<string,string>();
+        private Dictionary<string, string> presTextByLanguage = new Dictionary<string, string>();
 
         /// <summary>Sort order in which the groupings are shown. If SortCode in grouping are set this will be used otherwise PresText</summary>
         private Dictionary<string, string> sortCodeByLanguage = new Dictionary<string, string>();
@@ -77,18 +77,18 @@
                 this.groupPres = "AggregatedValues";
             }
 
-            
+
             foreach (KeyValuePair<string, PCAxis.Sql.QueryLib_22.GroupingTexts> text in groupingRow.texts)
             {
                 this.presTextByLanguage[text.Key] = text.Value.PresText;
-          //      if (text.Value.SortCode != "")
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
-          //      }
-          //      else
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
-          //      }
+                //      if (text.Value.SortCode != "")
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
+                //      }
+                //      else
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
+                //      }
             }
 
         }

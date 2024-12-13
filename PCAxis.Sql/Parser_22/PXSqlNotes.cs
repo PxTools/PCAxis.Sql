@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
+
 using PCAxis.Sql.QueryLib_22;
 
-namespace PCAxis.Sql.Parser_22 {
+namespace PCAxis.Sql.Parser_22
+{
 
 
     /// <PXKeyword name="NOTE(X), CELLNOTE(X) and VALUENOTE(X)">
@@ -84,7 +85,7 @@ namespace PCAxis.Sql.Parser_22 {
 
         //
         List<RelevantFootNotesRow> allRelevantFoonotes;
-        
+
         private StringCollection showFootnotesCodes;
 
         private PXSqlMeta_22 mMeta;
@@ -110,7 +111,7 @@ namespace PCAxis.Sql.Parser_22 {
             {
                 showFootnotesCodes.Add(mMeta.Config.Codes.FootnoteShowP);
             }
-            else 
+            else
             {
                 showFootnotesCodes.Add(mMeta.Config.Codes.FootnoteShowS);
             }
@@ -120,12 +121,12 @@ namespace PCAxis.Sql.Parser_22 {
             //Adding footnotes for grouping 
             allRelevantFoonotes.AddRange(this.getRelevantGroupingNotes(inPresentationModus));
 
-            
+
 
             this.SetFootNotes();
 
 
-           
+
         }
 
         private List<RelevantFootNotesRow> getRelevantGroupingNotes(bool inPresentationModus)
@@ -165,7 +166,7 @@ namespace PCAxis.Sql.Parser_22 {
 
 
 
-        
+
 
         private void SetMainTableNotes(RelevantFootNotesRow footNoteRow)
         {
@@ -352,8 +353,8 @@ namespace PCAxis.Sql.Parser_22 {
 
             /* the CNMM has many footnote types,  Paxiom has fewer.
              * "Upgrade" from "VALUE"  or from "Variable" to "Table" where possible*/
-       
-            
+
+
             mMenuSelNotes = new PXSqlMenuSelNotes();
             mMaintValueNotes = new PXSqlMainTablesValueNotes();
             mValueNotes = new PXSqlValueNotes();
@@ -371,7 +372,7 @@ namespace PCAxis.Sql.Parser_22 {
                 mPaxiomNotes.addTableNote(new PXSqlNote(this.mMeta));
             }
 
-           
+
 
             foreach (RelevantFootNotesRow footNoteRow in allRelevantFoonotes)
             {
@@ -435,11 +436,12 @@ namespace PCAxis.Sql.Parser_22 {
                     }
                 }
 
-                
+
                 if (PCAxis.Sql.Parser.PXSqlMeta.containsAll(outputVariables, varsWhichHasANote))
                 {
                     mPaxiomNotes.addTableNote(varNotesByNoteNo[noteno][0]);
-                } else
+                }
+                else
                 {
                     mPaxiomNotes.addVariableNotes(varNotesByNoteNo[noteno]);
                 }
@@ -453,9 +455,10 @@ namespace PCAxis.Sql.Parser_22 {
             Dictionary<String, List<PXSqlNote>> conentsNotesByNoteNo = GetNotesByNoteNo(mContentsNotes);
 
 
-            StringCollection outputContentsValues = new StringCollection(); 
+            StringCollection outputContentsValues = new StringCollection();
 
-            foreach (String contentsValue in this.mMeta.Contents.Keys) {
+            foreach (String contentsValue in this.mMeta.Contents.Keys)
+            {
                 outputContentsValues.Add(contentsValue);
             }
 
@@ -476,14 +479,15 @@ namespace PCAxis.Sql.Parser_22 {
                 if (PCAxis.Sql.Parser.PXSqlMeta.containsAll(outputContentsValues, usedValues))
                 {
                     mPaxiomNotes.addTableNote(conentsNotesByNoteNo[noteno][0]);
-                } else
+                }
+                else
                 {
                     mPaxiomNotes.addContentsNotes(conentsNotesByNoteNo[noteno]);
                 }
 
             }
             #endregion
-            
+
 
         }
 
@@ -548,7 +552,7 @@ namespace PCAxis.Sql.Parser_22 {
             {
                 mMeta.TheNotes.ContVblNotes.ParseNote(mMeta, handler, langCode);
             }
-            
+
         }
     }
 
@@ -556,45 +560,55 @@ namespace PCAxis.Sql.Parser_22 {
 
 
 
-    public class PXSqlNote {
+    public class PXSqlNote
+    {
         protected const string star = "*";
         protected string mShowFootNote;
-        public string ShowFootNote {
+        public string ShowFootNote
+        {
             get { return this.mShowFootNote; }
         }
         protected string mMandOpt;
-        public string MandOpt {
+        public string MandOpt
+        {
             get { return this.mMandOpt; }
         }
         protected string mFootNoteNo;
-        public string FootNoteNo {
+        public string FootNoteNo
+        {
             get { return this.mFootNoteNo; }
         }
         protected string mContents;
-        public string Contents {
+        public string Contents
+        {
             get { return this.mContents; }
         }
         protected string mVariable;
-        public string Variable {
+        public string Variable
+        {
             get { return this.mVariable; }
         }
         protected string mValueCode;
-        public string ValueCode {
+        public string ValueCode
+        {
             get { return this.mValueCode; }
         }
         protected string mTimePeriode;
-        public string TimePeriode {
+        public string TimePeriode
+        {
             get { return this.mTimePeriode; }
         }
         protected Dictionary<string, String> mNotePresTexts;
-        public Dictionary<string, String> NotePresTexts {
+        public Dictionary<string, String> NotePresTexts
+        {
             get { return this.mNotePresTexts; }
         }
         protected String mNotePresText;
         protected const string FootNoteTableContainsOnlyMetadata = "This table contains only metadata";
-        protected const string FootNoteTableContainsOnlyMetadataDummyNumber = "-999"; 
+        protected const string FootNoteTableContainsOnlyMetadataDummyNumber = "-999";
 
-        public PXSqlNote(RelevantFootNotesRow footNoteRow, PXSqlMeta_22 mMeta) {
+        public PXSqlNote(RelevantFootNotesRow footNoteRow, PXSqlMeta_22 mMeta)
+        {
             this.mShowFootNote = footNoteRow.ShowFootNote;
             this.mMandOpt = footNoteRow.MandOpt;
             this.mFootNoteNo = footNoteRow.FootNoteNo;
@@ -627,19 +641,23 @@ namespace PCAxis.Sql.Parser_22 {
         }
     }
 
-    
-    public abstract class PXSqlGeneralNotes : List<PXSqlNote> {
-        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode) {
+
+    public abstract class PXSqlGeneralNotes : List<PXSqlNote>
+    {
+        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode)
+        {
             string keyWord;
             string subKeyWord;
             StringCollection parseValue;
-            foreach (PXSqlNote note in this) {
-                if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB)) {
+            foreach (PXSqlNote note in this)
+            {
+                if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB))
+                {
                     if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                         keyWord = "VALUENOTEX";
                     else
                         keyWord = "VALUENOTE";
-                    subKeyWord =  note.Variable + "\",\"" + note.ValueCode;
+                    subKeyWord = note.Variable + "\",\"" + note.ValueCode;
                     parseValue = new StringCollection();
                     parseValue.Add(note.NotePresTexts[langCode]);
                     handler(keyWord, langCode, subKeyWord, parseValue);
@@ -650,26 +668,31 @@ namespace PCAxis.Sql.Parser_22 {
 
 
 
-    public class PXSqlValueNotes : PXSqlGeneralNotes {}
+    public class PXSqlValueNotes : PXSqlGeneralNotes { }
 
-    public class PXSqlMainTablesValueNotes : PXSqlGeneralNotes {}
+    public class PXSqlMainTablesValueNotes : PXSqlGeneralNotes { }
 
     public class PXSqlMenuSelNotes : List<PXSqlNote> { }
 
-    public class PXSqlContValueNotes : List<PXSqlNote> {
+    public class PXSqlContValueNotes : List<PXSqlNote>
+    {
         private const string star = "*";
-        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode) {
+        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode)
+        {
             string keyWord;
             string subKeyWord;
             StringCollection parseValue;
-            if (mMeta.Contents.Count == 1) {
-                foreach (PXSqlNote note in this) {
-                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB)) {
+            if (mMeta.Contents.Count == 1)
+            {
+                foreach (PXSqlNote note in this)
+                {
+                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB))
+                    {
                         if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                             keyWord = "VALUENOTEX";
                         else
                             keyWord = "VALUENOTE";
-                        subKeyWord =   note.Variable + "\",\"" + note.ValueCode ;
+                        subKeyWord = note.Variable + "\",\"" + note.ValueCode;
                         parseValue = new StringCollection();
                         parseValue.Add(note.NotePresTexts[langCode]);
                         handler(keyWord, langCode, subKeyWord, parseValue);
@@ -677,20 +700,24 @@ namespace PCAxis.Sql.Parser_22 {
 
                 }
             }
-            else {
+            else
+            {
                 List<PXSqlVariable> stubAndHead = new List<PXSqlVariable>();
                 stubAndHead.AddRange(mMeta.Stubs);
                 stubAndHead.AddRange(mMeta.Headings);
                 StringCollection CellNoteDimensions;
-                foreach (PXSqlNote note in this) {
+                foreach (PXSqlNote note in this)
+                {
                     if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                         keyWord = "CELLNOTEX";
                     else
                         keyWord = "CELLNOTE";
                     CellNoteDimensions = new StringCollection();
-                    foreach (PXSqlVariable var in stubAndHead) {
-                        if (var.IsContentVariable) {
-                            if (var.Values.GetValueByContentsCode(note.Contents) !=  null)
+                    foreach (PXSqlVariable var in stubAndHead)
+                    {
+                        if (var.IsContentVariable)
+                        {
+                            if (var.Values.GetValueByContentsCode(note.Contents) != null)
                             {
                                 CellNoteDimensions.Add(var.Values.GetValueByContentsCode(note.Contents).ValueCode);
                             }
@@ -699,7 +726,8 @@ namespace PCAxis.Sql.Parser_22 {
                             else
                                 throw new PCAxis.Sql.Exceptions.DbException(12);
                         }
-                        else if (var.Name == note.Variable) {
+                        else if (var.Name == note.Variable)
+                        {
                             if (var.Values.ContainsKey(note.ValueCode))
                                 CellNoteDimensions.Add(note.ValueCode);
                             else
@@ -721,16 +749,21 @@ namespace PCAxis.Sql.Parser_22 {
             }
         }
     }
-    
-    public class PXSqlContTimeNotes : List<PXSqlNote> {
+
+    public class PXSqlContTimeNotes : List<PXSqlNote>
+    {
         private const string star = "*";
-        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode) {
+        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode)
+        {
             string keyWord;
             string subKeyWord;
             StringCollection parseValue;
-            if (mMeta.Contents.Count == 1) {
-                foreach (PXSqlNote note in this) {
-                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB)) {
+            if (mMeta.Contents.Count == 1)
+            {
+                foreach (PXSqlNote note in this)
+                {
+                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB))
+                    {
                         if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                             keyWord = "VALUENOTEX";
                         else
@@ -743,27 +776,32 @@ namespace PCAxis.Sql.Parser_22 {
 
                 }
             }
-            else {
+            else
+            {
                 List<PXSqlVariable> stubAndHead = new List<PXSqlVariable>();
                 stubAndHead.AddRange(mMeta.Stubs);
                 stubAndHead.AddRange(mMeta.Headings);
                 StringCollection CellNoteDimensions;
-                foreach (PXSqlNote note in this) {
+                foreach (PXSqlNote note in this)
+                {
                     if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                         keyWord = "CELLNOTEX";
                     else
                         keyWord = "CELLNOTE";
                     CellNoteDimensions = new StringCollection();
-                    foreach (PXSqlVariable var in stubAndHead) {
-                        if (var.IsTimevariable) {
+                    foreach (PXSqlVariable var in stubAndHead)
+                    {
+                        if (var.IsTimevariable)
+                        {
                             if (var.Values.ContainsKey(note.TimePeriode))
                                 CellNoteDimensions.Add(note.TimePeriode);
                             else
                                 throw new PCAxis.Sql.Exceptions.DbException(12);
 
                         }
-                        else if (var.IsContentVariable) {
-                            if (var.Values.GetValueByContentsCode(note.Contents) !=  null)
+                        else if (var.IsContentVariable)
+                        {
+                            if (var.Values.GetValueByContentsCode(note.Contents) != null)
                             {
                                 CellNoteDimensions.Add(var.Values.GetValueByContentsCode(note.Contents).ValueCode);
                             }
@@ -788,19 +826,25 @@ namespace PCAxis.Sql.Parser_22 {
             }
         }
     }
-    
-    public class PXSqlContentsNotes : List<PXSqlNote> {
-        
+
+    public class PXSqlContentsNotes : List<PXSqlNote>
+    {
+
     }
 
-    public class PXSqlContVblNotes : List<PXSqlNote> {
-        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode) {
+    public class PXSqlContVblNotes : List<PXSqlNote>
+    {
+        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode)
+        {
             string keyWord;
             string subKeyWord = null;
             StringCollection parseValue;
-            foreach (PXSqlNote note in this) {
-                if (mMeta.Contents.Count == 1) {
-                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB)) {
+            foreach (PXSqlNote note in this)
+            {
+                if (mMeta.Contents.Count == 1)
+                {
+                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB))
+                    {
                         if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                             keyWord = "NOTEX";
                         else
@@ -813,8 +857,10 @@ namespace PCAxis.Sql.Parser_22 {
                 }
                 // if more than one contentsvariable is selected the note should be presented different, but there are
                 // no way to parse it to PAXIOm and specify that the note is valid for only one contents.
-                else {
-                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB)) {
+                else
+                {
+                    if ((note.ShowFootNote == mMeta.Config.Codes.FootnoteShowP) || (note.ShowFootNote == mMeta.Config.Codes.FootnoteShowB))
+                    {
                         if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                             keyWord = "NOTEX";
                         else
@@ -829,9 +875,10 @@ namespace PCAxis.Sql.Parser_22 {
             }
         }
     }
-    
-    public class PXSqlVariableNotes : List<PXSqlNote> {
-       
+
+    public class PXSqlVariableNotes : List<PXSqlNote>
+    {
+
     }
 
 
@@ -845,8 +892,10 @@ namespace PCAxis.Sql.Parser_22 {
         private List<PXSqlNote> contentsNotes = new List<PXSqlNote>();
 
         //adds tableNote unless it is already added
-        public void addTableNote(PXSqlNote tableNote) {
-            if ( ! tableNotes.ContainsKey(tableNote.FootNoteNo)) {
+        public void addTableNote(PXSqlNote tableNote)
+        {
+            if (!tableNotes.ContainsKey(tableNote.FootNoteNo))
+            {
                 tableNotes.Add(tableNote.FootNoteNo, tableNote);
             }
         }
@@ -880,46 +929,46 @@ namespace PCAxis.Sql.Parser_22 {
 
             foreach (PXSqlNote note in this.tableNotes.Values)
             {
-                    if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
-                        keyWord = "NOTEX";
-                    else
-                        keyWord = "NOTE";
-                    parseValue = new StringCollection();
-                    parseValue.Add(note.NotePresTexts[langCode]);
-                    handler(keyWord, langCode, subKeyWord, parseValue);   
+                if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
+                    keyWord = "NOTEX";
+                else
+                    keyWord = "NOTE";
+                parseValue = new StringCollection();
+                parseValue.Add(note.NotePresTexts[langCode]);
+                handler(keyWord, langCode, subKeyWord, parseValue);
             }
 
 
 
             foreach (PXSqlNote note in this.variableNotes)
-            {    
-                    if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
-                        keyWord = "NOTEX";
-                    else
-                        keyWord = "NOTE";
-                    subKeyWord = note.Variable;
-                    parseValue = new StringCollection();
-                    parseValue.Add(note.NotePresTexts[langCode]);
-                    handler(keyWord, langCode, subKeyWord, parseValue);
-                
+            {
+                if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
+                    keyWord = "NOTEX";
+                else
+                    keyWord = "NOTE";
+                subKeyWord = note.Variable;
+                parseValue = new StringCollection();
+                parseValue.Add(note.NotePresTexts[langCode]);
+                handler(keyWord, langCode, subKeyWord, parseValue);
+
             }
 
 
 
             foreach (PXSqlNote note in this.contentsNotes)
             {
-               
-                    subKeyWord = mMeta.ContensCode + "\",\"" + mMeta.ContentsVariable.Values.GetValueByContentsCode(note.Contents).ValueCode;
-                    //subKeyWord = mMeta.ContensCode + "," + note.Contents;
-                    if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
-                        keyWord = "VALUENOTEX";
-                    else
-                        keyWord = "VALUENOTE";
 
-                    parseValue = new StringCollection();
-                    parseValue.Add(note.NotePresTexts[langCode]);
-                    handler(keyWord, langCode, subKeyWord, parseValue);
-                
+                subKeyWord = mMeta.ContensCode + "\",\"" + mMeta.ContentsVariable.Values.GetValueByContentsCode(note.Contents).ValueCode;
+                //subKeyWord = mMeta.ContensCode + "," + note.Contents;
+                if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
+                    keyWord = "VALUENOTEX";
+                else
+                    keyWord = "VALUENOTE";
+
+                parseValue = new StringCollection();
+                parseValue.Add(note.NotePresTexts[langCode]);
+                handler(keyWord, langCode, subKeyWord, parseValue);
+
             }
 
         }
@@ -927,36 +976,43 @@ namespace PCAxis.Sql.Parser_22 {
     }
 
 
-    public class PXSqlCellNotes : List<PXSqlNote> {
+    public class PXSqlCellNotes : List<PXSqlNote>
+    {
         private const string star = "*";
-        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode) {
+        public void ParseNote(PXSqlMeta_22 mMeta, PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string langCode)
+        {
             List<PXSqlVariable> stubAndHead = new List<PXSqlVariable>();
             stubAndHead.AddRange(mMeta.Stubs);
             stubAndHead.AddRange(mMeta.Headings);
             StringCollection CellNoteDimensions;
             string subKeyWord;
-            string keyWord; 
+            string keyWord;
             StringCollection parseValue;
-            foreach (PXSqlNote note in this) {
+            foreach (PXSqlNote note in this)
+            {
                 if (note.MandOpt == mMeta.Config.Codes.FootnoteM)
                     keyWord = "CELLNOTEX";
                 else
                     keyWord = "CELLNOTE";
                 CellNoteDimensions = new StringCollection();
-                foreach (PXSqlVariable var in stubAndHead) {
-                    if (var.IsTimevariable) {
+                foreach (PXSqlVariable var in stubAndHead)
+                {
+                    if (var.IsTimevariable)
+                    {
                         if (var.Values.ContainsKey(note.TimePeriode))
                             CellNoteDimensions.Add(note.TimePeriode);
                         else
                             CellNoteDimensions.Add(star);
                     }
-                    else if (var.IsContentVariable) {
+                    else if (var.IsContentVariable)
+                    {
                         if (var.Values.ContainsKey(note.Contents))
                             CellNoteDimensions.Add(note.Contents);
                         else
                             CellNoteDimensions.Add(star);
                     }
-                    else if (var.Name == note.Variable) {
+                    else if (var.Name == note.Variable)
+                    {
                         if (var.Values.ContainsKey(note.ValueCode))
                             CellNoteDimensions.Add(note.ValueCode);
                         else
@@ -979,5 +1035,5 @@ namespace PCAxis.Sql.Parser_22 {
         }
     }
 
- 
+
 }

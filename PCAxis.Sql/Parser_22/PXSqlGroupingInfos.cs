@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using PCAxis.Paxiom;
+
     using log4net;
+
+    using PCAxis.Paxiom;
 
     /// <summary>
     /// Holds the information on which groupings may be used with this variable. This applies to selected variables when build4selection.
@@ -27,17 +29,17 @@
             get { return infos; }
         }
 
-        
+
         private StringCollection groupingIDs;
 
-        
+
         /// <summary>
         /// the IDs of the groupings which may be used for the variable. 
         /// </summary>
         internal StringCollection GroupingIDs
         {
             get { return groupingIDs; }
-        } 
+        }
 
         /// <summary>Initializes a new instance of the PXSqlGroupingInfos class, and fills the list of PXSqlGroupingInfo</summary>
         /// <param name="meta">Holds the state of the builder</param>
@@ -50,38 +52,40 @@
             groupingIDs = new StringCollection();
             foreach (string valueSetId in valueSetIds)
             {
-                foreach (string groupingId in meta.MetaQuery.GetValueSetGroupingRowskeyGrouping(valueSetId, true).Keys) {
+                foreach (string groupingId in meta.MetaQuery.GetValueSetGroupingRowskeyGrouping(valueSetId, true).Keys)
+                {
                     groupingIDs.Add(groupingId);
                 }
             }
 
             // finding the ID's of hierarchical groups
-            foreach (string groupingId in meta.MetaQuery.GetMainTableVariableHierarchyRows_KeyIsGroupingID(meta.MainTable.MainTable,variableName,true).Keys) {
-                       groupingIDs.Add(groupingId);
+            foreach (string groupingId in meta.MetaQuery.GetMainTableVariableHierarchyRows_KeyIsGroupingID(meta.MainTable.MainTable, variableName, true).Keys)
+            {
+                groupingIDs.Add(groupingId);
             }
 
             // creating Info for them;
             foreach (string groupingId in groupingIDs)
             {
-                infos.Add(new PXSqlGroupingInfo(meta.MetaQuery.GetGroupingRow(groupingId) ,meta.Config.Codes));
+                infos.Add(new PXSqlGroupingInfo(meta.MetaQuery.GetGroupingRow(groupingId), meta.Config.Codes));
             }
 
         }
 
-       
 
-      //  internal List<PXSqlGroupingInfo> GetGroupsSorted(List<PXSqlGroupingInfo> groupingInfoList,string langCode)
-       // {
-           // List<PXSqlGroupingInfo> sortedGrouposList = new List<PXSqlGroupingInfo>();
-           // foreach (PXSqlGroupingInfo group in groups)
-           // {
-           //     sortedGrouposList.Add(group);
-           // }
-           //return groupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
-            //sortedGrouposList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
-            //return sortedGrouposList;
 
-       // }
+        //  internal List<PXSqlGroupingInfo> GetGroupsSorted(List<PXSqlGroupingInfo> groupingInfoList,string langCode)
+        // {
+        // List<PXSqlGroupingInfo> sortedGrouposList = new List<PXSqlGroupingInfo>();
+        // foreach (PXSqlGroupingInfo group in groups)
+        // {
+        //     sortedGrouposList.Add(group);
+        // }
+        //return groupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+        //sortedGrouposList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+        //return sortedGrouposList;
+
+        // }
 
 
         /// <summary>Sends the list of Grouping Info to paxiom</summary>
@@ -113,14 +117,14 @@
                 //List<PXSqlGroupingInfo> sortedGroupingInfoList;
                 foreach (string langCode in this.infos[0].PresTextByLanguage.Keys)
                 {
-                //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
-                //    foreach (PXSqlGroupingInfo info in this.infos)
-                //    {
-                //        sortedGroupingInfoList.Add(info);
-                //    }
-                //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+                    //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
+                    //    foreach (PXSqlGroupingInfo info in this.infos)
+                    //    {
+                    //        sortedGroupingInfoList.Add(info);
+                    //    }
+                    //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
 
-                    
+
                     values.Clear();
                     //foreach (PXSqlGroupingInfo info in sortedGroupingInfoList)
                     foreach (PXSqlGroupingInfo info in this.infos)

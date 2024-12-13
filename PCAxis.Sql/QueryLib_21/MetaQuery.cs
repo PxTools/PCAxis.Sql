@@ -1,21 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
-
 using System.Data; //For DataSet-objects.
+using System.Globalization;// for CultureInfo
 using System.Reflection; //For MethodBase.GetCurrentMethod().
 
-using System.Globalization;// for CultureInfo
-
+using log4net;
 
 using PCAxis.Sql.DbClient; //For executing SQLs.
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
-
-
-using log4net;
 using PCAxis.Sql.Exceptions;
-using System.Linq;
 
 
 namespace PCAxis.Sql.QueryLib_21
@@ -27,7 +21,7 @@ namespace PCAxis.Sql.QueryLib_21
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MetaQuery));
 #if DEBUG
-                private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
+        private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(), "LogTime");
 #endif
 
 
@@ -72,7 +66,7 @@ namespace PCAxis.Sql.QueryLib_21
 
 
         #endregion
-        
+
         #region Constructors
         public MetaQuery(SqlDbConfig_21 config, InfoForDbConnection selectedDbInfo)
         {
@@ -116,15 +110,15 @@ namespace PCAxis.Sql.QueryLib_21
         }
 
 
-       
 
-        
+
+
         /// <summary>Gets the languages for which the maintable exists in the database.
         /// </summary>
         /// <param name="mainTableId">The maintable</param>
         /// <param name="dbLanguages">All the languages in the database(from dbconfig-xmlfila)</param>
         /// <returns>the languages for which the maintable exists in the database.</returns>
- 
+
         public StringCollection GetLanguagesForMainTable(string mainTableId, StringCollection dbLanguages)
         {
             StringCollection maintableLanguages = new StringCollection();
@@ -201,7 +195,7 @@ namespace PCAxis.Sql.QueryLib_21
 
             string sqlString = "SELECT DISTINCT " +
             DB.ValueSet.ValueSetCol.ForSelect() + ", ";
-           
+
             if (metaVersionGE("2.1"))
             {
                 sqlString += DB.ValueSet.PresTextCol.ForSelect() + ", ";
@@ -322,7 +316,7 @@ namespace PCAxis.Sql.QueryLib_21
         public ValueRowDictionary GetValueRowDictionary(string mainTable, StringCollection subTables, string variable, StringCollection someValueCodes, string valueExtraExists)
         {
 
-   
+
             //SqlDbConfig dbconf = DB;  
             // piv added DISTINCT
 
@@ -335,7 +329,7 @@ namespace PCAxis.Sql.QueryLib_21
             //TODO: Creating tempTable should be kept for reuse in the datapart
             string myVariableNumber = "007";
             string tempTabId = mSqlCommand.MakeTempTableJustValues(variable, myVariableNumber, DB.Database.Connection.useTemporaryTables, someValueCodes);
-            
+
 
             string subTablesString = this.prepareForInClause(subTables);
 
@@ -428,11 +422,11 @@ namespace PCAxis.Sql.QueryLib_21
                        + ", " + DB.VSValue.ValueCode + " AS " + DB.Value.ValueCode
                        + ", " + DB.VSValue.SortCode + " AS SortCodeVsValue"
                        + " FROM " + DB.MetaOwner + DB.VSValue.TableName
-                       + ") bz ON (bx." + DB.Value.ValuePool + " = bz." + DB.Value.ValuePool + " AND bx." + DB.Value.ValueCode + " = bz." + DB.Value.ValueCode +  ")";
+                       + ") bz ON (bx." + DB.Value.ValuePool + " = bz." + DB.Value.ValuePool + " AND bx." + DB.Value.ValueCode + " = bz." + DB.Value.ValueCode + ")";
             sqlString += " JOIN " + DB.MetaOwner + DB.SubTableVariable.TableName + " " + DB.SubTableVariable.Alias
                        + " ON (bz." + DB.VSValue.ValueSet + " = " + DB.SubTableVariable.Alias + "." + DB.SubTableVariable.ValueSet + ")";
             sqlString += " JOIN " + tempTabId
-                + " ON  bx." + DB.Value.ValueCode + "="+tempTabId+".Group" + myVariableNumber+" ";
+                + " ON  bx." + DB.Value.ValueCode + "=" + tempTabId + ".Group" + myVariableNumber + " ";
             #region where section
             sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(mainTable);
 
@@ -445,7 +439,7 @@ namespace PCAxis.Sql.QueryLib_21
 
             sqlString += " AND " + DB.SubTableVariable.VariableCol.Is(variable);
 
-  
+
 
             #endregion where section
 
@@ -1261,14 +1255,14 @@ namespace PCAxis.Sql.QueryLib_21
                 sqlString += " ORDER BY " + DB.VSGroup.SortCodeCol.Id() + ", " +
                                             DB.VSGroup.GroupCodeCol.Id() + ", " +
                                                DB.Value.SortCodeCol.Id();
-                                               
+
             }
             else
             {
                 sqlString += " ORDER BY "
                     + DB.VSGroupLang2.SortCodeCol.Id(sortOrderLanguage) + ", " +
                       DB.VSGroup.GroupCodeCol.Id() + ", " +
-                      DB.ValueLang2.SortCodeCol.Id(sortOrderLanguage); 
+                      DB.ValueLang2.SortCodeCol.Id(sortOrderLanguage);
 
 
             }

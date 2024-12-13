@@ -1,7 +1,7 @@
 using System;
-using System.Globalization;
 using System.Xml;
 using System.Xml.XPath;
+
 using log4net;
 
 //This code is generated. 
@@ -214,7 +214,7 @@ namespace PCAxis.Sql.DbConfig
 
         #region  structs
 
-         
+
 
         /// <summary>
         /// The table contains information on the content of the data table(s).The content column's name is the same as the name of the corresponding data columns in the data table.
@@ -324,9 +324,9 @@ namespace PCAxis.Sql.DbConfig
             public Col StoreColumnNoCol;
 
             internal TblContents(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Contents","CNT"), config.ExtractTableName("Contents","CONTENTS"), config.MetaOwner)
+            : base(config.ExtractAliasName("Contents", "CNT"), config.ExtractTableName("Contents", "CONTENTS"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Contents", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Contents", "Contents", "CONTENTS");
@@ -421,22 +421,22 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col UnitCol;
 
             internal TblContentsLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ContentsLang2","CN2"), config.ExtractTableName("ContentsLang2","CONTENTS_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ContentsLang2", "CN2"), config.ExtractTableName("ContentsLang2", "CONTENTS_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Contents"  , "CONTENTS");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Contents", "CONTENTS");
                 this.ContentsCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "BasePeriod"  , "BASEPERIOD");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "BasePeriod", "BASEPERIOD");
                 this.BasePeriodCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "RefPeriod"  , "REFPERIOD");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "RefPeriod", "REFPERIOD");
                 this.RefPeriodCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -463,9 +463,9 @@ namespace PCAxis.Sql.DbConfig
             public Col TimePeriodCol;
 
             internal TblContentsTime(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ContentsTime","CTM"), config.ExtractTableName("ContentsTime","CONTENTSTIME"), config.MetaOwner)
+            : base(config.ExtractAliasName("ContentsTime", "CTM"), config.ExtractTableName("ContentsTime", "CONTENTSTIME"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ContentsTime", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ContentsTime", "Contents", "CONTENTS");
@@ -497,9 +497,9 @@ namespace PCAxis.Sql.DbConfig
             public Col DatabaseNameCol;
 
             internal TblDataStorage(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("DataStorage","DST"), config.ExtractTableName("DataStorage","DATASTORAGE"), config.MetaOwner)
+            : base(config.ExtractAliasName("DataStorage", "DST"), config.ExtractTableName("DataStorage", "DATASTORAGE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("DataStorage", "ProductId", "PRODUCTID");
                 this.ProductIdCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("DataStorage", "ServerName", "SERVERNAME");
@@ -539,9 +539,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteTextCol;
 
             internal TblFootnote(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Footnote","FNT"), config.ExtractTableName("Footnote","FOOTNOTE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Footnote", "FNT"), config.ExtractTableName("Footnote", "FOOTNOTE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Footnote", "FootnoteNo", "FOOTNOTENO");
                 this.FootnoteNoCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Footnote", "FootnoteType", "FOOTNOTETYPE");
@@ -571,12 +571,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col FootnoteTextCol;
 
             internal TblFootnoteLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteLang2","FN2"), config.ExtractTableName("FootnoteLang2","FOOTNOTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("FootnoteLang2", "FN2"), config.ExtractTableName("FootnoteLang2", "FOOTNOTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteNo"  , "FOOTNOTENO");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteNo", "FOOTNOTENO");
                 this.FootnoteNoCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteText"  , "FOOTNOTETEXT");
+                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteText", "FOOTNOTETEXT");
                 this.FootnoteTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -611,9 +611,9 @@ namespace PCAxis.Sql.DbConfig
             public Col CellnoteCol;
 
             internal TblFootnoteContTime(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteContTime","FCT"), config.ExtractTableName("FootnoteContTime","FOOTNOTECONTTIME"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContTime", "FCT"), config.ExtractTableName("FootnoteContTime", "FOOTNOTECONTTIME"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "Contents", "CONTENTS");
@@ -665,9 +665,9 @@ namespace PCAxis.Sql.DbConfig
             public Col CellnoteCol;
 
             internal TblFootnoteContValue(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteContValue","FCA"), config.ExtractTableName("FootnoteContValue","FOOTNOTECONTVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContValue", "FCA"), config.ExtractTableName("FootnoteContValue", "FOOTNOTECONTVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "Contents", "CONTENTS");
@@ -711,9 +711,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteContVbl(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteContVbl","FCB"), config.ExtractTableName("FootnoteContVbl","FOOTNOTECONTVBL"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContVbl", "FCB"), config.ExtractTableName("FootnoteContVbl", "FOOTNOTECONTVBL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "Contents", "CONTENTS");
@@ -747,9 +747,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteContents(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteContents","FCO"), config.ExtractTableName("FootnoteContents","FOOTNOTECONTENTS"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContents", "FCO"), config.ExtractTableName("FootnoteContents", "FOOTNOTECONTENTS"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContents", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteContents", "Contents", "CONTENTS");
@@ -777,9 +777,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteGrouping(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteGrouping","FCO"), config.ExtractTableName("FootnoteGrouping","FOOTNOTEGROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteGrouping", "FCO"), config.ExtractTableName("FootnoteGrouping", "FOOTNOTEGROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteGrouping", "Grouping", "GROUPING");
                 this.GroupingCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteGrouping", "FootnoteNo", "FOOTNOTENO");
@@ -805,9 +805,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteMainTable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteMainTable","FMT"), config.ExtractTableName("FootnoteMainTable","FOOTNOTEMAINTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMainTable", "FMT"), config.ExtractTableName("FootnoteMainTable", "FOOTNOTEMAINTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMainTable", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteMainTable", "FootnoteNo", "FOOTNOTENO");
@@ -845,9 +845,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteMaintValue(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteMaintValue","FMV"), config.ExtractTableName("FootnoteMaintValue","FOOTNOTEMAINTVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMaintValue", "FMV"), config.ExtractTableName("FootnoteMaintValue", "FOOTNOTEMAINTVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "Variable", "VARIABLE");
@@ -883,9 +883,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteMenuSel(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteMenuSel","FMS"), config.ExtractTableName("FootnoteMenuSel","FOOTNOTEMENUSEL"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMenuSel", "FMS"), config.ExtractTableName("FootnoteMenuSel", "FOOTNOTEMENUSEL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMenuSel", "Menu", "MENU");
                 this.MenuCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteMenuSel", "Selection", "SELECTION");
@@ -917,9 +917,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteSubTable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteSubTable","FST"), config.ExtractTableName("FootnoteSubTable","FOOTNOTESUBTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteSubTable", "FST"), config.ExtractTableName("FootnoteSubTable", "FOOTNOTESUBTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteSubTable", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteSubTable", "SubTable", "SUBTABLE");
@@ -951,9 +951,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteValue(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteValue","FVL"), config.ExtractTableName("FootnoteValue","FOOTNOTEVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteValue", "FVL"), config.ExtractTableName("FootnoteValue", "FOOTNOTEVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteValue", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteValue", "ValueCode", "VALUECODE");
@@ -981,9 +981,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteNoCol;
 
             internal TblFootnoteVariable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("FootnoteVariable","FVB"), config.ExtractTableName("FootnoteVariable","FOOTNOTEVARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteVariable", "FVB"), config.ExtractTableName("FootnoteVariable", "FOOTNOTEVARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteVariable", "Variable", "VARIABLE");
                 this.VariableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("FootnoteVariable", "FootnoteNo", "FOOTNOTENO");
@@ -1033,9 +1033,9 @@ namespace PCAxis.Sql.DbConfig
             public Col KDBidCol;
 
             internal TblGrouping(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Grouping","GRP"), config.ExtractTableName("Grouping","GROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("Grouping", "GRP"), config.ExtractTableName("Grouping", "GROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Grouping", "Grouping", "GROUPING");
                 this.GroupingCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Grouping", "ValuePool", "VALUEPOOL");
@@ -1081,16 +1081,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col SortCodeCol;
 
             internal TblGroupingLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("GroupingLang2","GR2"), config.ExtractTableName("GroupingLang2","GROUPING_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("GroupingLang2", "GR2"), config.ExtractTableName("GroupingLang2", "GROUPING_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "ValuePool"  , "VALUEPOOL");
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1121,9 +1121,9 @@ namespace PCAxis.Sql.DbConfig
             public Col GeoAreaNoCol;
 
             internal TblGroupingLevel(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("GroupingLevel","GRP"), config.ExtractTableName("GroupingLevel","GROUPINGLEVEL"), config.MetaOwner)
+            : base(config.ExtractAliasName("GroupingLevel", "GRP"), config.ExtractTableName("GroupingLevel", "GROUPINGLEVEL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "Grouping", "GROUPING");
                 this.GroupingCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "Level", "LEVEL");
@@ -1156,14 +1156,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col LevelTextCol;
 
             internal TblGroupingLevelLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("GroupingLevelLang2","GR2"), config.ExtractTableName("GroupingLevelLang2","GROUPINGLEVEL_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("GroupingLevelLang2", "GR2"), config.ExtractTableName("GroupingLevelLang2", "GROUPINGLEVEL_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Level"  , "LEVEL");
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Level", "LEVEL");
                 this.LevelCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelText"  , "LEVELTEXT");
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelText", "LEVELTEXT");
                 this.LevelTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1214,9 +1214,9 @@ namespace PCAxis.Sql.DbConfig
             public Col DescriptionCol;
 
             internal TblLink(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Link","LNK"), config.ExtractTableName("Link","LINK"), config.MetaOwner)
+            : base(config.ExtractAliasName("Link", "LNK"), config.ExtractTableName("Link", "LINK"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Link", "LinkId", "LINKID");
                 this.LinkIdCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Link", "Link", "LINK");
@@ -1269,18 +1269,18 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col DescriptionCol;
 
             internal TblLinkLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("LinkLang2","LN2"), config.ExtractTableName("LinkLang2","LINK_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("LinkLang2", "LN2"), config.ExtractTableName("LinkLang2", "LINK_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkId"  , "LINKID");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkId", "LINKID");
                 this.LinkIdCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "Link"  , "LINK");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "Link", "LINK");
                 this.LinkCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkText"  , "LINKTEXT");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkText", "LINKTEXT");
                 this.LinkTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1307,9 +1307,9 @@ namespace PCAxis.Sql.DbConfig
             public Col LinkIdCol;
 
             internal TblLinkMenuSel(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("LinkMenuSel","LMS"), config.ExtractTableName("LinkMenuSel","LINKMENUSEL"), config.MetaOwner)
+            : base(config.ExtractAliasName("LinkMenuSel", "LMS"), config.ExtractTableName("LinkMenuSel", "LINKMENUSEL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("LinkMenuSel", "Menu", "MENU");
                 this.MenuCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("LinkMenuSel", "Selection", "SELECTION");
@@ -1373,9 +1373,9 @@ namespace PCAxis.Sql.DbConfig
             public Col TimeScaleCol;
 
             internal TblMainTable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MainTable","MTA"), config.ExtractTableName("MainTable","MAINTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTable", "MTA"), config.ExtractTableName("MainTable", "MAINTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTable", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MainTable", "TableStatus", "TABLESTATUS");
@@ -1437,20 +1437,20 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col ContentsVariableCol;
 
             internal TblMainTableLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MainTableLang2","MT2"), config.ExtractTableName("MainTableLang2","MAINTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("MainTableLang2", "MT2"), config.ExtractTableName("MainTableLang2", "MAINTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "Status"  , "STATUS");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "Status", "STATUS");
                 this.StatusCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "Published"  , "PUBLISHED");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "Published", "PUBLISHED");
                 this.PublishedCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "ContentsVariable"  , "CONTENTSVARIABLE");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "ContentsVariable", "CONTENTSVARIABLE");
                 this.ContentsVariableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1477,9 +1477,9 @@ namespace PCAxis.Sql.DbConfig
             public Col RolePersonCol;
 
             internal TblMainTablePerson(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MainTablePerson","MTP"), config.ExtractTableName("MainTablePerson","MAINTABLEPERSON"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTablePerson", "MTP"), config.ExtractTableName("MainTablePerson", "MAINTABLEPERSON"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTablePerson", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MainTablePerson", "PersonCode", "PERSONCODE");
@@ -1519,9 +1519,9 @@ namespace PCAxis.Sql.DbConfig
             public Col AllLevelsStoredCol;
 
             internal TblMainTableVariableHierarchy(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MainTableVariableHierarchy","MTP"), config.ExtractTableName("MainTableVariableHierarchy","MAINTABLEVARIABLEHIERARCHY"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTableVariableHierarchy", "MTP"), config.ExtractTableName("MainTableVariableHierarchy", "MAINTABLEVARIABLEHIERARCHY"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "Variable", "VARIABLE");
@@ -1581,9 +1581,9 @@ namespace PCAxis.Sql.DbConfig
             public Col InternalIdCol;
 
             internal TblMenuSelection(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MenuSelection","MSL"), config.ExtractTableName("MenuSelection","MENUSELECTION"), config.MetaOwner)
+            : base(config.ExtractAliasName("MenuSelection", "MSL"), config.ExtractTableName("MenuSelection", "MENUSELECTION"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Menu", "MENU");
                 this.MenuCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Selection", "SELECTION");
@@ -1646,22 +1646,22 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresentationCol;
 
             internal TblMenuSelectionLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MenuSelectionLang2","MS2"), config.ExtractTableName("MenuSelectionLang2","MENUSELECTION_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("MenuSelectionLang2", "MS2"), config.ExtractTableName("MenuSelectionLang2", "MENUSELECTION_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Menu"  , "MENU");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Menu", "MENU");
                 this.MenuCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Selection"  , "SELECTION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Selection", "SELECTION");
                 this.SelectionCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Presentation"  , "PRESENTATION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Presentation", "PRESENTATION");
                 this.PresentationCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1688,9 +1688,9 @@ namespace PCAxis.Sql.DbConfig
             public Col DescriptionCol;
 
             internal TblMetaAdm(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MetaAdm","MAD"), config.ExtractTableName("MetaAdm","METAADM"), config.MetaOwner)
+            : base(config.ExtractAliasName("MetaAdm", "MAD"), config.ExtractTableName("MetaAdm", "METAADM"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MetaAdm", "Property", "PROPERTY");
                 this.PropertyCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MetaAdm", "Value", "VALUE");
@@ -1722,9 +1722,9 @@ namespace PCAxis.Sql.DbConfig
             public Col DatabaseRoleCol;
 
             internal TblMetabaseInfo(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("MetabaseInfo","MBI"), config.ExtractTableName("MetabaseInfo","METABASEINFO"), config.MetaOwner)
+            : base(config.ExtractAliasName("MetabaseInfo", "MBI"), config.ExtractTableName("MetabaseInfo", "METABASEINFO"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MetabaseInfo", "Model", "MODEL");
                 this.ModelCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("MetabaseInfo", "ModelVersion", "MODELVERSION");
@@ -1768,9 +1768,9 @@ namespace PCAxis.Sql.DbConfig
             public Col InternalIdCol;
 
             internal TblOrganization(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Organization","ORG"), config.ExtractTableName("Organization","ORGANIZATION"), config.MetaOwner)
+            : base(config.ExtractAliasName("Organization", "ORG"), config.ExtractTableName("Organization", "ORGANIZATION"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Organization", "OrganizationCode", "ORGANIZATIONCODE");
                 this.OrganizationCodeCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Organization", "OrganizationName", "ORGANIZATIONNAME");
@@ -1812,16 +1812,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col UnitCol;
 
             internal TblOrganizationLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("OrganizationLang2","OR2"), config.ExtractTableName("OrganizationLang2","ORGANIZATION_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("OrganizationLang2", "OR2"), config.ExtractTableName("OrganizationLang2", "ORGANIZATION_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationCode"  , "ORGANIZATIONCODE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationCode", "ORGANIZATIONCODE");
                 this.OrganizationCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationName"  , "ORGANIZATIONNAME");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationName", "ORGANIZATIONNAME");
                 this.OrganizationNameCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Department"  , "DEPARTMENT");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Department", "DEPARTMENT");
                 this.DepartmentCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1868,9 +1868,9 @@ namespace PCAxis.Sql.DbConfig
             public Col EmailCol;
 
             internal TblPerson(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Person","PRS"), config.ExtractTableName("Person","PERSON"), config.MetaOwner)
+            : base(config.ExtractAliasName("Person", "PRS"), config.ExtractTableName("Person", "PERSON"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Person", "PersonCode", "PERSONCODE");
                 this.PersonCodeCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Person", "Forename", "FORENAME");
@@ -1924,9 +1924,9 @@ namespace PCAxis.Sql.DbConfig
             public Col PresTextCol;
 
             internal TblSpecialCharacter(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("SpecialCharacter","SPC"), config.ExtractTableName("SpecialCharacter","SPECIALCHARACTER"), config.MetaOwner)
+            : base(config.ExtractAliasName("SpecialCharacter", "SPC"), config.ExtractTableName("SpecialCharacter", "SPECIALCHARACTER"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "CharacterType", "CHARACTERTYPE");
                 this.CharacterTypeCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "PresCharacter", "PRESCHARACTER");
@@ -1963,14 +1963,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresTextCol;
 
             internal TblSpecialCharacterLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("SpecialCharacterLang2","SP2"), config.ExtractTableName("SpecialCharacterLang2","SPECIALCHARACTER_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("SpecialCharacterLang2", "SP2"), config.ExtractTableName("SpecialCharacterLang2", "SPECIALCHARACTER_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "CharacterType"  , "CHARACTERTYPE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "CharacterType", "CHARACTERTYPE");
                 this.CharacterTypeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresCharacter"  , "PRESCHARACTER");
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresCharacter", "PRESCHARACTER");
                 this.PresCharacterCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2001,9 +2001,9 @@ namespace PCAxis.Sql.DbConfig
             public Col CleanTableCol;
 
             internal TblSubTable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("SubTable","STB"), config.ExtractTableName("SubTable","SUBTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("SubTable", "STB"), config.ExtractTableName("SubTable", "SUBTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SubTable", "SubTable", "SUBTABLE");
                 this.SubTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("SubTable", "MainTable", "MAINTABLE");
@@ -2036,14 +2036,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresTextCol;
 
             internal TblSubTableLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("SubTableLang2","ST2"), config.ExtractTableName("SubTableLang2","SUBTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("SubTableLang2", "ST2"), config.ExtractTableName("SubTableLang2", "SUBTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "SubTable"  , "SUBTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "SubTable", "SUBTABLE");
                 this.SubTableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "MainTable"  , "MAINTABLE");
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2082,9 +2082,9 @@ namespace PCAxis.Sql.DbConfig
             public Col StoreColumnNoCol;
 
             internal TblSubTableVariable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("SubTableVariable","STV"), config.ExtractTableName("SubTableVariable","SUBTABLEVARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("SubTableVariable", "STV"), config.ExtractTableName("SubTableVariable", "SUBTABLEVARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "SubTable", "SUBTABLE");
@@ -2126,9 +2126,9 @@ namespace PCAxis.Sql.DbConfig
             public Col DescriptionCol;
 
             internal TblTextCatalog(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("TextCatalog","TXC"), config.ExtractTableName("TextCatalog","TEXTCATALOG"), config.MetaOwner)
+            : base(config.ExtractAliasName("TextCatalog", "TXC"), config.ExtractTableName("TextCatalog", "TEXTCATALOG"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "TextCatalogNo", "TEXTCATALOGNO");
                 this.TextCatalogNoCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "TextType", "TEXTTYPE");
@@ -2166,16 +2166,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col DescriptionCol;
 
             internal TblTextCatalogLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("TextCatalogLang2","TX2"), config.ExtractTableName("TextCatalogLang2","TEXTCATALOG_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("TextCatalogLang2", "TX2"), config.ExtractTableName("TextCatalogLang2", "TEXTCATALOG_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextCatalogNo"  , "TEXTCATALOGNO");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextCatalogNo", "TEXTCATALOGNO");
                 this.TextCatalogNoCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextType"  , "TEXTTYPE");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextType", "TEXTTYPE");
                 this.TextTypeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2218,9 +2218,9 @@ namespace PCAxis.Sql.DbConfig
             public Col StoreFormatCol;
 
             internal TblTimeScale(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("TimeScale","TSC"), config.ExtractTableName("TimeScale","TIMESCALE"), config.MetaOwner)
+            : base(config.ExtractAliasName("TimeScale", "TSC"), config.ExtractTableName("TimeScale", "TIMESCALE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("TimeScale", "TimeScale", "TIMESCALE");
                 this.TimeScaleCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("TimeScale", "PresText", "PRESTEXT");
@@ -2254,12 +2254,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresTextCol;
 
             internal TblTimeScaleLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("TimeScaleLang2","TS2"), config.ExtractTableName("TimeScaleLang2","TIMESCALE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("TimeScaleLang2", "TS2"), config.ExtractTableName("TimeScaleLang2", "TIMESCALE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "TimeScale"  , "TIMESCALE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "TimeScale", "TIMESCALE");
                 this.TimeScaleCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2298,9 +2298,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteCol;
 
             internal TblValue(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Value","VAL"), config.ExtractTableName("Value","VALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Value", "VAL"), config.ExtractTableName("Value", "VALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Value", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Value", "ValueCode", "VALUECODE");
@@ -2347,18 +2347,18 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col ValueTextLCol;
 
             internal TblValueLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueLang2","VA2"), config.ExtractTableName("ValueLang2","VALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueLang2", "VA2"), config.ExtractTableName("ValueLang2", "VALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValuePool"  , "VALUEPOOL");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextS"  , "VALUETEXTS");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextS", "VALUETEXTS");
                 this.ValueTextSCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextL"  , "VALUETEXTL");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextL", "VALUETEXTL");
                 this.ValueTextLCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2401,9 +2401,9 @@ namespace PCAxis.Sql.DbConfig
             public Col ValueTextX4Col;
 
             internal TblValueExtra(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueExtra","VXT"), config.ExtractTableName("ValueExtra","VALUEEXTRA"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueExtra", "VXT"), config.ExtractTableName("ValueExtra", "VALUEEXTRA"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueExtra", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ValueExtra", "ValueCode", "VALUECODE");
@@ -2462,22 +2462,22 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col ValueTextX4Col;
 
             internal TblValueExtraLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueExtraLang2","VX2"), config.ExtractTableName("ValueExtraLang2","VALUEEXTRA_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueExtraLang2", "VX2"), config.ExtractTableName("ValueExtraLang2", "VALUEEXTRA_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValuePool"  , "VALUEPOOL");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX1"  , "VALUETEXTX1");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX1", "VALUETEXTX1");
                 this.ValueTextX1Col = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX2"  , "VALUETEXTX2");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX2", "VALUETEXTX2");
                 this.ValueTextX2Col = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX3"  , "VALUETEXTX3");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX3", "VALUETEXTX3");
                 this.ValueTextX3Col = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX4"  , "VALUETEXTX4");
+                tmpColumnName = config.ExtractColumnName("ValueExtraLang2", "ValueTextX4", "VALUETEXTX4");
                 this.ValueTextX4Col = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2520,9 +2520,9 @@ namespace PCAxis.Sql.DbConfig
             public Col SortCodeCol;
 
             internal TblValueGroup(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueGroup","VPL"), config.ExtractTableName("ValueGroup","VALUEGROUP"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueGroup", "VPL"), config.ExtractTableName("ValueGroup", "VALUEGROUP"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "Grouping", "GROUPING");
                 this.GroupingCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "GroupCode", "GROUPCODE");
@@ -2571,18 +2571,18 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col SortCodeCol;
 
             internal TblValueGroupLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueGroupLang2","VL2"), config.ExtractTableName("ValueGroupLang2","VALUEGROUP_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueGroupLang2", "VL2"), config.ExtractTableName("ValueGroupLang2", "VALUEGROUP_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "GroupCode"  , "GROUPCODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "GroupCode", "GROUPCODE");
                 this.GroupCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValuePool"  , "VALUEPOOL");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2625,9 +2625,9 @@ namespace PCAxis.Sql.DbConfig
             public Col KDBIdCol;
 
             internal TblValuePool(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValuePool","VPL"), config.ExtractTableName("ValuePool","VALUEPOOL"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValuePool", "VPL"), config.ExtractTableName("ValuePool", "VALUEPOOL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValuePoolAlias", "VALUEPOOL");
@@ -2666,14 +2666,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresTextCol;
 
             internal TblValuePoolLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValuePoolLang2","VP2"), config.ExtractTableName("ValuePoolLang2","VALUEPOOL_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValuePoolLang2", "VP2"), config.ExtractTableName("ValuePoolLang2", "VALUEPOOL_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePool"  , "VALUEPOOL");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePoolAlias"  , "VALUEPOOLALIAS");
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePoolAlias", "VALUEPOOLALIAS");
                 this.ValuePoolAliasCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2728,9 +2728,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteCol;
 
             internal TblValueSet(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueSet","VST"), config.ExtractTableName("ValueSet","VALUESET"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueSet", "VST"), config.ExtractTableName("ValueSet", "VALUESET"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueSet", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ValueSet", "PresText", "PRESTEXT");
@@ -2775,14 +2775,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col DescriptionCol;
 
             internal TblValueSetLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueSetLang2","VS2"), config.ExtractTableName("ValueSetLang2","VALUESET_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueSetLang2", "VS2"), config.ExtractTableName("ValueSetLang2", "VALUESET_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "ValueSet"  , "VALUESET");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2805,9 +2805,9 @@ namespace PCAxis.Sql.DbConfig
             public Col GroupingCol;
 
             internal TblValueSetGrouping(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("ValueSetGrouping","VBL"), config.ExtractTableName("ValueSetGrouping","VALUESETGROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueSetGrouping", "VBL"), config.ExtractTableName("ValueSetGrouping", "VALUESETGROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueSetGrouping", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("ValueSetGrouping", "Grouping", "GROUPING");
@@ -2841,9 +2841,9 @@ namespace PCAxis.Sql.DbConfig
             public Col FootnoteCol;
 
             internal TblVariable(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("Variable","VBL"), config.ExtractTableName("Variable","VARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Variable", "VBL"), config.ExtractTableName("Variable", "VARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Variable", "Variable", "VARIABLE");
                 this.VariableCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("Variable", "PresText", "PRESTEXT");
@@ -2871,12 +2871,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col PresTextCol;
 
             internal TblVariableLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("VariableLang2","VB2"), config.ExtractTableName("VariableLang2","VARIABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("VariableLang2", "VB2"), config.ExtractTableName("VariableLang2", "VARIABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("VariableLang2", "Variable"  , "VARIABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("VariableLang2", "Variable", "VARIABLE");
                 this.VariableCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VariableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("VariableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2907,9 +2907,9 @@ namespace PCAxis.Sql.DbConfig
             public Col SortCodeCol;
 
             internal TblVSValue(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("VSValue","VVL"), config.ExtractTableName("VSValue","VSVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("VSValue", "VVL"), config.ExtractTableName("VSValue", "VSVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("VSValue", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Col(tmpColumnName, this.Alias);
                 tmpColumnName = config.ExtractColumnName("VSValue", "ValuePool", "VALUEPOOL");
@@ -2947,16 +2947,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Col SortCodeCol;
 
             internal TblVSValueLang2(SqlDbConfig_22 config)
-            : base(config.ExtractAliasName("VSValueLang2","VV2"), config.ExtractTableName("VSValueLang2","VSVALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("VSValueLang2", "VV2"), config.ExtractTableName("VSValueLang2", "VSVALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueSet"  , "VALUESET");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValuePool"  , "VALUEPOOL");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Col(tmpColumnName, this.Alias, this.Suffixes);
             }
 

@@ -1,6 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 using PCAxis.Sql.QueryLib_24;
 
 namespace PCAxis.Sql.Parser_24
@@ -8,7 +7,7 @@ namespace PCAxis.Sql.Parser_24
     public class PXSqlTimeScale
     {
         private TimeScaleRow tsRow;
-       
+
         private bool doTimeScalePres = false;
 
         /// <summary>
@@ -60,12 +59,12 @@ namespace PCAxis.Sql.Parser_24
         /// </summary>
         public string getPresText(string langCode)
         {
-            
+
             return tsRow.texts[langCode].PresText;
         }
-        
-        
-       
+
+
+
         /// <summary>
         /// Contructor
         /// </summary>

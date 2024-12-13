@@ -1,10 +1,13 @@
-namespace PCAxis.Sql.Parser_21 {
+namespace PCAxis.Sql.Parser_21
+{
 
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Data;
+
     using log4net;
+
     using PCAxis.Sql.Parser;
 
     /// <summary>
@@ -20,7 +23,8 @@ namespace PCAxis.Sql.Parser_21 {
     /// Factor_i = 1
     /// index = Factor_k*(k-1) + Factor_j*(j-1) + Factor_i(i-1) </remarks>
     /// </summary>
-    public class PXSqlData_21:PXSqlData  {
+    public class PXSqlData_21 : PXSqlData
+    {
         /// <summary>The Log</summary>
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlData_21));
         #region members and propreties
@@ -72,10 +76,10 @@ namespace PCAxis.Sql.Parser_21 {
                 return null; //not supported yet in this version
             }
         }
-        
+
         private string sqlString = "select /" + "*+STAR_TRANSFORMATION *" + "/ ";
 
-       
+
         /// <summary>
         /// The number of expected in-rows per out-row due to elimination by sum.
         /// (the product of the number of possible codes for each 
@@ -105,11 +109,12 @@ namespace PCAxis.Sql.Parser_21 {
         #endregion members and propreties
 
         #region contructors
-        public PXSqlData_21(PXSqlMeta_21 mPXSqlMeta) {
+        public PXSqlData_21(PXSqlMeta_21 mPXSqlMeta)
+        {
             log.Debug("Start PXSqlData mPXSqlMeta.Name: " + mPXSqlMeta.Name);
 
             this.mMeta = mPXSqlMeta;
-            
+
 
             symbols = mMeta.mPxsqlNpm;
 
@@ -124,11 +129,13 @@ namespace PCAxis.Sql.Parser_21 {
 
             this.useSum = hasGrouping || eliminationBySum;
 
-            foreach (PXSqlVariable var in mMeta.Stubs) {
+            foreach (PXSqlVariable var in mMeta.Stubs)
+            {
                 keysInReverseOutputOrder.Add(var.Name);
             }
 
-            foreach (PXSqlVariable var in mMeta.Headings) {
+            foreach (PXSqlVariable var in mMeta.Headings)
+            {
                 keysInReverseOutputOrder.Add(var.Name);
             }
             keysInReverseOutputOrder.Reverse();
@@ -138,14 +145,20 @@ namespace PCAxis.Sql.Parser_21 {
             mValueCount = new Dictionary<string, int>(numberOfOutputVariables);
             mIndexFactor = new Dictionary<string, int>(numberOfOutputVariables);
 
-            foreach (PXSqlVariable var in mMeta.Variables.Values) {
-                if (var.IsEliminatedByValue) {
+            foreach (PXSqlVariable var in mMeta.Variables.Values)
+            {
+                if (var.IsEliminatedByValue)
+                {
                     log.Debug(var.Name + " Is Eliminated By Value");
                     keysOfEliminatedByValue.Add(var.Name);
-                } else if (var.IsContentVariable) {
+                }
+                else if (var.IsContentVariable)
+                {
                     log.Debug(var.Name + " Is Content Variable");
                     theKeyOfTheContentsVariableVariable = var.Name;
-                } else if (!var.isSelected) {
+                }
+                else if (!var.isSelected)
+                {
                     log.Debug(var.Name + " Is Eliminated By SUM");
                     keysOfEliminatedBySum.Add(var.Name);
                     eliminationFactor *= var.TotalNumberOfValuesInDB;
@@ -153,17 +166,22 @@ namespace PCAxis.Sql.Parser_21 {
             }
 
             #region init contKeys
-            if (String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable)) { //just one contVar
+            if (String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable))
+            { //just one contVar
                 throw new ApplicationException("Bug");
                 // the size of ContentsVariableVariable should not influence how it is stored 
                 //                contKeys.Add( mMeta.FirstContents );
-            } else {
+            }
+            else
+            {
                 PXSqlVariable theContentsVariable = mMeta.Variables[theKeyOfTheContentsVariableVariable];
-                foreach (PXSqlValue contCode in theContentsVariable.GetValuesForParsing()) {
+                foreach (PXSqlValue contCode in theContentsVariable.GetValuesForParsing())
+                {
                     //contKeys.Add(contCode.ValueCode);
                     contKeys.Add(contCode.ContentsCode); // 2010.05.07  replaces line above because valuecode is now Prescode from contents. New contentscode added to PXSqlValue
                 }
-                foreach (string contCode in theContentsVariable.Values.Keys) {
+                foreach (string contCode in theContentsVariable.Values.Keys)
+                {
                     //    contKeys.Add(contCode);
                 }
 
@@ -180,16 +198,19 @@ namespace PCAxis.Sql.Parser_21 {
 
             anyDefaultMRNotZero = false;  // MR = missing record
             anyDefaultMROfCat3 = false;   // MR = missing record
-            foreach (string contCode in contKeys) {
+            foreach (string contCode in contKeys)
+            {
                 PXSqlContent tmpCont = mMeta.Contents[contCode];
                 log.Debug("PXSqlContents for " + contCode + " PresCellsZero:" + tmpCont.PresCellsZero + " PresMissingLine:" + tmpCont.PresMissingLine);
 
                 CategoryOfCellsInMissingRows[contCount2] = tmpCont.CategoryOfCellsInMissingRows;
                 ValueOfCellsInMissingRows[contCount2] = tmpCont.ValueOfCellsInMissingRows;
 
-                if (!CategoryOfCellsInMissingRows[contCount2].Equals("0")) {
+                if (!CategoryOfCellsInMissingRows[contCount2].Equals("0"))
+                {
                     anyDefaultMRNotZero = true;
-                    if (CategoryOfCellsInMissingRows[contCount2].Equals("3")) {
+                    if (CategoryOfCellsInMissingRows[contCount2].Equals("3"))
+                    {
                         anyDefaultMROfCat3 = true;
                     }
                 }
@@ -207,18 +228,21 @@ namespace PCAxis.Sql.Parser_21 {
         #endregion contructors
 
 
-        private void CreateSqlString() {
+        private void CreateSqlString()
+        {
             int TempNumber = 25;
-            
+
             string sqlJoinString = "";
             string sqlGroupByString = "";
             string tempGroupFactorSQL = "";
 
 
-            foreach (string key in keysInReverseOutputOrder) {
+            foreach (string key in keysInReverseOutputOrder)
+            {
                 PXSqlVariable var = mMeta.Variables[key];
-               
-                if (!var.IsContentVariable) {
+
+                if (!var.IsContentVariable)
+                {
                     #region if (!var.IsContentVariable)
 
                     var.TempTableNo = TempNumber.ToString();
@@ -232,15 +256,17 @@ namespace PCAxis.Sql.Parser_21 {
                             throw new PCAxis.Sql.Exceptions.DbPxsMismatchException(2, var.Name);
                         }
 
-                       
 
-                        if(var.Values.Count != valueCodes.Count ) {
+
+                        if (var.Values.Count != valueCodes.Count)
+                        {
                             log.Warn("There seems to be an inconsistency in which values should be included...");
                         }
 
                         var.TempTableName = mMeta.MetaQuery.MakeTempTable(var.Name, var.TempTableNo, valueCodes, 500);
 
-                    } else
+                    }
+                    else
                     {
 
                         List<PXSqlGroup> groupCodes = ((PXSqlVariableClassification)var).GetGroupsForParsing();
@@ -258,13 +284,16 @@ namespace PCAxis.Sql.Parser_21 {
                     sqlJoinString += " JOIN " + var.TempTableName + " ON dt." + key +
                             " = " + var.TempTableName + ".a" + key + " ";
 
-                    if (useSum) {
+                    if (useSum)
+                    {
                         sqlGroupByString += ", Groupnr" + var.TempTableNo;
                     }
 
-                    if (npm) {
+                    if (npm)
+                    {
                         //We need the grupp-variables in case of a DataNoteCell
-                        if (useSum) {
+                        if (useSum)
+                        {
                             sqlGroupByString += ", Group" + var.TempTableNo;
                         }
                         DataNoteCellId_Columns.Add("Group" + var.TempTableNo);
@@ -274,8 +303,10 @@ namespace PCAxis.Sql.Parser_21 {
                     // done:needGroupingFactor bør vel erstattes med needGroupingFactor && <denne variabelen bruker grouping
 
                     // tempGroupFactorSQL will be used in an UPDATE statement to adjust the GroupFactor in the temptables
-                    if (needGroupingFactor && var.UsesGrouping) {
-                        if (!String.IsNullOrEmpty(tempGroupFactorSQL)) {
+                    if (needGroupingFactor && var.UsesGrouping)
+                    {
+                        if (!String.IsNullOrEmpty(tempGroupFactorSQL))
+                        {
                             tempGroupFactorSQL += " * ";
                         }
                         tempGroupFactorSQL += "MAX(GroupFactor" + var.TempTableNo + ")";
@@ -284,8 +315,10 @@ namespace PCAxis.Sql.Parser_21 {
                     #endregion sql
                     #endregion
                 }   // (!var.IsContentVariable)
-                else {
-                    if (npm) {
+                else
+                {
+                    if (npm)
+                    {
                         DataNoteCellId_Columns.Add("");
                     }
                     log.Debug(" is ContentVariable ");
@@ -297,10 +330,14 @@ namespace PCAxis.Sql.Parser_21 {
             // INDEXFACTOR
 
             string lPrevKey = "";
-            foreach (string key in keysInReverseOutputOrder) {
-                if (String.IsNullOrEmpty(lPrevKey)) {
+            foreach (string key in keysInReverseOutputOrder)
+            {
+                if (String.IsNullOrEmpty(lPrevKey))
+                {
                     mIndexFactor.Add(key, 1);
-                } else {
+                }
+                else
+                {
                     mIndexFactor.Add(key, mIndexFactor[lPrevKey] * mValueCount[lPrevKey]);
                 }
                 lPrevKey = key;
@@ -311,11 +348,13 @@ namespace PCAxis.Sql.Parser_21 {
 
             // CONTENTS 
 
-            foreach (string contCode in contKeys) {
+            foreach (string contCode in contKeys)
+            {
                 sqlString += getContSelectPart(contCode, useSum, npm);
             }
 
-            if (useSum) {
+            if (useSum)
+            {
                 sqlString += " COUNT(*) AS SqlMarx777777, ";
             } //else {
             //  sqlString += " 1 SqlMarx777777 , ";
@@ -325,8 +364,10 @@ namespace PCAxis.Sql.Parser_21 {
 
             string mindexSQLString = " (";
 
-            foreach (string key in keysInReverseOutputOrder) {
-                if (key.Equals(theKeyOfTheContentsVariableVariable)) {
+            foreach (string key in keysInReverseOutputOrder)
+            {
+                if (key.Equals(theKeyOfTheContentsVariableVariable))
+                {
                     continue;
                 }
                 mindexSQLString += " " + mIndexFactor[key] +
@@ -336,7 +377,8 @@ namespace PCAxis.Sql.Parser_21 {
 
             sqlString += mindexSQLString;
 
-            if (needGroupingFactor) {
+            if (needGroupingFactor)
+            {
                 sqlString += ", " + tempGroupFactorSQL + " GroupFactor ";
             }
 
@@ -345,14 +387,17 @@ namespace PCAxis.Sql.Parser_21 {
             sqlString += getFROMClause() + sqlJoinString;
 
             sqlString += "\n WHERE 1=1 ";
-            foreach (string key in keysOfEliminatedByValue) {
-                foreach (PXSqlValue val in mMeta.Variables[key].Values.Values) { // there will only be one
+            foreach (string key in keysOfEliminatedByValue)
+            {
+                foreach (PXSqlValue val in mMeta.Variables[key].Values.Values)
+                { // there will only be one
                     sqlString += " AND " + key + " = '" + val.ValueCode + "'";
                 }
             }
 
             // GROUP BY
-            if (useSum) {
+            if (useSum)
+            {
                 sqlString += " GROUP BY " + sqlGroupByString.Substring(1);
             }
 
@@ -364,7 +409,8 @@ namespace PCAxis.Sql.Parser_21 {
         /// creates and executes the sqlString and returns a double array
         /// </summary>
         /// <returns></returns>
-        override public double[] CreateMatrix() {
+        override public double[] CreateMatrix()
+        {
             log.Debug("Start CreateMatrix()");
 
             needGroupingFactor = anyDefaultMROfCat3 && hasGrouping;
@@ -376,7 +422,8 @@ namespace PCAxis.Sql.Parser_21 {
 
             // the factor OfTheContentsVariableVariable:
             int contFactor = 100;// the value does not matter. it is either overwritten or  multiplied by 0  
-            if (!String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable)) {
+            if (!String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable))
+            {
                 contFactor = mIndexFactor[theKeyOfTheContentsVariableVariable];
             }
 
@@ -387,19 +434,28 @@ namespace PCAxis.Sql.Parser_21 {
             //anyDefaultMRNotZero = true;
 
 
-            if (anyDefaultMRNotZero) {
-                if (String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable)) {
-                    for (int i = 0; i < mSize; i++) {
+            if (anyDefaultMRNotZero)
+            {
+                if (String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable))
+                {
+                    for (int i = 0; i < mSize; i++)
+                    {
                         myOut[i] = ValueOfCellsInMissingRows[0];
                     }
-                } else {
+                }
+                else
+                {
                     int prevFactor = contFactor * contKeys.Count;
-                    for (int cont = 0; cont < contKeys.Count; cont++) {
-                        if (ValueOfCellsInMissingRows[cont] == 0) {
+                    for (int cont = 0; cont < contKeys.Count; cont++)
+                    {
+                        if (ValueOfCellsInMissingRows[cont] == 0)
+                        {
                             continue;  //myOut is already 0
                         }
-                        for (int k = 0; k < mSize; k += prevFactor) {
-                            for (int l = 0; l < contFactor; l++) {
+                        for (int k = 0; k < mSize; k += prevFactor)
+                        {
+                            for (int l = 0; l < contFactor; l++)
+                            {
                                 myOut[l + cont * contFactor + k] = ValueOfCellsInMissingRows[cont];
                             }
                         }
@@ -424,20 +480,26 @@ namespace PCAxis.Sql.Parser_21 {
             bool hasNoMissingRows = true;
             int missingRowsCnt = 0;
             log.Debug("npm :" + npm.ToString() + " useSum:" + useSum.ToString() + " Row count: " + myRows.Count.ToString());
-            if ((!npm) && (!useSum)) {
+            if ((!npm) && (!useSum))
+            {
                 #region not npm and not useSum
-                foreach (DataRow sqlRow in myRows) {
+                foreach (DataRow sqlRow in myRows)
+                {
                     contCount = 0;
 
                     mIndex = int.Parse(sqlRow[MINDEX_COL].ToString());
-                    foreach (string contCode in contKeys) {
+                    foreach (string contCode in contKeys)
+                    {
                         arrayIndex = mIndex + contFactor * contCount;
                         hasBlankCells = int.Parse(sqlRow[contCode + "_NilCnt"].ToString()) > 0;
                         #region DNA or normal value
-                        if (hasBlankCells) {
+                        if (hasBlankCells)
+                        {
                             //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                             myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                        } else {
+                        }
+                        else
+                        {
                             myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                         }
                         #endregion DNA or normal value
@@ -451,52 +513,73 @@ namespace PCAxis.Sql.Parser_21 {
 
                 }
                 #endregion not npm and not useSum
-            } else if ((!npm) && (useSum)) {
+            }
+            else if ((!npm) && (useSum))
+            {
                 #region not npm and useSum
-                
-                foreach (DataRow sqlRow in myRows) {
+
+                foreach (DataRow sqlRow in myRows)
+                {
                     contCount = 0;
 
                     mIndex = int.Parse(sqlRow[MINDEX_COL].ToString());
 
-                    foreach (string contCode in contKeys) {
+                    foreach (string contCode in contKeys)
+                    {
 
                         arrayIndex = mIndex + contFactor * contCount;
                         hasBlankCells = int.Parse(sqlRow[contCode + "_NilCnt"].ToString()) > 0;
-                       // log.Debug(sqlRow[contCode].ToString());
-                        
+                        // log.Debug(sqlRow[contCode].ToString());
 
-                        if (!CategoryOfCellsInMissingRows[contCount].Equals("3")) {
+
+                        if (!CategoryOfCellsInMissingRows[contCount].Equals("3"))
+                        {
                             //missing rows are ignored
                             #region DNA or normal value
-                            if (hasBlankCells) {
+                            if (hasBlankCells)
+                            {
                                 //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                 myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                            } else {
+                            }
+                            else
+                            {
                                 myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                             }
                             #endregion DNA or normal value
-                        } else {
+                        }
+                        else
+                        {
                             //must look for missing rows
-                            if (needGroupingFactor) {
+                            if (needGroupingFactor)
+                            {
                                 hasNoMissingRows = eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) <= int.Parse(sqlRow["SqlMarx777777"].ToString());
-                            } else {
+                            }
+                            else
+                            {
                                 hasNoMissingRows = eliminationFactor <= int.Parse(sqlRow["SqlMarx777777"].ToString());
 
                             }
-                            if (hasNoMissingRows) {
+                            if (hasNoMissingRows)
+                            {
                                 #region DNA or normal value
-                                if (hasBlankCells) {
+                                if (hasBlankCells)
+                                {
                                     //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                     myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                                } else {
+                                }
+                                else
+                                {
                                     myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                 }
                                 #endregion DNA or normal value
-                            } else {  //has missing row (of cat 3)
-                                if (hasBlankCells) {// and blank cells ( = DataNotAvailable = cat. 3
+                            }
+                            else
+                            {  //has missing row (of cat 3)
+                                if (hasBlankCells)
+                                {// and blank cells ( = DataNotAvailable = cat. 3
                                     //if (ValueOfCellsInMissingRows[contCount] != symbols.getDataNotAvailableDouble()) {
-                                    if (ValueOfCellsInMissingRows[contCount] != symbols.DataNotAvailableMagic) {
+                                    if (ValueOfCellsInMissingRows[contCount] != symbols.DataNotAvailableMagic)
+                                    {
                                         //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                         myOut[arrayIndex] = symbols.DataSymbolSumMagic;
                                     } // else myOut[arrayIndex] =ValueOfCellsInMissingRows[contCount] done in init
@@ -516,39 +599,54 @@ namespace PCAxis.Sql.Parser_21 {
 
                 }
                 #endregion not npm and useSum
-            } else if ((npm) && (!useSum)) {
+            }
+            else if ((npm) && (!useSum))
+            {
 
                 #region npm and not useSum
 
-                foreach (DataRow sqlRow in myRows) {
+                foreach (DataRow sqlRow in myRows)
+                {
 
                     contCount = 0;
                     mIndex = int.Parse(sqlRow[MINDEX_COL].ToString());
-                    foreach (string contCode in contKeys) {
+                    foreach (string contCode in contKeys)
+                    {
                         arrayIndex = mIndex + contFactor * contCount;
                         hasBlankCells = int.Parse(sqlRow[contCode + "_NilCnt"].ToString()) > 0;
                         //if blankCellCnt > 0 has cat. 3 missing either for .._XMAX or the default (=DNA) 
 
 
                         string npmMax = sqlRow[contCode + "_XMAX"].ToString();
-                        if (String.IsNullOrEmpty(npmMax)) {
+                        if (String.IsNullOrEmpty(npmMax))
+                        {
                             #region DNA or normal value
-                            if (hasBlankCells) {
+                            if (hasBlankCells)
+                            {
                                 //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                 myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                            } else {
+                            }
+                            else
+                            {
                                 myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                             }
                             #endregion DNA or normal value
-                        } else if (npmMax.StartsWith("B1")) {
-                            if (hasBlankCells) {
+                        }
+                        else if (npmMax.StartsWith("B1"))
+                        {
+                            if (hasBlankCells)
+                            {
                                 //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                 myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                            } else {
+                            }
+                            else
+                            {
                                 myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                 addDataNoteCell(npmMax.Substring(2), sqlRow, contCode);
                             }
-                        } else {// cat 2 or 3
+                        }
+                        else
+                        {// cat 2 or 3
                             //myOut[arrayIndex] = symbols.getSymbolsNoByCharType(npmMax.Substring(2));
                             myOut[arrayIndex] = symbols.DataSymbolNMagic(npmMax.Substring(2));
                         }
@@ -565,56 +663,78 @@ namespace PCAxis.Sql.Parser_21 {
 
                 }
                 #endregion npm and not useSum
-            } else { // npm && useSum
+            }
+            else
+            { // npm && useSum
 
                 #region npm and useSum
-                foreach (DataRow sqlRow in myRows) {
+                foreach (DataRow sqlRow in myRows)
+                {
                     contCount = 0;
                     mIndex = int.Parse(sqlRow[MINDEX_COL].ToString());
 
-                    foreach (string contCode in contKeys) {
+                    foreach (string contCode in contKeys)
+                    {
                         arrayIndex = mIndex + contFactor * contCount;
 
                         hasBlankCells = int.Parse(sqlRow[contCode + "_NilCnt"].ToString()) - int.Parse(sqlRow[contCode + "_XCOUNT"].ToString()) > 0;
                         //if blankCellCnt > 0 har type 3 missing enten pga tom/blank celle
                         string npmMax = sqlRow[contCode + "_XMAX"].ToString();
 
-                        if (String.IsNullOrEmpty(npmMax)) {
+                        if (String.IsNullOrEmpty(npmMax))
+                        {
                             #region npmMax missing
 
                             // the region npmMax missing is a copy from  !npm && useSum:
-                            if (!CategoryOfCellsInMissingRows[contCount].Equals("3")) {
+                            if (!CategoryOfCellsInMissingRows[contCount].Equals("3"))
+                            {
                                 //missing rows are ignored
                                 #region DNA or normal value
-                                if (hasBlankCells) {
+                                if (hasBlankCells)
+                                {
                                     //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                     myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                                } else {
+                                }
+                                else
+                                {
                                     myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                 }
                                 #endregion DNA or normal value
-                            } else {
+                            }
+                            else
+                            {
                                 //must look for missing rows
-                                if (needGroupingFactor) {
+                                if (needGroupingFactor)
+                                {
                                     hasNoMissingRows = eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) <= int.Parse(sqlRow["SqlMarx777777"].ToString());
-                                } else {
+                                }
+                                else
+                                {
                                     hasNoMissingRows = eliminationFactor <= int.Parse(sqlRow["SqlMarx777777"].ToString());
 
                                 }
 
-                                if (hasNoMissingRows) { // no missing rows
+                                if (hasNoMissingRows)
+                                { // no missing rows
                                     #region DNA or normal value
-                                    if (hasBlankCells) {
+                                    if (hasBlankCells)
+                                    {
                                         //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                         myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                     }
                                     #endregion DNA or normal value
-                                } else {  //has missing row (of cat 3)
-                                    if (hasBlankCells) {// and blank cells ( = DataNotAvailable = cat. 3
+                                }
+                                else
+                                {  //has missing row (of cat 3)
+                                    if (hasBlankCells)
+                                    {// and blank cells ( = DataNotAvailable = cat. 3
                                         //if (ValueOfCellsInMissingRows[contCount] != symbols.getDataNotAvailableDouble()) {
-                                        if (ValueOfCellsInMissingRows[contCount] != symbols.DataNotAvailableMagic) {
+                                        if (ValueOfCellsInMissingRows[contCount] != symbols.DataNotAvailableMagic)
+                                        {
                                             //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                             myOut[arrayIndex] = symbols.DataSymbolSumMagic;
                                         } // else myOut[arrayIndex] =ValueOfCellsInMissingRows[contCount] done in init
@@ -623,35 +743,52 @@ namespace PCAxis.Sql.Parser_21 {
                             }
                             #endregion npmMax missing
 
-                        } else if (npmMax.StartsWith("C3")) {
+                        }
+                        else if (npmMax.StartsWith("C3"))
+                        {
 
                             #region npmMax is 3
                             // value will be a cat.3 : either DataSymbolSum or npmMax
                             string npm3Min = sqlRow[contCode + "_3MIN"].ToString();
-                            if (!npmMax.Equals("C3" + npm3Min)) {
+                            if (!npmMax.Equals("C3" + npm3Min))
+                            {
                                 //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                 myOut[arrayIndex] = symbols.DataSymbolSumMagic;
                                 //} else if (hasBlankCells && symbols.getDoubleByCharacterType(npm3Min) != symbols.getDataNotAvailableDouble()) {
-                            } else if (hasBlankCells && symbols.DataSymbolNMagic(npm3Min) != symbols.DataNotAvailableMagic) {
+                            }
+                            else if (hasBlankCells && symbols.DataSymbolNMagic(npm3Min) != symbols.DataNotAvailableMagic)
+                            {
                                 //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                 myOut[arrayIndex] = symbols.DataSymbolSumMagic;
-                            } else {
-                                if (!CategoryOfCellsInMissingRows[contCount].Equals("3")) { //ignore missing rows 
+                            }
+                            else
+                            {
+                                if (!CategoryOfCellsInMissingRows[contCount].Equals("3"))
+                                { //ignore missing rows 
                                     //myOut[arrayIndex] = symbols.getDoubleByCharacterType(npm3Min);
                                     myOut[arrayIndex] = symbols.DataSymbolNMagic(npm3Min);
-                                } else { // must check for missing rows
+                                }
+                                else
+                                { // must check for missing rows
                                     //must look for missing rows
-                                    if (needGroupingFactor) {
+                                    if (needGroupingFactor)
+                                    {
                                         hasNoMissingRows = 1 > eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) - int.Parse(sqlRow["SqlMarx777777"].ToString());
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         hasNoMissingRows = 1 > eliminationFactor - int.Parse(sqlRow["SqlMarx777777"].ToString());
                                     }
 
-                                    if (hasNoMissingRows) {
+                                    if (hasNoMissingRows)
+                                    {
                                         //myOut[arrayIndex] = symbols.getDoubleByCharacterType(npm3Min);
                                         myOut[arrayIndex] = symbols.DataSymbolNMagic(npm3Min);
-                                    } else {  //has missing row
-                                        if (ValueOfCellsInMissingRows[contCount] != symbols.DataSymbolNMagic(npm3Min)) {
+                                    }
+                                    else
+                                    {  //has missing row
+                                        if (ValueOfCellsInMissingRows[contCount] != symbols.DataSymbolNMagic(npm3Min))
+                                        {
                                             //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                             myOut[arrayIndex] = symbols.DataSymbolSumMagic;
                                         } // else : nmpMax equals the initialization-value 
@@ -662,27 +799,41 @@ namespace PCAxis.Sql.Parser_21 {
                             #endregion npmMax is 3
 
                             //below: npmMax is cat. 1 or 2  but blank cells or missing rows migth give cat.3
-                        } else if (hasBlankCells) {// must add DataNotAvaliable
+                        }
+                        else if (hasBlankCells)
+                        {// must add DataNotAvaliable
                             #region has blankCell
-                            if (!CategoryOfCellsInMissingRows[contCount].Equals("3")) { //ignore missing rows 
+                            if (!CategoryOfCellsInMissingRows[contCount].Equals("3"))
+                            { //ignore missing rows 
                                 //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                 myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                            } else { // must look for missing rows
-                                if (needGroupingFactor) {
+                            }
+                            else
+                            { // must look for missing rows
+                                if (needGroupingFactor)
+                                {
                                     hasNoMissingRows = 1 > eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) - int.Parse(sqlRow["SqlMarx777777"].ToString());
-                                } else {
+                                }
+                                else
+                                {
                                     hasNoMissingRows = 1 > eliminationFactor - int.Parse(sqlRow["SqlMarx777777"].ToString());
                                 }
 
-                                if (hasNoMissingRows) {
+                                if (hasNoMissingRows)
+                                {
                                     //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                     myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                                } else { //has missing rows
+                                }
+                                else
+                                { //has missing rows
                                     //if (ValueOfCellsInMissingRows[contCount] == symbols.getDataNotAvailableDouble()) {
-                                    if (ValueOfCellsInMissingRows[contCount] == symbols.DataNotAvailableMagic) {
+                                    if (ValueOfCellsInMissingRows[contCount] == symbols.DataNotAvailableMagic)
+                                    {
                                         //myOut[arrayIndex] = symbols.getDataNotAvailableDouble();
                                         myOut[arrayIndex] = symbols.DataNotAvailableMagic;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         //myOut[arrayIndex] = symbols.getDataSymbolSumDouble();
                                         myOut[arrayIndex] = symbols.DataSymbolSumMagic;
                                     }
@@ -691,61 +842,90 @@ namespace PCAxis.Sql.Parser_21 {
                             }
                             #endregion has blankCell
                             //below: npmMax is cat. 1 or 2 , no blank cells, but missing rows migth give cat.3
-                        } else if (CategoryOfCellsInMissingRows[contCount].Equals("3")) {
+                        }
+                        else if (CategoryOfCellsInMissingRows[contCount].Equals("3"))
+                        {
                             #region cat missingcells is 3
                             // must look for missing rows
-                            if (needGroupingFactor) {
+                            if (needGroupingFactor)
+                            {
                                 missingRowsCnt = eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) - int.Parse(sqlRow["SqlMarx777777"].ToString());
-                            } else {
+                            }
+                            else
+                            {
                                 missingRowsCnt = eliminationFactor - int.Parse(sqlRow["SqlMarx777777"].ToString());
                             }
-                            if (missingRowsCnt < 1) { // no missing rows
+                            if (missingRowsCnt < 1)
+                            { // no missing rows
                                 string npm1Min = sqlRow[contCode + "_1MIN"].ToString();
-                                if (String.IsNullOrEmpty(npm1Min)) {//potential cat2 
+                                if (String.IsNullOrEmpty(npm1Min))
+                                {//potential cat2 
 
-                                    if (sqlRow["SqlMarx777777"].ToString().Equals(sqlRow[contCode + "_XCOUNT"].ToString())) {
+                                    if (sqlRow["SqlMarx777777"].ToString().Equals(sqlRow[contCode + "_XCOUNT"].ToString()))
+                                    {
                                         // cat 2 !
                                         //myOut[arrayIndex] = symbols.getDoubleByCharacterType(npmMax.Substring(2));
                                         myOut[arrayIndex] = symbols.DataSymbolNMagic(npmMax.Substring(2));
-                                    } else { // normal number 
+                                    }
+                                    else
+                                    { // normal number 
                                         myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                     }
-                                } else { // cat.1 !
+                                }
+                                else
+                                { // cat.1 !
                                     myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
-                                    if (npmMax.Equals("B1" + npm1Min)) {
+                                    if (npmMax.Equals("B1" + npm1Min))
+                                    {
                                         addDataNoteCell(npm1Min, sqlRow, contCode);
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         addDataNoteSum(sqlRow, contCode);
                                     }
                                 }
                             } //else    has missing rows : myOut[arrayIndex] = init value
                             #endregion cat missingcells is 3
                             //below:npmMax is cat. 1 or 2 , no blank cells, missing rows are kat 0 or 2 ( cat 1 is not valid)
-                        } else if (npmMax.StartsWith("B1")) { // missing row don't matter
+                        }
+                        else if (npmMax.StartsWith("B1"))
+                        { // missing row don't matter
                             #region npmMax is 1
                             myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                             string npm1Min = sqlRow[contCode + "_1MIN"].ToString();
-                            if (npmMax.Equals("B1" + npm1Min)) {
+                            if (npmMax.Equals("B1" + npm1Min))
+                            {
                                 addDataNoteCell(npm1Min, sqlRow, contCode);
-                            } else {
+                            }
+                            else
+                            {
                                 addDataNoteSum(sqlRow, contCode);
                             }
                             #endregion npmMax is 1
-                        } else { // //npmMax is cat.  2 , no blank cells, missing rows are kat 0 or 2
+                        }
+                        else
+                        { // //npmMax is cat.  2 , no blank cells, missing rows are kat 0 or 2
                             #region npmMax is 2
                             //all present and missing rows must be cat2 for myOut[arrayIndex] to be cat2 
 
-                            if (!sqlRow["SqlMarx777777"].ToString().Equals(sqlRow[contCode + "_XCOUNT"])) {
+                            if (!sqlRow["SqlMarx777777"].ToString().Equals(sqlRow[contCode + "_XCOUNT"]))
+                            {
                                 myOut[arrayIndex] = double.Parse(sqlRow[contCode].ToString());
                                 //below: all present rows are cat. 2
-                            } else if (CategoryOfCellsInMissingRows[contCount].Equals("0")) {
+                            }
+                            else if (CategoryOfCellsInMissingRows[contCount].Equals("0"))
+                            {
                                 // must look for missing rows
-                                if (needGroupingFactor) {
+                                if (needGroupingFactor)
+                                {
                                     hasNoMissingRows = 1 > eliminationFactor * int.Parse(sqlRow["GROUPFACTOR"].ToString()) - int.Parse(sqlRow["SqlMarx777777"].ToString());
-                                } else {
+                                }
+                                else
+                                {
                                     hasNoMissingRows = 1 > eliminationFactor - int.Parse(sqlRow["SqlMarx777777"].ToString());
                                 }
-                                if (hasNoMissingRows) { // no missing rows
+                                if (hasNoMissingRows)
+                                { // no missing rows
                                     //myOut[arrayIndex] = symbols.getDoubleByCharacterType(npmMax.Substring(2));
                                     myOut[arrayIndex] = symbols.DataSymbolNMagic(npmMax.Substring(2));
                                 } //else  myOut[arrayIndex] = 0 but that has been done in init
@@ -764,7 +944,8 @@ namespace PCAxis.Sql.Parser_21 {
                 #endregion npm and useSum
             }
 
-            foreach (string key in keysInReverseOutputOrder) {
+            foreach (string key in keysInReverseOutputOrder)
+            {
                 log.Debug("key: " + key + " lIndexFactor: " + mIndexFactor[key] + " antVerdier:" + mValueCount[key]);
             }
 
@@ -784,25 +965,31 @@ namespace PCAxis.Sql.Parser_21 {
         /// <param name="Sum">true if sum should be used</param>
         /// <param name="npm">true if npm should be used</param>
         /// <returns>select string for one contents column</returns>
-        private string getContSelectPart(string contCode, bool Sum, bool npm) {
+        private string getContSelectPart(string contCode, bool Sum, bool npm)
+        {
             //SUM(Sysselsatte) Sysselsatte, MAX(Sysselsatte_x) Sysselsatte_xMax,
             string myOut = "";
 
-            if (Sum) {
+            if (Sum)
+            {
                 myOut = " SUM(dt." + contCode + ") AS ";
                 // trenger vi en AS ?
-            } else {
+            }
+            else
+            {
                 myOut += " dt.";
             }
 
             myOut += contCode + ", ";
 
-            if (Sum) {
+            if (Sum)
+            {
                 myOut += " SUM";
             }
             myOut += "(CASE WHEN dt." + contCode + " IS NULL THEN 1 ELSE 0 END) AS " + contCode + "_NilCnt, ";
 
-            if (npm) {
+            if (npm)
+            {
                 //string mo= ;
                 //ver 3,14 myOut += " MAX(" + contCode + "_x) " + contCode + "_xMax ,";
                 string CodeForNo = "'" + mMeta.MetaQuery.DB.Codes.No + "'";
@@ -817,28 +1004,31 @@ namespace PCAxis.Sql.Parser_21 {
 
 
                 myOut += "\n      ";
-                if (Sum) {
+                if (Sum)
+                {
                     myOut += "MAX(";
                 }
 
                 string[] tmpConcatArray = new string[2];
                 tmpConcatArray[0] = caseString;
-                tmpConcatArray[1] =  "st." + SpecialCharacter.CharacterType;
-                
+                tmpConcatArray[1] = "st." + SpecialCharacter.CharacterType;
+
 
                 myOut += "(SELECT " + mMeta.MetaQuery.GetPxSqlCommand().getConcatString(tmpConcatArray) + " x_x\n";
-                 
-//                myOut += "(SELECT CONCAT(" + caseString + ", st." +
-//                               SpecialCharacter.CharacterType + ") x_x\n";
+
+                //                myOut += "(SELECT CONCAT(" + caseString + ", st." +
+                //                               SpecialCharacter.CharacterType + ") x_x\n";
                 myOut += "      FROM " + mMeta.MetaQuery.DB.MetaOwner + SpecialCharacter.TableName + " st \n";
                 myOut += "      WHERE st." + SpecialCharacter.CharacterType + " = dt." + contCode + "_X ) \n";
-                if (Sum) {
+                if (Sum)
+                {
                     myOut += ") ";
                 }
                 myOut += " AS " + contCode + "_xMax, ";
                 myOut += "\n      ";
 
-                if (Sum) {
+                if (Sum)
+                {
                     //        min(select st.TeckenTyp from StatMeta.SpecialTecken st
                     //            where  st.TeckenTyp = dt.Sysselsatte_x and st.Summerbar = 'N') Sysselsatte_xMin_3
                     myOut += " MIN((";
@@ -872,16 +1062,22 @@ namespace PCAxis.Sql.Parser_21 {
         /// creates the FROM part of the sql
         /// </summary>
         /// <returns></returns>
-        private string getFROMClause() {
+        private string getFROMClause()
+        {
             string myOut = "FROM ";
             StringCollection tmpTabs = mMeta.GetDataTableNames();
 
-            if (tmpTabs.Count == 1) {
+            if (tmpTabs.Count == 1)
+            {
                 myOut += tmpTabs[0];
-            } else {
+            }
+            else
+            {
                 myOut += "(";
-                for (int tabCnt = 0; tabCnt < tmpTabs.Count; tabCnt++) {
-                    if (tabCnt != 0) {
+                for (int tabCnt = 0; tabCnt < tmpTabs.Count; tabCnt++)
+                {
+                    if (tabCnt != 0)
+                    {
                         myOut += " union all ";
                     }
                     myOut += "  select * from " + tmpTabs[tabCnt] + "\n";
@@ -898,12 +1094,17 @@ namespace PCAxis.Sql.Parser_21 {
         /// <param name="NPMChacterType"></param>
         /// <param name="sqlRow"></param>
         /// <param name="contCode"></param>
-        private void addDataNoteCell(string NPMChacterType, DataRow sqlRow, string contCode) {
+        private void addDataNoteCell(string NPMChacterType, DataRow sqlRow, string contCode)
+        {
             string cellId = "";
-            foreach (string colName in DataNoteCellId_Columns) {
-                if (String.IsNullOrEmpty(colName)) {
+            foreach (string colName in DataNoteCellId_Columns)
+            {
+                if (String.IsNullOrEmpty(colName))
+                {
                     cellId = contCode + "," + cellId;
-                } else {
+                }
+                else
+                {
                     cellId = sqlRow[colName].ToString() + "," + cellId;
                 }
             }
@@ -915,7 +1116,8 @@ namespace PCAxis.Sql.Parser_21 {
             log.Warn(new PCAxis.Sql.Exceptions.WarnNo2Text(1, "addDataNoteCell").getText());
         }
 
-        private void addDataNoteSum(DataRow sqlRow, string contCode) {
+        private void addDataNoteSum(DataRow sqlRow, string contCode)
+        {
             //addDataNoteCell(symbols.getDataNoteSumCharacterType(), sqlRow, contCode);
             addDataNoteCell(symbols.DataNoteSumCharacterType(), sqlRow, contCode);
         }
@@ -923,8 +1125,10 @@ namespace PCAxis.Sql.Parser_21 {
 
         #region IDisposable implemenatation
 
-        override public void Dispose() {
-            if (mMeta != null) {
+        override public void Dispose()
+        {
+            if (mMeta != null)
+            {
                 mMeta.Dispose();
             }
         }

@@ -1,13 +1,5 @@
 using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -31,10 +23,10 @@ namespace PCAxis.Sql.QueryLib_23
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValueSet = " + aValueSet);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValueSet = " + aValueSet);
             }
 
-            ValueSetRow myOut = new ValueSetRow(myRows[0], DB, mLanguageCodes); 
+            ValueSetRow myOut = new ValueSetRow(myRows[0], DB, mLanguageCodes);
             return myOut;
         }
 
@@ -74,7 +66,7 @@ namespace PCAxis.Sql.QueryLib_23
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.ValueSetLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.ValueSetLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.ValueSet.ValueSetCol.Is(DB.ValueSetLang2.ValueSetCol, langCode);
                 }
             }

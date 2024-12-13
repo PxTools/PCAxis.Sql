@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
-using PCAxis.Sql.QueryLib_22;
-using System.Collections.Specialized;
-using PCAxis.Paxiom;
+
 using log4net;
+
+using PCAxis.Sql.QueryLib_22;
 
 namespace PCAxis.Sql.Parser_22
 {
@@ -40,21 +38,22 @@ namespace PCAxis.Sql.Parser_22
                 Dictionary<string, MainTablePersonRow> personIDs = new Dictionary<string, MainTablePersonRow>();
                 try
                 {
-                    foreach (KeyValuePair<string, MainTablePersonRow> RoleHead in meta.MetaQuery.GetMainTablePersonRows(mMainTableId, meta.Config.Codes.RoleHead,false))
+                    foreach (KeyValuePair<string, MainTablePersonRow> RoleHead in meta.MetaQuery.GetMainTablePersonRows(mMainTableId, meta.Config.Codes.RoleHead, false))
                     {
                         if (!personIDs.ContainsKey(RoleHead.Key))
                         {
                             personIDs.Add(RoleHead.Key, RoleHead.Value);
                         }
                     }
-                } catch (Exceptions.PCAxisSqlException e)
+                }
+                catch (Exceptions.PCAxisSqlException e)
                 {
                     log.Error("Cant add RoleHead", e);
                 }
 
                 try
                 {
-                    foreach (KeyValuePair<string, MainTablePersonRow> RoleContact in meta.MetaQuery.GetMainTablePersonRows(mMainTableId, meta.Config.Codes.RoleContact,false))
+                    foreach (KeyValuePair<string, MainTablePersonRow> RoleContact in meta.MetaQuery.GetMainTablePersonRows(mMainTableId, meta.Config.Codes.RoleContact, false))
                     {
 
                         if (!personIDs.ContainsKey(RoleContact.Key))
@@ -62,12 +61,13 @@ namespace PCAxis.Sql.Parser_22
                             personIDs.Add(RoleContact.Key, RoleContact.Value);
                         }
                     }
-                } catch (Exceptions.PCAxisSqlException e)
+                }
+                catch (Exceptions.PCAxisSqlException e)
                 {
                     log.Error("Cant add RoleContact", e);
                 }
 
-                
+
 
 
                 bool firstPerson = true;
@@ -93,18 +93,19 @@ namespace PCAxis.Sql.Parser_22
 
 
 
-                        mBigFatContactStringsByLanguage[language] += person.Forename + " " + person.Surname + ", " + org.texts[language].OrganizationName + 
-                            "# "+ PCAxis.Paxiom.Localization.PxResourceManager.GetResourceManager().GetString("PxcContactPhone", language)+": " + person.PhonePrefix + " " + person.PhoneNo +
+                        mBigFatContactStringsByLanguage[language] += person.Forename + " " + person.Surname + ", " + org.texts[language].OrganizationName +
+                            "# " + PCAxis.Paxiom.Localization.PxResourceManager.GetResourceManager().GetString("PxcContactPhone", language) + ": " + person.PhonePrefix + " " + person.PhoneNo +
                             "#" + PCAxis.Paxiom.Localization.PxResourceManager.GetResourceManager().GetString("PxcContactFax", language) + ": " + person.PhonePrefix + " " + person.FaxNo +
                             "#" + PCAxis.Paxiom.Localization.PxResourceManager.GetResourceManager().GetString("PxcContactEMail", language) + ": " + person.Email;
-                        
+
 
                     }
 
                     firstPerson = false;
 
                 }
-            } catch (Exceptions.PCAxisSqlException e)
+            }
+            catch (Exceptions.PCAxisSqlException e)
             {
                 log.Error("Cant find contact info", e);
             }

@@ -1,12 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
-using System.Collections.Specialized;
-using System.Data.Common;
-using System.Data;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Collections.Specialized;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using PCAxis.Sql.DbConfig;
 
 namespace PCAxis.Sql.UnitTest
 {
@@ -25,7 +23,7 @@ namespace PCAxis.Sql.UnitTest
 
             //Act
             var result = col4Para.PureColumnName();
-       
+
             //Assert
             var expectedResult = "ColName";
             Assert.AreEqual(expectedResult, result);
@@ -176,8 +174,8 @@ namespace PCAxis.Sql.UnitTest
             var col4Para = new Column4Parameterized("ColName", "TableAlias", "ModelName", "notDBString");
 
             //Act & Assert
-            try 
-            { 
+            try
+            {
                 var result = col4Para.Is();
                 Assert.Fail();
             }
@@ -289,7 +287,7 @@ namespace PCAxis.Sql.UnitTest
         [TestMethod]
         [TestCategory("Unit")]
         public void Is_GivenTwoCol4Para_ReturnsEqualsSQLPartExpression()
-        { 
+        {
             //Arrange
             var col4Para = new Column4Parameterized("ColName", "TableAlias", null, null);
             var col4Para2 = new Column4Parameterized("ColName", "TableAlias2", null, null);
@@ -371,66 +369,66 @@ namespace PCAxis.Sql.UnitTest
         */
 
 
-/*
-         PrivateType could not be found ...
-       [TestMethod]
-       [TestCategory("Unit")]
-       public void GetParameterReference_GivenIncorrectDBType_ReturnsException()
-       {
-           var dataProvider = "oraCe";
-           var propertyName = "myPropertyName";
-           var args = new object[2] { propertyName, dataProvider };
-           PrivateType col4ParaType = new PrivateType(col4Para.GetType());
+        /*
+                 PrivateType could not be found ...
+               [TestMethod]
+               [TestCategory("Unit")]
+               public void GetParameterReference_GivenIncorrectDBType_ReturnsException()
+               {
+                   var dataProvider = "oraCe";
+                   var propertyName = "myPropertyName";
+                   var args = new object[2] { propertyName, dataProvider };
+                   PrivateType col4ParaType = new PrivateType(col4Para.GetType());
 
-           try 
-           { 
-               col4ParaType.InvokeStatic("GetParameterReference", args);
-               Assert.Fail();
-           }
-           catch (Exception ex)
-           {
-               Assert.IsTrue(ex is Exceptions.ConfigException);
-           }
+                   try 
+                   { 
+                       col4ParaType.InvokeStatic("GetParameterReference", args);
+                       Assert.Fail();
+                   }
+                   catch (Exception ex)
+                   {
+                       Assert.IsTrue(ex is Exceptions.ConfigException);
+                   }
 
-       }
-       */
+               }
+               */
 
-/*
-         PrivateType could not be found ...
+        /*
+                 PrivateType could not be found ...
 
-      [TestMethod]
-      [TestCategory("Unit")]
-      public void GetEmptyDbParameter_GivenIncorrectDBType_ReturnsException()
-      {
+              [TestMethod]
+              [TestCategory("Unit")]
+              public void GetEmptyDbParameter_GivenIncorrectDBType_ReturnsException()
+              {
 
-          var dataProvider = "oraCe";
-          var args = new object[1] { dataProvider };
-          PrivateType col4ParaType = new PrivateType(col4Para.GetType());
+                  var dataProvider = "oraCe";
+                  var args = new object[1] { dataProvider };
+                  PrivateType col4ParaType = new PrivateType(col4Para.GetType());
 
-          try
-          {
-              col4ParaType.InvokeStatic("GetEmptyDbParameter", args);
-              Assert.Fail();
-          }
-          catch (Exception ex)
-          {
-              Assert.IsTrue(ex is Exceptions.ConfigException);
-          }
-      }
-*/
+                  try
+                  {
+                      col4ParaType.InvokeStatic("GetEmptyDbParameter", args);
+                      Assert.Fail();
+                  }
+                  catch (Exception ex)
+                  {
+                      Assert.IsTrue(ex is Exceptions.ConfigException);
+                  }
+              }
+        */
 
-      [TestMethod]
-      [TestCategory("Unit")]
-      public void In_GivenCorrectDBTypeAndNotQuestionMarkAsParaMeterRefBase_ReturnsInSQLPartException()
-      {
-          var parameterRefBase = ":";
-          var numberOfValues = 5;
+        [TestMethod]
+        [TestCategory("Unit")]
+        public void In_GivenCorrectDBTypeAndNotQuestionMarkAsParaMeterRefBase_ReturnsInSQLPartException()
+        {
+            var parameterRefBase = ":";
+            var numberOfValues = 5;
 
-          var result = col4Para.In(parameterRefBase, numberOfValues);
+            var result = col4Para.In(parameterRefBase, numberOfValues);
 
-          var expectedResult = "TableAlias.ColName IN (:1, :2, :3, :4, :5)";
-          Assert.AreEqual(expectedResult, result);
-      }
+            var expectedResult = "TableAlias.ColName IN (:1, :2, :3, :4, :5)";
+            Assert.AreEqual(expectedResult, result);
+        }
 
-  }
+    }
 }

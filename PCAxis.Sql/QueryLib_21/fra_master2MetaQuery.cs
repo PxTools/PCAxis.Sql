@@ -1,22 +1,20 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 //using PCAxis.Sql.QueryLib;
 
 //This code is generated.  Not anymore!
 
-namespace PCAxis.Sql.QueryLib_21 {
+namespace PCAxis.Sql.QueryLib_21
+{
 
-    public partial class MetaQuery {
+    public partial class MetaQuery
+    {
         #region for Contents
-        public Dictionary<string, ContentsRow> GetContentsRows(string aMainTable) {
+        public Dictionary<string, ContentsRow> GetContentsRows(string aMainTable)
+        {
             Dictionary<string, ContentsRow> myOut = new Dictionary<string, ContentsRow>();
             SqlDbConfig dbconf = DB;
             string sqlString = GetContents_SQLString_NoWhere();
@@ -28,21 +26,25 @@ namespace PCAxis.Sql.QueryLib_21 {
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable);
+            if (myRows.Count < 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable);
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                ContentsRow outRow = new ContentsRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator) this);
+            foreach (DataRow sqlRow in myRows)
+            {
+                ContentsRow outRow = new ContentsRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator)this);
                 myOut.Add(outRow.Contents, outRow);
             }
             return myOut;
         }
 
-        private String GetContents_SQLString_NoWhere() {  
+        private String GetContents_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
-            if( metaVersionGE("2.1")) {
+            if (metaVersionGE("2.1"))
+            {
                 sqlString += DB.Contents.PresMissingLineCol.ForSelect() + " , ";
             }
 
@@ -78,8 +80,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.Contents.StoreColumnNoCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.ContentsLang2.PresTextCol.ForSelectWithFallback(langCode, DB.Contents.PresTextCol);
                     sqlString += ", " + DB.ContentsLang2.PresTextSCol.ForSelectWithFallback(langCode, DB.Contents.PresTextSCol);
                     sqlString += ", " + DB.ContentsLang2.UnitCol.ForSelectWithFallback(langCode, DB.Contents.UnitCol);
@@ -91,9 +95,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetContentsRows_01 ***" + "/ ";
             sqlString += " FROM " + DB.Contents.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.ContentsLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.ContentsLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Contents.MainTableCol.Is(DB.ContentsLang2.MainTableCol, langCode) +
                                  " AND " + DB.Contents.ContentsCol.Is(DB.ContentsLang2.ContentsCol, langCode);
                 }
@@ -106,23 +112,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for DataStorage
         //returns the single "row" found when all PKs are spesified
-        public DataStorageRow GetDataStorageRow(string aProductId) {
+        public DataStorageRow GetDataStorageRow(string aProductId)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetDataStorage_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.DataStorage.ProductIdCol.Is(aProductId) ;
+            sqlString += " WHERE " + DB.DataStorage.ProductIdCol.Is(aProductId);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ProductId = " + aProductId);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ProductId = " + aProductId);
             }
 
-            DataStorageRow myOut = new DataStorageRow(myRows[0], DB, (IMetaVersionComparator) this); 
+            DataStorageRow myOut = new DataStorageRow(myRows[0], DB, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetDataStorage_SQLString_NoWhere() {  
+        private String GetDataStorage_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -141,24 +150,27 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for Grouping
         //returns the single "row" found when all PKs are spesified
-        public GroupingRow GetGroupingRow(string aValuePool, string aGrouping) {
+        public GroupingRow GetGroupingRow(string aValuePool, string aGrouping)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetGrouping_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Grouping.GroupingCol.Is(aGrouping)  + 
-                             " AND " +DB.Grouping.ValuePoolCol.Is(aValuePool) ;
+            sqlString += " WHERE " + DB.Grouping.GroupingCol.Is(aGrouping) +
+                             " AND " + DB.Grouping.ValuePoolCol.Is(aValuePool);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValuePool = " + aValuePool + " Grouping = " + aGrouping);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValuePool = " + aValuePool + " Grouping = " + aGrouping);
             }
 
-            GroupingRow myOut = new GroupingRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            GroupingRow myOut = new GroupingRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetGrouping_SQLString_NoWhere() {  
+        private String GetGrouping_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -174,8 +186,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.Grouping.SortCodeCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.GroupingLang2.PresTextCol.ForSelectWithFallback(langCode, DB.Grouping.PresTextCol);
                     sqlString += ", " + DB.GroupingLang2.SortCodeCol.ForSelectWithFallback(langCode, DB.Grouping.SortCodeCol);
                 }
@@ -184,9 +198,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetGroupingRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.Grouping.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.GroupingLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.GroupingLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Grouping.GroupingCol.Is(DB.GroupingLang2.GroupingCol, langCode) +
                                  " AND " + DB.Grouping.ValuePoolCol.Is(DB.GroupingLang2.ValuePoolCol, langCode);
                 }
@@ -199,27 +215,31 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for MainTable
         //returns the single "row" found when all PKs are spesified
-        public MainTableRow GetMainTableRow(string aMainTable) {
+        public MainTableRow GetMainTableRow(string aMainTable)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMainTable_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MainTable.MainTableCol.Is(aMainTable) ;
+            sqlString += " WHERE " + DB.MainTable.MainTableCol.Is(aMainTable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," MainTable = " + aMainTable);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " MainTable = " + aMainTable);
             }
 
-            MainTableRow myOut = new MainTableRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            MainTableRow myOut = new MainTableRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetMainTable_SQLString_NoWhere() {  
+        private String GetMainTable_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
-            if( metaVersionLE("2.0")) {
+            if (metaVersionLE("2.0"))
+            {
                 sqlString += DB.MainTable.StatusEngCol.ForSelect() + " , ";
             }
 
@@ -237,14 +257,16 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.MainTable.TimeScaleCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.MainTableLang2.PresTextCol.ForSelectWithFallback(langCode, DB.MainTable.PresTextCol);
                     sqlString += ", " + DB.MainTableLang2.PresTextSCol.ForSelectWithFallback(langCode, DB.MainTable.PresTextSCol);
                     sqlString += ", " + DB.MainTableLang2.ContentsVariableCol.ForSelectWithFallback(langCode, DB.MainTable.ContentsVariableCol);
                     if (metaVersionGE("2.1"))
                     {
-                        sqlString +=  " , " + DB.MainTableLang2.StatusCol.ForSelect(langCode);
+                        sqlString += " , " + DB.MainTableLang2.StatusCol.ForSelect(langCode);
                     }
                 }
             }
@@ -252,9 +274,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetMainTableRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.MainTable.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.MainTableLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.MainTableLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.MainTable.MainTableCol.Is(DB.MainTableLang2.MainTableCol, langCode);
                 }
             }
@@ -265,7 +289,8 @@ namespace PCAxis.Sql.QueryLib_21 {
         #endregion for MainTable
 
         #region for MainTablePerson
-        public Dictionary<string, MainTablePersonRow> GetMainTablePersonRows(string aMainTable, string aRolePerson) {
+        public Dictionary<string, MainTablePersonRow> GetMainTablePersonRows(string aMainTable, string aRolePerson)
+        {
             Dictionary<string, MainTablePersonRow> myOut = new Dictionary<string, MainTablePersonRow>();
             SqlDbConfig dbconf = DB;
 
@@ -274,25 +299,28 @@ namespace PCAxis.Sql.QueryLib_21 {
             // WHERE MTP.MainTable = '<aMainTable>'
             //    AND MTP.RolePerson = '<aRolePerson>'
             //
-            sqlString += " WHERE " + DB.MainTablePerson.MainTableCol.Is(aMainTable) + 
-                         " AND " +DB.MainTablePerson.RolePersonCol.Is(aRolePerson);
+            sqlString += " WHERE " + DB.MainTablePerson.MainTableCol.Is(aMainTable) +
+                         " AND " + DB.MainTablePerson.RolePersonCol.Is(aRolePerson);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
             //Only Role Head and Updated must exist
-            if (myRows.Count < 1 && (aRolePerson.Equals(DB.Codes.RoleHead, StringComparison.InvariantCultureIgnoreCase) || aRolePerson.Equals(DB.Codes.RoleUpdate, StringComparison.InvariantCultureIgnoreCase))) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " RolePerson = " + aRolePerson);
+            if (myRows.Count < 1 && (aRolePerson.Equals(DB.Codes.RoleHead, StringComparison.InvariantCultureIgnoreCase) || aRolePerson.Equals(DB.Codes.RoleUpdate, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " RolePerson = " + aRolePerson);
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                MainTablePersonRow outRow = new MainTablePersonRow(sqlRow, DB, (IMetaVersionComparator) this);
+            foreach (DataRow sqlRow in myRows)
+            {
+                MainTablePersonRow outRow = new MainTablePersonRow(sqlRow, DB, (IMetaVersionComparator)this);
                 myOut.Add(outRow.PersonCode, outRow);
             }
             return myOut;
         }
 
-        private String GetMainTablePerson_SQLString_NoWhere() {  
+        private String GetMainTablePerson_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -312,24 +340,27 @@ namespace PCAxis.Sql.QueryLib_21 {
         #region for MenuSelection
         /* For SubjectArea*/
         //returns the single "row" found when all PKs are spesified
-        public MenuSelectionRow GetMenuSelectionRow(string aMenu, string aSelection) {
+        public MenuSelectionRow GetMenuSelectionRow(string aMenu, string aSelection)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMenuSelection_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MenuSelection.MenuCol.Is(aMenu)  + 
-                             " AND " +DB.MenuSelection.SelectionCol.Is(aSelection) ;
+            sqlString += " WHERE " + DB.MenuSelection.MenuCol.Is(aMenu) +
+                             " AND " + DB.MenuSelection.SelectionCol.Is(aSelection);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Menu = " + aMenu + " Selection = " + aSelection);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Menu = " + aMenu + " Selection = " + aSelection);
             }
 
-            MenuSelectionRow myOut = new MenuSelectionRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            MenuSelectionRow myOut = new MenuSelectionRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetMenuSelection_SQLString_NoWhere() {  
+        private String GetMenuSelection_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -346,8 +377,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.MenuSelection.InternalIdCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.MenuSelectionLang2.PresTextCol.ForSelectWithFallback(langCode, DB.MenuSelection.PresTextCol);
                     sqlString += ", " + DB.MenuSelectionLang2.PresTextSCol.ForSelectWithFallback(langCode, DB.MenuSelection.PresTextSCol);
                     sqlString += ", " + DB.MenuSelectionLang2.DescriptionCol.ForSelectWithFallback(langCode, DB.MenuSelection.DescriptionCol);
@@ -359,9 +392,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetMenuSelectionRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.MenuSelection.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.MenuSelectionLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.MenuSelectionLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.MenuSelection.MenuCol.Is(DB.MenuSelectionLang2.MenuCol, langCode) +
                                  " AND " + DB.MenuSelection.SelectionCol.Is(DB.MenuSelectionLang2.SelectionCol, langCode);
                 }
@@ -374,42 +409,48 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for MetaAdm
         //returns the single "row" found when all PKs are spesified
-        public MetaAdmRow GetMetaAdmRow(string aProperty) {
+        public MetaAdmRow GetMetaAdmRow(string aProperty)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMetaAdm_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MetaAdm.PropertyCol.IsUppered(aProperty) ;
+            sqlString += " WHERE " + DB.MetaAdm.PropertyCol.IsUppered(aProperty);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Property = " + aProperty);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Property = " + aProperty);
             }
 
-            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB, (IMetaVersionComparator) this); 
+            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB, (IMetaVersionComparator)this);
             return myOut;
         }
 
         //returns the all  "rows" found in database
-        public Dictionary<string, MetaAdmRow> GetMetaAdmAllRows() {
+        public Dictionary<string, MetaAdmRow> GetMetaAdmAllRows()
+        {
             string sqlString = GetMetaAdm_SQLString_NoWhere();
             Dictionary<string, MetaAdmRow> myOut = new Dictionary<string, MetaAdmRow>();
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1) {
+            if (myRows.Count < 1)
+            {
                 throw new PCAxis.Sql.Exceptions.DbException(44, "MetaAdm", "METAADM");
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                MetaAdmRow outRow = new MetaAdmRow(sqlRow, DB, (IMetaVersionComparator) this );
+            foreach (DataRow sqlRow in myRows)
+            {
+                MetaAdmRow outRow = new MetaAdmRow(sqlRow, DB, (IMetaVersionComparator)this);
                 myOut.Add(outRow.Property, outRow);
             }
             return myOut;
         }
 
 
-        private String GetMetaAdm_SQLString_NoWhere() {  
+        private String GetMetaAdm_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -427,23 +468,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for MetabaseInfo
         //returns the single "row" found when all PKs are spesified
-        public MetabaseInfoRow GetMetabaseInfoRow(string aModel) {
+        public MetabaseInfoRow GetMetabaseInfoRow(string aModel)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMetabaseInfo_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MetabaseInfo.ModelCol.IsUppered(aModel) ;
+            sqlString += " WHERE " + DB.MetabaseInfo.ModelCol.IsUppered(aModel);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Model = " + aModel);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Model = " + aModel);
             }
 
-            MetabaseInfoRow myOut = new MetabaseInfoRow(myRows[0], DB, (IMetaVersionComparator) this); 
+            MetabaseInfoRow myOut = new MetabaseInfoRow(myRows[0], DB, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetMetabaseInfo_SQLString_NoWhere() {  
+        private String GetMetabaseInfo_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -462,26 +506,30 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for Organization
         //returns the single "row" found when all PKs are spesified
-        public OrganizationRow GetOrganizationRow(string aOrganizationCode) {
+        public OrganizationRow GetOrganizationRow(string aOrganizationCode)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetOrganization_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Organization.OrganizationCodeCol.Is(aOrganizationCode) ;
+            sqlString += " WHERE " + DB.Organization.OrganizationCodeCol.Is(aOrganizationCode);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," OrganizationCode = " + aOrganizationCode);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " OrganizationCode = " + aOrganizationCode);
             }
 
-            OrganizationRow myOut = new OrganizationRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            OrganizationRow myOut = new OrganizationRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetOrganization_SQLString_NoWhere() {  
+        private String GetOrganization_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
-            if( metaVersionGE("2.1")) {
+            if (metaVersionGE("2.1"))
+            {
                 sqlString += DB.Organization.WebAddressCol.ForSelect() + " , ";
             }
 
@@ -494,8 +542,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.Organization.InternalIdCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.OrganizationLang2.OrganizationNameCol.ForSelectWithFallback(langCode, DB.Organization.OrganizationNameCol);
                     sqlString += ", " + DB.OrganizationLang2.DepartmentCol.ForSelectWithFallback(langCode, DB.Organization.DepartmentCol);
                     sqlString += ", " + DB.OrganizationLang2.UnitCol.ForSelectWithFallback(langCode, DB.Organization.UnitCol);
@@ -505,9 +555,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetOrganizationRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.Organization.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.OrganizationLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.OrganizationLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Organization.OrganizationCodeCol.Is(DB.OrganizationLang2.OrganizationCodeCol, langCode);
                 }
             }
@@ -519,23 +571,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for Person
         //returns the single "row" found when all PKs are spesified
-        public PersonRow GetPersonRow(string aPersonCode) {
+        public PersonRow GetPersonRow(string aPersonCode)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetPerson_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Person.PersonCodeCol.Is(aPersonCode) ;
+            sqlString += " WHERE " + DB.Person.PersonCodeCol.Is(aPersonCode);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," PersonCode = " + aPersonCode);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " PersonCode = " + aPersonCode);
             }
 
-            PersonRow myOut = new PersonRow(myRows[0], DB, (IMetaVersionComparator) this); 
+            PersonRow myOut = new PersonRow(myRows[0], DB, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetPerson_SQLString_NoWhere() {  
+        private String GetPerson_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -559,48 +614,56 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for SpecialCharacter
         //returns the single "row" found when all PKs are spesified
-        public SpecialCharacterRow GetSpecialCharacterRow(string aCharacterType) {
+        public SpecialCharacterRow GetSpecialCharacterRow(string aCharacterType)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetSpecialCharacter_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.SpecialCharacter.CharacterTypeCol.Is(aCharacterType) ;
+            sqlString += " WHERE " + DB.SpecialCharacter.CharacterTypeCol.Is(aCharacterType);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," CharacterType = " + aCharacterType);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " CharacterType = " + aCharacterType);
             }
 
-            SpecialCharacterRow myOut = new SpecialCharacterRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            SpecialCharacterRow myOut = new SpecialCharacterRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
         //returns the all  "rows" found in database
-        public Dictionary<string, SpecialCharacterRow> GetSpecialCharacterAllRows() {
+        public Dictionary<string, SpecialCharacterRow> GetSpecialCharacterAllRows()
+        {
             string sqlString = GetSpecialCharacter_SQLString_NoWhere();
             Dictionary<string, SpecialCharacterRow> myOut = new Dictionary<string, SpecialCharacterRow>();
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1) {
+            if (myRows.Count < 1)
+            {
                 throw new PCAxis.Sql.Exceptions.DbException(44, "SpecialCharacter", "SPECIALTECKEN");
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                SpecialCharacterRow outRow = new SpecialCharacterRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator) this );
+            foreach (DataRow sqlRow in myRows)
+            {
+                SpecialCharacterRow outRow = new SpecialCharacterRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator)this);
                 myOut.Add(outRow.CharacterType, outRow);
             }
             return myOut;
         }
 
 
-        private String GetSpecialCharacter_SQLString_NoWhere() {  
+        private String GetSpecialCharacter_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
-            if( metaVersionGE("2.1")) {
+            if (metaVersionGE("2.1"))
+            {
                 sqlString += DB.SpecialCharacter.DataCellPresCol.ForSelect() + " , ";
             }
-            if( metaVersionGE("2.1")) {
+            if (metaVersionGE("2.1"))
+            {
                 sqlString += DB.SpecialCharacter.DataCellFilledCol.ForSelect() + " , ";
             }
 
@@ -612,8 +675,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.SpecialCharacter.PresTextCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.SpecialCharacterLang2.PresCharacterCol.ForSelectWithFallback(langCode, DB.SpecialCharacter.PresCharacterCol);
                     sqlString += ", " + DB.SpecialCharacterLang2.PresTextCol.ForSelectWithFallback(langCode, DB.SpecialCharacter.PresTextCol);
                 }
@@ -622,9 +687,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetSpecialCharacterAllRows_01 ***" + "/ ";
             sqlString += " FROM " + DB.SpecialCharacter.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.SpecialCharacterLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.SpecialCharacterLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.SpecialCharacter.CharacterTypeCol.Is(DB.SpecialCharacterLang2.CharacterTypeCol, langCode);
                 }
             }
@@ -635,7 +702,8 @@ namespace PCAxis.Sql.QueryLib_21 {
         #endregion for SpecialCharacter
 
         #region for SubTable
-        public Dictionary<string, SubTableRow> GetSubTableRows(string aMainTable) {
+        public Dictionary<string, SubTableRow> GetSubTableRows(string aMainTable)
+        {
             Dictionary<string, SubTableRow> myOut = new Dictionary<string, SubTableRow>();
             SqlDbConfig dbconf = DB;
             string sqlString = GetSubTable_SQLString_NoWhere();
@@ -647,18 +715,21 @@ namespace PCAxis.Sql.QueryLib_21 {
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable);
+            if (myRows.Count < 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable);
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                SubTableRow outRow = new SubTableRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator) this);
+            foreach (DataRow sqlRow in myRows)
+            {
+                SubTableRow outRow = new SubTableRow(sqlRow, DB, mLanguageCodes, (IMetaVersionComparator)this);
                 myOut.Add(outRow.SubTable, outRow);
             }
             return myOut;
         }
 
-        private String GetSubTable_SQLString_NoWhere() {  
+        private String GetSubTable_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -670,8 +741,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.SubTable.CleanTableCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.SubTableLang2.PresTextCol.ForSelectWithFallback(langCode, DB.SubTable.PresTextCol);
                 }
             }
@@ -679,9 +752,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetSubTableRows_01 ***" + "/ ";
             sqlString += " FROM " + DB.SubTable.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.SubTableLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.SubTableLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.SubTable.MainTableCol.Is(DB.SubTableLang2.MainTableCol, langCode) +
                                  " AND " + DB.SubTable.SubTableCol.Is(DB.SubTableLang2.SubTableCol, langCode);
                 }
@@ -694,24 +769,27 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for SubTableVariable
         //returns the single "row" found when all PKs are spesified
-        public SubTableVariableRow GetSubTableVariableRow(string aMainTable, string aSubTable, string aVariable) {
+        public SubTableVariableRow GetSubTableVariableRow(string aMainTable, string aSubTable, string aVariable)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetSubTableVariable_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable)  + 
-                             " AND " +DB.SubTableVariable.SubTableCol.Is(aSubTable)  + 
-                             " AND " +DB.SubTableVariable.VariableCol.Is(aVariable) ;
+            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) +
+                             " AND " + DB.SubTableVariable.SubTableCol.Is(aSubTable) +
+                             " AND " + DB.SubTableVariable.VariableCol.Is(aVariable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," MainTable = " + aMainTable + " SubTable = " + aSubTable + " Variable = " + aVariable);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " MainTable = " + aMainTable + " SubTable = " + aSubTable + " Variable = " + aVariable);
             }
 
-            SubTableVariableRow myOut = new SubTableVariableRow(myRows[0], DB, (IMetaVersionComparator) this); 
+            SubTableVariableRow myOut = new SubTableVariableRow(myRows[0], DB, (IMetaVersionComparator)this);
             return myOut;
         }
 
-        public Dictionary<string, SubTableVariableRow> GetSubTableVariableRowskeyVariable(string aMainTable, string aSubTable) {
+        public Dictionary<string, SubTableVariableRow> GetSubTableVariableRowskeyVariable(string aMainTable, string aSubTable)
+        {
             Dictionary<string, SubTableVariableRow> myOut = new Dictionary<string, SubTableVariableRow>();
             SqlDbConfig dbconf = DB;
             string sqlString = GetSubTableVariable_SQLString_NoWhere();
@@ -719,24 +797,27 @@ namespace PCAxis.Sql.QueryLib_21 {
             // WHERE STV.MainTable = '<aMainTable>'
             //    AND STV.SubTable = '<aSubTable>'
             //
-            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) + 
-                         " AND " +DB.SubTableVariable.SubTableCol.Is(aSubTable);
+            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) +
+                         " AND " + DB.SubTableVariable.SubTableCol.Is(aSubTable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " SubTable = " + aSubTable);
+            if (myRows.Count < 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " SubTable = " + aSubTable);
             }
 
-            foreach (DataRow sqlRow in myRows) {
-                SubTableVariableRow outRow = new SubTableVariableRow(sqlRow, DB, (IMetaVersionComparator) this);
+            foreach (DataRow sqlRow in myRows)
+            {
+                SubTableVariableRow outRow = new SubTableVariableRow(sqlRow, DB, (IMetaVersionComparator)this);
                 myOut.Add(outRow.Variable, outRow);
             }
             return myOut;
         }
 
-        private String GetSubTableVariable_SQLString_NoWhere() {  
+        private String GetSubTableVariable_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -759,7 +840,8 @@ namespace PCAxis.Sql.QueryLib_21 {
         #region for TextCatalog
         /*This table is not suitable for generated extractions such as Get...*/
 
-        private String GetTextCatalog_SQLString_NoWhere() {  
+        private String GetTextCatalog_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -771,8 +853,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.TextCatalog.DescriptionCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.TextCatalogLang2.TextTypeCol.ForSelectWithFallback(langCode, DB.TextCatalog.TextTypeCol);
                     sqlString += ", " + DB.TextCatalogLang2.PresTextCol.ForSelectWithFallback(langCode, DB.TextCatalog.PresTextCol);
                     sqlString += ", " + DB.TextCatalogLang2.DescriptionCol.ForSelectWithFallback(langCode, DB.TextCatalog.DescriptionCol);
@@ -782,9 +866,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetSubTableVariableRowskeyVariable_01 ***" + "/ ";
             sqlString += " FROM " + DB.TextCatalog.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.TextCatalogLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.TextCatalogLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.TextCatalog.TextCatalogNoCol.Is(DB.TextCatalogLang2.TextCatalogNoCol, langCode);
                 }
             }
@@ -796,23 +882,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for TimeScale
         //returns the single "row" found when all PKs are spesified
-        public TimeScaleRow GetTimeScaleRow(string aTimeScale) {
+        public TimeScaleRow GetTimeScaleRow(string aTimeScale)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetTimeScale_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.TimeScale.TimeScaleCol.Is(aTimeScale) ;
+            sqlString += " WHERE " + DB.TimeScale.TimeScaleCol.Is(aTimeScale);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," TimeScale = " + aTimeScale);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " TimeScale = " + aTimeScale);
             }
 
-            TimeScaleRow myOut = new TimeScaleRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            TimeScaleRow myOut = new TimeScaleRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetTimeScale_SQLString_NoWhere() {  
+        private String GetTimeScale_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
             sqlString +=
@@ -825,8 +914,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.TimeScale.StoreFormatCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.TimeScaleLang2.PresTextCol.ForSelectWithFallback(langCode, DB.TimeScale.PresTextCol);
                 }
             }
@@ -834,9 +925,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetTimeScaleRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.TimeScale.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.TimeScaleLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.TimeScaleLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.TimeScale.TimeScaleCol.Is(DB.TimeScaleLang2.TimeScaleCol, langCode);
                 }
             }
@@ -848,23 +941,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for ValuePool
         //returns the single "row" found when all PKs are spesified
-        public ValuePoolRow GetValuePoolRow(string aValuePool) {
+        public ValuePoolRow GetValuePoolRow(string aValuePool)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetValuePool_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.ValuePool.ValuePoolCol.Is(aValuePool) ;
+            sqlString += " WHERE " + DB.ValuePool.ValuePoolCol.Is(aValuePool);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValuePool = " + aValuePool);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValuePool = " + aValuePool);
             }
 
-            ValuePoolRow myOut = new ValuePoolRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            ValuePoolRow myOut = new ValuePoolRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetValuePool_SQLString_NoWhere() {  
+        private String GetValuePool_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -878,8 +974,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.ValuePool.KDBIdCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.ValuePoolLang2.PresTextCol.ForSelectWithFallback(langCode, DB.ValuePool.PresTextCol);
                     if (this.metaVersionGE("2.2"))
                     {
@@ -895,9 +993,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetValuePoolRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.ValuePool.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.ValuePoolLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.ValuePoolLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.ValuePool.ValuePoolCol.Is(DB.ValuePoolLang2.ValuePoolCol, langCode);
                 }
             }
@@ -909,26 +1009,30 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for ValueSet
         //returns the single "row" found when all PKs are spesified
-        public ValueSetRow GetValueSetRow(string aValueSet) {
+        public ValueSetRow GetValueSetRow(string aValueSet)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetValueSet_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.ValueSet.ValueSetCol.Is(aValueSet) ;
+            sqlString += " WHERE " + DB.ValueSet.ValueSetCol.Is(aValueSet);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValueSet = " + aValueSet);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValueSet = " + aValueSet);
             }
 
-            ValueSetRow myOut = new ValueSetRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            ValueSetRow myOut = new ValueSetRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetValueSet_SQLString_NoWhere() {  
+        private String GetValueSet_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
-            if( metaVersionGE("2.1")) {
+            if (metaVersionGE("2.1"))
+            {
                 sqlString += DB.ValueSet.PresTextCol.ForSelect() + " , ";
             }
 
@@ -945,9 +1049,12 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.ValueSet.FootnoteCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    if( metaVersionGE("2.1")){
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    if (metaVersionGE("2.1"))
+                    {
                         sqlString += ", " + DB.ValueSetLang2.PresTextCol.ForSelectWithFallback(langCode, DB.ValueSet.PresTextCol);
                     }
                     sqlString += ", " + DB.ValueSetLang2.DescriptionCol.ForSelectWithFallback(langCode, DB.ValueSet.DescriptionCol);
@@ -957,9 +1064,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetValueSetRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.ValueSet.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.ValueSetLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.ValueSetLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.ValueSet.ValueSetCol.Is(DB.ValueSetLang2.ValueSetCol, langCode);
                 }
             }
@@ -971,23 +1080,26 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for Variable
         //returns the single "row" found when all PKs are spesified
-        public VariableRow GetVariableRow(string aVariable) {
+        public VariableRow GetVariableRow(string aVariable)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetVariable_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Variable.VariableCol.Is(aVariable) ;
+            sqlString += " WHERE " + DB.Variable.VariableCol.Is(aVariable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Variable = " + aVariable);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Variable = " + aVariable);
             }
 
-            VariableRow myOut = new VariableRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            VariableRow myOut = new VariableRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetVariable_SQLString_NoWhere() {  
+        private String GetVariable_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -999,8 +1111,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.Variable.FootnoteCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.VariableLang2.PresTextCol.ForSelectWithFallback(langCode, DB.Variable.PresTextCol);
                 }
             }
@@ -1008,9 +1122,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetVariableRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.Variable.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.VariableLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.VariableLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Variable.VariableCol.Is(DB.VariableLang2.VariableCol, langCode);
                 }
             }
@@ -1022,27 +1138,30 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for VSGroup
         //returns the single "row" found when all PKs are spesified
-        public VSGroupRow GetVSGroupRow(string aValueSet, string aGrouping, string aGroupCode, string aValueCode, string aValuePool) {
+        public VSGroupRow GetVSGroupRow(string aValueSet, string aGrouping, string aGroupCode, string aValueCode, string aValuePool)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetVSGroup_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.VSGroup.ValueSetCol.Is(aValueSet)  + 
-                             " AND " +DB.VSGroup.GroupingCol.Is(aGrouping)  + 
-                             " AND " +DB.VSGroup.GroupCodeCol.Is(aGroupCode)  + 
-                             " AND " +DB.VSGroup.ValueCodeCol.Is(aValueCode)  + 
-                             " AND " +DB.VSGroup.ValuePoolCol.Is(aValuePool) ;
+            sqlString += " WHERE " + DB.VSGroup.ValueSetCol.Is(aValueSet) +
+                             " AND " + DB.VSGroup.GroupingCol.Is(aGrouping) +
+                             " AND " + DB.VSGroup.GroupCodeCol.Is(aGroupCode) +
+                             " AND " + DB.VSGroup.ValueCodeCol.Is(aValueCode) +
+                             " AND " + DB.VSGroup.ValuePoolCol.Is(aValuePool);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValueSet = " + aValueSet + " Grouping = " + aGrouping + " GroupCode = " + aGroupCode + " ValueCode = " + aValueCode + " ValuePool = " + aValuePool);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValueSet = " + aValueSet + " Grouping = " + aGrouping + " GroupCode = " + aGroupCode + " ValueCode = " + aValueCode + " ValuePool = " + aValuePool);
             }
 
-            VSGroupRow myOut = new VSGroupRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            VSGroupRow myOut = new VSGroupRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetVSGroup_SQLString_NoWhere() {  
+        private String GetVSGroup_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -1056,8 +1175,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.VSGroup.SortCodeCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.VSGroupLang2.SortCodeCol.ForSelectWithFallback(langCode, DB.VSGroup.SortCodeCol);
                 }
             }
@@ -1065,9 +1186,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetVSGroupRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.VSGroup.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.VSGroupLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.VSGroupLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.VSGroup.ValueSetCol.Is(DB.VSGroupLang2.ValueSetCol, langCode) +
                                  " AND " + DB.VSGroup.GroupingCol.Is(DB.VSGroupLang2.GroupingCol, langCode) +
                                  " AND " + DB.VSGroup.GroupCodeCol.Is(DB.VSGroupLang2.GroupCodeCol, langCode) +
@@ -1083,25 +1206,28 @@ namespace PCAxis.Sql.QueryLib_21 {
 
         #region for VSValue
         //returns the single "row" found when all PKs are spesified
-        public VSValueRow GetVSValueRow(string aValueSet, string aValuePool, string aValueCode) {
+        public VSValueRow GetVSValueRow(string aValueSet, string aValuePool, string aValueCode)
+        {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetVSValue_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.VSValue.ValueSetCol.Is(aValueSet)  + 
-                             " AND " +DB.VSValue.ValuePoolCol.Is(aValuePool)  + 
-                             " AND " +DB.VSValue.ValueCodeCol.Is(aValueCode) ;
+            sqlString += " WHERE " + DB.VSValue.ValueSetCol.Is(aValueSet) +
+                             " AND " + DB.VSValue.ValuePoolCol.Is(aValuePool) +
+                             " AND " + DB.VSValue.ValueCodeCol.Is(aValueCode);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count != 1) {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ValueSet = " + aValueSet + " ValuePool = " + aValuePool + " ValueCode = " + aValueCode);
+            if (myRows.Count != 1)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ValueSet = " + aValueSet + " ValuePool = " + aValuePool + " ValueCode = " + aValueCode);
             }
 
-            VSValueRow myOut = new VSValueRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator) this); 
+            VSValueRow myOut = new VSValueRow(myRows[0], DB, mLanguageCodes, (IMetaVersionComparator)this);
             return myOut;
         }
 
 
-        private String GetVSValue_SQLString_NoWhere() {  
+        private String GetVSValue_SQLString_NoWhere()
+        {
             //SqlDbConfig dbconf = DB;   
             string sqlString = "SELECT ";
 
@@ -1113,8 +1239,10 @@ namespace PCAxis.Sql.QueryLib_21 {
                 DB.VSValue.SortCodeCol.ForSelect();
 
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
                     sqlString += ", " + DB.VSValueLang2.SortCodeCol.ForSelectWithFallback(langCode, DB.VSValue.SortCodeCol);
                 }
             }
@@ -1122,9 +1250,11 @@ namespace PCAxis.Sql.QueryLib_21 {
             sqlString += " /" + "*** SQLID: GetVSValueRow_01 ***" + "/ ";
             sqlString += " FROM " + DB.VSValue.GetNameAndAlias();
 
-            foreach (String langCode in mLanguageCodes) {
-                if (DB.isSecondaryLanguage(langCode)) {
-                    sqlString += " LEFT JOIN "  + DB.VSValueLang2.GetNameAndAlias(langCode);
+            foreach (String langCode in mLanguageCodes)
+            {
+                if (DB.isSecondaryLanguage(langCode))
+                {
+                    sqlString += " LEFT JOIN " + DB.VSValueLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.VSValue.ValueSetCol.Is(DB.VSValueLang2.ValueSetCol, langCode) +
                                  " AND " + DB.VSValue.ValuePoolCol.Is(DB.VSValueLang2.ValuePoolCol, langCode) +
                                  " AND " + DB.VSValue.ValueCodeCol.Is(DB.VSValueLang2.ValueCodeCol, langCode);

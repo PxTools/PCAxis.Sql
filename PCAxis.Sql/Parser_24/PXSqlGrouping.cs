@@ -2,12 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Collections.Specialized;
-    using PCAxis.Sql.QueryLib_24;
-    using PCAxis.Paxiom;
-    using log4net;
     using System.Linq;
+
+    using log4net;
+
+    using PCAxis.Paxiom;
+    using PCAxis.Sql.QueryLib_24;
 
     public class PXSqlGrouping
     {
@@ -245,7 +246,7 @@
             {
                 if (childCodesByParentCode.ContainsKey(group.ParentCode))
                 {
-                    foreach(var childCode in childCodesByParentCode[group.ParentCode])
+                    foreach (var childCode in childCodesByParentCode[group.ParentCode])
                     {
                         group.AddChildCode(childCode);
                     }
@@ -516,7 +517,7 @@
                 this.PresText[langCode] = groupingRow.texts[langCode].PresText;
             }
             this.SortCode = groupingRow.texts[meta.MainLanguageCode].SortCode;
-            
+
             //TODO added databasedefault to override value from paxiom, should be possible to do both
             switch (this.mGroupPres.ToUpper())
             {
@@ -575,7 +576,7 @@
             Grouping paxGrouping = new Grouping();
             paxGrouping.Name = this.GroupingId;
             paxGrouping.ID = this.GroupingId;
-     //       if (this.mIncludeType.Equals(GroupingIncludesType.All))
+            //       if (this.mIncludeType.Equals(GroupingIncludesType.All))
             {
                 foreach (PXSqlGroup group in this.mGroups)
                 {

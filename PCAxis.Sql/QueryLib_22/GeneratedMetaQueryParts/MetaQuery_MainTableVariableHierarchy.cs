@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,18 +16,18 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMainTableVariableHierarchy_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(aMainTable)  + 
-                             " AND " +DB.MainTableVariableHierarchy.VariableCol.Is(aVariable)  + 
-                             " AND " +DB.MainTableVariableHierarchy.GroupingCol.Is(aGrouping) ;
+            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(aMainTable) +
+                             " AND " + DB.MainTableVariableHierarchy.VariableCol.Is(aVariable) +
+                             " AND " + DB.MainTableVariableHierarchy.GroupingCol.Is(aGrouping);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," MainTable = " + aMainTable + " Variable = " + aVariable + " Grouping = " + aGrouping);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " MainTable = " + aMainTable + " Variable = " + aVariable + " Grouping = " + aGrouping);
             }
 
-            MainTableVariableHierarchyRow myOut = new MainTableVariableHierarchyRow(myRows[0], DB); 
+            MainTableVariableHierarchyRow myOut = new MainTableVariableHierarchyRow(myRows[0], DB);
             return myOut;
         }
 
@@ -45,15 +40,15 @@ namespace PCAxis.Sql.QueryLib_22
             // WHERE MTP.MainTable = '<aMainTable>'
             //    AND MTP.Variable = '<aVariable>'
             //
-            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(aMainTable) + 
-                         " AND " +DB.MainTableVariableHierarchy.VariableCol.Is(aVariable);
+            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(aMainTable) +
+                         " AND " + DB.MainTableVariableHierarchy.VariableCol.Is(aVariable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " Variable = " + aVariable);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " Variable = " + aVariable);
             }
 
             foreach (DataRow sqlRow in myRows)

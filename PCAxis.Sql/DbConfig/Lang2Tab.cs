@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PCAxis.Sql.DbConfig
 {
     public class Lang2Tab
     {
-        
+
         // The name of the table in the database without language suffix
         private string localTableNameBase;
 
@@ -17,7 +16,7 @@ namespace PCAxis.Sql.DbConfig
         {
             get { return localTableNameBase; }
         }
-        
+
         // The alias of the table without language suffix
         private string tableAliasBase;
         /// <summary>
@@ -28,7 +27,7 @@ namespace PCAxis.Sql.DbConfig
             get { return tableAliasBase; }
         }
 
-        
+
         private Dictionary<string, string> metaSuffixByLanguage;
         internal Dictionary<string, string> Suffixes
         {
@@ -36,10 +35,10 @@ namespace PCAxis.Sql.DbConfig
         }
 
         private string metaOwner;
-        
-       
 
-        internal Lang2Tab(string tableAliasBase, string localTableNameBase, string metaOwner,Dictionary<string, string> metaSuffixByLanguage)
+
+
+        internal Lang2Tab(string tableAliasBase, string localTableNameBase, string metaOwner, Dictionary<string, string> metaSuffixByLanguage)
         {
             this.tableAliasBase = tableAliasBase;
             this.localTableNameBase = localTableNameBase;
@@ -55,8 +54,8 @@ namespace PCAxis.Sql.DbConfig
         /// <param name="languageCode"></param>
         /// <returns></returns>
         public string GetNameAndAlias(string languageCode)
-            {
-                return this.metaOwner+this.localTableNameBase+this.metaSuffixByLanguage[languageCode] + " " + this.tableAliasBase + this.metaSuffixByLanguage[languageCode];
-            }
+        {
+            return this.metaOwner + this.localTableNameBase + this.metaSuffixByLanguage[languageCode] + " " + this.tableAliasBase + this.metaSuffixByLanguage[languageCode];
+        }
     }
 }

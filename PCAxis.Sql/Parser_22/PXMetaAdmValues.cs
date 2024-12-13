@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_22;
-using log4net;
-using PCAxis.Sql.DbConfig;
 
-namespace PCAxis.Sql.Parser_22 {
+using log4net;
+
+using PCAxis.Sql.DbConfig;
+using PCAxis.Sql.QueryLib_22;
+
+namespace PCAxis.Sql.Parser_22
+{
 
     /// <summary>
     /// Gets the values from the MetaAdm table or their defaults.
     /// </summary>
-    public class PXMetaAdmValues {
+    public class PXMetaAdmValues
+    {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PXMetaAdmValues));
 
@@ -21,7 +24,8 @@ namespace PCAxis.Sql.Parser_22 {
         /// <summary>
         /// returns the PXCodepage from database (optional) or the default 
         /// </summary>
-        internal string PXCodepage {
+        internal string PXCodepage
+        {
             get { return _PXCodepage; }
         }
 
@@ -29,7 +33,8 @@ namespace PCAxis.Sql.Parser_22 {
         /// <summary>
         /// returns the PXCharset from database (optional) or the default 
         /// </summary>
-        internal string PXCharset {
+        internal string PXCharset
+        {
             get { return _PXCharset; }
         }
 
@@ -37,7 +42,8 @@ namespace PCAxis.Sql.Parser_22 {
         /// <summary>
         /// returns the PXAxisVersion from database (optional) or the default 
         /// </summary>
-        internal string PXAxisVersion {
+        internal string PXAxisVersion
+        {
             get { return _PXAxisVersion; }
 
         }
@@ -46,7 +52,8 @@ namespace PCAxis.Sql.Parser_22 {
         /// <summary>
         /// returns the PXDescriptionDefault from database (optional) or the default 
         /// </summary>
-        internal bool PXDescriptionDefault {
+        internal bool PXDescriptionDefault
+        {
             get { return _PXDescriptionDefault; }
         }
 
@@ -63,7 +70,8 @@ namespace PCAxis.Sql.Parser_22 {
         /// <summary>
         /// Gets the ID for DataNotAvailable
         /// </summary>
-        internal string DataNotAvailable{
+        internal string DataNotAvailable
+        {
             get { return _DataNotAvailable; }
         }
 
@@ -103,7 +111,7 @@ namespace PCAxis.Sql.Parser_22 {
         {
             get { return _DefaultCodeMissingLine; }
         }
-       
+
 
         #endregion fields & properties
 
@@ -122,68 +130,76 @@ namespace PCAxis.Sql.Parser_22 {
             if (altIBasen.ContainsKey(Keywords.DataNotAvailable))
             {
                 _DataNotAvailable = altIBasen[Keywords.DataNotAvailable].Value;
-             } 
-             else 
-             {
-                 throw new ApplicationException("Keyword:" + Keywords.DataNotAvailable + " not found in table with modelname MetaAdm.");
-             }
+            }
+            else
+            {
+                throw new ApplicationException("Keyword:" + Keywords.DataNotAvailable + " not found in table with modelname MetaAdm.");
+            }
 
-             if (altIBasen.ContainsKey(Keywords.DataNoteSum))
-             {
-                 _DataNoteSum = altIBasen[Keywords.DataNoteSum].Value;
-             }
-             else
-             {
-                 throw new ApplicationException("Keyword:" + Keywords.DataNoteSum + " not found in table with modelname MetaAdm.");
-             }
-
-
-             if (altIBasen.ContainsKey(Keywords.DataSymbolNIL))
-             {
-                 _DataSymbolNIL = altIBasen[Keywords.DataSymbolNIL].Value;
-             }
-             else
-             {
-                 throw new ApplicationException("Keyword:" + Keywords.DataSymbolNIL + " not found in table with modelname MetaAdm.");
-             }
-
-             if (altIBasen.ContainsKey(Keywords.DataSymbolSum))
-             {
-                 _DataSymbolSum = altIBasen[Keywords.DataSymbolSum].Value;
-             }
-             else
-             {
-                 throw new ApplicationException("Keyword:" + Keywords.DataSymbolSum + " not found in table with modelname MetaAdm.");
-             }
+            if (altIBasen.ContainsKey(Keywords.DataNoteSum))
+            {
+                _DataNoteSum = altIBasen[Keywords.DataNoteSum].Value;
+            }
+            else
+            {
+                throw new ApplicationException("Keyword:" + Keywords.DataNoteSum + " not found in table with modelname MetaAdm.");
+            }
 
 
-             if (altIBasen.ContainsKey(Keywords.DefaultCodeMissingLine))
-             {
-                 _DefaultCodeMissingLine = altIBasen[Keywords.DefaultCodeMissingLine].Value;
-             }
-             else
-             {
-                 throw new ApplicationException("Keyword:" + Keywords.DefaultCodeMissingLine + " not found in table with modelname MetaAdm.");
-             }
+            if (altIBasen.ContainsKey(Keywords.DataSymbolNIL))
+            {
+                _DataSymbolNIL = altIBasen[Keywords.DataSymbolNIL].Value;
+            }
+            else
+            {
+                throw new ApplicationException("Keyword:" + Keywords.DataSymbolNIL + " not found in table with modelname MetaAdm.");
+            }
+
+            if (altIBasen.ContainsKey(Keywords.DataSymbolSum))
+            {
+                _DataSymbolSum = altIBasen[Keywords.DataSymbolSum].Value;
+            }
+            else
+            {
+                throw new ApplicationException("Keyword:" + Keywords.DataSymbolSum + " not found in table with modelname MetaAdm.");
+            }
+
+
+            if (altIBasen.ContainsKey(Keywords.DefaultCodeMissingLine))
+            {
+                _DefaultCodeMissingLine = altIBasen[Keywords.DefaultCodeMissingLine].Value;
+            }
+            else
+            {
+                throw new ApplicationException("Keyword:" + Keywords.DefaultCodeMissingLine + " not found in table with modelname MetaAdm.");
+            }
 
 
             //Optional
 
 
             //PXCodepage
-            if (Keywords.Optional_PXCodepage != null) {
-                if (altIBasen.ContainsKey(Keywords.Optional_PXCodepage)) {
+            if (Keywords.Optional_PXCodepage != null)
+            {
+                if (altIBasen.ContainsKey(Keywords.Optional_PXCodepage))
+                {
                     _PXCodepage = altIBasen[Keywords.Optional_PXCodepage].Value;
-                } else {
+                }
+                else
+                {
                     throw new ApplicationException("Keyword:" + Keywords.Optional_PXCodepage + " not found in table with modelname MetaAdm.");
                 }
             }
 
             //PXDescriptionDefault
-            if (Keywords.Optional_PXDescriptionDefault != null) {
-                if (altIBasen.ContainsKey(Keywords.Optional_PXDescriptionDefault)) {
+            if (Keywords.Optional_PXDescriptionDefault != null)
+            {
+                if (altIBasen.ContainsKey(Keywords.Optional_PXDescriptionDefault))
+                {
                     _PXDescriptionDefault = altIBasen[Keywords.Optional_PXDescriptionDefault].Value.Equals(dbConfig.Codes.Yes);
-                } else {
+                }
+                else
+                {
                     throw new ApplicationException("Keyword:" + Keywords.Optional_PXDescriptionDefault + " not found in table with modelname MetaAdm.");
                 }
             }
@@ -202,29 +218,37 @@ namespace PCAxis.Sql.Parser_22 {
 
 
             //PXCharset
-            if (Keywords.Optional_PXCharset != null) {
-                if (altIBasen.ContainsKey(Keywords.Optional_PXCharset)) {
+            if (Keywords.Optional_PXCharset != null)
+            {
+                if (altIBasen.ContainsKey(Keywords.Optional_PXCharset))
+                {
                     _PXCharset = altIBasen[Keywords.Optional_PXCharset].Value;
-                } else {
+                }
+                else
+                {
                     throw new ApplicationException("Keyword:" + Keywords.Optional_PXCharset + " not found in table with modelname MetaAdm.");
                 }
             }
 
             //PXAxisVersion
-            if (Keywords.Optional_PXAxisVersion != null) {
-                if (altIBasen.ContainsKey(Keywords.Optional_PXAxisVersion)) {
+            if (Keywords.Optional_PXAxisVersion != null)
+            {
+                if (altIBasen.ContainsKey(Keywords.Optional_PXAxisVersion))
+                {
                     _PXAxisVersion = altIBasen[Keywords.Optional_PXAxisVersion].Value;
-                } else {
+                }
+                else
+                {
                     throw new ApplicationException("Keyword:" + Keywords.Optional_PXAxisVersion + " not found in table with modelname MetaAdm.");
                 }
             }
 
 
         }
-        
-        
 
 
- 
+
+
+
     }
 }

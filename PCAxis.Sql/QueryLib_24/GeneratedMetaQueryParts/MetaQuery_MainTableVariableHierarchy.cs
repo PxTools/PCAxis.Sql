@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,9 +16,9 @@ namespace PCAxis.Sql.QueryLib_24
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMainTableVariableHierarchy_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) + 
-                             " AND " +DB.MainTableVariableHierarchy.VariableCol.Is(mSqlCommand.GetParameterRef("aVariable")) + 
-                             " AND " +DB.MainTableVariableHierarchy.GroupingCol.Is(mSqlCommand.GetParameterRef("aGrouping"));
+            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) +
+                             " AND " + DB.MainTableVariableHierarchy.VariableCol.Is(mSqlCommand.GetParameterRef("aVariable")) +
+                             " AND " + DB.MainTableVariableHierarchy.GroupingCol.Is(mSqlCommand.GetParameterRef("aGrouping"));
 
             // creating the parameters
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[3];
@@ -35,10 +30,10 @@ namespace PCAxis.Sql.QueryLib_24
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," MainTable = " + aMainTable + " Variable = " + aVariable + " Grouping = " + aGrouping);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " MainTable = " + aMainTable + " Variable = " + aVariable + " Grouping = " + aGrouping);
             }
 
-            MainTableVariableHierarchyRow myOut = new MainTableVariableHierarchyRow(myRows[0], DB); 
+            MainTableVariableHierarchyRow myOut = new MainTableVariableHierarchyRow(myRows[0], DB);
             return myOut;
         }
 
@@ -51,8 +46,8 @@ namespace PCAxis.Sql.QueryLib_24
             // WHERE MTP.MainTable = <"MainTable as parameter reference for your db vendor">
             //    AND MTP.Variable = <"Variable as parameter reference for your db vendor">
             //
-            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) + 
-                         " AND " +DB.MainTableVariableHierarchy.VariableCol.Is(mSqlCommand.GetParameterRef("aVariable"));
+            sqlString += " WHERE " + DB.MainTableVariableHierarchy.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable")) +
+                         " AND " + DB.MainTableVariableHierarchy.VariableCol.Is(mSqlCommand.GetParameterRef("aVariable"));
 
             // creating the parameters
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[2];
@@ -63,9 +58,9 @@ namespace PCAxis.Sql.QueryLib_24
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " Variable = " + aVariable);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " Variable = " + aVariable);
             }
 
             foreach (DataRow sqlRow in myRows)

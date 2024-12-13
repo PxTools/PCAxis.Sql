@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
+using System.Collections.Specialized;
+using System.Data; // For DataSet-objects.
+using System.Data.Common;
 using System.Linq;
 
-using System.Data; // For DataSet-objects.
-using System.Collections.Specialized;
-
-using System.Data.Common;
 using log4net;
 
 using PCAxis.Sql.Exceptions;
 
-namespace PCAxis.Sql.DbClient {
+namespace PCAxis.Sql.DbClient
+{
 
     /// <summary> 13:10
     /// This class represents a "common sql gateway" for all sql databases
@@ -40,7 +38,7 @@ namespace PCAxis.Sql.DbClient {
         private static readonly ILog log = LogManager.GetLogger(typeof(PxSqlCommand));
 
 #if DEBUG
-                 private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
+        private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(), "LogTime");
 #endif
 
         private readonly string connectionString;
@@ -56,13 +54,16 @@ namespace PCAxis.Sql.DbClient {
         /// <summary>
         /// Constructor with connection-parameters.
         /// </summary>
-        public PxSqlCommandForTempTables(string dbType, string dataProvider, string connectionString) {
+        public PxSqlCommandForTempTables(string dbType, string dataProvider, string connectionString)
+        {
             this.connectionString = connectionString;
             // dataProvider =  "OleDb","Oracle","Sql","Odbc","SqlCe"
-            if ( String.IsNullOrEmpty(connectionString)) {
+            if (String.IsNullOrEmpty(connectionString))
+            {
                 throw new PxsException(37);
             }
-            if (String.IsNullOrEmpty(dataProvider)){
+            if (String.IsNullOrEmpty(dataProvider))
+            {
                 throw new PxsException(38);
             }
 
@@ -70,9 +71,12 @@ namespace PCAxis.Sql.DbClient {
 
             //log.Debug("PxSqlCommand started with type: " + dbType + ", dataProvider:" + dataProvider + " and string:" + connectionString);
             String lDataProvider = dataProvider.ToUpper();
-            if (lDataProvider.Equals("ORACLE")) {
+            if (lDataProvider.Equals("ORACLE"))
+            {
                 myDbVendor = new MyDbVendorIsOracle(connectionString);
-            } else if (lDataProvider.Equals("SQL")) {
+            }
+            else if (lDataProvider.Equals("SQL"))
+            {
                 myDbVendor = new MyDbVendorIsSql(connectionString);
             }
             /*
@@ -82,7 +86,8 @@ namespace PCAxis.Sql.DbClient {
                 myDbVendor = new MyDbVendorIsOdbc(connectionString);
             }
             */
-            else {
+            else
+            {
                 // lDataProvider.Equals("SQLCE") could not find namespace
                 throw new PxsException(39, "\"OleDb\",\"Oracle\",\"Sql\", \"Odbc\"", dataProvider);
 
@@ -108,33 +113,36 @@ namespace PCAxis.Sql.DbClient {
         /// </summary>
         /// <param name="selectString">The SQL query (select).</param>
         /// <returns>A "System.Data DataSet" with the data result from the query.</returns>
-        public DataSet ExecuteSelect(string selectString) {
+        public DataSet ExecuteSelect(string selectString)
+        {
 
             // Check SQL param
-            if (String.IsNullOrEmpty(selectString)) {
+            if (String.IsNullOrEmpty(selectString))
+            {
                 throw new BugException("Error PxSqlClient.PxSqlCommand.ExecuteSelect: Parameter \"selectString\" is empty/null!");
             }
             log.Debug(selectString);
 
-            if(selectString.Contains(";"))
+            if (selectString.Contains(";"))
             {
                 throw new BugException("Error PxSqlClient.PxSqlCommand.ExecuteSelect: Parameter \"selectString\" contains semicolon");
             }
-            #if DEBUG
-                System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                stopWatch.Start();
-            #endif
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+#endif
             DataSet pxDataSet = new DataSet();
-            using (DbDataAdapter pxDataAdapter = myDbVendor.GetDbDataAdapter(selectString)) {
+            using (DbDataAdapter pxDataAdapter = myDbVendor.GetDbDataAdapter(selectString))
+            {
 
                 pxDataAdapter.Fill(pxDataSet);
                 //TODO: Check for pxDataAdapter.FillError???
             }
 
-            #if DEBUG
-                stopWatch.Stop();
-                logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for sql = {1}", stopWatch.ElapsedMilliseconds, selectString);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for sql = {1}", stopWatch.ElapsedMilliseconds, selectString);
+#endif
 
             return pxDataSet;
         }
@@ -153,10 +161,10 @@ namespace PCAxis.Sql.DbClient {
                 throw new BugException("Error PxSqlClient.PxSqlCommand.ExecuteSelect: Parameter \"selectString\" is empty/null!");
             }
             log.Debug(selectString);
-            #if DEBUG
-                    System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                    stopWatch.Start();
-            #endif
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+#endif
 
             DataSet pxDataSet = new DataSet();
             try
@@ -183,46 +191,48 @@ namespace PCAxis.Sql.DbClient {
                 }
                 throw;
             }
-            #if DEBUG
-                    stopWatch.Stop();
-                    logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for sql = {1}", stopWatch.ElapsedMilliseconds, selectString);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for sql = {1}", stopWatch.ElapsedMilliseconds, selectString);
+#endif
             return pxDataSet;
         }
 
 
-       /// <summary>
-       /// Returns a DbParameter with type= string and  parameterName and parameterValue as given.
-       /// </summary>
-       public DbParameter GetStringParameter(string parameterName, string parameterValue)
-       {
-           DbParameter myOut = myDbVendor.GetEmptyDbParameter();
-           myOut.DbType = DbType.String;
-           myOut.ParameterName = parameterName;
-           myOut.Value = parameterValue;
-           return myOut;
-       }
+        /// <summary>
+        /// Returns a DbParameter with type= string and  parameterName and parameterValue as given.
+        /// </summary>
+        public DbParameter GetStringParameter(string parameterName, string parameterValue)
+        {
+            DbParameter myOut = myDbVendor.GetEmptyDbParameter();
+            myOut.DbType = DbType.String;
+            myOut.ParameterName = parameterName;
+            myOut.Value = parameterValue;
+            return myOut;
+        }
 
-       /// <summary>
-       /// The reference to a parameter, e.g. @maintable,:maintable or just ? depending on your db
-       /// </summary>
-       /// <param name="propertyName">The "base" e.g. maintable</param>
-       /// <returns>@maintable,:maintable or just ? depending on your db</returns>
-       public string GetParameterRef(string propertyName)
-       {
-           return myDbVendor.GetParameterRef(propertyName);
-       }
+        /// <summary>
+        /// The reference to a parameter, e.g. @maintable,:maintable or just ? depending on your db
+        /// </summary>
+        /// <param name="propertyName">The "base" e.g. maintable</param>
+        /// <returns>@maintable,:maintable or just ? depending on your db</returns>
+        public string GetParameterRef(string propertyName)
+        {
+            return myDbVendor.GetParameterRef(propertyName);
+        }
 
         /// <summary>
         /// Execute a "non query" command (insert, update, delete, create, drop, ...). Explicit connection.
         /// </summary>
         /// <param name="commandString">The SQL command.</param>
         /// <returns>For UPDATE, INSERT and DELETE statements. The return value is the number of rows affected by the command. For CREATE TABLE and DROP TABLE statements, the return value is 0. For all other types of statements, the return value is -1.</returns>
-        public int ExecuteNonQuery(string commandString) {
+        public int ExecuteNonQuery(string commandString)
+        {
             int numOfRowsAffected = -1;  // Default value.
 
             // Check  SQL
-            if (String.IsNullOrEmpty(commandString)) {
+            if (String.IsNullOrEmpty(commandString))
+            {
                 throw new BugException("PxSqlClient.PxSqlCommand.ExecuteNonQuery: Parameter \"commandString\" is empty/null!");
             }
             log.Debug(commandString);
@@ -231,22 +241,23 @@ namespace PCAxis.Sql.DbClient {
             {
                 throw new BugException("PxSqlClient.PxSqlCommand.ExecuteNonQuery: Parameter \"commandString\" contains semicolon");
             }
-            #if DEBUG
-                System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                stopWatch.Start();
-            #endif
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+#endif
 
             DbCommand pxDbCommand = myDbVendor.GetDbCommand(commandString);
-            if (pxDbCommand.Connection.State != ConnectionState.Open) {
+            if (pxDbCommand.Connection.State != ConnectionState.Open)
+            {
                 pxDbCommand.Connection.Open();
             }
             numOfRowsAffected = pxDbCommand.ExecuteNonQuery();
 
 
-            #if DEBUG
-                stopWatch.Stop();
-                logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0} for sql={1}", stopWatch.ElapsedMilliseconds, commandString);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat("    Completed " + System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0} for sql={1}", stopWatch.ElapsedMilliseconds, commandString);
+#endif
 
             return numOfRowsAffected;
         }
@@ -260,7 +271,8 @@ namespace PCAxis.Sql.DbClient {
         /// </summary>
         /// <param name="lengthOfOtherChars">The length of the rest of the tablename</param>
         /// <returns></returns>
-        public string getUniqueNumber(int lengthOfOtherChars) {
+        public string getUniqueNumber(int lengthOfOtherChars)
+        {
             int dbMaxLength = 30;//
             int outLength = dbMaxLength - lengthOfOtherChars - 15;
 
@@ -283,16 +295,18 @@ namespace PCAxis.Sql.DbClient {
         /// <param name="commandStrings"></param>
         /// <param name="numberInBulk"></param>
         /// <returns></returns>
-        public int InsertBulk(StringCollection commandStrings, int numberInBulk) {
+        public int InsertBulk(StringCollection commandStrings, int numberInBulk)
+        {
 
-            if (commandStrings == null || commandStrings.Count == 0) {
+            if (commandStrings == null || commandStrings.Count == 0)
+            {
                 throw new BugException("Error PxSqlClient.PxSqlCommand.InsertBulk: Parameter \"commandStrings\" is empty/null!");
             }
-            #if DEBUG
+#if DEBUG
             System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
             logTime.DebugFormat("    Start " + System.Reflection.MethodBase.GetCurrentMethod().Name + " commandStrings.Count ={0}", commandStrings.Count);
-            #endif
+#endif
             StringCollection sqlStrings = new StringCollection();
 
             int numOfRowsAffected = 0; // jfi: denne var -1
@@ -304,16 +318,18 @@ namespace PCAxis.Sql.DbClient {
 
 
 
-            foreach (string value in commandStrings) {
+            foreach (string value in commandStrings)
+            {
                 if (value.Contains(";"))
                 {
-                    log.Error("Bad command: "+value);
+                    log.Error("Bad command: " + value);
                     throw new BugException("Error PxSqlClient.PxSqlCommand.InsertBulk: command contains semicolon");
                 }
                 sqlStrings.Add(value);
                 ValuesCounter += 1;
                 Math.DivRem(ValuesCounter, numberInBulk, out rem);
-                if ((rem == 0) || ValuesCounter == commandStrings.Count) {
+                if ((rem == 0) || ValuesCounter == commandStrings.Count)
+                {
                     numOfRowsAffected += this.InsertBulk(sqlStrings);
                     sqlStrings.Clear();
                 }
@@ -331,20 +347,21 @@ namespace PCAxis.Sql.DbClient {
             }
 
             */
-            #if DEBUG
-                  stopWatch.Stop();
-                  logTime.DebugFormat("    " + System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0}", stopWatch.ElapsedMilliseconds);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat("    " + System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0}", stopWatch.ElapsedMilliseconds);
+#endif
             return numOfRowsAffected;
         }
 
 
 
-        private int InsertBulk(StringCollection commandStrings) {
-            #if DEBUG
-                System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-                stopWatch.Start();
-            #endif
+        private int InsertBulk(StringCollection commandStrings)
+        {
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+#endif
             string command = myDbVendor.joinCommandStrings(commandStrings);
 
             log.Debug(command);
@@ -353,10 +370,10 @@ namespace PCAxis.Sql.DbClient {
 
             // Return number of rows affected.
             int myOut = pxDbCommand.ExecuteNonQuery();
-            #if DEBUG
-                stopWatch.Stop();
-                logTime.DebugFormat("           Completed inner " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for commandStrings.Count ={1}", stopWatch.ElapsedMilliseconds, commandStrings.Count);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat("           Completed inner " + System.Reflection.MethodBase.GetCurrentMethod().Name + " in ms = {0} for commandStrings.Count ={1}", stopWatch.ElapsedMilliseconds, commandStrings.Count);
+#endif
             return myOut;
         }
 
@@ -368,7 +385,8 @@ namespace PCAxis.Sql.DbClient {
         /// Returns "." for the datatables prefix for mssql otherwise ""
         /// </summary>
         /// <returns></returns>
-        public string getExtraDotForDatatables() {
+        public string getExtraDotForDatatables()
+        {
             return myDbVendor.mXtraDotForDatatables;
         }
 
@@ -377,7 +395,8 @@ namespace PCAxis.Sql.DbClient {
         /// Prefix for the tablename. Some vendors use this to indicate that a table is temporary.
         /// </summary>
         /// <returns>"" or prefix</returns>
-        public string getPrefixIndicatingTempTable() {
+        public string getPrefixIndicatingTempTable()
+        {
             return myDbVendor.PrefixIndicatingTempTable;
         }
 
@@ -385,7 +404,8 @@ namespace PCAxis.Sql.DbClient {
         /// Extra keyword for temp tables. Some vendors use this to indicate that a table is temporary.
         /// </summary>
         /// <returns>spaces or Keyword</returns>
-        public string getKeywordAfterCreateIndicatingTempTable() {
+        public string getKeywordAfterCreateIndicatingTempTable()
+        {
             return " " + myDbVendor.KeywordAfterCreateIndicatingTempTable + " ";
         }
 
@@ -393,7 +413,8 @@ namespace PCAxis.Sql.DbClient {
         /// Extra clause for temp tables. Some vendors use this when a table is temporary.
         /// </summary>
         /// <returns>spaces or Keyword</returns>
-        public string getTempTableCreateCommandEndClause() {
+        public string getTempTableCreateCommandEndClause()
+        {
             return " " + myDbVendor.TempTableCreateCommandEndClause;
         }
 
@@ -424,7 +445,8 @@ namespace PCAxis.Sql.DbClient {
         /// Should clean up be done by this application
         /// </summary>
         /// <returns>true false</returns>
-        public Boolean getProgramMustTruncAndDropTempTable() {
+        public Boolean getProgramMustTruncAndDropTempTable()
+        {
             return myDbVendor.ProgramMustTrunCAndDropTempTable;
         }
 
@@ -447,10 +469,10 @@ namespace PCAxis.Sql.DbClient {
         /// </summary>
         public string MakeTempTableJustValues(string VariableName, string VariableNumber, bool UseTemporaryTables, StringCollection valueCodes)
         {
-           #if DEBUG
+#if DEBUG
             System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
-           #endif
+#endif
 
             bool makeGroupFactorCol = false;
             string tempTableId = this.GetTempTableId(VariableNumber, UseTemporaryTables);
@@ -468,7 +490,7 @@ namespace PCAxis.Sql.DbClient {
 
             DbParameter[] parameters = new DbParameter[3];
             parameters[0] = this.GetStringParameter("aValueCode1", "WillBeOverwritten");
-            parameters[1] = this.GetStringParameter("aValueCode2","WillBeOverwritten");
+            parameters[1] = this.GetStringParameter("aValueCode2", "WillBeOverwritten");
             parameters[2] = this.myDbVendor.GetEmptyDbParameter();
             parameters[2].DbType = DbType.Int32;
             parameters[2].ParameterName = "aValueCounter";
@@ -555,7 +577,7 @@ namespace PCAxis.Sql.DbClient {
                     "(SELECT COUNT(*) FROM " + tempTableId + " a2 " +
                     "WHERE a2.group" + VariableNumber + " = " + tempTableId + ".group" + VariableNumber + ")";
 
-               int numberOfRowsAffected = this.ExecuteNonQuery(sqlString2);
+                int numberOfRowsAffected = this.ExecuteNonQuery(sqlString2);
             }
 
             return tempTableId;
@@ -566,7 +588,8 @@ namespace PCAxis.Sql.DbClient {
         /// It har 3 or 4 columns. The first contains incomming codes, the second output codes and the third is an output code counter used in the extraction-sql group by.
         /// The fourth is used to determin if there are missing rows in the datatable, when the extraction uses sum and the default value for a missing row is a npm of type 3.
         /// </summary>
-        private void createTempTable(string tempTableId, string VariableName, string  VariableNumber, bool makeGroupFactorCol, bool UseTemporaryTables){
+        private void createTempTable(string tempTableId, string VariableName, string VariableNumber, bool makeGroupFactorCol, bool UseTemporaryTables)
+        {
             log.Debug("tempTabellId:" + tempTableId + "        tempTableId len:" + tempTableId.Length);
 
             string sqlString = "CREATE /*** SQLID: createTempTable_01 ***/";
@@ -610,7 +633,8 @@ namespace PCAxis.Sql.DbClient {
 
         #region IDisposable Members
 
-        public void Dispose() {
+        public void Dispose()
+        {
             myDbVendor.Dispose();
         }
 

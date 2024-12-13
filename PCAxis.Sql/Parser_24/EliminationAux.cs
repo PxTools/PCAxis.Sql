@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PCAxis.Sql.Parser_24
 {
@@ -27,7 +25,7 @@ namespace PCAxis.Sql.Parser_24
             return ccodes.EliminationN;
         }
 
-       
+
 
         public EliminationAux(string eliminationMethod, string eliminationCode, DbConfig.SqlDbConfig_24.Ccodes ccodes)
         {
@@ -74,7 +72,7 @@ namespace PCAxis.Sql.Parser_24
                 {
                     numberOfElimA++;
                 }
-                else if (elimval.EliminationMethod == elimval.DBCodeForByNotAllowed())  
+                else if (elimval.EliminationMethod == elimval.DBCodeForByNotAllowed())
                 {
                     numberOfElimN++;
                 }
@@ -95,11 +93,11 @@ namespace PCAxis.Sql.Parser_24
             }
             else
             {
-                return new EliminationAux(null,null,elims[0].ccodes);
+                return new EliminationAux(null, null, elims[0].ccodes);
             }
-            
+
         }
 
-       
+
     }
 }

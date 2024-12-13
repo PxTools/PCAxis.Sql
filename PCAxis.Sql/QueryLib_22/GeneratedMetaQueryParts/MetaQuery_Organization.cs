@@ -1,13 +1,5 @@
 using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,16 +13,16 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetOrganization_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Organization.OrganizationCodeCol.Is(aOrganizationCode) ;
+            sqlString += " WHERE " + DB.Organization.OrganizationCodeCol.Is(aOrganizationCode);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," OrganizationCode = " + aOrganizationCode);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " OrganizationCode = " + aOrganizationCode);
             }
 
-            OrganizationRow myOut = new OrganizationRow(myRows[0], DB, mLanguageCodes); 
+            OrganizationRow myOut = new OrganizationRow(myRows[0], DB, mLanguageCodes);
             return myOut;
         }
 
@@ -67,7 +59,7 @@ namespace PCAxis.Sql.QueryLib_22
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.OrganizationLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.OrganizationLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Organization.OrganizationCodeCol.Is(DB.OrganizationLang2.OrganizationCodeCol, langCode);
                 }
             }

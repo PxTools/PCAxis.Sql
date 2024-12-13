@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -25,15 +20,15 @@ namespace PCAxis.Sql.QueryLib_22
             // WHERE VPL.Grouping = '<aGrouping>'
             //    AND VPL.GroupCode = '<aGroupCode>'
             //
-            sqlString += " WHERE " + DB.ValueGroup.GroupingCol.Is(aGrouping) + 
-                         " AND " +DB.ValueGroup.GroupCodeCol.Is(aGroupCode);
+            sqlString += " WHERE " + DB.ValueGroup.GroupingCol.Is(aGrouping) +
+                         " AND " + DB.ValueGroup.GroupCodeCol.Is(aGroupCode);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " Grouping = " + aGrouping +  " GroupCode = " + aGroupCode);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " Grouping = " + aGrouping + " GroupCode = " + aGroupCode);
             }
 
             foreach (DataRow sqlRow in myRows)
@@ -76,7 +71,7 @@ namespace PCAxis.Sql.QueryLib_22
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.ValueGroupLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.ValueGroupLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.ValueGroup.GroupingCol.Is(DB.ValueGroupLang2.GroupingCol, langCode) +
                                  " AND " + DB.ValueGroup.GroupCodeCol.Is(DB.ValueGroupLang2.GroupCodeCol, langCode) +
                                  " AND " + DB.ValueGroup.ValueCodeCol.Is(DB.ValueGroupLang2.ValueCodeCol, langCode);

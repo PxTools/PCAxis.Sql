@@ -1,13 +1,6 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
+using System.Data;
 
 
 //This code is generated. 
@@ -31,10 +24,10 @@ namespace PCAxis.Sql.QueryLib_23
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," CharacterType = " + aCharacterType);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " CharacterType = " + aCharacterType);
             }
 
-            SpecialCharacterRow myOut = new SpecialCharacterRow(myRows[0], DB, mLanguageCodes); 
+            SpecialCharacterRow myOut = new SpecialCharacterRow(myRows[0], DB, mLanguageCodes);
             return myOut;
         }
 
@@ -92,7 +85,7 @@ namespace PCAxis.Sql.QueryLib_23
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.SpecialCharacterLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.SpecialCharacterLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.SpecialCharacter.CharacterTypeCol.Is(DB.SpecialCharacterLang2.CharacterTypeCol, langCode);
                 }
             }

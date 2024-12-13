@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
 using System.Data;
-using PCAxis.Sql.DbClient; //For executing SQLs.
+
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
 //using PCAxis.Sql.QueryLib;
 
-using log4net;
 
 namespace PCAxis.Sql.QueryLib_22
 
@@ -27,7 +25,7 @@ namespace PCAxis.Sql.QueryLib_22
     }
     public class RelevantFootNotesRow
     {
-        
+
         private string mFootNoteNo;
         public string FootNoteNo
         {
@@ -87,7 +85,7 @@ namespace PCAxis.Sql.QueryLib_22
         public Dictionary<string, RelevantFoonotesTexts> texts = new Dictionary<string, RelevantFoonotesTexts>();
         public RelevantFootNotesRow(DataRow myRow, SqlDbConfig_22 dbconf, StringCollection languageCodes)
         {
-            
+
             this.mFootNoteNo = myRow["FootNoteNo"].ToString();
             //this.mFootNoteType = myRow["FootNoteType"].ToString();
             this.mFootNoteType = (PXSqlNoteType)Enum.Parse(typeof(PXSqlNoteType), myRow["FootNoteType"].ToString());
@@ -117,7 +115,7 @@ namespace PCAxis.Sql.QueryLib_22
             this.mValueCode = "*";
             this.mTimePeriod = "*";
             this.mSubTable = "*";
-            this.mMandOpt =  fr.MandOpt;
+            this.mMandOpt = fr.MandOpt;
             this.mShowFootNote = fr.ShowFootnote;
             foreach (string languageCode in languageCodes)
             {

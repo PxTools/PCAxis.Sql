@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using PCAxis.Paxiom;
+
 using PCAxis.Sql.QueryLib_23;
 
 namespace PCAxis.Sql.Parser_23
@@ -35,7 +33,7 @@ namespace PCAxis.Sql.Parser_23
             get { return mAvailableAttributes; }
         }
 
-        string  mTheOneAndOnlyAttributeColumn;
+        string mTheOneAndOnlyAttributeColumn;
         internal string TheOneAndOnlyAttributeColumn
         {
             get { return mTheOneAndOnlyAttributeColumn; }
@@ -45,7 +43,7 @@ namespace PCAxis.Sql.Parser_23
 
         //protected Dictionary<string, StringCollection> _AttributesEntries;
 
-        internal PXSqlAttributes( PXSqlMeta_23 meta) 
+        internal PXSqlAttributes(PXSqlMeta_23 meta)
         {
             this.mMeta = meta;
             mAvailableAttributes = mMeta.MetaQuery.GetAttributeRows(meta.MainTable.MainTable, true);
@@ -64,9 +62,9 @@ namespace PCAxis.Sql.Parser_23
         /// <summary>
         /// Returns attributes order by sequenceNo
         /// </summary>
-        private SortedList<string,AttributeRow> getAttributesSorted()
+        private SortedList<string, AttributeRow> getAttributesSorted()
         {
-            SortedList<string, AttributeRow> sortedAttributes = new SortedList<string,AttributeRow>();
+            SortedList<string, AttributeRow> sortedAttributes = new SortedList<string, AttributeRow>();
             foreach (AttributeRow myAttr in this.mAvailableAttributes.Values)
             {
                 sortedAttributes.Add(myAttr.SequenceNo, myAttr);

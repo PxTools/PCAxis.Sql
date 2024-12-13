@@ -1,10 +1,11 @@
 using System;
-using System.Collections.Specialized;
-using PCAxis.Paxiom;
-using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 
 using log4net;
+
+using PCAxis.Paxiom;
 
 namespace PCAxis.Sql.Parser_24
 {
@@ -19,10 +20,11 @@ namespace PCAxis.Sql.Parser_24
         internal PXSqlNpm symbols;
         #region Constructor
 
-       // public PXSqlParser_24() { }
+        // public PXSqlParser_24() { }
 
 
-        public PXSqlParser_24(PXSqlMeta_24 inPXSqlMeta) {
+        public PXSqlParser_24(PXSqlMeta_24 inPXSqlMeta)
+        {
 
             mPXSqlMeta = inPXSqlMeta;
             if (mPXSqlMeta.inPresentationModus)
@@ -83,18 +85,21 @@ namespace PCAxis.Sql.Parser_24
         ///     </table>
         ///   </rule>
         /// </PXKeyword>
-        override public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage) {
+        override public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
 
             string keyword;
-            
+
             string noLanguage = null;
             string subkey = null;
             StringCollection values;
-            if (mHasParsedMeta) {
+            if (mHasParsedMeta)
+            {
                 return;
             }
 
-            if (mPXSqlMeta.HasLanguage) {
+            if (mPXSqlMeta.HasLanguage)
+            {
                 // Language
                 keyword = PXKeywords.LANGUAGE;
                 values = new StringCollection();
@@ -104,7 +109,8 @@ namespace PCAxis.Sql.Parser_24
                 // Languages
                 keyword = PXKeywords.LANGUAGES;
                 values = new StringCollection();
-                foreach (string lang in mPXSqlMeta.LanguageCodes) {
+                foreach (string lang in mPXSqlMeta.LanguageCodes)
+                {
                     values.Add(lang);
                 }
                 handler(keyword, noLanguage, subkey, values);
@@ -121,7 +127,8 @@ namespace PCAxis.Sql.Parser_24
 
 
 
-            foreach (PXSqlVariable var in mPXSqlMeta.Variables.Values) {
+            foreach (PXSqlVariable var in mPXSqlMeta.Variables.Values)
+            {
                 var.ParseMeta(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
 
             }
@@ -133,13 +140,13 @@ namespace PCAxis.Sql.Parser_24
 
             mPXSqlMeta.TheNotes.ParseAllNotes(handler);
 
-    
-            
+
+
             #endregion Footnotes
 
             #region NPMish stuff
 
-            if (mPXSqlMeta.inPresentationModus )
+            if (mPXSqlMeta.inPresentationModus)
             {
                 this.symbols.ParseMeta(handler, mPXSqlMeta);
             }
@@ -152,7 +159,7 @@ namespace PCAxis.Sql.Parser_24
             // Due to that this method will exit first time it "hits" a default value. Det default SubTableVariable might have a default grouping.
 
             var defaultValueSetBySubTableVar = new Dictionary<PXSqlVariable, string>();
-            
+
             //This will set the default SubTableVariable if set
             foreach (var var in this.mPXSqlMeta.VariablesClassification)
             {
@@ -171,16 +178,16 @@ namespace PCAxis.Sql.Parser_24
                             {
                                 defaultValueSetBySubTableVar.Add(var.Value, variable.CurrentValueSet.ID);
                             }
-                            
+
                             break;
                         }
                     }
-                }    
+                }
             }
 
             //This will set the default grouping if set and not default SubTableVariable is set
             foreach (var var in this.mPXSqlMeta.VariablesClassification)
-	        {
+            {
                 var varName = var.Key;
 
                 if (var.Value != null && var.Value.GroupingInfos != null)
@@ -190,7 +197,7 @@ namespace PCAxis.Sql.Parser_24
                         if (groupingInfo.IsDefault)
                         {
                             //if the grouping belongs to a SubTableVariable and another SubTableVariable is default, the grouping cannot be set as deault(ApplyGrouping)
-                            if (defaultValueSetBySubTableVar.ContainsKey(var.Value)) 
+                            if (defaultValueSetBySubTableVar.ContainsKey(var.Value))
                             {
                                 var valueSetId = defaultValueSetBySubTableVar[var.Value];
                                 if (!groupingInfo.ValueSetIds.Contains(valueSetId)) continue;
@@ -201,11 +208,11 @@ namespace PCAxis.Sql.Parser_24
                         }
                     }
                 }
-	        }
-            
+            }
+
         }
-     
-       
+
+
         #endregion
 
 
@@ -213,12 +220,14 @@ namespace PCAxis.Sql.Parser_24
         /// <summary>
         /// IDisposable implemenatation
         /// </summary>
-        override public void Dispose() {
-            if (mPXSqlMeta != null) {
+        override public void Dispose()
+        {
+            if (mPXSqlMeta != null)
+            {
                 mPXSqlMeta.Dispose();
             }
         }
-        
+
     }
 }
 

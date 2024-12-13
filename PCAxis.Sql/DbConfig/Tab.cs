@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PCAxis.Sql.DbConfig
 {
     public class Tab
     {
-       
+
         // The actual name of the table in the database
         private string localTableName;
         // The alias of the table 
         private string tableAlias;
         private string metaOwner;
         private string nameAndAlias;
-       
+
         /// <summary>
         /// Local table name
         /// </summary>
@@ -21,7 +19,7 @@ namespace PCAxis.Sql.DbConfig
         {
             get { return localTableName; }
         }
-        
+
         /// <summary>
         /// Table alias
         /// </summary>
@@ -42,10 +40,10 @@ namespace PCAxis.Sql.DbConfig
         /// metaOwner + localTableName + " " + tableAlias
         /// </summary>
         /// <returns></returns>
-          public string GetNameAndAlias()
-            {
-                return this.nameAndAlias;
-            }
+        public string GetNameAndAlias()
+        {
+            return this.nameAndAlias;
+        }
 
-          }
+    }
 }

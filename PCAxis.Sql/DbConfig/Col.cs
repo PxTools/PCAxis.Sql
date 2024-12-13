@@ -16,7 +16,7 @@ namespace PCAxis.Sql.DbConfig
         // The alias of the table
         private string tableAlias;
 
-       
+
         public Col(string colName, string tableAliasBase)
         {
             this.colName = colName;
@@ -51,7 +51,7 @@ namespace PCAxis.Sql.DbConfig
         {
             return this.tableAlias + "_" + this.colName;
         }
-        
+
         /// <summary>
         /// Id() + " AS " + Label()
         /// </summary>
@@ -68,7 +68,7 @@ namespace PCAxis.Sql.DbConfig
         /// <returns></returns>
         public string Is(string constantValue)
         {
-            return this.Id() + " = '" + constantValue + "'"; 
+            return this.Id() + " = '" + constantValue + "'";
         }
 
         /// <summary>
@@ -89,51 +89,51 @@ namespace PCAxis.Sql.DbConfig
         public string In(ICollection<string> listOfValues)
         {
             string concatedValues = "";
-            string glue ="";
+            string glue = "";
             ///<NumberOfValues: workaround for the 1000-cells limitation in SELECT WHERE IN in Oracle>
             int NumberOfValues = 1;
-			concatedValues = "(" + this.Id() + " IN (";
-			
+            concatedValues = "(" + this.Id() + " IN (";
+
             foreach (string val in listOfValues)
             {
                 if (NumberOfValues >= 250)
                 {
-                    concatedValues = concatedValues + ") OR "+ this.Id() + " IN ('" + val + "'";
-					NumberOfValues = 1;
+                    concatedValues = concatedValues + ") OR " + this.Id() + " IN ('" + val + "'";
+                    NumberOfValues = 1;
                 }
-				else
-				{
-					concatedValues = concatedValues + glue + "'" + val + "'";
-					glue = ", ";
-					NumberOfValues++;
-				}
+                else
+                {
+                    concatedValues = concatedValues + glue + "'" + val + "'";
+                    glue = ", ";
+                    NumberOfValues++;
+                }
             }
-            return concatedValues + "))"; 
+            return concatedValues + "))";
         }
 
-        public string In(StringCollection listOfValues)     
+        public string In(StringCollection listOfValues)
         {
             string concatedValues = "";
-            string glue ="";
+            string glue = "";
             ///<NumberOfValues: workaround for the 1000-cells limitation in SELECT WHERE IN in Oracle>
             int NumberOfValues = 1;
-			concatedValues = "(" + this.Id() + " IN (";
-			
+            concatedValues = "(" + this.Id() + " IN (";
+
             foreach (string val in listOfValues)
             {
                 if (NumberOfValues >= 250)
                 {
-                    concatedValues = concatedValues + ") OR "+ this.Id() + " IN ('" + val + "'";
-					NumberOfValues = 1;
+                    concatedValues = concatedValues + ") OR " + this.Id() + " IN ('" + val + "'";
+                    NumberOfValues = 1;
                 }
-				else
-				{
-					concatedValues = concatedValues + glue + "'" + val + "'";
-					glue = ", ";
-					NumberOfValues++;
-				}
+                else
+                {
+                    concatedValues = concatedValues + glue + "'" + val + "'";
+                    glue = ", ";
+                    NumberOfValues++;
+                }
             }
-            return concatedValues + "))"; 
+            return concatedValues + "))";
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace PCAxis.Sql.DbConfig
         /// <returns></returns>
         public string IsUppered(string constantValue)
         {
-            return "upper("+this.Id() + ") = upper('" + constantValue + "')";
+            return "upper(" + this.Id() + ") = upper('" + constantValue + "')";
         }
 
 
@@ -175,6 +175,6 @@ namespace PCAxis.Sql.DbConfig
         {
             return this.Id() + " IS NOT NULL";
         }
-        
+
     }
 }

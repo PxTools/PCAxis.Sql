@@ -1,13 +1,6 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
+using System.Data;
 
 
 //This code is generated. 
@@ -31,10 +24,10 @@ namespace PCAxis.Sql.QueryLib_23
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Property = " + aProperty);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Property = " + aProperty);
             }
 
-            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB); 
+            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB);
             return myOut;
         }
 

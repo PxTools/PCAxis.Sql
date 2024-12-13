@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
+
+using log4net;
 
 using PCAxis.Paxiom;
 using PCAxis.Sql.QueryLib_24;
-
-using log4net;
-using System.Text;
 
 namespace PCAxis.Sql.Parser_24
 {
@@ -121,7 +120,7 @@ namespace PCAxis.Sql.Parser_24
             PXSqlNpm myNpms = mMeta.mPxsqlNpm;
             StringCollection datanoteDistictValues = new StringCollection();
             keyword = PXKeywords.DATANOTECELL;
-            
+
             foreach (KeyValuePair<string, string> dcn in theDataNoteCellEntries)
             {
 

@@ -1,18 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 using System.Data;
+
 using PCAxis.Sql.DbConfig;
 
-namespace PCAxis.Sql.QueryLib_24 {
+namespace PCAxis.Sql.QueryLib_24
+{
     /// <summary> 
     /// Holds the attributes for reduced version SubTableVariable.
     /// </summary> 
-    public class MainTableVariableRow {
+    public class MainTableVariableRow
+    {
 
-        public static string sqlString(SqlDbConfig_24 DB) {
-          
+        public static string sqlString(SqlDbConfig_24 DB)
+        {
+
             string currentMethod = "MainTableVariableRow.sqlString";
             SqlDbConfig_24.TblSubTableVariable stv = DB.SubTableVariable;
 
@@ -31,12 +33,14 @@ namespace PCAxis.Sql.QueryLib_24 {
         }
 
         private String mVariable;
-        public String Variable {
+        public String Variable
+        {
             get { return mVariable; }
         }
 
         private String mVariableType;
-        public String VariableType {
+        public String VariableType
+        {
             get { return mVariableType; }
         }
 
@@ -45,7 +49,8 @@ namespace PCAxis.Sql.QueryLib_24 {
         {
             get { return mStoreColumnNo; }
         }
-        public MainTableVariableRow(DataRow myRow, SqlDbConfig_24 dbconf) {
+        public MainTableVariableRow(DataRow myRow, SqlDbConfig_24 dbconf)
+        {
             this.mVariable = myRow[dbconf.SubTableVariable.VariableCol.Label()].ToString();
             this.mVariableType = myRow[dbconf.SubTableVariable.VariableTypeCol.Label()].ToString();
             this.mStoreColumnNo = myRow[dbconf.SubTableVariable.StoreColumnNoCol.Label()].ToString();

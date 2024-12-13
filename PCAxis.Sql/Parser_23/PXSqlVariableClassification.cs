@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_23;
-using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
-using PCAxis.PlugIn.Sql;
 using System.Data;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.Pxs;
+using PCAxis.Sql.QueryLib_23;
 namespace PCAxis.Sql.Parser_23
 {
     public class PXSqlVariableClassification : PXSqlVariable
@@ -258,7 +259,7 @@ namespace PCAxis.Sql.Parser_23
         // when no pxs
         internal void SetValues(StringCollection selSubTables)
         {
-           
+
             ValueRow2HMDictionary mValueRowDictionary = meta.MetaQuery.GetValueRowDictionary(meta.MainTable.MainTable, selSubTables, this.Name, this.ValuePool.ValueTextExists);
             Dictionary<string, ValueRow2HM> mValueRows = mValueRowDictionary.ValueRows;
 
@@ -335,7 +336,7 @@ namespace PCAxis.Sql.Parser_23
 
                     documentOrder++;
                 }
-            #endregion foreach var.Values.Items
+                #endregion foreach var.Values.Items
 
 
                 // mSelectedValues now contains all the selected values, including those defined by wildcards
@@ -1045,14 +1046,14 @@ namespace PCAxis.Sql.Parser_23
             {
                 if (!pxsqlCont.AggregPossible)
                 {
-                    foreach (KeyValuePair<string,PXSqlValueSet> vs in this.ValueSets)
+                    foreach (KeyValuePair<string, PXSqlValueSet> vs in this.ValueSets)
                     {
-                        if (vs.Value.Elimination== PXConstant.YES)
-                            {
+                        if (vs.Value.Elimination == PXConstant.YES)
+                        {
                             return true;
                         }
                     }
-                
+
                 }
             }
             return false;

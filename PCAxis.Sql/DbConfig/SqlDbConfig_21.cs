@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Xml;
 using System.Xml.XPath;
+
 using log4net;
 
 //This code is generated. 
@@ -252,7 +253,7 @@ namespace PCAxis.Sql.DbConfig
 
         #region  structs
 
-         
+
 
         public class TblContents : Tab
         {

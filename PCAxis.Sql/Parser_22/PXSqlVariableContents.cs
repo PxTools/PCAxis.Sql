@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_22;
-using PCAxis.Paxiom;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.Sql.QueryLib_22;
 
 namespace PCAxis.Sql.Parser_22
 {
     class PXSqlVariableContents : PXSqlVariable
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlVariableContents));
-    
+
         #region  contructor
         public PXSqlVariableContents(String name, PXSqlMeta_22 meta)
             : base(name, meta, true, false, false)
@@ -21,7 +22,7 @@ namespace PCAxis.Sql.Parser_22
             if (!meta.ConstructedFromPxs)
             {
                 mIndex = mStoreColumnNo;
-            }              
+            }
             SetDefaultPresTextOption();
             SetPresText();
         }
@@ -78,8 +79,9 @@ namespace PCAxis.Sql.Parser_22
         ///     </table>
         ///   </rule>
         /// </PXKeyword>
-        internal override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage) {
- 
+        internal override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
+        {
+
             base.ParseMeta(handler, LanguageCodes, preferredLanguage);
             //CONTVARIABLE
 
@@ -96,14 +98,14 @@ namespace PCAxis.Sql.Parser_22
             string tmpAggregPossible = PXConstant.YES;
             foreach (PXSqlContent pxsqlCont in meta.Contents.Values)
             {
-               
-                if (! pxsqlCont.AggregPossible)
+
+                if (!pxsqlCont.AggregPossible)
                 {
                     tmpAggregPossible = PXConstant.NO;
                     break;
                 }
             }
-            
+
             values.Clear();
             values.Add(tmpAggregPossible);
             handler(PXKeywords.AGGREGALLOWED, language, subkey, values);
@@ -112,7 +114,8 @@ namespace PCAxis.Sql.Parser_22
             log.Debug("meta.Contents.Values.Count=" + meta.Contents.Values.Count.ToString());
             // "ContentInfo"
             // og PXKeywords.PRECISION 
-            foreach (PXSqlContent pxsqlCont in meta.Contents.Values) {
+            foreach (PXSqlContent pxsqlCont in meta.Contents.Values)
+            {
                 pxsqlCont.ParseMeta(handler, LanguageCodes);
 
             }

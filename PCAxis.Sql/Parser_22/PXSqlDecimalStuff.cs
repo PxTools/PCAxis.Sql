@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using log4net;
-using PCAxis.Paxiom;
-using System.Collections.Specialized;
 
-namespace PCAxis.Sql.Parser_22{
+using log4net;
+
+namespace PCAxis.Sql.Parser_22
+{
     /// <summary> DECIMALS, SHOWDECIMALS and PRECISION all handle decimals in some way.
     /// ParseMeta for PRECISION is in PXsqlContents
     /// 
@@ -23,55 +21,74 @@ namespace PCAxis.Sql.Parser_22{
     ///n is a figure between 1 and 6. The number of decimals for precision must be higher than the number of decimals 
     ///for SHOWDECIMALS to have any effect. 
     /// </summary>
-    internal class PXSqlDecimalStuff {
+    internal class PXSqlDecimalStuff
+    {
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlDecimalStuff));
 
         internal PXSqlDecimalStuff() { }
 
         private int mShowDecimals = 6;
         private int mStoreDecimals = 0;
-        
-        public string ShowDecimals {
+
+        public string ShowDecimals
+        {
             get { return mShowDecimals.ToString(); }
-            set {
+            set
+            {
                 int tmpValue = -1;
-                try {
+                try
+                {
                     tmpValue = int.Parse(value);
 
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     log.Error(e);
                     return;
                 }
-                if (tmpValue > 6) {
+                if (tmpValue > 6)
+                {
                     throw new ApplicationException("Decimal number cannot be higher than 6. Found " + value);
-                } else if (tmpValue < 0) {
+                }
+                else if (tmpValue < 0)
+                {
                     throw new ApplicationException("Decimal number cannot be lower than 0. Found " + value);
                 }
-                if (tmpValue < mShowDecimals) {
+                if (tmpValue < mShowDecimals)
+                {
                     mShowDecimals = tmpValue;
                 }
             }
         }
 
 
-        public string StoreDecimals {
+        public string StoreDecimals
+        {
 
             get { return mStoreDecimals.ToString(); }
-            set {
+            set
+            {
                 int tmpValue = -1;
-                try {
+                try
+                {
                     tmpValue = int.Parse(value);
 
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     log.Error(e);
                     return;
                 }
-                if (tmpValue > 15) {
+                if (tmpValue > 15)
+                {
                     throw new ApplicationException("Decimal number cannot be higher than 15. Found " + value);
-                } else if (tmpValue < 0) {
+                }
+                else if (tmpValue < 0)
+                {
                     throw new ApplicationException("Decimal number cannot be lower than 0. Found " + value);
                 }
-                if (tmpValue > mStoreDecimals) {
+                if (tmpValue > mStoreDecimals)
+                {
                     mStoreDecimals = tmpValue;
                 }
             }
@@ -84,7 +101,7 @@ namespace PCAxis.Sql.Parser_22{
         //    string noLanguage = null;
         //    string subkey = null;
 
-           
+
         //    values.Add(mStoreDecimals.ToString());
         //    handler(PXKeywords.DECIMALS, noLanguage, subkey, values);
 
@@ -94,6 +111,6 @@ namespace PCAxis.Sql.Parser_22{
         //}
 
 
-             
+
     }
 }

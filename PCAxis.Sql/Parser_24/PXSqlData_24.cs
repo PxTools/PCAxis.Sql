@@ -7,11 +7,13 @@ namespace PCAxis.Sql.Parser_24
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Data;
+    using System.Linq;
+
     using log4net;
+
     using PCAxis.Sql.Parser;
     using PCAxis.Sql.QueryLib_24;
-    using System.Linq;
-    
+
 
     /// <summary>
     /// <remarks>
@@ -35,7 +37,7 @@ namespace PCAxis.Sql.Parser_24
         private const string MINDEX_COL = "MINDEX";
 
         private PXSqlMeta_24 mMeta;
-        
+
 
         //these booleans influence the SQL-query
         private bool npm = false;
@@ -1204,7 +1206,7 @@ namespace PCAxis.Sql.Parser_24
                 foreach (string contCode in contKeys)
                 {
                     PXSqlContent content = mMeta.Contents[contCode];
-                    
+
                     if (content.PresCellsZero == this.mMeta.Config.Codes.No && string.IsNullOrEmpty(content.PresMissingLine))
                     {
                         return true;

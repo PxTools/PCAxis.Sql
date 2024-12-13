@@ -1,13 +1,5 @@
 using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,16 +13,16 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetDataStorage_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.DataStorage.ProductIdCol.Is(aProductId) ;
+            sqlString += " WHERE " + DB.DataStorage.ProductIdCol.Is(aProductId);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," ProductId = " + aProductId);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " ProductId = " + aProductId);
             }
 
-            DataStorageRow myOut = new DataStorageRow(myRows[0], DB); 
+            DataStorageRow myOut = new DataStorageRow(myRows[0], DB);
             return myOut;
         }
 

@@ -14,14 +14,14 @@ namespace PCAxis.Sql.Parser_24
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlParserForCodelists_24));
 
-        
+
         //private List<PXSqlVariable> _variables;
         private List<PXSqlVariableClassification> _variables;
-    
+
         private PXSqlMeta_24 mPXSqlMeta;
 
         private string variableOfApplyValueSet;
-   
+
         #region Constructors
 
 
@@ -30,41 +30,42 @@ namespace PCAxis.Sql.Parser_24
         /// </summary>
         /// <param name="inPXSqlMeta">PXSqlMeta holding variables</param>
         /// <param name="variableCode">Name of the vaiable</param>
-         public PXSqlParserForCodelists_24(PXSqlMeta_24 inPXSqlMeta, String variableCode) {
-             mPXSqlMeta = inPXSqlMeta;
-             _variables = new List<PXSqlVariableClassification>();
-             _variables.Add(inPXSqlMeta.VariablesClassification[variableCode]);
-            this.variableOfApplyValueSet = variableCode; 
+        public PXSqlParserForCodelists_24(PXSqlMeta_24 inPXSqlMeta, String variableCode)
+        {
+            mPXSqlMeta = inPXSqlMeta;
+            _variables = new List<PXSqlVariableClassification>();
+            _variables.Add(inPXSqlMeta.VariablesClassification[variableCode]);
+            this.variableOfApplyValueSet = variableCode;
         }
 
 
 
         #endregion
-  
+
         /// <summary>
         /// Sends the data
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="preferredLanguage"></param>
-         public override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
-         {
-             foreach (PXSqlVariableClassification variable in _variables)
-             {
-                
-                 variable.ParseForApplyValueSet(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
-                 mPXSqlMeta.TheNotes.ParseNotesApplyValueset(handler, this.variableOfApplyValueSet);
-             }
-             
+        public override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
+            foreach (PXSqlVariableClassification variable in _variables)
+            {
+
+                variable.ParseForApplyValueSet(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
+                mPXSqlMeta.TheNotes.ParseNotesApplyValueset(handler, this.variableOfApplyValueSet);
+            }
 
 
-         }
 
-  
+        }
+
+
         /// <summary>
-         /// IDisposable implemenatation
+        /// IDisposable implemenatation
         /// </summary>
-         override public void Dispose()
-         {
+        override public void Dispose()
+        {
             mPXSqlMeta = null;
         }
 

@@ -1,8 +1,9 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PCAxis.Sql.DbConfig;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using PCAxis.Sql.DbConfig;
 
 namespace PCAxis.Sql.UnitTest
 {

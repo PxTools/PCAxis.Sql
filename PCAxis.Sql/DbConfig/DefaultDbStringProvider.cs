@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
 
 namespace PCAxis.Sql.DbConfig
 {
-    class DefaultDbStringProvider : IDbStringProvider 
+    class DefaultDbStringProvider : IDbStringProvider
     {
 
         public string GetConnectionString(SqlDbConfig config, string user, string password)
@@ -23,7 +20,7 @@ namespace PCAxis.Sql.DbConfig
                     throw new Exception("Please add DefaultUser and DefaultPassword");
                 }
 
-                return GetConnectionString(config, config.Database.Connection.DefaultUser, config.Database.Connection.DefaultPassword); 
+                return GetConnectionString(config, config.Database.Connection.DefaultUser, config.Database.Connection.DefaultPassword);
             }
             else
             {
@@ -44,7 +41,7 @@ namespace PCAxis.Sql.DbConfig
                 }
                 return connBuilder.ConnectionString;
             }
-            
+
         }
     }
 }

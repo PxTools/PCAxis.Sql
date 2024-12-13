@@ -1,14 +1,10 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.XPath;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
-
 using System.Collections.Specialized;
+using System.Data;
 using System.Reflection;
+
+using PCAxis.Sql.Exceptions;
 using PCAxis.Sql.Parser_21;
 
 
@@ -25,7 +21,8 @@ namespace PCAxis.Sql.QueryLib_21
 
 
         //flytt til hoved
-        public void Dispose() {
+        public void Dispose()
+        {
             this.DropTempTables();
             mSqlCommand.Dispose();
         }
@@ -33,19 +30,24 @@ namespace PCAxis.Sql.QueryLib_21
 
         #region wildcards in groupvalues
 
-        public StringCollection GetValueWildCardByGrouping(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard) {
+        public StringCollection GetValueWildCardByGrouping(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard)
+        {
             // Resolve wildcards here
             StringCollection myOut = new StringCollection();
             DataSet ds;
-            if (String.Compare(DB.MetaModel, "2.1", false, System.Globalization.CultureInfo.InvariantCulture) > 0) {
+            if (String.Compare(DB.MetaModel, "2.1", false, System.Globalization.CultureInfo.InvariantCulture) > 0)
+            {
                 // Datamodel > 2.1, new table structure
                 ds = this.GetValueWildCardByGrouping22(mainTable, variable, subTable, grouping, groupCode, wildCard);
-            } else {
+            }
+            else
+            {
                 // Datamodel 2.1 or older, the old table structure. Use of Grouping is only valid if a SubTable is selected
                 ds = this.GetValueWildCardByGrouping21(mainTable, variable, subTable, grouping, groupCode, wildCard);
             }
             DataRowCollection mValueInfo = ds.Tables[0].Rows;
-            foreach (DataRow row in mValueInfo) {
+            foreach (DataRow row in mValueInfo)
+            {
                 myOut.Add(row[DB.VSGroup.ValueCode].ToString());
             }
             return myOut;
@@ -54,7 +56,8 @@ namespace PCAxis.Sql.QueryLib_21
 
 
 
-        private DataSet GetValueWildCardByGrouping21(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard) {
+        private DataSet GetValueWildCardByGrouping21(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard)
+        {
             // To ensure that the correct grouping is used mainTable and variable has to be included
             // Get the name of the current method.
             string currentMethod = MethodBase.GetCurrentMethod().Name;
@@ -76,11 +79,11 @@ namespace PCAxis.Sql.QueryLib_21
                 "/*** SQLID: " + currentMethod + "_01 ***/ " +
                 "FROM " + DB.VSGroup.GetNameAndAlias() +
                 " JOIN " + DB.SubTableVariable.GetNameAndAlias() +
-                  " ON " + DB.VSGroup.ValueSetCol.Is( DB.SubTableVariable.ValueSetCol) +
-                " WHERE " +  DB.SubTableVariable.MainTableCol.Is(mainTable) +
+                  " ON " + DB.VSGroup.ValueSetCol.Is(DB.SubTableVariable.ValueSetCol) +
+                " WHERE " + DB.SubTableVariable.MainTableCol.Is(mainTable) +
                   " AND " + DB.SubTableVariable.VariableCol.Is(variable) +
                   " AND " + DB.SubTableVariable.SubTableCol.Is(subTable) +
-                  " AND " + DB.VSGroup.GroupingCol.Is(grouping)+
+                  " AND " + DB.VSGroup.GroupingCol.Is(grouping) +
                   " AND " + DB.VSGroup.GroupCodeCol.Is(groupCode) +
                   " AND " + DB.VSGroup.ValueCodeCol.Like(wildCard);
 
@@ -90,7 +93,8 @@ namespace PCAxis.Sql.QueryLib_21
 
 
 
-        private DataSet GetValueWildCardByGrouping22(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard) {
+        private DataSet GetValueWildCardByGrouping22(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard)
+        {
             // To ensure that the correct grouping is used mainTable and variable has to be included
             // Get the name of the current method.
             string currentMethod = MethodBase.GetCurrentMethod().Name;
@@ -162,7 +166,7 @@ namespace PCAxis.Sql.QueryLib_21
         {
             if (groups.Count < 1)
             {
-                
+
                 throw new BugException("BUG! dataCodes.Count < 1");
             }
             //if (GroupCodes.Count != groupCodes.Count)
@@ -174,7 +178,8 @@ namespace PCAxis.Sql.QueryLib_21
 
             InsertIntoTempTablesBulk(tempTabellId, groups, numberInBulk, makeGroupFactorCol);
 
-            if (makeGroupFactorCol) {
+            if (makeGroupFactorCol)
+            {
                 //
                 // ORIGINALLY:
                 // UPDATE /*** SQLID: MakeTempTable_03 ***/ A317838TEMP1 a1
@@ -196,18 +201,19 @@ namespace PCAxis.Sql.QueryLib_21
                 //    "WHERE a2.group" + VariableNumber + " = a1.group" + VariableNumber + ")";
 
                 string sqlString =
-                    "UPDATE /*** SQLID: MakeTempTable_03 ***/ " + tempTabellId + 
+                    "UPDATE /*** SQLID: MakeTempTable_03 ***/ " + tempTabellId +
                     " SET groupfactor" + VariableNumber + " = " +
                     "(SELECT COUNT(*) FROM " + tempTabellId + " a2 " +
                     "WHERE a2.group" + VariableNumber + " = " + tempTabellId + ".group" + VariableNumber + ")";
 
                 mSqlCommand.ExecuteNonQuery(sqlString);
             }
-            
+
             return tempTabellId;
         }
 
-        private string CreateTempTables(string VariableName, string VariableNumber, bool makeGroupFactorCol) {
+        private string CreateTempTables(string VariableName, string VariableNumber, bool makeGroupFactorCol)
+        {
             // Get the name of the current method. 
             string currentMethod = MethodBase.GetCurrentMethod().Name;
 
@@ -216,7 +222,8 @@ namespace PCAxis.Sql.QueryLib_21
             string tempTabellId;
             tempTabellId = "A" + UniqueNumber + "_TMP" + VariableNumber;
 
-            if (DB.UseTemporaryTables) {
+            if (DB.UseTemporaryTables)
+            {
                 tempTabellId = mSqlCommand.getPrefixIndicatingTempTable() + tempTabellId;
             }
 
@@ -224,7 +231,7 @@ namespace PCAxis.Sql.QueryLib_21
 
 
             //----
-            log.Debug("tempTabellId:" + tempTabellId+"        tempTabellId len:" + tempTabellId.Length);
+            log.Debug("tempTabellId:" + tempTabellId + "        tempTabellId len:" + tempTabellId.Length);
             //
             // ORIGINALLY:
             // CREATE /***SQLID: CreateTempTables_01 ***/ TABLE A317838TEMP1
@@ -240,15 +247,16 @@ namespace PCAxis.Sql.QueryLib_21
             // if (DB.database.Connection.useTemporaryTables) {
             string sqlString = "CREATE /*** SQLID: " + currentMethod + "_01 ***/";
 
-            if (DB.UseTemporaryTables) {
-                    sqlString = sqlString + mSqlCommand.getKeywordAfterCreateIndicatingTempTable();
+            if (DB.UseTemporaryTables)
+            {
+                sqlString = sqlString + mSqlCommand.getKeywordAfterCreateIndicatingTempTable();
             }
 
             sqlString += " TABLE " + tempTabellId;
-                
+
             // TODO; Mixed database/server instance         "(A" + VariableName + " VARCHAR(20), Group" + VariableNumber + " VARCHAR(20), GroupNr" + VariableNumber + " INTEGER";
             // TODO; this should not bed hardcoded -Just for test. Maybe should put element "tempCollation" in sqldbconfig.
-            if ((DB.MainLanguage.code == "sv" || DB.Database.id=="FAO") && (DB.Database.Connection.dataProvider.ToString()=="Sql") )
+            if ((DB.MainLanguage.code == "sv" || DB.Database.id == "FAO") && (DB.Database.Connection.dataProvider.ToString() == "Sql"))
             {
                 sqlString += " (A" + VariableName + " VARCHAR(20) collate Finnish_Swedish_CI_AS, Group" + VariableNumber + " VARCHAR(20) collate Finnish_Swedish_CI_AS, GroupNr" + VariableNumber + " INTEGER";
             }
@@ -256,13 +264,15 @@ namespace PCAxis.Sql.QueryLib_21
             {
                 sqlString += "(A" + VariableName + " VARCHAR(20), Group" + VariableNumber + " VARCHAR(20), GroupNr" + VariableNumber + " INTEGER";
             }
-            if (makeGroupFactorCol) {
+            if (makeGroupFactorCol)
+            {
                 sqlString += ", GroupFactor" + VariableNumber + " INTEGER";
             }
             sqlString += ")";
 
-            if (DB.UseTemporaryTables) {
-                    sqlString = sqlString + mSqlCommand.getTempTableCreateCommandEndClause();
+            if (DB.UseTemporaryTables)
+            {
+                sqlString = sqlString + mSqlCommand.getTempTableCreateCommandEndClause();
             }
 
             mSqlCommand.ExecuteNonQuery(sqlString);
@@ -273,13 +283,13 @@ namespace PCAxis.Sql.QueryLib_21
 
         private void InsertIntoTempTablesBulk(string tempTabellId, IList<PXSqlValue> values, int numberInBulk)
         {
-          
+
             string currentMethod = MethodBase.GetCurrentMethod().Name;
             StringCollection sqlStrings = new StringCollection();
 
-            
+
             int ValuesCounter = 0;
-           
+
             foreach (PXSqlValue value in values)
             {
 
@@ -344,24 +354,36 @@ namespace PCAxis.Sql.QueryLib_21
         /// Hmm, perhaps auxiliary tables would have been a better word.
         /// Temporary Table in Oracle is a permanent table with temorary rows
         /// </summary>
-        public void DropTempTables() {
-            
-            if (!DB.UseTemporaryTables) {
-                foreach (string tableName in dropTheseTables) {
-                    try {
+        public void DropTempTables()
+        {
+
+            if (!DB.UseTemporaryTables)
+            {
+                foreach (string tableName in dropTheseTables)
+                {
+                    try
+                    {
 
                         mSqlCommand.ExecuteNonQuery("DROP TABLE " + tableName);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         log.Error("DROP TABLE failed:", e);
                         //don't want to stop because of this... 
                     }
                 }
-            } else if (mSqlCommand.getProgramMustTruncAndDropTempTable()) {
-                foreach (string tableName in dropTheseTables) {
-                    try {
+            }
+            else if (mSqlCommand.getProgramMustTruncAndDropTempTable())
+            {
+                foreach (string tableName in dropTheseTables)
+                {
+                    try
+                    {
                         mSqlCommand.ExecuteNonQuery("TRUNCATE TABLE " + tableName);
                         mSqlCommand.ExecuteNonQuery("DROP TABLE " + tableName);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         log.Error("TRUNC or DROP TABLE failed:", e);
                         //don't want to stop because of this... 
                     }
@@ -371,7 +393,8 @@ namespace PCAxis.Sql.QueryLib_21
         }
 
 
-        public DataRowCollection ExecuteSelect(string sqlString) {
+        public DataRowCollection ExecuteSelect(string sqlString)
+        {
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             return ds.Tables[0].Rows;
         }

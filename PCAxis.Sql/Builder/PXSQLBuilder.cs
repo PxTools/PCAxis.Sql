@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
-
-using PCAxis.Paxiom;
-
-using PCAxis.Sql.Pxs;
-using PCAxis.Sql.DbConfig;
+using System.Collections.Specialized;
 
 using log4net;
-using System.Collections.Specialized;
+
+using PCAxis.Paxiom;
+using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Parser;
+using PCAxis.Sql.Pxs;
 
 namespace PCAxis.PlugIn.Sql
 {
-    
+
     /// <summary>
     /// This builder may be used (setPath)  with 2 types of parameters: A maintableId or a pxs-object( or a file that may be read into a pxs-object).
     /// buildForSelection with a maintableId means extract "all" metadata.
@@ -26,7 +25,7 @@ namespace PCAxis.PlugIn.Sql
     {
 
 #if DEBUG
-        private static readonly ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
+        private static readonly ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(), "LogTime");
 #endif
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSQLBuilder));
@@ -185,11 +184,11 @@ namespace PCAxis.PlugIn.Sql
         /// <returns></returns>
         public override bool BuildForSelection()
         {
-            #if DEBUG
-               System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-               stopWatch.Start();
-               logTime.DebugFormat("Start "+System.Reflection.MethodBase.GetCurrentMethod().Name+". Maintable={0}", maintableId);
-            #endif
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+            logTime.DebugFormat("Start " + System.Reflection.MethodBase.GetCurrentMethod().Name + ". Maintable={0}", maintableId);
+#endif
 
             log.Debug("Start BuildForSelection");
 
@@ -234,14 +233,14 @@ namespace PCAxis.PlugIn.Sql
             }
             log.Debug("Done BuildForSelection");
 
-            #if DEBUG
-               stopWatch.Stop();
-               logTime.DebugFormat(System.Reflection.MethodBase.GetCurrentMethod().Name+" Done in ms = {0}", stopWatch.ElapsedMilliseconds);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat(System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0}", stopWatch.ElapsedMilliseconds);
+#endif
 
             return true;
         }
-       
+
         public override void ApplyValueSet(String variableCode, ValueSetInfo valueSet)
         { //Implements IPXModelBuilder.ApplyValueSet
 
@@ -341,11 +340,11 @@ namespace PCAxis.PlugIn.Sql
         /// <returns></returns>
         public override bool BuildForPresentation(PCAxis.Paxiom.Selection[] selections)
         {
-            #if DEBUG
-               System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
-               stopWatch.Start();
-               logTime.DebugFormat("Start " + System.Reflection.MethodBase.GetCurrentMethod().Name + ". Maintable={0}", maintableId);
-            #endif
+#if DEBUG
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
+            logTime.DebugFormat("Start " + System.Reflection.MethodBase.GetCurrentMethod().Name + ". Maintable={0}", maintableId);
+#endif
 
             log.Debug("Start BuildForPresentation");
             if (!_hasCalledSetPath)
@@ -408,10 +407,10 @@ namespace PCAxis.PlugIn.Sql
 #endif
                         m_model.Data.Write(mPXSqlData.CreateMatrix(), 0, mPXSqlData.MatrixSize - 1);
 
-                        if(mPXSqlData.DataNoteCellEntries.Count >0)
+                        if (mPXSqlData.DataNoteCellEntries.Count > 0)
                         {
                             m_model.Data.WriteDataNoteCells(mPXSqlData.DataCellNotes, 0, mPXSqlData.MatrixSize - 1);
-                            m_model.Data.UseDataCellMatrix= true;
+                            m_model.Data.UseDataCellMatrix = true;
                         }
 
                         m_parser = PXSqlParseMetaPostData.GetPXSqlParseMetaPostData(mPXSqlMeta, mPXSqlData);
@@ -439,13 +438,13 @@ namespace PCAxis.PlugIn.Sql
                 throw;
             }
             log.Debug("Done BuildForPresentation");
-            #if DEBUG
-               stopWatch.Stop();
-               logTime.DebugFormat(System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0}", stopWatch.ElapsedMilliseconds);
-            #endif
+#if DEBUG
+            stopWatch.Stop();
+            logTime.DebugFormat(System.Reflection.MethodBase.GetCurrentMethod().Name + " Done in ms = {0}", stopWatch.ElapsedMilliseconds);
+#endif
             return true;
         }
-       
+
         private StringCollection getLanguagesPxsQueryCreation()
         {
             StringCollection langs = new StringCollection();

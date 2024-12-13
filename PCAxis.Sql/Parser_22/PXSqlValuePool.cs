@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_22;
-using System.Collections.Specialized;
+
 using PCAxis.Paxiom;
+using PCAxis.Sql.QueryLib_22;
 
 namespace PCAxis.Sql.Parser_22
 {
@@ -40,10 +39,10 @@ namespace PCAxis.Sql.Parser_22
         {
             get { return mPresText; }
         }
-   //     public string Description
-   //     {
-   //         get { return vpRow.Description; }
-   //     }
+        //     public string Description
+        //     {
+        //         get { return vpRow.Description; }
+        //     }
 
         /// <summary>
         /// Which texts exists (long/short/extra/none)
@@ -58,10 +57,10 @@ namespace PCAxis.Sql.Parser_22
         {
             get { return vpRow.ValuePres; }
         }
-       // public string KDBId
-       // {
-       //     get { return vpRow.KDBId; }
-       // }
+        // public string KDBId
+        // {
+        //     get { return vpRow.KDBId; }
+        // }
 
         // Depending of if it's a primary or secondary language, Doamin is read from different columns in database table ValuePool.
         // Valuepool if primary and ValuePoolEng(2.0) ValuePoolAlias (later). A solution could be to add a property here called Domain.
@@ -84,15 +83,20 @@ namespace PCAxis.Sql.Parser_22
         /// <param name="meta">For config.codes </param>
         public PXSqlValuepool(QueryLib_22.ValuePoolRow inRow, PXSqlMeta_22 meta)
         {
-            
+
             this.vpRow = inRow;
-            
-            if( this.ValueTextExists.Equals(meta.Config.Codes.ValueTextExistsN) ) {
-                        this.mValueTextOption = PXConstant.VALUETEXTOPTION_NOTEXT;
-            } else if (this.ValueTextExists.Equals(meta.Config.Codes.ValueTextExistsX) ) {
-                        this.mValueTextOption = PXConstant.VALUETEXTOPTION_TOOLONG;
-            } else {
-                   this.mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
+
+            if (this.ValueTextExists.Equals(meta.Config.Codes.ValueTextExistsN))
+            {
+                this.mValueTextOption = PXConstant.VALUETEXTOPTION_NOTEXT;
+            }
+            else if (this.ValueTextExists.Equals(meta.Config.Codes.ValueTextExistsX))
+            {
+                this.mValueTextOption = PXConstant.VALUETEXTOPTION_TOOLONG;
+            }
+            else
+            {
+                this.mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
             }
 
             mPresText = new Dictionary<string, string>();
@@ -105,6 +109,6 @@ namespace PCAxis.Sql.Parser_22
 
         }
 
-        
+
     }
 }

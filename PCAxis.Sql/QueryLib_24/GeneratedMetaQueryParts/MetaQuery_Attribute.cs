@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -34,9 +29,9 @@ namespace PCAxis.Sql.QueryLib_24
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable);
             }
 
             foreach (DataRow sqlRow in myRows)
@@ -80,7 +75,7 @@ namespace PCAxis.Sql.QueryLib_24
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.AttributeLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.AttributeLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Attribute.MainTableCol.Is(DB.AttributeLang2.MainTableCol, langCode) +
                                  " AND " + DB.Attribute.AttributeCol.Is(DB.AttributeLang2.AttributeCol, langCode);
                 }

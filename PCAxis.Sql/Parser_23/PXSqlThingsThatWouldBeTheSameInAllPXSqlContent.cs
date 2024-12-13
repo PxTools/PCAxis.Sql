@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PCAxis.Paxiom;
-using log4net;
-using PCAxis.Sql.QueryLib_23;
-using PCAxis.Sql.DbConfig;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace PCAxis.Sql.Parser_23 {
+using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.Sql.DbConfig;
+using PCAxis.Sql.QueryLib_23;
+
+namespace PCAxis.Sql.Parser_23
+{
 
     ///<summary>Class for columns in the Content-tabell that are independent of content (they will possibly be 
     /// moved to maintabletable in a later version of the metamodel)</summary>
-    class PXSqlThingsThatWouldBeTheSameInAllPXSqlContent {
+    class PXSqlThingsThatWouldBeTheSameInAllPXSqlContent
+    {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlThingsThatWouldBeTheSameInAllPXSqlContent));
 
@@ -45,25 +47,35 @@ namespace PCAxis.Sql.Parser_23 {
         private bool mOfficialStatistics;
 
         private Dictionary<string, string> nameByLangCode = new Dictionary<string, string>();
-        
-        internal PXSqlThingsThatWouldBeTheSameInAllPXSqlContent(ContentsRow someContentsRow, PXSqlMeta_23 meta, SqlDbConfig_23 config) {
+
+        internal PXSqlThingsThatWouldBeTheSameInAllPXSqlContent(ContentsRow someContentsRow, PXSqlMeta_23 meta, SqlDbConfig_23 config)
+        {
             mStatAuthorityCode = someContentsRow.StatAuthority;
             string copyright = someContentsRow.Copyright;
-            if (copyright.Equals(config.Codes.Copyright1) || copyright.Equals(config.Codes.Copyright2)) {
+            if (copyright.Equals(config.Codes.Copyright1) || copyright.Equals(config.Codes.Copyright2))
+            {
                 mCopyright = false;
-            } else if (copyright.Equals(config.Codes.Copyright3)) {
-                mCopyright = true ;
-            } else {
+            }
+            else if (copyright.Equals(config.Codes.Copyright3))
+            {
+                mCopyright = true;
+            }
+            else
+            {
                 mCopyright = true;
                 log.Error("The database has copyright=" + copyright + ", but the valid codes from config are " + config.Codes.Copyright1 + "," + config.Codes.Copyright2 + " or " + config.Codes.Copyright3 + ".");
             }
-            if (copyright.Equals(config.Codes.Copyright1)) {
+            if (copyright.Equals(config.Codes.Copyright1))
+            {
                 mOfficialStatistics = true;
-            }    else {
-                   mOfficialStatistics = false;
+            }
+            else
+            {
+                mOfficialStatistics = false;
             }
             OrganizationRow org = meta.MetaQuery.GetOrganizationRow(mStatAuthorityCode);
-            foreach (string language in org.texts.Keys) {
+            foreach (string language in org.texts.Keys)
+            {
                 nameByLangCode.Add(language, org.texts[language].OrganizationName);
             }
         }
@@ -88,13 +100,15 @@ namespace PCAxis.Sql.Parser_23 {
         ///     </table>
         ///   </rule>
         /// </PXKeyword>   
-        public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler) {
+        public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler)
+        {
 
             StringCollection values = new StringCollection();
 
             string subkey = null;
 
-            foreach (string langCode in nameByLangCode.Keys) {
+            foreach (string langCode in nameByLangCode.Keys)
+            {
 
                 // SOURCE
                 values.Clear();
@@ -106,9 +120,12 @@ namespace PCAxis.Sql.Parser_23 {
 
             // COPYRIGHT
             values.Clear();
-            if (mCopyright) {
+            if (mCopyright)
+            {
                 values.Add(PXConstant.YES);
-            } else {
+            }
+            else
+            {
                 values.Add(PXConstant.NO);
             }
             handler(PXKeywords.COPYRIGHT, noLanguage, subkey, values);

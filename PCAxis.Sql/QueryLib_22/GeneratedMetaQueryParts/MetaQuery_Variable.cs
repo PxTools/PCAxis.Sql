@@ -1,13 +1,5 @@
 using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,16 +13,16 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetVariable_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.Variable.VariableCol.Is(aVariable) ;
+            sqlString += " WHERE " + DB.Variable.VariableCol.Is(aVariable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Variable = " + aVariable);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Variable = " + aVariable);
             }
 
-            VariableRow myOut = new VariableRow(myRows[0], DB, mLanguageCodes); 
+            VariableRow myOut = new VariableRow(myRows[0], DB, mLanguageCodes);
             return myOut;
         }
 
@@ -63,7 +55,7 @@ namespace PCAxis.Sql.QueryLib_22
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.VariableLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.VariableLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Variable.VariableCol.Is(DB.VariableLang2.VariableCol, langCode);
                 }
             }

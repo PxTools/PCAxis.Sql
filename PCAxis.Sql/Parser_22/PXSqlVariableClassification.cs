@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_22;
-using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
-using PCAxis.PlugIn.Sql;
 using System.Data;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.Pxs;
+using PCAxis.Sql.QueryLib_22;
 namespace PCAxis.Sql.Parser_22
 {
     public class PXSqlVariableClassification : PXSqlVariable
@@ -70,7 +71,7 @@ namespace PCAxis.Sql.Parser_22
         #endregion
 
         #region constructors
-   //     public PXSqlVariableClassification() { }
+        //     public PXSqlVariableClassification() { }
 
 
         public PXSqlVariableClassification(MainTableVariableRow aTVRow, PXSqlMeta_22 meta)
@@ -105,7 +106,7 @@ namespace PCAxis.Sql.Parser_22
 
                 if (this.meta.inSelectionModus)
                 {
-                   
+
                     this.groupingInfos = new PXSqlGroupingInfos(this.meta, this.Name, valusetIds);
                 }
             }
@@ -123,7 +124,7 @@ namespace PCAxis.Sql.Parser_22
 
             if (this.aggregationType.Equals("G"))
             {
-               
+
                 if (String.IsNullOrEmpty(this.aggregatingStructureId))
                 {
                     throw new ApplicationException("Not implemented yet");
@@ -266,7 +267,7 @@ namespace PCAxis.Sql.Parser_22
             StringCollection mSelectedValues = new StringCollection();
             // Defines a dictionary to hold all the sortorders. Necessary because of the wildcards
             Dictionary<string, int> mDefinedSortorder = new Dictionary<string, int>();
-            
+
             DataSet mValueInfoTbl;
             DataRowCollection mValueInfo;
             string mPxsSubTableId = meta.PxsFile.Query.SubTable;
@@ -281,7 +282,7 @@ namespace PCAxis.Sql.Parser_22
                 {
                     if (val.Group != null)
                     {
-                        
+
                         //currentGrouping = ...
                         //TODO; PXSqlVariableClassification, SetValues: group not implemented yet"
                         throw new NotImplementedException("PXSqlVariableClassification, SetValues: group not implemented yet");
@@ -321,7 +322,7 @@ namespace PCAxis.Sql.Parser_22
 
                     documentOrder++;
                 }
-            #endregion foreach var.Values.Items
+                #endregion foreach var.Values.Items
 
 
                 // mSelectedValues now contains all the selected values, including those defined by wildcards
@@ -404,7 +405,7 @@ namespace PCAxis.Sql.Parser_22
             {
                 return currentGrouping.isOnNonstoredData();
             }
-            
+
         }
 
 
@@ -474,22 +475,22 @@ namespace PCAxis.Sql.Parser_22
             //}
             //else
             //{
-                if (this.pxsQueryVariable == null || this.pxsQueryVariable.SelectedValueset == PXSqlKeywords.FICTIONAL_ID_ALLVALUESETS)
-                {
-                    tmpList = meta.MetaQuery.GetValueSetRows2(meta.MainTable.MainTable, this.Name);
-                }
-                else
-                //{
-                    //if (this.pxsQueryVariable.SelectedValueset == PXSqlKeywords.FICTIONAL_ID_ALLVALUESETS)
-                    //{
-                    //    tmpList = meta.MetaQuery.GetValueSetRows2(meta.MainTable.MainTable, this.Name);
-                    //}
-                    //else
-                {
-                    tmpList.Add(meta.MetaQuery.GetValueSetRow(this.pxsQueryVariable.SelectedValueset)); // for selected valueset without subtable stored in pxs.
-                }
-               // }
-           // }
+            if (this.pxsQueryVariable == null || this.pxsQueryVariable.SelectedValueset == PXSqlKeywords.FICTIONAL_ID_ALLVALUESETS)
+            {
+                tmpList = meta.MetaQuery.GetValueSetRows2(meta.MainTable.MainTable, this.Name);
+            }
+            else
+            //{
+            //if (this.pxsQueryVariable.SelectedValueset == PXSqlKeywords.FICTIONAL_ID_ALLVALUESETS)
+            //{
+            //    tmpList = meta.MetaQuery.GetValueSetRows2(meta.MainTable.MainTable, this.Name);
+            //}
+            //else
+            {
+                tmpList.Add(meta.MetaQuery.GetValueSetRow(this.pxsQueryVariable.SelectedValueset)); // for selected valueset without subtable stored in pxs.
+            }
+            // }
+            // }
 
             int NumberOfSelectedValueSets = tmpList.Count;
             mValueSets = new Dictionary<string, PXSqlValueSet>();
@@ -901,12 +902,14 @@ namespace PCAxis.Sql.Parser_22
             if (meta.inPresentationModus)
             {
                 parseValueSet = true;
-            }else
+            }
+            else
             {
                 if ((this.ValueSets.Values.Count > 1) || (this.groupingInfos.Infos.Count > 0))
                 {
                     parseValueSet = true;
-                }else
+                }
+                else
                 {
                     parseValueSet = false;
                 }
@@ -1064,7 +1067,7 @@ namespace PCAxis.Sql.Parser_22
             }
             values = null;
         }
-        
+
     }
 
 }

@@ -1,13 +1,5 @@
 using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,16 +13,16 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetTimeScale_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.TimeScale.TimeScaleCol.Is(aTimeScale) ;
+            sqlString += " WHERE " + DB.TimeScale.TimeScaleCol.Is(aTimeScale);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," TimeScale = " + aTimeScale);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " TimeScale = " + aTimeScale);
             }
 
-            TimeScaleRow myOut = new TimeScaleRow(myRows[0], DB, mLanguageCodes); 
+            TimeScaleRow myOut = new TimeScaleRow(myRows[0], DB, mLanguageCodes);
             return myOut;
         }
 
@@ -66,7 +58,7 @@ namespace PCAxis.Sql.QueryLib_22
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.TimeScaleLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.TimeScaleLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.TimeScale.TimeScaleCol.Is(DB.TimeScaleLang2.TimeScaleCol, langCode);
                 }
             }

@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_24;
-using System.Collections.Specialized;
+
 using PCAxis.Paxiom;
+using PCAxis.Sql.QueryLib_24;
 
 namespace PCAxis.Sql.Parser_24
 {
@@ -40,7 +39,7 @@ namespace PCAxis.Sql.Parser_24
         {
             get { return mPresText; }
         }
-   
+
 
         /// <summary>
         /// Which texts exists (long/short/extra/none)
@@ -55,7 +54,7 @@ namespace PCAxis.Sql.Parser_24
         {
             get { return vpRow.ValuePres; }
         }
-       
+
 
         // Depending of if it's a primary or secondary language, Doamin is read from different columns in database table ValuePool.
         // Valuepool if primary and ValuePoolEng(2.0) ValuePoolAlias (later). A solution could be to add a property here called Domain.
@@ -83,7 +82,7 @@ namespace PCAxis.Sql.Parser_24
         /// <param name="meta">For config.codes </param>
         public PXSqlValuepool(QueryLib_24.ValuePoolRow inRow, PXSqlMeta_24 meta)
         {
-            
+
             this.vpRow = inRow;
 
             if (this.ValueTextExists.Equals(meta.Config.Codes.ValueTextExistsN))
@@ -101,13 +100,14 @@ namespace PCAxis.Sql.Parser_24
             {
                 mPresText[langCode] = vpRow.texts[langCode].PresText;
                 mDomain[langCode] = vpRow.texts[langCode].ValuePoolAlias;
-                if(String.IsNullOrEmpty(mDomain[langCode])) {
+                if (String.IsNullOrEmpty(mDomain[langCode]))
+                {
                     mDomain[langCode] = vpRow.texts[langCode].ValuePoolAlias;
                 }
             }
 
         }
 
-        
+
     }
 }

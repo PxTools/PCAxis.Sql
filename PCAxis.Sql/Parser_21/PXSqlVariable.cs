@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_21;
+
 using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
 using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.QueryLib_21;
 
 namespace PCAxis.Sql.Parser_21
 {
@@ -43,7 +42,7 @@ namespace PCAxis.Sql.Parser_21
         private string mVariableType;
 
         private String mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-        
+
         //protected const string allValuesets = "_ALL_";
         protected string selectedValueset;
         public string SelectedValueset
@@ -204,13 +203,17 @@ namespace PCAxis.Sql.Parser_21
         public PXSqlValuepool ValuePool
         {
             get { return mValuePool; }
-            set { mValuePool = value; 
-            if (mValuePool == null)
+            set
             {
-                mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-            } else {
-                mValueTextOption = mValuePool.ValueTextOption;
-            }
+                mValuePool = value;
+                if (mValuePool == null)
+                {
+                    mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
+                }
+                else
+                {
+                    mValueTextOption = mValuePool.ValueTextOption;
+                }
             }
         }
 
@@ -249,7 +252,7 @@ namespace PCAxis.Sql.Parser_21
         }
 
         #endregion constructors
-    
+
 
 
         protected virtual void SetPresText()
@@ -322,7 +325,7 @@ namespace PCAxis.Sql.Parser_21
             {
                 StringCollection values = new StringCollection();
                 string subkey = this.Name;
-                
+
 
                 //VARIABLENAME  //OBS located in PXSQLBuilder near SetVariableName
 
@@ -335,7 +338,7 @@ namespace PCAxis.Sql.Parser_21
 
                 // PRESTEXT
                 ParsePresTextOption(handler, LanguageCodes, preferredLanguage);
-                
+
                 // VALUE_TEXT_OPTION
                 ParseValueTextOption(handler);
 
@@ -433,7 +436,7 @@ namespace PCAxis.Sql.Parser_21
             //VALUES and Codes
             List<PXSqlValue> _values = this.GetValuesForParsing();
             //VALUES
-            if (! this.mValueTextOption.Equals(PXConstant.VALUETEXTOPTION_NOTEXT))
+            if (!this.mValueTextOption.Equals(PXConstant.VALUETEXTOPTION_NOTEXT))
             {
                 //            if ( this.PresTextOption.Equals(this.meta.Config.Codes.ValuePresC))
                 foreach (string langCode in LanguageCodes)
@@ -469,13 +472,13 @@ namespace PCAxis.Sql.Parser_21
                         {
                             if (this.ValuePool.ValuePres.Equals(meta.Config.Codes.ValuePresB) || this.ValuePool.ValuePres.Equals(meta.Config.Codes.ValuePresT))
                             {
-                                if (val.ValueTextL[langCode].Length>0)
+                                if (val.ValueTextL[langCode].Length > 0)
                                 {
                                     values.Add(val.ValueTextL[langCode]);
                                 }
                                 else
                                 {
-                                    throw new ApplicationException("Long valuetext should be used according to Valuepool.Valuepres, but long text doesn't exist. ValuePool=" +  val.ValuePool + " Valuecode= " + val.ValueCode);
+                                    throw new ApplicationException("Long valuetext should be used according to Valuepool.Valuepres, but long text doesn't exist. ValuePool=" + val.ValuePool + " Valuecode= " + val.ValueCode);
                                 }
                             }
                             else if (this.ValuePool.ValuePres.Equals(meta.Config.Codes.ValuePresA) || this.ValuePool.ValuePres.Equals(meta.Config.Codes.ValuePresS))
@@ -489,7 +492,7 @@ namespace PCAxis.Sql.Parser_21
                                     throw new ApplicationException("Short valuetext should be used according to Valuepool.Valuepres, but short text doesn't exist. ValuePool=" + val.ValuePool + " Valuecode= " + val.ValueCode);
                                 }
                             }
-                            else 
+                            else
                             {
                                 // ValuePres = C
                                 if (val.ValueTextL[langCode].Length > 0)
@@ -506,7 +509,7 @@ namespace PCAxis.Sql.Parser_21
                             }
                         }
                     }
-                  
+
                     handler(PXKeywords.VALUES, langCode, subkey, values);
                 }
             }

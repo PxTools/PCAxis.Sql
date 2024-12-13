@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Xml.Serialization;
-using System.Xml;
 using System.Configuration;
-using log4net;
-using PCAxis.Sql.DbConfig;
 
-namespace PCAxis.Sql.DbConfig 
+namespace PCAxis.Sql.DbConfig
 {
     public static class SqlDbConfigsStatic
     {
-       
+
         private static SqlDbConfigs _config;
-        
+
         private static SqlDbConfig _defaultDatabase;
         public static SqlDbConfig DefaultDatabase
         {
@@ -28,26 +21,27 @@ namespace PCAxis.Sql.DbConfig
             get { return _databasesDescription; }
         }
 
-        private static Dictionary<string,SqlDbConfig> _dataBases;
+        private static Dictionary<string, SqlDbConfig> _dataBases;
         public static Dictionary<string, SqlDbConfig> DataBases
         {
-            get {return _dataBases;}
+            get { return _dataBases; }
         }
-          public static Dictionary<string, string> getAvailableDatabases()  
-          {  
-              return _databasesDescription;  
-          }  
+        public static Dictionary<string, string> getAvailableDatabases()
+        {
+            return _databasesDescription;
+        }
 
 
         static SqlDbConfigsStatic()
         {
             string configPath = ConfigPath;
-            if (String.IsNullOrEmpty(configPath) ) {
+            if (String.IsNullOrEmpty(configPath))
+            {
                 throw new ConfigurationErrorsException("Hullo: cant find an entry for dbconfigFile in AppSettings");
             }
             _config = new SqlDbConfigs(configPath);
             _databasesDescription = _config.DatabaselistDescById;
-          
+
             _dataBases = _config.Databases;
             _defaultDatabase = _dataBases[_config.DefaultDbId];
         }
@@ -66,14 +60,14 @@ namespace PCAxis.Sql.DbConfig
                 string orgBaseDir = AppDomain.CurrentDomain.BaseDirectory;
                 string noBinBaseDir = orgBaseDir.Replace("\\bin\\", "\\");
 
-                string p2 = System.IO.Path.Combine(orgBaseDir , p);
+                string p2 = System.IO.Path.Combine(orgBaseDir, p);
                 if ((new System.IO.FileInfo(p2)).Exists)
                 {
                     return System.IO.Path.GetFullPath((new Uri(p2)).LocalPath);
                 }
 
 
-               //removing any "\bin"
+                //removing any "\bin"
                 string p3 = System.IO.Path.Combine(noBinBaseDir, p);
                 if ((new System.IO.FileInfo(p3)).Exists)
                 {

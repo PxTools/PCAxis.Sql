@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-
-using PCAxis.Paxiom;
+using System.Collections.Specialized;
 
 using log4net;
+
+using PCAxis.Paxiom;
 
 namespace PCAxis.Sql.Parser_21
 {
@@ -23,7 +23,7 @@ namespace PCAxis.Sql.Parser_21
         /// Receives the data and stores it.
         /// </summary>
         /// <param name="inDataNoteCellEntries">the data</param>
-        public PXSqlParseMetaPostData_21(Dictionary<string, string> inDataNoteCellEntries,PCAxis.Sql.Parser_21.PXSqlMeta_21 meta)
+        public PXSqlParseMetaPostData_21(Dictionary<string, string> inDataNoteCellEntries, PCAxis.Sql.Parser_21.PXSqlMeta_21 meta)
         {
             theDataNoteCellEntries = inDataNoteCellEntries;
             mMeta = meta;
@@ -57,25 +57,25 @@ namespace PCAxis.Sql.Parser_21
             foreach (KeyValuePair<string, string> dcn in theDataNoteCellEntries)
             {
 
-               PXSqlNpm.NPMCharacter  myNpm = myNpms.GetNpmBySpeciaCharacterType(dcn.Value);
-             foreach (string lang in mMeta.LanguageCodes)
-             {
-                 string presCharacter = myNpm.presCharacters[lang];
-                   values = new StringCollection();
-                   values.Add(presCharacter);
-                   String myKey = dcn.Key.Replace(",", "\",\"");//for PXModelBuilder.SplittString   A","B","C 
-                   // not "A","B","C" 
-                   handler(keyword, lang, myKey, values);
-               }
+                PXSqlNpm.NPMCharacter myNpm = myNpms.GetNpmBySpeciaCharacterType(dcn.Value);
+                foreach (string lang in mMeta.LanguageCodes)
+                {
+                    string presCharacter = myNpm.presCharacters[lang];
+                    values = new StringCollection();
+                    values.Add(presCharacter);
+                    String myKey = dcn.Key.Replace(",", "\",\"");//for PXModelBuilder.SplittString   A","B","C 
+                                                                 // not "A","B","C" 
+                    handler(keyword, lang, myKey, values);
+                }
                 // Keep distinct values of special character to get Presetext.
-             if (!datanoteDistictValues.Contains(dcn.Value))
-             {
-                 datanoteDistictValues.Add(dcn.Value);
-             }
+                if (!datanoteDistictValues.Contains(dcn.Value))
+                {
+                    datanoteDistictValues.Add(dcn.Value);
+                }
             }
 
             keyword = PXKeywords.NOTE;
-            foreach(string datanoteDistinctValue in datanoteDistictValues)
+            foreach (string datanoteDistinctValue in datanoteDistictValues)
             {
                 PXSqlNpm.NPMCharacter myNpm = myNpms.GetNpmBySpeciaCharacterType(datanoteDistinctValue);
                 foreach (string lang in mMeta.LanguageCodes)
@@ -83,10 +83,10 @@ namespace PCAxis.Sql.Parser_21
                     string presText = myNpm.presCharacters[lang] + "=" + myNpm.presTexts[lang];
                     values = new StringCollection();
                     values.Add(presText);
-                    handler(keyword, lang,null, values);                    
+                    handler(keyword, lang, null, values);
                 }
             }
-             
+
         }
 
         #endregion

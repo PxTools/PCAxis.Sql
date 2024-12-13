@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_21;
-using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
-using PCAxis.PlugIn.Sql;
 using System.Data;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.Pxs;
+using PCAxis.Sql.QueryLib_21;
 namespace PCAxis.Sql.Parser_21
 {
     public class PXSqlVariableClassification : PXSqlVariable
@@ -265,8 +266,8 @@ namespace PCAxis.Sql.Parser_21
             // Defines a dictionary to hold all the sortorders. Necessary because of the wildcards
             Dictionary<string, int> mDefinedSortorder = new Dictionary<string, int>();
             bool usesGrouping = false;
-            
-            
+
+
             string mPxsSubTableId = meta.PxsFile.Query.SubTable;
 
 
@@ -289,7 +290,7 @@ namespace PCAxis.Sql.Parser_21
 
                         DataSet mValueInfoTbl = meta.MetaQuery.GetValueWildCardBySubTable(meta.MainTable.MainTable, var.code, mPxsSubTableId, val.code);
                         DataRowCollection mValueInfo = mValueInfoTbl.Tables[0].Rows;
-                        
+
                         foreach (DataRow row in mValueInfo)
                         {
                             string mTempCode = row[meta.MetaQuery.DB.Value.ValueCode].ToString();
@@ -312,7 +313,7 @@ namespace PCAxis.Sql.Parser_21
 
                     documentOrder++;
                 }
-            #endregion foreach var.Values.Items
+                #endregion foreach var.Values.Items
 
 
                 // mSelectedValues now contains all the selected values, including those defined by wildcards
@@ -321,7 +322,7 @@ namespace PCAxis.Sql.Parser_21
                 List<PXSqlValue> mSortedValues = new List<PXSqlValue>();
 
                 ValueRowDictionary mValueRowDictionary = meta.MetaQuery.GetValueRowDictionary(meta.MainTable.MainTable, selSubTables, var.code, mSelectedValues, this.ValuePool.ValueTextExists);
-                
+
 
                 // todo; fortsette her
                 Dictionary<string, ValueRow2> mValueRows = mValueRowDictionary.ValueRows;
@@ -697,7 +698,7 @@ namespace PCAxis.Sql.Parser_21
             //jfi sep 2015. This:
             //if ((numberOfElimA == ElimValues.Count - 1) && (numberOfElimOtherCode == 1))
             //was found to be too strict in VariablerOgVerdimengder-4.doc
-          
+
             if ((numberOfElimOtherCode == 1))
             {
                 return elimOtherCode;
@@ -875,12 +876,14 @@ namespace PCAxis.Sql.Parser_21
             if (meta.inPresentationModus)
             {
                 parseValueSet = true;
-            }else
+            }
+            else
             {
                 if ((this.ValueSets.Values.Count > 1) || (this.groupingInfos.Infos.Count > 0))
                 {
                     parseValueSet = true;
-                }else
+                }
+                else
                 {
                     parseValueSet = false;
                 }

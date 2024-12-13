@@ -13,12 +13,12 @@ namespace PCAxis.Sql.Parser_21
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlParserForCodelists_21));
 
-        
+
         //private List<PXSqlVariable> _variables;
         private List<PXSqlVariableClassification> _variables;
-    
+
         private PXSqlMeta_21 mPXSqlMeta;
-   
+
         #region Constructors
 
 
@@ -27,38 +27,39 @@ namespace PCAxis.Sql.Parser_21
         /// </summary>
         /// <param name="inPXSqlMeta">PXSqlMeta holding variables</param>
         /// <param name="variableCode">Name of the vaiable</param>
-         public PXSqlParserForCodelists_21(PXSqlMeta_21 inPXSqlMeta, String variableCode) {
-             mPXSqlMeta = inPXSqlMeta;
-             _variables = new List<PXSqlVariableClassification>();
-             _variables.Add(inPXSqlMeta.VariablesClassification[variableCode]);
+        public PXSqlParserForCodelists_21(PXSqlMeta_21 inPXSqlMeta, String variableCode)
+        {
+            mPXSqlMeta = inPXSqlMeta;
+            _variables = new List<PXSqlVariableClassification>();
+            _variables.Add(inPXSqlMeta.VariablesClassification[variableCode]);
         }
 
 
 
         #endregion
-  
+
         /// <summary>
         /// Sends the data
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="preferredLanguage"></param>
-         public override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
-         {
-             foreach (PXSqlVariableClassification variable in _variables)
-             {
-                
-                 variable.ParseForApplyValueSet(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
-             }
+        public override void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
+            foreach (PXSqlVariableClassification variable in _variables)
+            {
+
+                variable.ParseForApplyValueSet(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
+            }
 
 
-         }
+        }
 
-  
+
         /// <summary>
-         /// IDisposable implemenatation
+        /// IDisposable implemenatation
         /// </summary>
-         override public void Dispose()
-         {
+        override public void Dispose()
+        {
             mPXSqlMeta = null;
         }
 

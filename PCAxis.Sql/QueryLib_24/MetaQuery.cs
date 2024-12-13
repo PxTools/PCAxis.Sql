@@ -1,19 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
-using System.Linq;
 using System.Data; //For DataSet-objects.
+using System.Linq;
 using System.Reflection; //For MethodBase.GetCurrentMethod().
 
-using System.Globalization;// for CultureInfo
-
+using log4net;
 
 using PCAxis.Sql.DbClient; //For executing SQLs.
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
-
-
-using log4net;
 using PCAxis.Sql.Exceptions;
 
 
@@ -27,7 +22,7 @@ namespace PCAxis.Sql.QueryLib_24
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MetaQuery));
 #if DEBUG
-        private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(),"LogTime");
+        private static readonly log4net.ILog logTime = LogManager.GetLogger(System.Reflection.Assembly.GetExecutingAssembly(), "LogTime");
 #endif
 
 
@@ -82,7 +77,7 @@ namespace PCAxis.Sql.QueryLib_24
 
             CompareCNMMVersionSources();
         }
-        
+
         public PxSqlCommand GetPxSqlCommand()
         {
             if (_useTempTables)
@@ -109,9 +104,9 @@ namespace PCAxis.Sql.QueryLib_24
         }
 
 
-       
 
-        
+
+
         /// <summary>Gets the languages for which the maintable exists in the database.
         /// </summary>
         /// <param name="mainTableId">The maintable</param>
@@ -121,23 +116,23 @@ namespace PCAxis.Sql.QueryLib_24
         {
             StringCollection maintableLanguages = new StringCollection();
             maintableLanguages.Add(DB.MainLanguage.code);
-            
-            Dictionary<string, SecondaryLanguageRow> SLs = this.GetSecondaryLanguageRowsbyLanguage(mainTableId, true);
-                foreach (String dbLang in dbLanguages)
-                {
-                    if (DB.isSecondaryLanguage(dbLang))
-                    {
-                        if (SLs.ContainsKey(dbLang))
-                        {
-                            if (SLs[dbLang].CompletelyTranslated.Equals(DB.Codes.Yes))
-                            {
-                                maintableLanguages.Add(dbLang);
-                            }
-                        }
 
+            Dictionary<string, SecondaryLanguageRow> SLs = this.GetSecondaryLanguageRowsbyLanguage(mainTableId, true);
+            foreach (String dbLang in dbLanguages)
+            {
+                if (DB.isSecondaryLanguage(dbLang))
+                {
+                    if (SLs.ContainsKey(dbLang))
+                    {
+                        if (SLs[dbLang].CompletelyTranslated.Equals(DB.Codes.Yes))
+                        {
+                            maintableLanguages.Add(dbLang);
+                        }
                     }
+
                 }
-            
+            }
+
             return maintableLanguages;
         }
 
@@ -151,7 +146,7 @@ namespace PCAxis.Sql.QueryLib_24
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
             parameters[0] = DB.SubTableVariable.MainTableCol.GetStringParameter(aMainTable);
-            
+
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
@@ -167,8 +162,8 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
- 
-  
+
+
 
         public DataSet GetValueWildCardBySubTable(string aMainTable, string aVariable, string aSubtable, string aWildCard)
         {
@@ -230,7 +225,7 @@ namespace PCAxis.Sql.QueryLib_24
                 parameters[2] = DB.VSValue.ValueCodeCol.GetStringParameter(sqlWildCard);
             }
 
-           
+
             // Execute the SQL and return the result (records) as a System.Data.DataSet-object.
             return mSqlCommand.ExecuteSelect(sqlString, parameters);
         }
@@ -308,9 +303,9 @@ namespace PCAxis.Sql.QueryLib_24
             sqlString += " FROM (";
             #region language section
             int LangCounter = 0;
-            
+
             //TODO; reduserte denne mye, kan man bruke noe generert nå, mon tro
-           
+
             foreach (String langCode in mLanguageCodes)
             {
                 if (LangCounter > 0)
@@ -324,15 +319,15 @@ namespace PCAxis.Sql.QueryLib_24
                                + ", " + DB.Value.ValuePoolCol.Id() + " AS " + DB.Value.ValuePoolCol.PureColumnName();
 
 
-                   
-                        sqlString += ", " + DB.Value.ValueTextLCol.Id() + " AS " + DB.Value.ValueTextLCol.PureColumnName()
-                                   + ", " + DB.Value.ValueTextSCol.Id() + " AS " + DB.Value.ValueTextSCol.PureColumnName();
-                    
+
+                    sqlString += ", " + DB.Value.ValueTextLCol.Id() + " AS " + DB.Value.ValueTextLCol.PureColumnName()
+                               + ", " + DB.Value.ValueTextSCol.Id() + " AS " + DB.Value.ValueTextSCol.PureColumnName();
+
 
                     sqlString += ", " + DB.Value.SortCodeCol.Id() + " AS SortCodeValue"
                                + " FROM " + DB.MetaOwner + DB.Value.TableName + " " + DB.Value.Alias;
 
-                    
+
                 }
                 else
                 {
@@ -340,15 +335,15 @@ namespace PCAxis.Sql.QueryLib_24
                                + ", " + DB.ValueLang2.ValueCodeCol.Id(langCode) + " AS " + DB.Value.ValueCodeCol.PureColumnName()
                                + ", " + DB.ValueLang2.ValuePoolCol.Id(langCode) + " AS " + DB.Value.ValuePoolCol.PureColumnName();
 
-                    
-                        sqlString += ", " + DB.ValueLang2.ValueTextLCol.Id(langCode) + " AS " + DB.Value.ValueTextLCol.PureColumnName()
-                                   + ", " + DB.ValueLang2.ValueTextSCol.Id(langCode) + " AS " + DB.Value.ValueTextSCol.PureColumnName();
-                   
+
+                    sqlString += ", " + DB.ValueLang2.ValueTextLCol.Id(langCode) + " AS " + DB.Value.ValueTextLCol.PureColumnName()
+                               + ", " + DB.ValueLang2.ValueTextSCol.Id(langCode) + " AS " + DB.Value.ValueTextSCol.PureColumnName();
+
 
                     sqlString += ", " + DB.ValueLang2.SortCodeCol.Id(langCode) + " AS SortCodeValue"
                                + " FROM " + DB.ValueLang2.GetNameAndAlias(langCode);
 
-                   
+
                 }
                 LangCounter++;
             }
@@ -369,10 +364,10 @@ namespace PCAxis.Sql.QueryLib_24
 
             #region where section
 
-            
+
             sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is();
             int numberOfDbParameters = 1;
-            
+
             if (subTables != null)
             {
                 sqlString += " AND " + DB.SubTableVariable.SubTableCol.In(subTables);
@@ -382,11 +377,11 @@ namespace PCAxis.Sql.QueryLib_24
             sqlString += " AND " + DB.SubTableVariable.VariableCol.Is();
             numberOfDbParameters++;
 
- 
+
             #endregion where section
 
             sqlString += " ORDER BY Language, SortCodeVsValue, SortCodeValue, bx." + DB.Value.ValueCodeCol.PureColumnName();
-           
+
 
             #region parameters to where section
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[numberOfDbParameters];
@@ -403,13 +398,13 @@ namespace PCAxis.Sql.QueryLib_24
 
             parameters[DbParameterIndex] = DB.SubTableVariable.VariableCol.GetStringParameter(variable);
             DbParameterIndex++;
-            
+
 
             #endregion parameters to where section
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataTable myTable = ds.Tables[0];
-            
+
 
             ValueRow2HMDictionary myOut = new ValueRow2HMDictionary(myTable, DB, this);
 
@@ -522,7 +517,7 @@ namespace PCAxis.Sql.QueryLib_24
             // piv added DISTINCT
             #endregion example
 
-            
+
             int numberOfDbParameters = mLanguageCodes.Count * (2 + subTables.Count);
             int DbParameterIndex = 0;
 
@@ -553,15 +548,15 @@ namespace PCAxis.Sql.QueryLib_24
                                + ", " + DB.Value.ValueCodeCol.Id() + " AS " + DB.Value.ValueCodeCol.PureColumnName()
                                + ", " + DB.Value.ValuePoolCol.Id() + " AS " + DB.Value.ValuePoolCol.PureColumnName();
 
-                    
-                        sqlString += ", " + DB.Value.ValueTextLCol.Id() + " AS " + DB.Value.ValueTextLCol.PureColumnName()
-                                   + ", " + DB.Value.ValueTextSCol.Id() + " AS " + DB.Value.ValueTextSCol.PureColumnName();
-                   
+
+                    sqlString += ", " + DB.Value.ValueTextLCol.Id() + " AS " + DB.Value.ValueTextLCol.PureColumnName()
+                               + ", " + DB.Value.ValueTextSCol.Id() + " AS " + DB.Value.ValueTextSCol.PureColumnName();
+
 
                     sqlString += ", " + DB.Value.SortCodeCol.Id() + " AS SortCodeValue"
                                + " FROM " + DB.Value.GetNameAndAlias();
 
-                   
+
                     #endregion primary language
                 }
                 else
@@ -571,15 +566,15 @@ namespace PCAxis.Sql.QueryLib_24
                                + ", " + DB.ValueLang2.ValueCodeCol.Id(langCode) + " AS " + DB.Value.ValueCodeCol.PureColumnName()
                                + ", " + DB.ValueLang2.ValuePoolCol.Id(langCode) + " AS " + DB.Value.ValuePoolCol.PureColumnName();
 
-                    
-                        sqlString += ", " + DB.ValueLang2.ValueTextLCol.Id(langCode) + " AS " + DB.Value.ValueTextLCol.PureColumnName()
-                                   + ", " + DB.ValueLang2.ValueTextSCol.Id(langCode) + " AS " + DB.Value.ValueTextSCol.PureColumnName();
-                    
+
+                    sqlString += ", " + DB.ValueLang2.ValueTextLCol.Id(langCode) + " AS " + DB.Value.ValueTextLCol.PureColumnName()
+                               + ", " + DB.ValueLang2.ValueTextSCol.Id(langCode) + " AS " + DB.Value.ValueTextSCol.PureColumnName();
+
 
                     sqlString += ", " + DB.ValueLang2.SortCodeCol.Id(langCode) + " AS SortCodeValue"
                                + " FROM " + DB.ValueLang2.GetNameAndAlias(langCode);
 
-                    
+
                     #endregion secondary language
                 }
 
@@ -592,7 +587,7 @@ namespace PCAxis.Sql.QueryLib_24
                            + " ON (bx." + DB.Value.ValuePoolCol.PureColumnName() + " = bz." + DB.Value.ValuePoolCol.PureColumnName() + " AND bx." + DB.Value.ValueCodeCol.PureColumnName() + " = bz." + DB.Value.ValueCodeCol.PureColumnName() + ")"
                            + " JOIN " + DB.SubTableVariable.GetNameAndAlias()
                            + " ON (bz." + DB.VSValue.ValueSetCol.PureColumnName() + " = " + DB.SubTableVariable.ValueSetCol.Id() + ")"
-                           + " WHERE " + DB.SubTableVariable.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable"+langCode));
+                           + " WHERE " + DB.SubTableVariable.MainTableCol.Is(mSqlCommand.GetParameterRef("aMainTable" + langCode));
 
 
 
@@ -602,11 +597,11 @@ namespace PCAxis.Sql.QueryLib_24
                 // If extraction from only one subtable, this paragraph must be included
                 if (subTables.Count > 0)
                 {
-                    string tmpNameBase="";
+                    string tmpNameBase = "";
                     sqlString += " AND " + DB.SubTableVariable.SubTableCol.Id() + " IN (";
                     for (int counter = 0; counter < subTables.Count; counter++)
                     {
-                        tmpNameBase= "aSubTable" + langCode + (counter + 1);
+                        tmpNameBase = "aSubTable" + langCode + (counter + 1);
                         sqlString += mSqlCommand.GetParameterRef(tmpNameBase) + " ,";
                         parameters[DbParameterIndex] = mSqlCommand.GetStringParameter(tmpNameBase, subTables[counter]);
                         DbParameterIndex++;
@@ -628,11 +623,11 @@ namespace PCAxis.Sql.QueryLib_24
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             //DataRowCollection myRows = ds.Tables[0].Rows;
             DataTable myTable = ds.Tables[0];
-           
+
             ValueRow2HMDictionary myOut = new ValueRow2HMDictionary(myTable, DB, this);
             return myOut;
         }
-      
+
 
         // newnewnew
         //flyttet hit fra fra_master2MetaQuery
@@ -647,9 +642,9 @@ namespace PCAxis.Sql.QueryLib_24
             {
                 if (!DB.isSecondaryLanguage(langCode))
                 {
-                        sqlString += ", " + DB.Value.ValueTextSCol.ForSelect();
-                        sqlString += ", " + DB.Value.ValueTextLCol.ForSelect();
-                        sqlString += ", " + DB.Value.SortCodeCol.ForSelect();
+                    sqlString += ", " + DB.Value.ValueTextSCol.ForSelect();
+                    sqlString += ", " + DB.Value.ValueTextLCol.ForSelect();
+                    sqlString += ", " + DB.Value.SortCodeCol.ForSelect();
                 }
                 else
                 {
@@ -658,11 +653,11 @@ namespace PCAxis.Sql.QueryLib_24
                     joinString += " ON ( " + DB.ValueLang2.ValuePoolCol.Id(langCode) + " = " + DB.Value.ValuePoolCol.Id() +
                                   " AND " + DB.ValueLang2.ValueCodeCol.Id(langCode) + " = " + DB.Value.ValueCodeCol.Id() + ")";
 
- 
-                        sqlString += ", " + GetColumnSelectionString(DB.ValueLang2.Alias + DB.GetMetaSuffix(langCode), DB.ValueLang2.ValueTextSCol.PureColumnName());
-                        sqlString += ", " + GetColumnSelectionString(DB.ValueLang2.Alias + DB.GetMetaSuffix(langCode), DB.ValueLang2.ValueTextLCol.PureColumnName());
 
-                   
+                    sqlString += ", " + GetColumnSelectionString(DB.ValueLang2.Alias + DB.GetMetaSuffix(langCode), DB.ValueLang2.ValueTextSCol.PureColumnName());
+                    sqlString += ", " + GetColumnSelectionString(DB.ValueLang2.Alias + DB.GetMetaSuffix(langCode), DB.ValueLang2.ValueTextLCol.PureColumnName());
+
+
 
                     sqlString += ", " + GetColumnSelectionString(DB.ValueLang2.Alias + DB.GetMetaSuffix(langCode), DB.ValueLang2.SortCodeCol.PureColumnName());
                 }
@@ -682,7 +677,7 @@ namespace PCAxis.Sql.QueryLib_24
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1 + someValueCodes.Count];
             parameters[0] = DB.Value.ValuePoolCol.GetStringParameter(valuePool);
-            
+
             if (someValueCodes.Count > 0)
             {
                 Array.Copy(DB.Value.ValueCodeCol.GetStringParameters(someValueCodes), 0, parameters, 1, someValueCodes.Count);
@@ -738,7 +733,7 @@ namespace PCAxis.Sql.QueryLib_24
             return int.Parse((mMetaSet.Tables[0].Rows[0]["COUNT"]).ToString());
         }
 
-        
+
         /// <summary>
         /// Logs a line if Database and configfile disagrees on CNMM version 
         /// </summary>
@@ -756,10 +751,10 @@ namespace PCAxis.Sql.QueryLib_24
                     versionFromConfig + " in config file. They must be equal";
                 log.Warn(message);
             }
-            
+
         }
 
-     
+
 
 
         //flyttet over fra fra_master2MetaQuery. Denne tabellen er ond
@@ -769,7 +764,7 @@ namespace PCAxis.Sql.QueryLib_24
         public TextCatalogRow GetTextCatalogRow()
         {
             string aTextType = DB.Keywords.ContentVariable;
-           
+
             string sqlString = GetTextCatalog_SQLString_NoWhere();
 
             sqlString += " WHERE " + DB.TextCatalog.TextTypeCol.IsUppered();
@@ -917,7 +912,7 @@ namespace PCAxis.Sql.QueryLib_24
             string sqlString = "select bx.MainTable, bx.FootNoteNo, bx.FootNoteType, bx.Contents, bx.Variable, bx.ValuePool, bx.ValueCode," +
            "bx.TimePeriod, bx.Subtable," + DB.Footnote.MandOptCol.Id() + " as MandOpt," + DB.Footnote.ShowFootnoteCol.Id() + " as ShowFootNotes," +
             DB.Footnote.PresCharacterCol.Id() + " as PresCharacter," +
-           DB.Footnote.FootnoteTextCol.ForSelect() ;
+           DB.Footnote.FootnoteTextCol.ForSelect();
             foreach (String langCode in mLanguageCodes)
             {
                 if (DB.isSecondaryLanguage(langCode))
@@ -933,23 +928,23 @@ namespace PCAxis.Sql.QueryLib_24
               "(select fi." + DB.FootnoteContVbl.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteContVbl.FootnoteNoCol.PureColumnName() + " as  FootNoteNo, '3' as FootNoteType, fi." + DB.FootnoteContVbl.ContentsCol.PureColumnName() + " as  Contents, fi." + DB.FootnoteContVbl.VariableCol.PureColumnName() + " as  Variable, '*' as ValuePool, '*' as Valuecode, " +
                       "'*' as TimePeriod, '*' as Subtable " +
                "from " + Md + DB.FootnoteContVbl.TableName + " fi) " +
-           // "union " +
-           //   "(select fi." + DB.FootnoteContValue.MainTableCol.PureColumnName() + ", fi." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + ", '4' as FootNoteType, fi." + DB.FootnoteContValue.ContentsCol.PureColumnName() + " as Contents, fi." + DB.FootnoteContValue.VariableCol.PureColumnName() + " as Variable, fi." + DB.FootnoteContValue.ValuePoolCol.PureColumnName() + " as ValuePool, fi." + DB.FootnoteContValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
-           //           "'*' as TimePeriod, '*' as SubTable " +
-           //    "from " + Md + DB.FootnoteContValue.TableName + " fi " +
-           //    "where  COALESCE(fi." + DB.FootnoteContValue.CellnoteCol.PureColumnName() + ", 'XX') <> '" + DB.Codes.Yes + "') " +
-           // "union " +
-           //   "(select fi." + DB.FootnoteContTime.MainTableCol.PureColumnName() + " as MainTable,fi." + DB.FootnoteContTime.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '41' as FootNoteType, fi." + DB.FootnoteContTime.ContentsCol.PureColumnName() + " as Contents, '*' as Variable, '*' as ValuePool, '*' as ValueCode," +
-           //           "fi." + DB.FootnoteContTime.TimePeriodCol.PureColumnName() + " as TimePeriod, '*' as SubTable " +
-           //    "from " + Md + DB.FootnoteContTime.TableName + " fi " +
-           //    "where  COALESCE(fi." + DB.FootnoteContTime.CellnoteCol.PureColumnName() + ", 'XX') <> '" + DB.Codes.Yes + "') " +
-           // "union " +
-           //   "(select fih." + DB.FootnoteContValue.MainTableCol.PureColumnName() + ", fih." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '999' as FootNoteType, fih." + DB.FootnoteContValue.ContentsCol.PureColumnName() + " as Contents, fih." + DB.FootnoteContValue.VariableCol.PureColumnName() + " Variable, fih." + DB.FootnoteContValue.ValuePoolCol.PureColumnName() + " as ValuePool, fih." + DB.FootnoteContValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
-           //           "fit." + DB.FootnoteContTime.TimePeriodCol.PureColumnName() + " as TimePeriod, '*' as SubTable " +
-           //    "from " + Md + DB.FootnoteContValue.TableName + " fih, " + Md + DB.FootnoteContTime.TableName + " fit " +
-           //    "where  fih." + DB.FootnoteContValue.CellnoteCol.PureColumnName() + " = '" + DB.Codes.Yes + "' " +
-           //      "and  fit." + DB.FootnoteContTime.CellnoteCol.PureColumnName() + " = '" + DB.Codes.Yes + "' " +
-           //      "and  fit." + DB.FootnoteContTime.FootnoteNoCol.PureColumnName() + " = fih." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + ") " +
+            // "union " +
+            //   "(select fi." + DB.FootnoteContValue.MainTableCol.PureColumnName() + ", fi." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + ", '4' as FootNoteType, fi." + DB.FootnoteContValue.ContentsCol.PureColumnName() + " as Contents, fi." + DB.FootnoteContValue.VariableCol.PureColumnName() + " as Variable, fi." + DB.FootnoteContValue.ValuePoolCol.PureColumnName() + " as ValuePool, fi." + DB.FootnoteContValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
+            //           "'*' as TimePeriod, '*' as SubTable " +
+            //    "from " + Md + DB.FootnoteContValue.TableName + " fi " +
+            //    "where  COALESCE(fi." + DB.FootnoteContValue.CellnoteCol.PureColumnName() + ", 'XX') <> '" + DB.Codes.Yes + "') " +
+            // "union " +
+            //   "(select fi." + DB.FootnoteContTime.MainTableCol.PureColumnName() + " as MainTable,fi." + DB.FootnoteContTime.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '41' as FootNoteType, fi." + DB.FootnoteContTime.ContentsCol.PureColumnName() + " as Contents, '*' as Variable, '*' as ValuePool, '*' as ValueCode," +
+            //           "fi." + DB.FootnoteContTime.TimePeriodCol.PureColumnName() + " as TimePeriod, '*' as SubTable " +
+            //    "from " + Md + DB.FootnoteContTime.TableName + " fi " +
+            //    "where  COALESCE(fi." + DB.FootnoteContTime.CellnoteCol.PureColumnName() + ", 'XX') <> '" + DB.Codes.Yes + "') " +
+            // "union " +
+            //   "(select fih." + DB.FootnoteContValue.MainTableCol.PureColumnName() + ", fih." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '999' as FootNoteType, fih." + DB.FootnoteContValue.ContentsCol.PureColumnName() + " as Contents, fih." + DB.FootnoteContValue.VariableCol.PureColumnName() + " Variable, fih." + DB.FootnoteContValue.ValuePoolCol.PureColumnName() + " as ValuePool, fih." + DB.FootnoteContValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
+            //           "fit." + DB.FootnoteContTime.TimePeriodCol.PureColumnName() + " as TimePeriod, '*' as SubTable " +
+            //    "from " + Md + DB.FootnoteContValue.TableName + " fih, " + Md + DB.FootnoteContTime.TableName + " fit " +
+            //    "where  fih." + DB.FootnoteContValue.CellnoteCol.PureColumnName() + " = '" + DB.Codes.Yes + "' " +
+            //      "and  fit." + DB.FootnoteContTime.CellnoteCol.PureColumnName() + " = '" + DB.Codes.Yes + "' " +
+            //      "and  fit." + DB.FootnoteContTime.FootnoteNoCol.PureColumnName() + " = fih." + DB.FootnoteContValue.FootnoteNoCol.PureColumnName() + ") " +
             "union " +
               "(select distinct dvt." + DB.SubTableVariable.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteVariable.FootnoteNoCol.PureColumnName() + " as  FootNoteNo, '5' as FootNoteType, '*' as Contents, fi." + DB.FootnoteContVbl.VariableCol.PureColumnName() + " as Variable, '*' as ValuePool, '*' as ValueCode, " +
                       "'*' as TimePeriod, '*' as SubTable " +
@@ -963,14 +958,14 @@ namespace PCAxis.Sql.QueryLib_24
                  " and  vmv." + DB.VSValue.ValuePoolCol.PureColumnName() + " = fi." + DB.FootnoteValue.ValuePoolCol.PureColumnName() +
                  " and  vmv." + DB.VSValue.ValueCodeCol.PureColumnName() + " = fi." + DB.FootnoteValue.ValueCodeCol.PureColumnName() + ") " +
             "union " +
-              "(select distinct "+ oraninja1+" dvt." + DB.SubTableVariable.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteValue.FootnoteNoCol.PureColumnName() + " as  FootNoteNo, '6' as FootNoteType, '*' as Contents, dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + " as Variable, fi." + DB.FootnoteValue.ValuePoolCol.PureColumnName() + " as ValuePool, fi." + DB.FootnoteValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
+              "(select distinct " + oraninja1 + " dvt." + DB.SubTableVariable.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteValue.FootnoteNoCol.PureColumnName() + " as  FootNoteNo, '6' as FootNoteType, '*' as Contents, dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + " as Variable, fi." + DB.FootnoteValue.ValuePoolCol.PureColumnName() + " as ValuePool, fi." + DB.FootnoteValue.ValueCodeCol.PureColumnName() + " as ValueCode, " +
                       "'*' as TimePeriod, '*' as SubTable " +
                "from " + Md + DB.FootnoteValue.TableName + " fi, " + Md + DB.SubTableVariable.TableName + " dvt, " + Md + DB.ValueSetGrouping.TableName + " vmg, " + Md + DB.Grouping.TableName + " g, " + Md + DB.ValueGroup.TableName + " vg " +
                "where  dvt. " + DB.ValueSet.ValueSetCol.PureColumnName() + " = vmg." + DB.ValueSetGrouping.ValueSetCol.PureColumnName() +
                  " and  vmg." + DB.ValueSetGrouping.GroupingCol.PureColumnName() + " = g." + DB.Grouping.GroupingCol.PureColumnName() +
                  " and  g." + DB.Grouping.GroupingCol.PureColumnName() + " = vg." + DB.ValueSetGrouping.GroupingCol.PureColumnName() +
-                 " and  g." + DB.Grouping.ValuePoolCol.PureColumnName() + " = vg." + DB.ValueGroup.ValuePoolCol.PureColumnName()  +
-                " and  vg." + DB.ValueGroup.ValuePoolCol.PureColumnName() + " = fi." + DB.FootnoteValue.ValuePoolCol.PureColumnName()  +
+                 " and  g." + DB.Grouping.ValuePoolCol.PureColumnName() + " = vg." + DB.ValueGroup.ValuePoolCol.PureColumnName() +
+                " and  vg." + DB.ValueGroup.ValuePoolCol.PureColumnName() + " = fi." + DB.FootnoteValue.ValuePoolCol.PureColumnName() +
                 " and  vg." + DB.ValueGroup.GroupCodeCol.PureColumnName() + " = fi." + DB.FootnoteValue.ValueCodeCol.PureColumnName() + oraninja2 + ") " +
             "union " +
               "(select fi." + DB.FootnoteMainTable.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteMainTable.FootnoteNoCol.PureColumnName() + " as FootNoteNo , '7' as FootNoteType, '*' as Contents, '*' as Variable, '*' as ValuePool, '*' as ValueCode," +
@@ -980,16 +975,16 @@ namespace PCAxis.Sql.QueryLib_24
               "(select fi." + DB.FootnoteSubTable.MainTableCol.PureColumnName() + " as MainTable, " + DB.FootnoteSubTable.FootnoteNoCol.PureColumnName() + " as FootNote, '8' as FootNoteType, '*' as Contents, '*' as Variable, '*' as ValuePool, '*' as ValueCode," +
                       "'*' as TimePeriod, " + "fi." + DB.FootnoteSubTable.SubTableCol.PureColumnName() + " as SubTable " +
                "from " + Md + DB.FootnoteSubTable.TableName + " fi) ";
-      
-                sqlString += "union " +
-                  "(select distinct fi." + DB.FootnoteMaintValue.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteMaintValue.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '9' as FootNoteType, '*' as Contents, dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + ", fi." + DB.FootnoteMaintValue.ValuePoolCol.PureColumnName() + " as ValuePool , fi." + DB.FootnoteMaintValue.ValueCodeCol.PureColumnName() + " as ValueCode," +
-                          "'*' as TimePeriod, '*' as SubTable " +
-                   "from " + Md + DB.FootnoteMaintValue.TableName + " fi, " + Md + DB.SubTableVariable.TableName + " dvt," + Md + DB.VSValue.TableName + " vmv " +
-                   "where  dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + "= fi." + DB.FootnoteMaintValue.VariableCol.PureColumnName() +
-                     " and  vmv." + DB.VSValue.ValueSetCol.PureColumnName() + " = dvt." + DB.SubTableVariable.ValueSetCol.PureColumnName() +
-                     " and  vmv." + DB.VSValue.ValuePoolCol.PureColumnName() + " = fi." + DB.FootnoteMaintValue.ValuePoolCol.PureColumnName() +
-                     " and  vmv." + DB.VSValue.ValueCodeCol.PureColumnName() + " = fi." + DB.FootnoteMaintValue.ValueCodeCol.PureColumnName() + ")";
-         
+
+            sqlString += "union " +
+              "(select distinct fi." + DB.FootnoteMaintValue.MainTableCol.PureColumnName() + " as MainTable, fi." + DB.FootnoteMaintValue.FootnoteNoCol.PureColumnName() + " as FootNoteNo, '9' as FootNoteType, '*' as Contents, dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + ", fi." + DB.FootnoteMaintValue.ValuePoolCol.PureColumnName() + " as ValuePool , fi." + DB.FootnoteMaintValue.ValueCodeCol.PureColumnName() + " as ValueCode," +
+                      "'*' as TimePeriod, '*' as SubTable " +
+               "from " + Md + DB.FootnoteMaintValue.TableName + " fi, " + Md + DB.SubTableVariable.TableName + " dvt," + Md + DB.VSValue.TableName + " vmv " +
+               "where  dvt." + DB.SubTableVariable.VariableCol.PureColumnName() + "= fi." + DB.FootnoteMaintValue.VariableCol.PureColumnName() +
+                 " and  vmv." + DB.VSValue.ValueSetCol.PureColumnName() + " = dvt." + DB.SubTableVariable.ValueSetCol.PureColumnName() +
+                 " and  vmv." + DB.VSValue.ValuePoolCol.PureColumnName() + " = fi." + DB.FootnoteMaintValue.ValuePoolCol.PureColumnName() +
+                 " and  vmv." + DB.VSValue.ValueCodeCol.PureColumnName() + " = fi." + DB.FootnoteMaintValue.ValueCodeCol.PureColumnName() + ")";
+
             sqlString += ") bx," +
              DB.Footnote.GetNameAndAlias();
             foreach (String langCode in mLanguageCodes)
@@ -1202,7 +1197,7 @@ namespace PCAxis.Sql.QueryLib_24
         private IEnumerable<IEnumerable<string>> CreateGroupCodeBuckets(IEnumerable<string> groupCodes)
         {
             if (groupCodes == null) return null;
-            
+
             var result = new List<List<string>>();
             var groupCodeArray = groupCodes.ToArray();
             List<string> bucket = new List<string>();
@@ -1226,7 +1221,7 @@ namespace PCAxis.Sql.QueryLib_24
             }
 
             result.Add(bucket);
-            
+
             return result;
         }
 
