@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PCAxis.Sql.Models
 {
@@ -11,9 +9,12 @@ namespace PCAxis.Sql.Models
 
         public List<Value> Values { get; set; }
 
+        //To do: public List<string> AvailableLanguages { get; set; }
+
         public ValueSet()
         {
             Values = new List<Value>();
+            //  AvailableLanguages = new List<string>();
         }
 
     }

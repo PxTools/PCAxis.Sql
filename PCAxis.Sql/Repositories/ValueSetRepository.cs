@@ -1,27 +1,20 @@
-﻿using Oracle.ManagedDataAccess.Client;
-using PCAxis.Paxiom;
+﻿using System;
+using System.Data;
+
 using PCAxis.Sql.DbClient;
 using PCAxis.Sql.DbConfig;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using static PCAxis.Sql.Repositories.GroupingRepository;
 using PCAxis.Sql.Models;
-using System.Security.Cryptography;
 
 namespace PCAxis.Sql.Repositories
 {
-    public class ValueSetRepository
+    internal class ValueSetRepository
     {
-        private string _database;
-        public ValueSetRepository(string database)
+
+        internal ValueSetRepository()
         {
-            _database = database;
         }
 
-        public ValueSet GetValueSet(string name, string language)
+        internal ValueSet GetValueSet(string name, string language)
         {
             //validate input
             if (name == null || language == null)
@@ -33,20 +26,20 @@ namespace PCAxis.Sql.Repositories
             string sqlValueset;
             string sqlValues;
 
-            var config = SqlDbConfigsStatic.DataBases[_database];
-            GetQueries(language, out sqlValueset, out sqlValues, config);
+            var config = SqlDbConfigsStatic.DefaultDatabase;
 
             InfoForDbConnection info;
 
             info = config.GetInfoForDbConnection(config.GetDefaultConnString());
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
+            GetQueries(language, out sqlValueset, out sqlValues, config, cmd);
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("valueset", name);
+            parameters[0] = cmd.GetStringParameter("aValueSet", name);
             var valuesetDS = cmd.ExecuteSelect(sqlValueset, parameters);
 
             parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("valueset", name);
+            parameters[0] = cmd.GetStringParameter("aValueSet", name);
             var valueDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             valueset = Parse(name, valuesetDS, valueDS);
@@ -54,32 +47,32 @@ namespace PCAxis.Sql.Repositories
             return valueset;
         }
 
-        private static void GetQueries(string language, out string sqlValueset, out string sqlValues, SqlDbConfig config)
+        private static void GetQueries(string language, out string sqlValueset, out string sqlValues, SqlDbConfig config, PxSqlCommand sqlCommand)
         {
             sqlValueset = string.Empty;
             sqlValues = string.Empty;
 
             if (config.MetaModel.Equals("2.1"))
             {
-                sqlValueset = QueryLib_21.Queries.GetValueSetQuery((SqlDbConfig_21)config, language);
-                sqlValues = QueryLib_21.Queries.GetValueSetValuesQuery((SqlDbConfig_21)config, language);
+                sqlValueset = QueryLib_21.Queries.GetValueSetQuery((SqlDbConfig_21)config, language, sqlCommand);
+                sqlValues = QueryLib_21.Queries.GetValueSetValuesQuery((SqlDbConfig_21)config, language, sqlCommand);
 
             }
             else if (config.MetaModel.Equals("2.2"))
             {
-                sqlValueset = QueryLib_22.Queries.GetValueSetQuery((SqlDbConfig_22)config, language);
-                sqlValues = QueryLib_22.Queries.GetValueSetValuesQuery((SqlDbConfig_22)config, language);
+                sqlValueset = QueryLib_22.Queries.GetValueSetQuery((SqlDbConfig_22)config, language, sqlCommand);
+                sqlValues = QueryLib_22.Queries.GetValueSetValuesQuery((SqlDbConfig_22)config, language, sqlCommand);
             }
             else if (config.MetaModel.Equals("2.3"))
             {
-                sqlValueset = QueryLib_23.Queries.GetValueSetQuery((SqlDbConfig_23)config, language);
-                sqlValues = QueryLib_23.Queries.GetValueSetValuesQuery((SqlDbConfig_23)config, language);
+                sqlValueset = QueryLib_23.Queries.GetValueSetQuery((SqlDbConfig_23)config, language, sqlCommand);
+                sqlValues = QueryLib_23.Queries.GetValueSetValuesQuery((SqlDbConfig_23)config, language, sqlCommand);
 
             }
             else if (config.MetaModel.Equals("2.4"))
             {
-                sqlValueset = QueryLib_24.Queries.GetValueSetQuery((SqlDbConfig_24)config, language);
-                sqlValues = QueryLib_24.Queries.GetValueSetValuesQuery((SqlDbConfig_24)config, language);
+                sqlValueset = QueryLib_24.Queries.GetValueSetQuery((SqlDbConfig_24)config, language, sqlCommand);
+                sqlValues = QueryLib_24.Queries.GetValueSetValuesQuery((SqlDbConfig_24)config, language, sqlCommand);
             }
         }
 
@@ -93,6 +86,21 @@ namespace PCAxis.Sql.Repositories
             ValueSet valueset = new ValueSet();
             valueset.Id = name;
             valueset.Name = valuesetDS.Tables[0].Rows[0][1].ToString();
+
+
+            //PresText came in version 2.1 and is optional  ...  desciption is up to 200 chars
+            if (String.IsNullOrEmpty(valueset.Name))
+            {
+                var asPresText = valuesetDS.Tables[0].Rows[0][2].ToString(); ;
+                int gridPosition = asPresText.IndexOf('#');
+                if (gridPosition > 0)
+                {
+                    asPresText = asPresText.Substring(0, gridPosition);
+                }
+                valueset.Name = asPresText;
+            }
+
+
 
 
             for (int i = 0; i < vsValue.Tables[0].Rows.Count; i++)
@@ -109,7 +117,7 @@ namespace PCAxis.Sql.Repositories
 
     }
 
- }
+}
 
 
 
