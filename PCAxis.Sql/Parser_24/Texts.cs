@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PCAxis.Sql.Parser_24
 {
     // This class should read from a configuration file.
     class Texts
     {
-        private Dictionary<string,string> mPaxiomAnd;
+        private Dictionary<string, string> mPaxiomAnd;
         public Dictionary<string, string> PaxiomAnd
         {
             get { return mPaxiomAnd; }
@@ -28,16 +26,16 @@ namespace PCAxis.Sql.Parser_24
         }
         public Texts()
         {
-            mPaxiomAnd = new Dictionary<string,string>();
+            mPaxiomAnd = new Dictionary<string, string>();
             mPaxiomBy = new Dictionary<string, string>();
             mPaxiomType = new Dictionary<string, string>();
 
-                mPaxiomAnd["en"] = "and";
-                mPaxiomBy["en"] = "by";
-                mPaxiomType["en"] = "type";
-                mPaxiomAnd["no"] = "og";
-                mPaxiomBy["no"] = "etter";
-                mPaxiomType["no"] = "type";
+            mPaxiomAnd["en"] = "and";
+            mPaxiomBy["en"] = "by";
+            mPaxiomType["en"] = "type";
+            mPaxiomAnd["no"] = "og";
+            mPaxiomBy["no"] = "etter";
+            mPaxiomType["no"] = "type";
 
         }
     }

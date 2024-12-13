@@ -1,13 +1,6 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
+using System.Data;
 
 
 //This code is generated. 
@@ -21,16 +14,16 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetMetaAdm_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.MetaAdm.PropertyCol.IsUppered(aProperty) ;
+            sqlString += " WHERE " + DB.MetaAdm.PropertyCol.IsUppered(aProperty);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," Property = " + aProperty);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " Property = " + aProperty);
             }
 
-            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB); 
+            MetaAdmRow myOut = new MetaAdmRow(myRows[0], DB);
             return myOut;
         }
 

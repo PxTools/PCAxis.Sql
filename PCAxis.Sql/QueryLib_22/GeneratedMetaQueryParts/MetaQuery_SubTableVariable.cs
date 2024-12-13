@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -21,18 +16,18 @@ namespace PCAxis.Sql.QueryLib_22
         {
             //SqlDbConfig dbconf = DB;
             string sqlString = GetSubTableVariable_SQLString_NoWhere();
-            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable)  + 
-                             " AND " +DB.SubTableVariable.SubTableCol.Is(aSubTable)  + 
-                             " AND " +DB.SubTableVariable.VariableCol.Is(aVariable) ;
+            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) +
+                             " AND " + DB.SubTableVariable.SubTableCol.Is(aSubTable) +
+                             " AND " + DB.SubTableVariable.VariableCol.Is(aVariable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
             if (myRows.Count != 1)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(36," MainTable = " + aMainTable + " SubTable = " + aSubTable + " Variable = " + aVariable);
+                throw new PCAxis.Sql.Exceptions.DbException(36, " MainTable = " + aMainTable + " SubTable = " + aSubTable + " Variable = " + aVariable);
             }
 
-            SubTableVariableRow myOut = new SubTableVariableRow(myRows[0], DB); 
+            SubTableVariableRow myOut = new SubTableVariableRow(myRows[0], DB);
             return myOut;
         }
 
@@ -45,15 +40,15 @@ namespace PCAxis.Sql.QueryLib_22
             // WHERE STV.MainTable = '<aMainTable>'
             //    AND STV.SubTable = '<aSubTable>'
             //
-            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) + 
-                         " AND " +DB.SubTableVariable.SubTableCol.Is(aSubTable);
+            sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is(aMainTable) +
+                         " AND " + DB.SubTableVariable.SubTableCol.Is(aSubTable);
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " MainTable = " + aMainTable +  " SubTable = " + aSubTable);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " MainTable = " + aMainTable + " SubTable = " + aSubTable);
             }
 
             foreach (DataRow sqlRow in myRows)

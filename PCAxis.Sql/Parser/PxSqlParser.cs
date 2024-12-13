@@ -1,9 +1,9 @@
 using System;
 
+using log4net;
+
 using PCAxis.Paxiom;
 using PCAxis.Sql.Parser;
-
-using log4net;
 
 namespace PCAxis.PlugIn.Sql
 {

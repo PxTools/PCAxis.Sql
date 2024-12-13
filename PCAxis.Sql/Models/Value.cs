@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PCAxis.Sql.Models
+﻿namespace PCAxis.Sql.Models
 {
     public class Value
     {

@@ -1,40 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_22;
+
 using PCAxis.PlugIn.Sql;
 using PCAxis.Sql.Pxs;
-using System.Collections.Specialized;
+using PCAxis.Sql.QueryLib_22;
 
 namespace PCAxis.Sql.Parser_22
 {
-    public class PXSqlSubTables:Dictionary<string,PXSqlSubTable>
+    public class PXSqlSubTables : Dictionary<string, PXSqlSubTable>
     {
-       
+
         PxsQuery mPxsQuery;
 
 
         public PXSqlSubTables(Dictionary<string, SubTableRow> altIBasen, PxsQuery pPxsQuery, PXSqlMeta_22 pxsqlMeta)
-            : base() {
+            : base()
+        {
             this.mPxsQuery = pPxsQuery;
             PXSqlSubTable mSubTable;
-            foreach (SubTableRow subTableRow in altIBasen.Values) {
+            foreach (SubTableRow subTableRow in altIBasen.Values)
+            {
                 mSubTable = new PXSqlSubTable(subTableRow);
                 this.Add(mSubTable.SubTable, mSubTable);
             }
             // set selected subtables.
             if (pPxsQuery == null)
             {
-                foreach (PXSqlSubTable subTable in this.Values) {
+                foreach (PXSqlSubTable subTable in this.Values)
+                {
                     subTable.IsSelected = true;
                 }
-            } else {
+            }
+            else
+            {
                 SetSelectedSubTable(pxsqlMeta);
             }
         }
 
-   
-  
+
+
 
         /// <summary>
         /// Returns the ids of the subtables marked as selected(All if not a pxs has selected a spesific subtable.
@@ -57,17 +61,17 @@ namespace PCAxis.Sql.Parser_22
 
         private void SetSelectedSubTable(PXSqlMeta_22 pxsqlMeta)
         {
-            
+
             Boolean isEqualValueSet;
 
-            foreach (KeyValuePair<string, PCAxis.Sql.Parser_22.PXSqlSubTable> subTable in this)           
+            foreach (KeyValuePair<string, PCAxis.Sql.Parser_22.PXSqlSubTable> subTable in this)
             {
                 isEqualValueSet = true;
                 string subTableName = subTable.Value.SubTable;
-                Dictionary <string, SubTableVariableRow> fromDb = pxsqlMeta.MetaQuery.GetSubTableVariableRowskeyVariable(pxsqlMeta.MainTable.MainTable, subTableName,false);
-                
+                Dictionary<string, SubTableVariableRow> fromDb = pxsqlMeta.MetaQuery.GetSubTableVariableRowskeyVariable(pxsqlMeta.MainTable.MainTable, subTableName, false);
+
                 foreach (PQVariable pqvariable in mPxsQuery.Query.Variables)
-                {                   
+                {
                     string variableName = pqvariable.code;
                     string selectedValueset = pqvariable.SelectedValueset;
                     if (!fromDb.ContainsKey(variableName))
@@ -79,17 +83,17 @@ namespace PCAxis.Sql.Parser_22
                     {
                         isEqualValueSet = false;
                         break;
-                    }                
+                    }
                 }
                 if (isEqualValueSet)
                 {
-                   
+
                     this[subTableName].IsSelected = true;
                 }
 
             }
 
-            
+
         }
     }
 }

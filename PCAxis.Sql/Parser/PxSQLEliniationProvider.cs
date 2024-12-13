@@ -1,9 +1,4 @@
-﻿using PCAxis.Sql.DbClient;
-using PCAxis.Sql.DbConfig;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using PCAxis.Sql.DbConfig;
 
 namespace PCAxis.Sql.Parser
 {
@@ -13,7 +8,7 @@ namespace PCAxis.Sql.Parser
         public string ValueSet { get; set; }
         public string EliinationMethod { get; set; }
         public string EliinationCode { get; set; }
-    
+
     }
 
     public class PxSQLEliniationProvider

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Specialized;
-using PCAxis.Paxiom;
 //ny
 
 
 
 
 using log4net;
+
+using PCAxis.Paxiom;
 
 namespace PCAxis.Sql.Parser_21
 {
@@ -24,7 +25,8 @@ namespace PCAxis.Sql.Parser_21
         public PXSqlParser_21() { }
 
 
-        public PXSqlParser_21(PXSqlMeta_21 inPXSqlMeta) {
+        public PXSqlParser_21(PXSqlMeta_21 inPXSqlMeta)
+        {
 
             mPXSqlMeta = inPXSqlMeta;
             if (mPXSqlMeta.inPresentationModus)
@@ -85,18 +87,21 @@ namespace PCAxis.Sql.Parser_21
         ///     </table>
         ///   </rule>
         /// </PXKeyword>
-        override public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage) {
+        override public void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage)
+        {
 
             string keyword;
-            
+
             string noLanguage = null;
             string subkey = null;
             StringCollection values;
-            if (mHasParsedMeta) {
+            if (mHasParsedMeta)
+            {
                 return;
             }
 
-            if (mPXSqlMeta.HasLanguage) {
+            if (mPXSqlMeta.HasLanguage)
+            {
                 // Language
                 keyword = PXKeywords.LANGUAGE;
                 values = new StringCollection();
@@ -106,7 +111,8 @@ namespace PCAxis.Sql.Parser_21
                 // Languages
                 keyword = PXKeywords.LANGUAGES;
                 values = new StringCollection();
-                foreach (string lang in mPXSqlMeta.LanguageCodes) {
+                foreach (string lang in mPXSqlMeta.LanguageCodes)
+                {
                     values.Add(lang);
                 }
                 handler(keyword, noLanguage, subkey, values);
@@ -123,7 +129,8 @@ namespace PCAxis.Sql.Parser_21
 
 
 
-            foreach (PXSqlVariable var in mPXSqlMeta.Variables.Values) {
+            foreach (PXSqlVariable var in mPXSqlMeta.Variables.Values)
+            {
                 var.ParseMeta(handler, mPXSqlMeta.LanguageCodes, preferredLanguage);
 
             }
@@ -133,44 +140,51 @@ namespace PCAxis.Sql.Parser_21
             // Footnotes
             #region Footnotes
             //CellNote
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.CellNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
 
             //MainTableNote + SubTableNote + VariableNotes + ContentsNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.PaxiomNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
-           
+
             //MaintValueNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.MaintValueNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
 
             //ValueNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.ValueNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
             //ContValueNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.ContValueNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
             //ContTimeNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.ContTimeNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
-            
+
             //ContVblNotes
-            foreach (string langCode in mPXSqlMeta.LanguageCodes) {
+            foreach (string langCode in mPXSqlMeta.LanguageCodes)
+            {
                 mPXSqlMeta.ContVblNotes.ParseNote(mPXSqlMeta, handler, langCode);
             }
-            
-            
+
+
             #endregion Footnotes
 
             #region NPMish stuff
 
-            if (mPXSqlMeta.inPresentationModus )
+            if (mPXSqlMeta.inPresentationModus)
             {
                 if (String.Compare(mPXSqlMeta.MetaModelVersion, "2.0", false, System.Globalization.CultureInfo.InvariantCulture) > 0)
                 {
@@ -232,12 +246,14 @@ namespace PCAxis.Sql.Parser_21
         /// <summary>
         /// IDisposable implemenatation
         /// </summary>
-        override public void Dispose() {
-            if (mPXSqlMeta != null) {
+        override public void Dispose()
+        {
+            if (mPXSqlMeta != null)
+            {
                 mPXSqlMeta.Dispose();
             }
         }
-        
+
     }
 }
 

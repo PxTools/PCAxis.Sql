@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
 using System.Data;
-using PCAxis.Sql.DbClient; //For executing SQLs.
+
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
 //using PCAxis.Sql.QueryLib;
 
-using log4net;
 
 namespace PCAxis.Sql.QueryLib_24
 
@@ -27,7 +25,7 @@ namespace PCAxis.Sql.QueryLib_24
     }
     public class RelevantFootNotesRow
     {
-        
+
         private string mFootNoteNo;
         public string FootNoteNo
         {
@@ -86,7 +84,7 @@ namespace PCAxis.Sql.QueryLib_24
         }
 
         private string mPresCharacter;
-        public string PresCharacter 
+        public string PresCharacter
         {
             get { return mPresCharacter; }
         }
@@ -94,7 +92,7 @@ namespace PCAxis.Sql.QueryLib_24
         public Dictionary<string, RelevantFoonotesTexts> texts = new Dictionary<string, RelevantFoonotesTexts>();
         public RelevantFootNotesRow(DataRow myRow, SqlDbConfig_24 dbconf, StringCollection languageCodes)
         {
-            
+
             this.mFootNoteNo = myRow["FootNoteNo"].ToString();
             //this.mFootNoteType = myRow["FootNoteType"].ToString();
             this.mFootNoteType = (PXSqlNoteType)Enum.Parse(typeof(PXSqlNoteType), myRow["FootNoteType"].ToString());
@@ -114,7 +112,7 @@ namespace PCAxis.Sql.QueryLib_24
         }
 
 
-  
+
 
 
     }

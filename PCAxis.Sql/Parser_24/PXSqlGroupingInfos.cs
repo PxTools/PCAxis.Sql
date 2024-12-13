@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using PCAxis.Paxiom;
+
     using log4net;
+
+    using PCAxis.Paxiom;
     using PCAxis.Sql.QueryLib_24;
 
     /// <summary>
@@ -28,17 +30,17 @@
             get { return infos; }
         }
 
-        
+
         private StringCollection groupingIDs;
 
-        
+
         /// <summary>
         /// the IDs of the groupings which may be used for the variable. 
         /// </summary>
         internal StringCollection GroupingIDs
         {
             get { return groupingIDs; }
-        } 
+        }
 
         /// <summary>Initializes a new instance of the PXSqlGroupingInfos class, and fills the list of PXSqlGroupingInfo</summary>
         /// <param name="meta">Holds the state of the builder</param>
@@ -53,7 +55,8 @@
 
             foreach (string valueSetId in valueSetIds)
             {
-                foreach (string groupingId in meta.MetaQuery.GetValueSetGroupingRowskeyGrouping(valueSetId, true).Keys) {
+                foreach (string groupingId in meta.MetaQuery.GetValueSetGroupingRowskeyGrouping(valueSetId, true).Keys)
+                {
                     groupingIDs.Add(groupingId);
 
                     if (!valueSetIdsByGroupingId.ContainsKey(groupingId))
@@ -66,11 +69,12 @@
             }
 
             // finding the ID's of hierarchical groups
-            foreach (string groupingId in meta.MetaQuery.GetMainTableVariableHierarchyRows_KeyIsGroupingID(meta.MainTable.MainTable,variableName,true).Keys) {
-                       groupingIDs.Add(groupingId);
+            foreach (string groupingId in meta.MetaQuery.GetMainTableVariableHierarchyRows_KeyIsGroupingID(meta.MainTable.MainTable, variableName, true).Keys)
+            {
+                groupingIDs.Add(groupingId);
             }
 
-            
+
             //Må sortere groupingIDs 
             List<GroupingRow> sortedGroupingRows = meta.MetaQuery.GetGroupingRowsSorted(groupingIDs, false, meta.MainLanguageCode);
 
@@ -81,7 +85,7 @@
             }
         }
 
-    
+
 
 
         /// <summary>Sends the list of Grouping Info to paxiom</summary>
@@ -113,14 +117,14 @@
                 //List<PXSqlGroupingInfo> sortedGroupingInfoList;
                 foreach (string langCode in this.infos[0].PresTextByLanguage.Keys)
                 {
-                //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
-                //    foreach (PXSqlGroupingInfo info in this.infos)
-                //    {
-                //        sortedGroupingInfoList.Add(info);
-                //    }
-                //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+                    //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
+                    //    foreach (PXSqlGroupingInfo info in this.infos)
+                    //    {
+                    //        sortedGroupingInfoList.Add(info);
+                    //    }
+                    //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
 
-                    
+
                     values.Clear();
                     //foreach (PXSqlGroupingInfo info in sortedGroupingInfoList)
                     foreach (PXSqlGroupingInfo info in this.infos)
@@ -150,7 +154,7 @@
                         values.Add(info.PresTextByLanguage[langCode]);
                     }
 
-                    
+
 
                     handler(PXKeywords.GROUPING_NAME, langCode, subkey, values);
                 }

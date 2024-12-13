@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Data;
+
+using log4net;
+
 using PCAxis.Paxiom;
 using PCAxis.PlugIn;
-using System.Data;
-using PCAxis.Sql.QueryLib_23;
+using PCAxis.PlugIn.Sql;
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
 using PCAxis.Sql.Pxs;
-using log4net;
-using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.QueryLib_23;
 
 namespace PCAxis.Sql.Parser_23
 {
@@ -25,9 +26,9 @@ namespace PCAxis.Sql.Parser_23
     //    fixedStartMovingLast = 3
 
     //}
- 
 
-    public class PXSqlMeta_23 :PCAxis.Sql.Parser.PXSqlMeta
+
+    public class PXSqlMeta_23 : PCAxis.Sql.Parser.PXSqlMeta
     {
         #region constants
         private const string mPresTextOptionCode = "CODE";
@@ -48,7 +49,7 @@ namespace PCAxis.Sql.Parser_23
         internal PXSqlAttributes Attributes
         {
             get { return mAttributes; }
-        }        
+        }
 
         private PxsQuery mPxsFile;
         internal PxsQuery PxsFile
@@ -56,9 +57,9 @@ namespace PCAxis.Sql.Parser_23
             get { return mPxsFile; }
         }
         internal PXSqlNpm mPxsqlNpm;
-       
+
         private string mPxsSubTableId;
-                      
+
         /// <summary>
         /// The ID of the Contents dimention
         /// </summary>
@@ -76,10 +77,10 @@ namespace PCAxis.Sql.Parser_23
                 }
             }
         }
-       
-        
-    
-        
+
+
+
+
 
         private PXMetaAdmValues mPXMetaAdmValues;
 
@@ -90,7 +91,7 @@ namespace PCAxis.Sql.Parser_23
 
 
 
-     
+
 
         private readonly string mMainTableId;
 
@@ -100,7 +101,7 @@ namespace PCAxis.Sql.Parser_23
             get { return mMainTable; }
         }
 
-        
+
         private PXSqlSubTables mSubTables;
         public PXSqlSubTables SubTables
         {
@@ -168,8 +169,8 @@ namespace PCAxis.Sql.Parser_23
         {
             get { return mContentsVariable; }
         }
-        
-        
+
+
 
         private PXSqlDecimalStuff mDecimalHandler = new PXSqlDecimalStuff();
         internal PXSqlDecimalStuff DecimalHandler
@@ -180,7 +181,7 @@ namespace PCAxis.Sql.Parser_23
 
 
         private PXSqlValue mValue;
-        
+
         private Dictionary<string, string> mContentsVariablePresText = new Dictionary<string, string>();
         public Dictionary<string, string> ContentsVariablePresText
         {
@@ -198,20 +199,20 @@ namespace PCAxis.Sql.Parser_23
         }
 
 
-       
+
         private SqlDbConfig_23 mConfig;
         public SqlDbConfig_23 Config
         {
             get { return mConfig; }
         }
-        
+
         //jfi:Hei piv, jeg la denne her. Er det ok?
         public bool SpecCharExists
         {
             get { return MainTable.SpecCharExists.Equals(mMetaQuery.DB.Codes.Yes); }
         }
 
-        
+
         private string mDataTablesPrefix;
         public string DataTablesPrefix { get { return mDataTablesPrefix; } }
 
@@ -226,12 +227,12 @@ namespace PCAxis.Sql.Parser_23
         {
             get { return theNotes; }
         }
-        
+
 
         #endregion
         #region Constructor
 
-       
+
 
         /// <summary>
         /// 
@@ -247,7 +248,7 @@ namespace PCAxis.Sql.Parser_23
         {
             log.Info("PXSqlMeta(string mainTableId(=" + mainTableId + "), StringCollection desiredLanguages, SqlDbConfig config, Instancemodus aModus(=" + aModus.ToString() + "))");
             this.mMainTableId = mainTableId;
-            this.mConfig = (SqlDbConfig_23) config;
+            this.mConfig = (SqlDbConfig_23)config;
             mMetaQuery = new MetaQuery(this.mConfig, this.SelectedDbInfo);
             SetLanguageCodesNoPxs(preferredLang, getAllLangs);
             BuildMeta();
@@ -260,14 +261,14 @@ namespace PCAxis.Sql.Parser_23
 
         {
             log.Debug("PXSqlMeta(PxsQuery mPxsObject, SqlDbConfig config, Instancemodus aModus");
-           
+
 
             //disse er trukket hit for å kunne kjøre med String hovedtabellId.
             this.mMainTableId = mPxsObject.Query.TableSource;
 
             //TODO; denne burde kunne fjernes
             this.mPxsSubTableId = mPxsObject.Query.SubTable;
-            this.mConfig = (SqlDbConfig_23) config;
+            this.mConfig = (SqlDbConfig_23)config;
 
             mMetaQuery = new MetaQuery(this.mConfig, this.SelectedDbInfo);
 
@@ -289,7 +290,7 @@ namespace PCAxis.Sql.Parser_23
             {
 
                 Dictionary<string, string> valuesetIdByVariableId = new Dictionary<string, string>();
-                Dictionary<string, SubTableVariableRow> fromDB = this.MetaQuery.GetSubTableVariableRowskeyVariable(this.mMainTableId, mPxsObject.Query.SubTable,false);
+                Dictionary<string, SubTableVariableRow> fromDB = this.MetaQuery.GetSubTableVariableRowskeyVariable(this.mMainTableId, mPxsObject.Query.SubTable, false);
                 foreach (string variableId in fromDB.Keys)
                 {
                     if (String.IsNullOrEmpty(fromDB[variableId].ValueSet))
@@ -327,27 +328,27 @@ namespace PCAxis.Sql.Parser_23
         private void BuildMeta()
         {
 
-            SetInstanceModus(); 
-            
+            SetInstanceModus();
+
             mMetaQuery.LanguageCodes = LanguageCodes; // instanced above, now just set language
 
-            mPXMetaAdmValues = new PXMetaAdmValues(mMetaQuery); 
+            mPXMetaAdmValues = new PXMetaAdmValues(mMetaQuery);
 
             if (inPresentationModus)
             {
                 mPxsqlNpm = new PXSqlNpm(this); //trenger valium dette
             }
 
-            
 
 
-            SetMainTable(); 
+
+            SetMainTable();
 
             //mSubTables = new PXSqlSubTables(mMetaQuery.GetSubTableRows(mMainTableId), mPxsSubTableId);
-            mSubTables = new PXSqlSubTables(mMetaQuery.GetSubTableRows(mMainTableId,false), mPxsFile, this);
+            mSubTables = new PXSqlSubTables(mMetaQuery.GetSubTableRows(mMainTableId, false), mPxsFile, this);
 
 
-            
+
 
             SetVariables();//ok for pxs == null, men denne kan også hente ut valueSet
             SetContents(); //må skrives om, men kall til metaQ OK. Bør kanskje legge inn contents som
@@ -360,11 +361,11 @@ namespace PCAxis.Sql.Parser_23
             //variabel er tid for å danne korrekt pxs.
             //     if (instancemodus == Instancemodus.presentation)
             //     {
-           // SetTimeVal(); Not used. Defined in PXSqlVariableTime
+            // SetTimeVal(); Not used. Defined in PXSqlVariableTime
             SetPaxiomMap();//ok for pxs == null, men jeg forstår ikke helt hva den gjør.
             mEliminatedVariablesExist = CheckEliminatedVariables();//ok for pxs == null
-            
-            theNotes = new PXSqlNotes(this,mMainTableId, this.inPresentationModus);
+
+            theNotes = new PXSqlNotes(this, mMainTableId, this.inPresentationModus);
             mDataTablesPrefix = mMetaQuery.GetDataTablesPrefix(mMainTable.ProductCode);
             CheckPxs();
 
@@ -383,12 +384,12 @@ namespace PCAxis.Sql.Parser_23
         #endregion
         #region Setroutines
 
- 
+
 
 
         private void SetInstanceModus()
         {
-            if (! (this.inPresentationModus || this.inSelectionModus) )
+            if (!(this.inPresentationModus || this.inSelectionModus))
             {
                 throw new NotImplementedException("BUG");
             }
@@ -541,7 +542,7 @@ namespace PCAxis.Sql.Parser_23
         private List<PXSqlContent> GetSortedContentsList(string mMainTableId, bool contructedFromPxs, BasicValueType[] contentsInPxs)
         {
             List<PXSqlContent> myOut = new List<PXSqlContent>();
-            Dictionary<string, ContentsRow> altIBasen = mMetaQuery.GetContentsRows(mMainTableId,false);
+            Dictionary<string, ContentsRow> altIBasen = mMetaQuery.GetContentsRows(mMainTableId, false);
 
 
             //side effect:
@@ -560,7 +561,7 @@ namespace PCAxis.Sql.Parser_23
             PXSqlContent mContent = null;
             if (this.ConstructedFromPxs)
             {
-                int documentOrder = 0; 
+                int documentOrder = 0;
                 foreach (BasicValueType contents in contentsInPxs)
                 {
                     if (altIBasen.ContainsKey(contents.code))
@@ -568,7 +569,7 @@ namespace PCAxis.Sql.Parser_23
                         mContent = new PXSqlContent(altIBasen[contents.code], this, mConfig, contact);
                         mContent.SortOrder = documentOrder;
                         myOut.Add(mContent);
-                        documentOrder++; 
+                        documentOrder++;
                     }
                 }
 
@@ -619,7 +620,7 @@ namespace PCAxis.Sql.Parser_23
             int counter = 0;
             foreach (PXSqlContent content in mContents.Values)
             {
-                mValue = new PXSqlValue(content,counter);
+                mValue = new PXSqlValue(content, counter);
                 mValues.Add(mValue.ValueCode, mValue);
                 counter++;
             }
@@ -661,10 +662,10 @@ namespace PCAxis.Sql.Parser_23
                     }
                 }
                 mSqlVariable.VariableType = aTVRow.VariableType;
-               
+
             }
 
-       
+
         }
 
         private void CheckPxs()
@@ -689,8 +690,8 @@ namespace PCAxis.Sql.Parser_23
             }
         }
 
-      
-       
+
+
 
         private void SetHeadingAndStub()
         {
@@ -706,10 +707,10 @@ namespace PCAxis.Sql.Parser_23
             this.mHeadings = mVariables.GetHeadingSorted();
         }
 
-    
 
 
-      
+
+
 
         //TODO; flytt denne, tror kanskje heller ikke alt er sagt om GeoArea, det kan settes en dullion steder
         private void SetPaxiomMap()
@@ -717,7 +718,7 @@ namespace PCAxis.Sql.Parser_23
             foreach (KeyValuePair<string, PXSqlVariable> var in mVariables)
             {
                 //if (!var.Value.IsContentVariable && !var.Value.IsTimevariable) {
-                if (var.Value.VariableType == mConfig.Codes.VariableTypeG  && var.Value.isSelected && var.Value.ValueSets != null)
+                if (var.Value.VariableType == mConfig.Codes.VariableTypeG && var.Value.isSelected && var.Value.ValueSets != null)
                 {
                     List<string> GeoAreaValues = new List<string>();
                     string GeoAreaValue;
@@ -749,13 +750,13 @@ namespace PCAxis.Sql.Parser_23
             }
         }
 
-   private void SetAttributes()
-   {
-       mAttributes = new PXSqlAttributes(this);
-   }
+        private void SetAttributes()
+        {
+            mAttributes = new PXSqlAttributes(this);
+        }
 
 
-        
+
         #endregion
 
         #region tja
@@ -783,7 +784,7 @@ namespace PCAxis.Sql.Parser_23
 
 
         #region helproutines
-  
+
         //private string CheckMultValuesetElim(List<string> ElimValues)
         //{
         //    int numberOfElimA = 0;
@@ -883,7 +884,7 @@ namespace PCAxis.Sql.Parser_23
             return myOut;
         }
 
-        
+
         /// <summary>
         /// Get the IDs of the Variables In Reverse Output Order
         /// </summary>
@@ -917,7 +918,7 @@ namespace PCAxis.Sql.Parser_23
             return myOut;
         }
 
- 
+
 
         /// <summary>Finds the variable and passes to call on to it</summary>
         /// <param name="paxiomVariable">The paxiom Varable, but both this and the name?? </param>
@@ -929,7 +930,8 @@ namespace PCAxis.Sql.Parser_23
             if (mVariablesClassification.ContainsKey(variableCode))
             {
                 mVariablesClassification[variableCode].ApplyGrouping(paxiomVariable, groupingId, include);
-            } else
+            }
+            else
             {
                 throw new ApplicationException("BUG");
             }
@@ -949,14 +951,15 @@ namespace PCAxis.Sql.Parser_23
                 throw new ApplicationException("BUG");
             }
         }
- 
 
-        override public bool MainTableContainsOnlyMetaData(){
-          return this.MainTable.ContainsOnlyMetaData;
+
+        override public bool MainTableContainsOnlyMetaData()
+        {
+            return this.MainTable.ContainsOnlyMetaData;
         }
 
 
- 
+
 
 
         #region "IPlugIn implementation"

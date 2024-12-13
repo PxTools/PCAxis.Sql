@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Collections.Specialized;
-    using PCAxis.Sql.QueryLib_21;
-    using PCAxis.Paxiom;
+
     using log4net;
+
+    using PCAxis.Paxiom;
+    using PCAxis.Sql.QueryLib_21;
 
     public class PXSqlGrouping
     {
@@ -21,7 +22,7 @@
             get { return mIncludeType; }
             //set { mIncludeType = value; }
         }
-        
+
         private string mValuePoolId;
         public string ValuePoolId
         {
@@ -36,8 +37,8 @@
             set { mGroupingId = value; }
         }
 
-        private Dictionary<string,string> mPresText;
-        public Dictionary<string, string> PresText 
+        private Dictionary<string, string> mPresText;
+        public Dictionary<string, string> PresText
         {
             get { return mPresText; }
             set { mPresText = value; }
@@ -84,24 +85,24 @@
         private PXSqlVariableClassification variable;
         private string valuePoolValueTextExists;
 
-        
+
         private GroupingIncludesType mDefaultIncludeType;
 
 
 
         //for Selection without grouping id in from pxs
-        public PXSqlGrouping(GroupingRow groupingRow, PXSqlMeta_21 meta,PXSqlVariableClassification var,GroupingIncludesType include)
+        public PXSqlGrouping(GroupingRow groupingRow, PXSqlMeta_21 meta, PXSqlVariableClassification var, GroupingIncludesType include)
         {
 
             Init(groupingRow, meta, var);
             //TODO overriding include from paxiom, have to discuss how paxion can override database default.
             this.mIncludeType = include;
-          // DONE, is now passed to paxiom as part of GroupingInfo ...  this.mIncludeType = this.mDefaultIncludeType;  
+            // DONE, is now passed to paxiom as part of GroupingInfo ...  this.mIncludeType = this.mDefaultIncludeType;  
             //TODO end
             StringCollection tempParentList = new StringCollection();
             mGroups = new List<PXSqlGroup>();
             PXSqlGroup tmpGroup = null;
-            foreach (VSGroupRow myRow in meta.MetaQuery.GetVSGroupRowsSorted(mValuePoolId, mValuesetIds, mGroupingId,meta.MainLanguageCode))
+            foreach (VSGroupRow myRow in meta.MetaQuery.GetVSGroupRowsSorted(mValuePoolId, mValuesetIds, mGroupingId, meta.MainLanguageCode))
             {
 
                 if (!tempParentList.Contains(myRow.GroupCode))
@@ -149,14 +150,14 @@
             StringCollection parentCodes = new StringCollection();
             foreach (PXSqlGroup group in groupFromPxs)
             {
-                 parentCodes.Add(group.ParentCode);
+                parentCodes.Add(group.ParentCode);
 
             }
             AddValues(mValuePoolId, parentCodes, valuePoolValueTextExists);
         }
 
         //for selection or presentation with grouping id in from pxs
-        public PXSqlGrouping(GroupingRow groupingRow, PXSqlMeta_21 meta,PXSqlVariableClassification var, StringCollection outputCodes ) 
+        public PXSqlGrouping(GroupingRow groupingRow, PXSqlMeta_21 meta, PXSqlVariableClassification var, StringCollection outputCodes)
         {
             Init(groupingRow, meta, var);
             StringCollection tempParentList = new StringCollection();
@@ -170,12 +171,12 @@
 
             foreach (PXSqlGroup group in mGroups)
             {
-                List<VSGroupRow> tempList = meta.MetaQuery.GetVSGroupRow(mValuePoolId, mValuesetIds, mGroupingId,group.ParentCode);
+                List<VSGroupRow> tempList = meta.MetaQuery.GetVSGroupRow(mValuePoolId, mValuesetIds, mGroupingId, group.ParentCode);
                 if (tempList.Count > 0)
                 {
-                    foreach(VSGroupRow row in tempList)
-                    {                
-                    group.AddChildCode(row.ValueCode);
+                    foreach (VSGroupRow row in tempList)
+                    {
+                        group.AddChildCode(row.ValueCode);
                     }
                 }
                 else
@@ -184,7 +185,7 @@
                 }
             }
             // Add the values to valuecollection of this variable
-            AddValues(mValuePoolId,outputCodes, valuePoolValueTextExists);
+            AddValues(mValuePoolId, outputCodes, valuePoolValueTextExists);
         }
 
 
@@ -199,10 +200,11 @@
 
         public List<PXSqlValue> GetValuesForParsing()
         {
-            if (this.meta.inSelectionModus && ! this.meta.ConstructedFromPxs)
+            if (this.meta.inSelectionModus && !this.meta.ConstructedFromPxs)
             {
                 return GetValuesForParsingWhenSelection();
-            } else
+            }
+            else
             {
                 return GetValuesForParsingWhenPresentation();
             }
@@ -227,22 +229,24 @@
             {
                 foreach (PXSqlGroup group in this.mGroups)
                 {
-                    
+
                     tempValuesList.Add(var.Values[group.ParentCode]);   //todo; sortert etter gruppe sorteringskode
                 }
-            } else if (this.mIncludeType == GroupingIncludesType.SingleValues)
+            }
+            else if (this.mIncludeType == GroupingIncludesType.SingleValues)
             {
                 foreach (PXSqlGroup group in this.mGroups)
                 {
                     foreach (string childCode in group.ChildCodes)
                         tempValuesList.Add(var.Values[childCode]);   //todo; sortert etter gruppe sorteringskode
                 }
-            } else if (this.IncludeType == GroupingIncludesType.All)
+            }
+            else if (this.IncludeType == GroupingIncludesType.All)
             {
-             
+
                 foreach (PXSqlGroup group in this.mGroups)
                 {
-                    
+
                     tempValuesList.Add(var.Values[group.ParentCode]);   //todo; sortert etter gruppe sorteringskode
                     foreach (string childCode in group.ChildCodes)
                     {
@@ -253,8 +257,9 @@
             }
             //tempValuesList.Sort(PXSqlValue.SortByVsValue());
 
-       //     if ( this.meta.MetaQuery.metaVersionLE("2.0")) {
-     if ( this.meta.MetaQuery.metaVersionLE("2.1")) {
+            //     if ( this.meta.MetaQuery.metaVersionLE("2.0")) {
+            if (this.meta.MetaQuery.metaVersionLE("2.1"))
+            {
 
                 tempValuesList.Sort(PXSqlValue.SortByValue());
             }
@@ -275,7 +280,7 @@
             this.mGroupPres = groupingRow.GroupPres;
             this.mGeoAreaNo = groupingRow.GeoAreaNo;
             this.PresText = new Dictionary<string, string>();
-            this.Description = groupingRow.Description; 
+            this.Description = groupingRow.Description;
             foreach (string langCode in meta.LanguageCodes)
             {
                 this.PresText[langCode] = groupingRow.texts[langCode].PresText;
@@ -294,8 +299,8 @@
                     mDefaultIncludeType = GroupingIncludesType.All;
                     break;
                 default:
-                     mDefaultIncludeType = GroupingIncludesType.AggregatedValues;
-                     break;
+                    mDefaultIncludeType = GroupingIncludesType.AggregatedValues;
+                    break;
             }
         }
 
@@ -312,12 +317,12 @@
             PXSqlValue tempValue;
             foreach (ValueRow row in this.meta.MetaQuery.GetValueRowsByValuePool(valuePoolId, valueList, valuePoolValueTextExists))
             {
-                
-                tempValue = new PXSqlValue(row,meta.LanguageCodes, meta.MainLanguageCode);
+
+                tempValue = new PXSqlValue(row, meta.LanguageCodes, meta.MainLanguageCode);
                 if (this.variable.Values.ContainsKey(tempValue.ValueCode))
                 {
                     log.Debug("Already contains code =" + tempValue.ValueCode);
-                } 
+                }
                 else
                 {
                     this.variable.Values.Add(tempValue.ValueCode, tempValue);
@@ -334,19 +339,19 @@
             Grouping paxGrouping = new Grouping();
             paxGrouping.Name = this.GroupingId;
             paxGrouping.ID = this.GroupingId;
-         //  if(this.mIncludeType.Equals(GroupingIncludesType.All))  // removed for test advanced grouping px-web
+            //  if(this.mIncludeType.Equals(GroupingIncludesType.All))  // removed for test advanced grouping px-web
             {
                 foreach (PXSqlGroup group in this.mGroups)
                 {
                     Group paxGroup = new Group();
                     paxGroup.GroupCode = group.ParentCode;//the Name is in the value list(leaves paxGroup.Name empty)
-                   //paxGroup.Name = this.variable.Values[group.ParentCode].ValueTextL[meta.MainLanguageCode]; //todo piv test
+                                                          //paxGroup.Name = this.variable.Values[group.ParentCode].ValueTextL[meta.MainLanguageCode]; //todo piv test
                     List<GroupChildValue> groupChildValueList = new List<GroupChildValue>();
                     foreach (String childCode in group.ChildCodes)
                     {
                         GroupChildValue paxGCV = new GroupChildValue();
                         paxGCV.Code = childCode;
-                      //  paxGCV.Name = this.variable.Values[childCode].ValueTextL[meta.MainLanguageCode]; // todo test piv
+                        //  paxGCV.Name = this.variable.Values[childCode].ValueTextL[meta.MainLanguageCode]; // todo test piv
                         groupChildValueList.Add(paxGCV);
                     }
                     paxGroup.ChildCodes = groupChildValueList;

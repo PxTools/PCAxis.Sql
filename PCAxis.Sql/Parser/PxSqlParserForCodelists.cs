@@ -1,16 +1,18 @@
 using System;
-using PCAxis.Paxiom;
-
-using PCAxis.Sql.Parser;
 
 using log4net;
 
-namespace PCAxis.PlugIn.Sql {
+using PCAxis.Paxiom;
+using PCAxis.Sql.Parser;
+
+namespace PCAxis.PlugIn.Sql
+{
 
     /// <summary>
     /// Handles the sending of VALUE and CODE to paxiom 
     /// </summary>
-    abstract public class PXSqlParserForCodelists : IDisposable, PCAxis.Paxiom.IPXModelParser {
+    abstract public class PXSqlParserForCodelists : IDisposable, PCAxis.Paxiom.IPXModelParser
+    {
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlParserForCodelists));
 
         /// <summary>
@@ -40,14 +42,15 @@ namespace PCAxis.PlugIn.Sql {
         }
 
 
-         public abstract void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage);
-        
+        public abstract void ParseMeta(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, string preferredLanguage);
+
         /// <summary>
-         /// The Parser for codelists does not use ParseData, but it has to be here to fullfill the PCAxis.Paxiom.IPXModelParser interface. Throws an exception if called.
+        /// The Parser for codelists does not use ParseData, but it has to be here to fullfill the PCAxis.Paxiom.IPXModelParser interface. Throws an exception if called.
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="preferredBufferSize"></param>
-        public void ParseData(IPXModelParser.DataHandler handler, int preferredBufferSize) {
+        public void ParseData(IPXModelParser.DataHandler handler, int preferredBufferSize)
+        {
             throw new ApplicationException("BUG");
         }
 

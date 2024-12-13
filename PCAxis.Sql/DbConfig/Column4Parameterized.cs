@@ -1,10 +1,11 @@
 ﻿using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
+using System.Text;// For Oracle-connections.
+
+using Microsoft.Data.SqlClient;
 
 using Oracle.ManagedDataAccess.Client;
-using System.Text;// For Oracle-connections.
-using Microsoft.Data.SqlClient;
 
 namespace PCAxis.Sql.DbConfig
 {
@@ -76,7 +77,7 @@ namespace PCAxis.Sql.DbConfig
         public string ForSelect()
         {
             var doubleQuote = @"""";
-            if (this.PureColumnName().ToUpper() == "DEFAULT") return this.tableAlias + "." + doubleQuote +  this.PureColumnName() + doubleQuote + " AS " + this.Label();
+            if (this.PureColumnName().ToUpper() == "DEFAULT") return this.tableAlias + "." + doubleQuote + this.PureColumnName() + doubleQuote + " AS " + this.Label();
             return this.Id() + " AS " + this.Label();
         }
 

@@ -1,17 +1,17 @@
 ﻿namespace PCAxis.Sql.Parser_21
 {
 
-    using log4net;
     using System;
     using System.Collections.Generic;
-    using System.Text;
+
+    using log4net;
 
 
     public class PXSqlGroupingInfo
     {
         /// <summary>The logger to log to. (Stylecop wants documentation)</summary>
         private static readonly ILog log = LogManager.GetLogger(typeof(PXSqlGroupingInfos));
-       
+
         // not used sorting is done in sql 
         public class SortGroupingInfoHelper : IComparer<PXSqlGroupingInfo>
         {
@@ -27,8 +27,8 @@
                 return String.Compare(valA.sortCodeByLanguage[lang], valB.sortCodeByLanguage[lang]);
             }
         }
-        
-       
+
+
         /// <summary> Database unique ID</summary>
         private string groupingId;
 
@@ -39,9 +39,9 @@
         /// B = Både aggregerat värde och ingående värden skall visas
         /// </summary>
         private string groupPres;
-        
+
         /// <summary>The texts which may be displayed to users when selecting a grouping from a list of groupings</summary>
-        private Dictionary<string, string> presTextByLanguage = new Dictionary<string,string>();
+        private Dictionary<string, string> presTextByLanguage = new Dictionary<string, string>();
 
         /// <summary>Sort order in which the groupings are shown. If SortCode in grouping are set this will be used otherwise PresText</summary>
         private Dictionary<string, string> sortCodeByLanguage = new Dictionary<string, string>();
@@ -57,42 +57,45 @@
              *B = Både aggregerat värde och ingående värden skall visas
             */
 
-            if( groupingRow.GroupPres.Equals(ccodes.GroupPresA))
+            if (groupingRow.GroupPres.Equals(ccodes.GroupPresA))
             {
                 this.groupPres = "AggregatedValues";
             }
-            else if(  groupingRow.GroupPres.Equals(ccodes.GroupPresI))
+            else if (groupingRow.GroupPres.Equals(ccodes.GroupPresI))
             {
                 this.groupPres = "SingleValues";
             }
-            else if(   groupingRow.GroupPres.Equals(ccodes.GroupPresB)){
+            else if (groupingRow.GroupPres.Equals(ccodes.GroupPresB))
+            {
                 this.groupPres = "All";
-            } else {
-                log.Warn("Unknown GroupPres: \""+groupingRow.GroupPres+"\", so \"All\" all is used");
+            }
+            else
+            {
+                log.Warn("Unknown GroupPres: \"" + groupingRow.GroupPres + "\", so \"All\" all is used");
                 log.WarnFormat("These are the GroupPres options: mother {0}, child {1} or all {2}", ccodes.GroupPresA, ccodes.GroupPresI, ccodes.GroupPresB);
                 this.groupPres = "AggregatedValues";
             }
 
-            
-            
-   
+
+
+
 
             foreach (KeyValuePair<string, PCAxis.Sql.QueryLib_21.GroupingTexts> text in groupingRow.texts)
             {
                 this.presTextByLanguage[text.Key] = text.Value.PresText;
-          //      if (text.Value.SortCode != "")
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
-          //      }
-          //      else
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
-          //      }
+                //      if (text.Value.SortCode != "")
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
+                //      }
+                //      else
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
+                //      }
             }
 
         }
 
-  
+
 
 
         /// <summary>Returns the (database) unique ID of the Grouping</summary>

@@ -1,8 +1,6 @@
 ﻿namespace PCAxis.Sql.Parser_21
 {
-using System;
-using System.Collections.Generic;
-using System.Text;
+    using System.Collections.Generic;
 
     /// <summary>Stores A = B + C + D +</summary>
     public class PXSqlGroup
@@ -15,7 +13,7 @@ using System.Text;
 
         /// <summary>Initializes a new instance of the PXSqlGroup class,  with the given parentCode</summary>
         /// <param name="parentCode">The code of the parent item</param>
-        public PXSqlGroup(string parentCode) 
+        public PXSqlGroup(string parentCode)
         {
             this.parentCode = parentCode;
         }
@@ -34,7 +32,7 @@ using System.Text;
 
         /// <summary>Adds a code to the list of codes of the children</summary>
         /// <param name="childCode">The code of child item</param>
-        public void AddChildCode(string childCode) 
+        public void AddChildCode(string childCode)
         {
             this.childCodes.Add(childCode);
         }

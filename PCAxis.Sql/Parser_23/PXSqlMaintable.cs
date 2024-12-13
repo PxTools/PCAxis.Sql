@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PCAxis.Sql.QueryLib_23;
-using PCAxis.Paxiom;
 using System.Collections.Specialized;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.Sql.QueryLib_23;
 
 namespace PCAxis.Sql.Parser_23
 {
@@ -20,7 +21,7 @@ namespace PCAxis.Sql.Parser_23
         private string mSubjectCode;
         private Dictionary<string, string> mSubjectAreaByLanguage = new Dictionary<string, string>();
 
-        
+
         internal PXSqlMaintable(MainTableRow mtRow, DataStorageRow dataStorageRow, MenuSelectionRow menuSelectionRow, PXSqlMeta_23 meta)
         {
             this.meta = meta;
@@ -50,17 +51,18 @@ namespace PCAxis.Sql.Parser_23
 
         internal bool ContainsOnlyMetaData
         {
-            get {
+            get
+            {
                 if (TableStatus.Equals(meta.Config.Codes.StatusMeta) || TableStatus.Equals(meta.Config.Codes.StatusEmpty))
                 {
-                    return true; 
+                    return true;
                 }
                 else
                 {
                     return false;
                 }
             }
-        } 
+        }
 
         //mMainTable[0][mConfig.MainTable.ContentsVariable].ToString().Length != 0
         internal bool hasContentsVariable(string someLangCode)
@@ -68,10 +70,10 @@ namespace PCAxis.Sql.Parser_23
             return (mtRow.texts[someLangCode].ContentsVariable.Length != 0);
         }
 
- //       public string getPresText(string langCode)
- //       {
- //           return mtRow.texts[langCode].PresText;
- //       }
+        //       public string getPresText(string langCode)
+        //       {
+        //           return mtRow.texts[langCode].PresText;
+        //       }
         internal string getPresTextS(string langCode)
         {
             return mtRow.texts[langCode].PresTextS;
@@ -89,7 +91,7 @@ namespace PCAxis.Sql.Parser_23
         internal string TimeScale { get { return mtRow.TimeScale; } }
         internal string TableStatus { get { return mtRow.TableStatus; } }
 
-       
+
         //<ships PXKeywords="SUBJECT_AREA">MenuSelection.PresText</ships>
 
 
@@ -226,11 +228,11 @@ namespace PCAxis.Sql.Parser_23
             // TABLEID
 
             if (!string.IsNullOrEmpty(this.TableId.Trim(' ')))
-            {                
-                    values.Clear();
-                    values.Add(this.TableId);
-                    handler(PXKeywords.TABLEID, noLanguage, subkey, values);
-                
+            {
+                values.Clear();
+                values.Add(this.TableId);
+                handler(PXKeywords.TABLEID, noLanguage, subkey, values);
+
             }
 
             // SUBJECT-CODE
@@ -249,7 +251,7 @@ namespace PCAxis.Sql.Parser_23
             }
 
             // DATABASE
-              foreach (string langCode in LanguageCodes)
+            foreach (string langCode in LanguageCodes)
             {
                 values.Clear();
                 // values.Add(this.mDataStorageRow.DatabaseName);
@@ -263,12 +265,12 @@ namespace PCAxis.Sql.Parser_23
             // se Reqtest 319.
 
 
-              // FIRST_PUBLISHED
-              
+            // FIRST_PUBLISHED
+
             values.Clear();
             values.Add(this.mtRow.FirstPublished);
-            handler(PXKeywords.FIRST_PUBLISHED, null, subkey, values);  
-              
+            handler(PXKeywords.FIRST_PUBLISHED, null, subkey, values);
+
 
             // INFOFILE
 

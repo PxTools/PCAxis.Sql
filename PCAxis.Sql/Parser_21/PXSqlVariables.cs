@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_21;
+
+using log4net;
+
 using PCAxis.Paxiom;
 using PCAxis.Sql.Pxs;
-using log4net;
 
 namespace PCAxis.Sql.Parser_21
 {
@@ -22,13 +21,14 @@ namespace PCAxis.Sql.Parser_21
 
         internal void setStubHeadPxs()
         {
-            int highestUsedStubIndex = 0 ;
+            int highestUsedStubIndex = 0;
             if (meta.PxsFile.Presentation.Stub != null)
-                foreach (  AxisType stub in meta.PxsFile.Presentation.Stub)
+                foreach (AxisType stub in meta.PxsFile.Presentation.Stub)
                 {
                     //mSqlVariable = this[stub.code];
                     this[stub.code].Index = stub.index;
-                    if(stub.index > highestUsedStubIndex ) {
+                    if (stub.index > highestUsedStubIndex)
+                    {
                         highestUsedStubIndex = stub.index;
                     }
                     this[stub.code].IsStub = true;
@@ -39,13 +39,15 @@ namespace PCAxis.Sql.Parser_21
                 foreach (AxisType heading in meta.PxsFile.Presentation.Heading)
                 {
                     //mSqlVariable = this[heading.code];
-                     this[heading.code].Index = heading.index;
-                     this[heading.code].IsHeading = true;
+                    this[heading.code].Index = heading.index;
+                    this[heading.code].IsHeading = true;
                 }
             }
 
-            foreach (PXSqlVariable tmpVar in this.Values) {
-                if (tmpVar.isSelected && (!tmpVar.IsHeading) && (!tmpVar.IsStub)) {
+            foreach (PXSqlVariable tmpVar in this.Values)
+            {
+                if (tmpVar.isSelected && (!tmpVar.IsHeading) && (!tmpVar.IsStub))
+                {
                     log.Warn("Variable " + tmpVar.Name + " isSelected, but neither Heading nor Stub. Setting it to stub");
                     highestUsedStubIndex++;
                     tmpVar.IsStub = true;
@@ -66,18 +68,18 @@ namespace PCAxis.Sql.Parser_21
                 {
                     if (tmpVar.IsTimevariable)
                     {
-                       // tmpVar.Index = 1;
+                        // tmpVar.Index = 1;
                         tmpVar.IsHeading = true;
                     }
                     else if (tmpVar.IsContentVariable)
                     {
-                       // tmpVar.Index = 2;
+                        // tmpVar.Index = 2;
                         tmpVar.IsHeading = true;
                     }
                     else
                     {
-                       // tmpVar.Index = stubIndex;
-                       // stubIndex++;
+                        // tmpVar.Index = stubIndex;
+                        // stubIndex++;
                         tmpVar.IsStub = true;
                     }
                 }
@@ -113,12 +115,12 @@ namespace PCAxis.Sql.Parser_21
                     }
                 }
             }
-                mHeadings.Sort();
-                return mHeadings; 
+            mHeadings.Sort();
+            return mHeadings;
         }
         internal List<PXSqlVariable> GetStubSorted()
         {
-            List<PXSqlVariable>  mStubs = new List<PXSqlVariable>();
+            List<PXSqlVariable> mStubs = new List<PXSqlVariable>();
             foreach (PXSqlVariable var in this.Values)
             {
                 if (var.isSelected)
@@ -160,5 +162,5 @@ namespace PCAxis.Sql.Parser_21
     }
 }
 
-    
+
 

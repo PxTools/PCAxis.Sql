@@ -1,9 +1,9 @@
 ﻿namespace PCAxis.Sql.Parser_24
 {
-    using log4net;
     using System;
     using System.Collections.Generic;
-    using System.Text;
+
+    using log4net;
 
 
     public class PXSqlGroupingInfo
@@ -28,7 +28,7 @@
                 return String.Compare(valA.sortCodeByLanguage[lang], valB.sortCodeByLanguage[lang]);
             }
         }
-       
+
         /// <summary> Database unique ID</summary>
         private string groupingId;
 
@@ -42,7 +42,7 @@
         private string groupPres;
 
         /// <summary>The texts which may be displayed to users when selecting a grouping from a list of groupings</summary>
-        private Dictionary<string, string> presTextByLanguage = new Dictionary<string,string>();
+        private Dictionary<string, string> presTextByLanguage = new Dictionary<string, string>();
 
         /// <summary>Sort order in which the groupings are shown. If SortCode in grouping are set this will be used otherwise PresText</summary>
         private Dictionary<string, string> sortCodeByLanguage = new Dictionary<string, string>();
@@ -76,24 +76,24 @@
                 this.groupPres = "AggregatedValues";
             }
 
-            
+
             foreach (KeyValuePair<string, PCAxis.Sql.QueryLib_24.GroupingTexts> text in groupingRow.texts)
             {
                 this.presTextByLanguage[text.Key] = text.Value.PresText;
                 this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
-          //      if (text.Value.SortCode != "")
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
-          //      }
-          //      else
-          //      {
-          //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
-          //      }
+                //      if (text.Value.SortCode != "")
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.SortCode;
+                //      }
+                //      else
+                //      {
+                //          this.sortCodeByLanguage[text.Key] = text.Value.PresText;
+                //      }
             }
 
             this.isDefault = !string.IsNullOrEmpty(groupingRow.DefaultInGui) && groupingRow.DefaultInGui == ccodes.Yes;
-            
-           this.valueSetIds.AddRange(valueSetIds);
+
+            this.valueSetIds.AddRange(valueSetIds);
         }
 
 

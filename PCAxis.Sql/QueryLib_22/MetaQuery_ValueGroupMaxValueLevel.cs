@@ -1,17 +1,11 @@
-using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 
-namespace PCAxis.Sql.QueryLib_22 {
+namespace PCAxis.Sql.QueryLib_22
+{
 
     public partial class MetaQuery
     {
@@ -23,13 +17,14 @@ namespace PCAxis.Sql.QueryLib_22 {
             string sqlString = "SELECT ";
             sqlString +=
                 "MAX(" +
-                DB.ValueGroup.GroupLevelCol.Id() +") ";
+                DB.ValueGroup.GroupLevelCol.Id() + ") ";
             sqlString += " FROM " + DB.ValueGroup.GetNameAndAlias();
             sqlString += " WHERE " + DB.ValueGroup.GroupingCol.Is(aGrouping);
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
-            if (myRows.Count < 1 && ! emptyRowSetIsOK) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " Grouping = " + aGrouping);
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " Grouping = " + aGrouping);
             }
             myOut = myRows[0][0].ToString();
             return myOut;

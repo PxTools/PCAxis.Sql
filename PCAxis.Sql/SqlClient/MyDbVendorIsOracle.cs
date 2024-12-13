@@ -1,29 +1,27 @@
-using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data.Common;
 using System.Text;
 
+using log4net;
 
-using System.Data; // For DataSet-objects.
 using Oracle.ManagedDataAccess.Client;// For Oracle-connections.
 
 
-using System.Collections.Specialized;
-
-using System.Data.Common;
-using log4net;
-
-
-namespace PCAxis.Sql.DbClient {
+namespace PCAxis.Sql.DbClient
+{
 
     /// <summary>
     /// The Oracle version of MyDbVendor.
     /// </summary>
-    internal class MyDbVendorIsOracle:MyDbVendor  {
-        
+    internal class MyDbVendorIsOracle : MyDbVendor
+    {
+
         private static readonly ILog log = LogManager.GetLogger(typeof(MyDbVendorIsOracle));
-  
+
         internal MyDbVendorIsOracle(string connectionString)
-            :base( new OracleConnection(connectionString)) {
+            : base(new OracleConnection(connectionString))
+        {
 
             KeywordAfterCreateIndicatingTempTable = "GLOBAL TEMPORARY";
             TempTableCreateCommandEndClause = "ON COMMIT PRESERVE ROWS";
@@ -40,16 +38,18 @@ namespace PCAxis.Sql.DbClient {
             return new OracleConnectionStringBuilder(connectionString);
         }
 
-        internal override  DbCommand GetDbCommand(string commandString) {
+        internal override DbCommand GetDbCommand(string commandString)
+        {
 
-            return new OracleCommand(commandString, (OracleConnection)this.dbconn) {BindByName = true };
+            return new OracleCommand(commandString, (OracleConnection)this.dbconn) { BindByName = true };
         }
 
-        internal override DbDataAdapter GetDbDataAdapter(string selectString) {
+        internal override DbDataAdapter GetDbDataAdapter(string selectString)
+        {
             var aaa = new OracleDataAdapter(selectString, (OracleConnection)this.dbconn);
-           
 
-                return new OracleDataAdapter(selectString, (OracleConnection)this.dbconn);
+
+            return new OracleDataAdapter(selectString, (OracleConnection)this.dbconn);
 
         }
 
@@ -61,16 +61,18 @@ namespace PCAxis.Sql.DbClient {
 
         internal override string GetParameterRef(string propertyName)
         {
-            return ":"+propertyName;
+            return ":" + propertyName;
         }
 
-        internal override string joinCommandStrings(StringCollection commandStrings) {
+        internal override string joinCommandStrings(StringCollection commandStrings)
+        {
             StringBuilder sb = new StringBuilder(commandStrings.Count * 50); // or ?
             sb.Append("BEGIN ");
-            foreach (string commandString in commandStrings) {
+            foreach (string commandString in commandStrings)
+            {
                 sb.Append(commandString + ";");
             }
-             sb.Append(" END;");
+            sb.Append(" END;");
             return sb.ToString();
         }
 

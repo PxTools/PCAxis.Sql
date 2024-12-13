@@ -1,19 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using System.Xml;
-using System.IO;
-using log4net;
 
-namespace PCAxis.Sql.Pxs {
+namespace PCAxis.Sql.Pxs
+{
 
-    public partial class PxsQuery {
+    public partial class PxsQuery
+    {
 
 
 
 
-        private void ReadFlatFile(String[] fileLines, string resultLanguage) {
+        private void ReadFlatFile(String[] fileLines, string resultLanguage)
+        {
             FlatFileReaderHelper helper = new FlatFileReaderHelper();//Stores tmp data
             char[] splitter = new char[1];
             splitter[0] = '=';
@@ -28,25 +26,33 @@ namespace PCAxis.Sql.Pxs {
 
             log.Debug("fileLines count:" + fileLines.Length);
             int processedLines = 0;
-            foreach (String aLine in fileLines) {
-                if (String.IsNullOrEmpty(aLine)) {
+            foreach (String aLine in fileLines)
+            {
+                if (String.IsNullOrEmpty(aLine))
+                {
                     continue;
                 }
                 processedLines++;
                 String line = aLine.Trim();
                 log.Debug("line='" + line + "'");
                 String[] lineParts = line.Split(splitter, 2);
-                if (line.StartsWith("[")) {
+                if (line.StartsWith("["))
+                {
 
                     String ucLine = line.Trim().Replace("[", "").Replace("]", "").ToUpper();
 
-                    if (ucLine.Equals("QUERY") || ucLine.Equals("CONTENTS") || ucLine.Equals("TIME")) {
+                    if (ucLine.Equals("QUERY") || ucLine.Equals("CONTENTS") || ucLine.Equals("TIME"))
+                    {
                         segmentFlag = ucLine;
-                    } else if (ucLine.Equals("FILES")) {
+                    }
+                    else if (ucLine.Equals("FILES"))
+                    {
 
                         this.Information.Files = new InformationTypeFiles();
                         segmentFlag = ucLine;
-                    } else if (ucLine.Equals("OPTIONS")) {
+                    }
+                    else if (ucLine.Equals("OPTIONS"))
+                    {
                         this.Information.BatchOptions = new InformationTypeBatchOptions();
 
                         //this.Information.BatchOptions.ContinuePxq = " ";//denne er kanskje ikke i bruk
@@ -56,7 +62,9 @@ namespace PCAxis.Sql.Pxs {
                         this.Information.BatchOptions.Metabase = " ";
                         segmentFlag = ucLine;
 
-                    } else if (ucLine.StartsWith("VAR")) {
+                    }
+                    else if (ucLine.StartsWith("VAR"))
+                    {
                         String shouldBeInt = ucLine.Substring(3);
                         helper.var_counter = int.Parse(shouldBeInt);
                         helper.tmpVariable[helper.var_counter] = new PQVariable();
@@ -66,31 +74,51 @@ namespace PCAxis.Sql.Pxs {
                         helper.groupTextByValueSortOrder[helper.var_counter] = new Dictionary<int, string>();
 
                         segmentFlag = "VAR";
-                    } else {
+                    }
+                    else
+                    {
                         throw new Exception("Unknown thing in square brackets:" + line);//in production-release:should be just a warning
                     }
-                } else if (lineParts.Length == 2) {
-                    if (segmentFlag.Equals("QUERY")) {
+                }
+                else if (lineParts.Length == 2)
+                {
+                    if (segmentFlag.Equals("QUERY"))
+                    {
                         fromQuerySeg(lineParts[0], lineParts[1], helper);
-                    } else if (segmentFlag.Equals("CONTENTS")) {
+                    }
+                    else if (segmentFlag.Equals("CONTENTS"))
+                    {
                         fromContentSeg(lineParts[0], lineParts[1], helper);
-                    } else if (segmentFlag.Equals("VAR")) {
+                    }
+                    else if (segmentFlag.Equals("VAR"))
+                    {
                         fromVarSeg(lineParts[0], lineParts[1], helper);
-                    } else if (segmentFlag.Equals("TIME")) {
+                    }
+                    else if (segmentFlag.Equals("TIME"))
+                    {
                         fromTimeSeg(lineParts[0], lineParts[1], helper);
-                    } else if (segmentFlag.Equals("FILES")) {
+                    }
+                    else if (segmentFlag.Equals("FILES"))
+                    {
                         fromFilesSeg(lineParts[0], lineParts[1]);
-                    } else if (segmentFlag.Equals("OPTIONS")) {
+                    }
+                    else if (segmentFlag.Equals("OPTIONS"))
+                    {
                         fromOptionsSeg(lineParts[0], lineParts[1]);
 
-                    } else {
+                    }
+                    else
+                    {
                         throw new Exception("Unknown segmentFlag:" + segmentFlag + " line:" + line);//in production-release:should be just a warning
                     }
-                } else {
+                }
+                else
+                {
                     throw new Exception("Hmmm: not a segment and not key=value: " + line);//in production-release:should be just a warning
                 }
             }
-            if (processedLines < 5) {
+            if (processedLines < 5)
+            {
                 throw new ApplicationException("Too few lines to be a pxs");
 
             }
@@ -98,35 +126,61 @@ namespace PCAxis.Sql.Pxs {
         }
 
 
-        private void fromQuerySeg(String key, String value, FlatFileReaderHelper helper) {
+        private void fromQuerySeg(String key, String value, FlatFileReaderHelper helper)
+        {
             string ucKey = key.ToUpper();
-            if (ucKey.Equals("TIMEOPT")) {
+            if (ucKey.Equals("TIMEOPT"))
+            {
                 this.Query.Time.TimeOption = (TimeTypeTimeOption)int.Parse(value);
-            } else if (ucKey.Equals("USERID")) {
+            }
+            else if (ucKey.Equals("USERID"))
+            {
                 this.Information.CreatedBy.userId = value;
-            } else if (ucKey.Equals("USERNAME")) {
+            }
+            else if (ucKey.Equals("USERNAME"))
+            {
                 this.Information.CreatedBy.UserName = value;
-            } else if (ucKey.Equals("METAVERSION")) {
+            }
+            else if (ucKey.Equals("METAVERSION"))
+            {
                 this.Information.MetaVersion = value;
                 log.Warn("assumes METAVERSION means the same as PxsVersion");
-            } else if (ucKey.Equals("SUBJECT")) {
+            }
+            else if (ucKey.Equals("SUBJECT"))
+            {
                 // denne finnes ikke noe subject
                 fixMenuSel("OBS_OBS_fra_subject", value, helper);
-            } else if (ucKey.Equals("MENUSEL1")) {
+            }
+            else if (ucKey.Equals("MENUSEL1"))
+            {
                 fixMenuSel("1", value, helper);
-            } else if (ucKey.Equals("MENUSEL2")) {
+            }
+            else if (ucKey.Equals("MENUSEL2"))
+            {
                 fixMenuSel("2", value, helper);
-            } else if (ucKey.Equals("MENUSEL3")) {
+            }
+            else if (ucKey.Equals("MENUSEL3"))
+            {
                 fixMenuSel("3", value, helper);
-            } else if (ucKey.Equals("MENUSEL4")) {
+            }
+            else if (ucKey.Equals("MENUSEL4"))
+            {
                 fixMenuSel("4", value, helper);
-            } else if (ucKey.Equals("MENUSEL5")) {
+            }
+            else if (ucKey.Equals("MENUSEL5"))
+            {
                 fixMenuSel("5", value, helper);
-            } else if (ucKey.Equals("MENUSEL6")) {
+            }
+            else if (ucKey.Equals("MENUSEL6"))
+            {
                 fixMenuSel("6", value, helper);
-            } else if (ucKey.Equals("TABLE")) {
+            }
+            else if (ucKey.Equals("TABLE"))
+            {
                 this.Query.TableSource = value;
-            } else if (ucKey.Equals("VARANT")) { //number of variables (not including time)
+            }
+            else if (ucKey.Equals("VARANT"))
+            { //number of variables (not including time)
                 helper.no_vars = int.Parse(value);
 
                 helper.tmpVariable = new PQVariable[helper.no_vars];
@@ -134,29 +188,45 @@ namespace PCAxis.Sql.Pxs {
                 helper.groupsValuesByValueCode = new Dictionary<string, List<GroupValueType>>[helper.no_vars];
                 helper.groupTextByValueSortOrder = new Dictionary<int, string>[helper.no_vars];
 
-            } else if (ucKey.Equals("SUBTAB")) {
+            }
+            else if (ucKey.Equals("SUBTAB"))
+            {
                 this.Query.SubTable = value;
-            } else if (ucKey.Equals("LANG")) {
+            }
+            else if (ucKey.Equals("LANG"))
+            {
                 helper.langInFile = value;
 
-            } else if (ucKey.Equals("HEADING")) {//how many variables before heading (those in stub)
+            }
+            else if (ucKey.Equals("HEADING"))
+            {//how many variables before heading (those in stub)
                 helper.no_vars_before_heading = int.Parse(value);
-            } else if (ucKey.Equals("TIMEORDER")) {//how many variables before the time variable (example time first in heading)
+            }
+            else if (ucKey.Equals("TIMEORDER"))
+            {//how many variables before the time variable (example time first in heading)
                 helper.no_vars_before_time = int.Parse(value);
-            } else if (ucKey.Equals("CONTENTS")) {
+            }
+            else if (ucKey.Equals("CONTENTS"))
+            {
                 log.Warn("Keyword CONTENTS will be ignored. So you can no longer override the short title from the DB.");
                 //data.Query.Contents.ContText = value;
-            } else if (ucKey.Equals("PRODUCT")) {
+            }
+            else if (ucKey.Equals("PRODUCT"))
+            {
                 log.Info("Keyword PRODUCT found and will be ignored.");
-            } else {
+            }
+            else
+            {
                 throw new Exception("Unknown key in query:" + key);//in production-release:should be just a warning
             }
         }
 
 
-        private void fromContentSeg(String key, String value, FlatFileReaderHelper helper) {
+        private void fromContentSeg(String key, String value, FlatFileReaderHelper helper)
+        {
             string ucKey = key.ToUpper();
-            if (!ucKey.StartsWith("CONT")) {
+            if (!ucKey.StartsWith("CONT"))
+            {
                 throw new Exception("Unknown key in content-segment:" + key);//in production-release:should be just a warning
             }
             String shouldBeInt = key.Substring(4);//Cont1=...
@@ -166,16 +236,25 @@ namespace PCAxis.Sql.Pxs {
         }
 
 
-        private void fromVarSeg(String key, String value, FlatFileReaderHelper helper) {
+        private void fromVarSeg(String key, String value, FlatFileReaderHelper helper)
+        {
             string ucKey = key.ToUpper();
-            if (ucKey.Equals("KOD")) {
+            if (ucKey.Equals("KOD"))
+            {
                 helper.tmpVariable[helper.var_counter].code = value;
-            } else if (ucKey.Equals("PRESTEXT")) {
+            }
+            else if (ucKey.Equals("PRESTEXT"))
+            {
                 helper.tmpVariable[helper.var_counter].PresTextOption = value;
-            } else if (ucKey.Equals("ELIM")) {
+            }
+            else if (ucKey.Equals("ELIM"))
+            {
                 log.Info("Warning: keyword Elim will be ignored. Read: " + key + " value:" + value);
-            } else if (ucKey.Equals("AGGREG")) {
-                switch (value.ToUpper()) {
+            }
+            else if (ucKey.Equals("AGGREG"))
+            {
+                switch (value.ToUpper())
+                {
                     case "G":
                         helper.tmpVariable[helper.var_counter].Aggregation = PQVariableAggregation.G;
                         break;
@@ -189,97 +268,149 @@ namespace PCAxis.Sql.Pxs {
                         helper.tmpVariable[helper.var_counter].Aggregation = PQVariableAggregation.N;
                         break;
                 }
-            } else if (ucKey.Equals("GROUPING")) {
+            }
+            else if (ucKey.Equals("GROUPING"))
+            {
                 helper.tmpVariable[helper.var_counter].StructureId = value;
                 helper.tmpVariable[helper.var_counter].Aggregation = PQVariableAggregation.G;
-            } else if (ucKey.Equals("GENERAL")) {
-                if ((value.ToUpper().StartsWith("Y")) && (helper.tmpVariable[helper.var_counter].StructureId == null)) {
+            }
+            else if (ucKey.Equals("GENERAL"))
+            {
+                if ((value.ToUpper().StartsWith("Y")) && (helper.tmpVariable[helper.var_counter].StructureId == null))
+                {
                     helper.tmpVariable[helper.var_counter].StructureId = "UNKNOWNSTRUCTUREID";
                 }
-            } else if (ucKey.StartsWith("VALUE")) {
-                if (ucKey.EndsWith("TEXT")) {
+            }
+            else if (ucKey.StartsWith("VALUE"))
+            {
+                if (ucKey.EndsWith("TEXT"))
+                {
                     //valueNNtext   (belongs to valueNN)
                     String NN = ucKey.Replace("VALUE", "").Replace("TEXT", "");
                     helper.groupTextByValueSortOrder[helper.var_counter][int.Parse(NN)] = value;
-                } else {
+                }
+                else
+                {
                     //VALUEnn
                     ValueTypeWithGroup tmp = new ValueTypeWithGroup(value, int.Parse(ucKey.Substring(5)));
                     helper.variableValues[helper.var_counter].Add(tmp);
                 }
-            } else if (ucKey.Equals("GEOAREA")) {
+            }
+            else if (ucKey.Equals("GEOAREA"))
+            {
                 log.Info("GEOAREA will hereafter be retrieved from DB. Is no longer part of query.");
-            } else if (ucKey.StartsWith("GRVALUE")) {
+            }
+            else if (ucKey.StartsWith("GRVALUE"))
+            {
 
                 int grvalue_number = int.Parse(ucKey.Substring(7));
                 String[] valueSplit = value.Split(',');
                 String codeOfAtom = valueSplit[0].Replace("'", "");
                 String codeOfMolecule = valueSplit[1].Replace("'", "");
 
-                if (!helper.groupsValuesByValueCode[helper.var_counter].ContainsKey(codeOfMolecule)) {
+                if (!helper.groupsValuesByValueCode[helper.var_counter].ContainsKey(codeOfMolecule))
+                {
                     helper.groupsValuesByValueCode[helper.var_counter][codeOfMolecule] = new List<GroupValueType>();
                 }
                 GroupValueType tmp = new GroupValueType();
                 tmp.code = codeOfAtom;
                 helper.groupsValuesByValueCode[helper.var_counter][codeOfMolecule].Add(tmp);
 
-            } else {
+            }
+            else
+            {
                 throw new Exception("Unknown keyword in var-segment:" + key + " (value=" + value + ")");//in production-release:should be just a warning
             }
         }
 
 
-        private void fromTimeSeg(String key, String value, FlatFileReaderHelper helper) {
+        private void fromTimeSeg(String key, String value, FlatFileReaderHelper helper)
+        {
             string ucKey = key.ToUpper();
-            if (ucKey.Equals("KOD")) {
+            if (ucKey.Equals("KOD"))
+            {
                 this.Query.Time.code = value;
-            } else if (ucKey.Equals("VALUES")) {  // when Moving time interval
+            }
+            else if (ucKey.Equals("VALUES"))
+            {  // when Moving time interval
                 this.Query.Time.Item = int.Parse(value);
-            } else if (ucKey.StartsWith("VALUE")) {  // 0 or 3
-                if ((int)this.Query.Time.TimeOption == 3) {
+            }
+            else if (ucKey.StartsWith("VALUE"))
+            {  // 0 or 3
+                if ((int)this.Query.Time.TimeOption == 3)
+                {
                     this.Query.Time.Item = value;
-                } else {
+                }
+                else
+                {
 
                     BasicValueType tmp = new BasicValueType(value, int.Parse(ucKey.Substring(5)));
                     helper.timeValues.Add(tmp);
                 }
-            } else if (ucKey.Equals("TIMEVAL")) {
+            }
+            else if (ucKey.Equals("TIMEVAL"))
+            {
                 this.Query.Time.TimeVal = value;
-            } else {
+            }
+            else
+            {
                 throw new Exception("Unknown keyword in time-segment:" + key + " (value=" + value + ")");//in production-release:should be just a warning
             }
         }
 
 
-        private void fromFilesSeg(String key, String value) {
+        private void fromFilesSeg(String key, String value)
+        {
             string ucKey = key.ToUpper();
 
-            if (ucKey.Equals("PXSFILE")) {
+            if (ucKey.Equals("PXSFILE"))
+            {
                 this.Information.Files.Pxsfile = value;
-            } else if (ucKey.Equals("OUTFILE")) {
+            }
+            else if (ucKey.Equals("OUTFILE"))
+            {
                 this.Information.Files.Outfile = value;
-            } else if (ucKey.Equals("LOGFILE")) {
+            }
+            else if (ucKey.Equals("LOGFILE"))
+            {
                 this.Information.Files.Logfile = value;
-            } else if (ucKey.Equals("TEXTFILE")) {
+            }
+            else if (ucKey.Equals("TEXTFILE"))
+            {
                 this.Information.Files.Textfile = value;
-            } else if (ucKey.Equals("SQLFILE")) {
+            }
+            else if (ucKey.Equals("SQLFILE"))
+            {
                 this.Information.Files.Sqlfile = value;
-            } else {
+            }
+            else
+            {
                 throw new Exception("Unknown keyword in files-segment:" + key + " (value=" + value + ")");//in production-release:should be just a warning
             }
         }
 
 
-        private void fromOptionsSeg(String key, String value) {
+        private void fromOptionsSeg(String key, String value)
+        {
             string ucKey = key.ToUpper();
-            if (ucKey.Equals("SQLTEST")) {
+            if (ucKey.Equals("SQLTEST"))
+            {
                 this.Information.BatchOptions.Sqltest = value;
-            } else if (ucKey.Equals("PXDATABASE")) {
+            }
+            else if (ucKey.Equals("PXDATABASE"))
+            {
                 this.Information.BatchOptions.PxDatabase = value;
-            } else if (ucKey.Equals("REPLACE")) {
+            }
+            else if (ucKey.Equals("REPLACE"))
+            {
                 this.Information.BatchOptions.Replace = value;
-            } else if (ucKey.Equals("METABASE")) {
+            }
+            else if (ucKey.Equals("METABASE"))
+            {
                 this.Information.BatchOptions.Metabase = value;
-            } else {
+            }
+            else
+            {
                 throw new Exception("Unknown keyword in options-segment:" + key + " (value=" + value + ")");//in production-release:should be just a warning
             }
         }
@@ -289,24 +420,29 @@ namespace PCAxis.Sql.Pxs {
         // it converts lists to arrays and adds them to the object
         // (The lists are used when parsing since arrays cannot grow dynamically) 
         //recodes data.Query.Time.TimeOption "1" to "2" 
-        private void postParse(FlatFileReaderHelper helper, string resultLanguage) {
+        private void postParse(FlatFileReaderHelper helper, string resultLanguage)
+        {
             bool[] isElim = new bool[helper.no_vars];
             int elimCount = 0;
 
             // Traverses the variables one by one
-            for (int n = 0; n < helper.no_vars; n++) {
+            for (int n = 0; n < helper.no_vars; n++)
+            {
                 isElim[n] = helper.variableValues[n].Count < 1; // Common to all elimination: No values!
-                if (isElim[n]) {
+                if (isElim[n])
+                {
                     elimCount++;
                 }
                 log.Debug("isElim=" + isElim[n] + " code" + helper.tmpVariable[n].code);
                 //adds any group values
 
                 // For each value vt belonging to the current variable n do ....
-                foreach (ValueTypeWithGroup vt in helper.variableValues[n]) {
+                foreach (ValueTypeWithGroup vt in helper.variableValues[n])
+                {
 
                     // Checks if the current value code vt.code has a list of group codes associated with it
-                    if (helper.groupsValuesByValueCode[n].ContainsKey(vt.code)) {
+                    if (helper.groupsValuesByValueCode[n].ContainsKey(vt.code))
+                    {
 
                         // If so, then create a temporary GroupValueType tmp to hold the list of group codes
                         List<GroupValueType> tmp = helper.groupsValuesByValueCode[n][vt.code];
@@ -315,15 +451,19 @@ namespace PCAxis.Sql.Pxs {
                         vt.Group = new ValueTypeWithGroupGroup();
                         vt.Group.GroupValue = tmp.ToArray();
                         // Checks (on the sort order) if there is a ValueText (Group text) attached to any of the values
-                        if (helper.groupTextByValueSortOrder[n].ContainsKey(vt.sortOrder)) {
+                        if (helper.groupTextByValueSortOrder[n].ContainsKey(vt.sortOrder))
+                        {
                             // text er bare for grupper som kommer fra filer, hva med språk?
                             StringLangType[] tmpSLT = new StringLangType[1];
                             tmpSLT[0] = new StringLangType();
                             tmpSLT[0].Value = helper.groupTextByValueSortOrder[n][vt.sortOrder];
-                            if (helper.langInFile == null) {
+                            if (helper.langInFile == null)
+                            {
                                 tmpSLT[0].lang = resultLanguage;
                                 log.Warn("Found text but no language. Using " + resultLanguage);
-                            } else {
+                            }
+                            else
+                            {
                                 tmpSLT[0].lang = helper.langInFile;
                             }
                             vt.Group.GroupText = tmpSLT;
@@ -336,11 +476,14 @@ namespace PCAxis.Sql.Pxs {
                 helper.tmpVariable[n].Values.Items = helper.variableValues[n].ToArray();
             }
 
-            if ((int)this.Query.Time.TimeOption == 0) {
+            if ((int)this.Query.Time.TimeOption == 0)
+            {
                 TimeTypeTimeValues tttv = new TimeTypeTimeValues();
                 tttv.TimeValue = helper.timeValues.ToArray();
                 this.Query.Time.Item = tttv;
-            } else if ((int)this.Query.Time.TimeOption == 1) {
+            }
+            else if ((int)this.Query.Time.TimeOption == 1)
+            {
                 this.Query.Time.TimeOption = (TimeTypeTimeOption)2;
                 int noOfValues = 1;
                 this.Query.Time.Item = noOfValues;
@@ -348,7 +491,8 @@ namespace PCAxis.Sql.Pxs {
 
             this.Query.Contents.Content = helper.contentValues.ToArray();
 
-            if (helper.menuSelList.Count > 0) {
+            if (helper.menuSelList.Count > 0)
+            {
                 this.Information.Menu = helper.menuSelList.ToArray();
             }
 
@@ -357,10 +501,13 @@ namespace PCAxis.Sql.Pxs {
             myLanguageType[] tmpMyLang = new myLanguageType[1];
             tmpMyLang[0] = new myLanguageType();
 
-            if (helper.langInFile == null) {
+            if (helper.langInFile == null)
+            {
                 tmpMyLang[0].Value = resultLanguage;
                 log.Warn(" no language. Using " + resultLanguage);
-            } else {
+            }
+            else
+            {
                 tmpMyLang[0].Value = helper.langInFile;
             }
 
@@ -387,8 +534,10 @@ namespace PCAxis.Sql.Pxs {
 
             // Traverses the variables found in the pxs file
             #region for loop
-            for (int n = 1; n <= helper.no_vars; n++) {
-                if (isElim[n - 1]) {
+            for (int n = 1; n <= helper.no_vars; n++)
+            {
+                if (isElim[n - 1])
+                {
                     continue;  // If the variable is eliminated, then skip it
                 }
                 this.Query.Variables[outVarCounter] = helper.tmpVariable[n - 1];
@@ -398,20 +547,27 @@ namespace PCAxis.Sql.Pxs {
 
                 string code = helper.tmpVariable[n - 1].code;
                 // helper.no_vars_before_heading show
-                if (n <= helper.no_vars_before_heading) {
+                if (n <= helper.no_vars_before_heading)
+                {
                     // stub_counter++;
                     stubList.Add(new AxisType(code, stub_counter++));
-                } else {
+                }
+                else
+                {
                     // head_counter++;
                     headList.Add(new AxisType(code, head_counter++));
                 }
 
 
-                if (n == helper.no_vars_before_time) {  //Time
+                if (n == helper.no_vars_before_time)
+                {  //Time
                     string timeCode = this.Query.Time.code;
-                    if (n < helper.no_vars_before_heading) {
+                    if (n < helper.no_vars_before_heading)
+                    {
                         stubList.Add(new AxisType(timeCode, stub_counter++));
-                    } else {
+                    }
+                    else
+                    {
                         headList.Add(new AxisType(timeCode, head_counter++));
                     }
                 }
@@ -426,10 +582,12 @@ namespace PCAxis.Sql.Pxs {
 
 
             this.Presentation = new PresentationType();
-            if (stubList.Count > 0) {
+            if (stubList.Count > 0)
+            {
                 this.Presentation.Stub = stubList.ToArray();
             }
-            if (headList.Count > 0) {
+            if (headList.Count > 0)
+            {
                 this.Presentation.Heading = headList.ToArray();
             }
 
@@ -438,7 +596,8 @@ namespace PCAxis.Sql.Pxs {
         }
 
 
-        private void fixMenuSel(String level, String value, FlatFileReaderHelper helper) {
+        private void fixMenuSel(String level, String value, FlatFileReaderHelper helper)
+        {
             MenuSelType tmp = new MenuSelType();
             tmp.level = level;
             tmp.Value = value;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace PCAxis.Sql.Pxs
 {
@@ -20,7 +17,7 @@ namespace PCAxis.Sql.Pxs
         /// Empty constructor
         /// </summary>
         public InfoFromPxSqlMeta2PxsQuery()
-        { 
+        {
         }
 
 

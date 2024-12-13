@@ -1,22 +1,18 @@
-using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
 
-namespace PCAxis.Sql.QueryLib_22 {
+namespace PCAxis.Sql.QueryLib_22
+{
 
-    public partial class MetaQuery {
+    public partial class MetaQuery
+    {
         #region for ValueGroup
-        public List<ValueGroupRow> GetValueGroupRowsSorted(string aGrouping,string aLevel, bool emptyRowSetIsOK, string aSortOrderLanguage)
+        public List<ValueGroupRow> GetValueGroupRowsSorted(string aGrouping, string aLevel, bool emptyRowSetIsOK, string aSortOrderLanguage)
         {
             string sortOrderLanguage = aSortOrderLanguage;
             if (!this.mLanguageCodes.Contains(aSortOrderLanguage))
@@ -51,18 +47,20 @@ namespace PCAxis.Sql.QueryLib_22 {
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " Grouping = " + aGrouping);
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " Grouping = " + aGrouping);
             }
 
-            foreach (DataRow sqlRow in myRows) {
+            foreach (DataRow sqlRow in myRows)
+            {
                 ValueGroupRow outRow = new ValueGroupRow(sqlRow, DB, mLanguageCodes);
                 myOut.Add(outRow);
             }
             return myOut;
         }
 
- 
+
 
         #endregion for ValueGroup
 

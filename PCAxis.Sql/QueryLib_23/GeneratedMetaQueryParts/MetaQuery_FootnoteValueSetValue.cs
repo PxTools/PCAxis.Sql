@@ -1,13 +1,9 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -30,7 +26,7 @@ namespace PCAxis.Sql.QueryLib_23
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[aValueSet.Count];
             for (int counter = 1; counter <= aValueSet.Count; counter++)
             {
-                        parameters[counter - 1] = mSqlCommand.GetStringParameter("aValueSet" + counter, aValueSet[counter - 1]);
+                parameters[counter - 1] = mSqlCommand.GetStringParameter("aValueSet" + counter, aValueSet[counter - 1]);
             }
 
 
@@ -38,7 +34,7 @@ namespace PCAxis.Sql.QueryLib_23
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
                 throw new PCAxis.Sql.Exceptions.DbException(35, " query, see log. ");
             }

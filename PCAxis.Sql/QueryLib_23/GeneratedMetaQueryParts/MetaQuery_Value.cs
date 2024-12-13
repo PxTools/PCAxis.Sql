@@ -1,13 +1,8 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -24,8 +19,8 @@ namespace PCAxis.Sql.QueryLib_23
             //
             // WHERE VAL.ValuePool = <"ValuePool as parameter reference for your db vendor">
             //
-            sqlString += " WHERE " + DB.Value.ValuePoolCol.Is(mSqlCommand.GetParameterRef("aValuePool")) + 
-                         " AND " +DB.Value.MetaIdCol.IsNotNULL();
+            sqlString += " WHERE " + DB.Value.ValuePoolCol.Is(mSqlCommand.GetParameterRef("aValuePool")) +
+                         " AND " + DB.Value.MetaIdCol.IsNotNULL();
 
             // creating the parameters
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
@@ -35,9 +30,9 @@ namespace PCAxis.Sql.QueryLib_23
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK)
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
             {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " ValuePool = " + aValuePool);
+                throw new PCAxis.Sql.Exceptions.DbException(35, " ValuePool = " + aValuePool);
             }
 
             foreach (DataRow sqlRow in myRows)
@@ -83,7 +78,7 @@ namespace PCAxis.Sql.QueryLib_23
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.ValueLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.ValueLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.Value.ValuePoolCol.Is(DB.ValueLang2.ValuePoolCol, langCode) +
                                  " AND " + DB.Value.ValueCodeCol.Is(DB.ValueLang2.ValueCodeCol, langCode);
                 }

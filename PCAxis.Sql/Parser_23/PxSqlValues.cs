@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using log4net; 
+﻿using System.Collections.Generic;
+
+using log4net;
 
 
 namespace PCAxis.Sql.Parser_23
 {
-    public class PxSqlValues:Dictionary<string,PXSqlValue>
+    public class PxSqlValues : Dictionary<string, PXSqlValue>
     {
         #region contants
-        private static readonly ILog log = LogManager.GetLogger(typeof(PxSqlValues));  
-        
+        private static readonly ILog log = LogManager.GetLogger(typeof(PxSqlValues));
+
         #endregion
         internal List<PXSqlValue> GetValuesForSelectedValueset(string selectedValueset)
         {
@@ -21,7 +20,7 @@ namespace PCAxis.Sql.Parser_23
                     valuesetsValues.Add(value);
                 else
                     if (value.ValueSet == selectedValueset)
-                        valuesetsValues.Add(value);
+                    valuesetsValues.Add(value);
             }
             return valuesetsValues;
         }
@@ -39,7 +38,7 @@ namespace PCAxis.Sql.Parser_23
         }
         internal List<PXSqlValue> GetValuesSortedByValue(List<PXSqlValue> values)
         {
-           
+
             List<PXSqlValue> sortedValueList = new List<PXSqlValue>();
             foreach (PXSqlValue value in values)
             {

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_22;
+
 using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
 using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.QueryLib_22;
 
 namespace PCAxis.Sql.Parser_22
 {
@@ -44,7 +43,7 @@ namespace PCAxis.Sql.Parser_22
         private string mVariableType;
 
         private String mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-        
+
         //protected const string allValuesets = "_ALL_";
         protected string selectedValueset;
         public string SelectedValueset
@@ -199,13 +198,17 @@ namespace PCAxis.Sql.Parser_22
         public PXSqlValuepool ValuePool
         {
             get { return mValuePool; }
-            set { mValuePool = value; 
-            if (mValuePool == null)
+            set
             {
-                mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-            } else {
-                mValueTextOption = mValuePool.ValueTextOption;
-            }
+                mValuePool = value;
+                if (mValuePool == null)
+                {
+                    mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
+                }
+                else
+                {
+                    mValueTextOption = mValuePool.ValueTextOption;
+                }
             }
         }
 
@@ -244,7 +247,7 @@ namespace PCAxis.Sql.Parser_22
         }
 
         #endregion constructors
-    
+
 
 
         protected virtual void SetPresText()
@@ -274,7 +277,7 @@ namespace PCAxis.Sql.Parser_22
         /// </summary>
         internal virtual bool UsesGroupingOnNonstoredData()
         {
-            return false; 
+            return false;
         }
 
 
@@ -327,7 +330,7 @@ namespace PCAxis.Sql.Parser_22
             {
                 StringCollection values = new StringCollection();
                 string subkey = this.Name;
-                
+
 
                 //VARIABLENAME  //OBS located in PXSQLBuilder near SetVariableName
 
@@ -340,7 +343,7 @@ namespace PCAxis.Sql.Parser_22
 
                 // PRESTEXT
                 ParsePresTextOption(handler, LanguageCodes, preferredLanguage);
-                
+
                 // VALUE_TEXT_OPTION
                 ParseValueTextOption(handler);
 

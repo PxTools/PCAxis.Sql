@@ -1,14 +1,10 @@
 using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml.XPath;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
-
 using System.Collections.Specialized;
+using System.Data;
 using System.Reflection;
+
+using PCAxis.Sql.Exceptions;
 using PCAxis.Sql.Parser_24;
 
 
@@ -25,7 +21,8 @@ namespace PCAxis.Sql.QueryLib_24
 
 
         //flytt til hoved
-        public void Dispose() {
+        public void Dispose()
+        {
             this.DropTempTables();
             mSqlCommand.Dispose();
         }
@@ -33,22 +30,27 @@ namespace PCAxis.Sql.QueryLib_24
 
         #region wildcards in groupvalues
 
-        public StringCollection GetValueWildCardByGrouping(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard) {
+        public StringCollection GetValueWildCardByGrouping(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard)
+        {
             // Resolve wildcards here
             StringCollection myOut = new StringCollection();
             DataSet ds = null;
-            if (String.Compare(DB.MetaModel, "2.1", false, System.Globalization.CultureInfo.InvariantCulture) > 0) {
+            if (String.Compare(DB.MetaModel, "2.1", false, System.Globalization.CultureInfo.InvariantCulture) > 0)
+            {
                 // Datamodel > 2.1, new table structure
                 ds = this.GetValueWildCardByGrouping22(mainTable, variable, subTable, grouping, groupCode, wildCard);
-            } else {
+            }
+            else
+            {
                 // Datamodel 2.1 or older, the old table structure. Use of Grouping is only valid if a SubTable is selected
                 //ds = this.GetValueWildCardByGrouping21(mainTable, variable, subTable, grouping, groupCode, wildCard);
             }
             DataRowCollection mValueInfo = ds.Tables[0].Rows;
-            foreach (DataRow row in mValueInfo) {
+            foreach (DataRow row in mValueInfo)
+            {
                 throw new NotImplementedException();
                 //TODO; tok bort myOut.Add(row[DB.VSGroup.ValueCode].ToString());
-             //   myOut.Add(row[DB.VSGroup.ValueCode].ToString());
+                //   myOut.Add(row[DB.VSGroup.ValueCode].ToString());
             }
             return myOut;
         }
@@ -92,7 +94,8 @@ namespace PCAxis.Sql.QueryLib_24
 
 
 
-        private DataSet GetValueWildCardByGrouping22(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard) {
+        private DataSet GetValueWildCardByGrouping22(string mainTable, string variable, string subTable, string grouping, string groupCode, string wildCard)
+        {
             // To ensure that the correct grouping is used mainTable and variable has to be included
             // Get the name of the current method.
             string currentMethod = MethodBase.GetCurrentMethod().Name;
@@ -165,10 +168,10 @@ namespace PCAxis.Sql.QueryLib_24
             StringCollection valueCodes = new StringCollection();
             foreach (PXSqlValue value in values)
             {
-                 valueCodes.Add(value.ValueCode);
+                valueCodes.Add(value.ValueCode);
             }
 
-            string tempTabellId = mSqlCommand.MakeTempTableJustValues(VariableName, VariableNumber, DB.UseTemporaryTables,  valueCodes);
+            string tempTabellId = mSqlCommand.MakeTempTableJustValues(VariableName, VariableNumber, DB.UseTemporaryTables, valueCodes);
 
             dropTheseTables.Add(tempTabellId);
 
@@ -180,7 +183,7 @@ namespace PCAxis.Sql.QueryLib_24
         {
             if (groups.Count < 1)
             {
-                
+
                 throw new BugException("BUG! dataCodes.Count < 1");
             }
 
@@ -190,7 +193,7 @@ namespace PCAxis.Sql.QueryLib_24
             int parentCodeCounter = 0;
             foreach (PXSqlGroup group in groups)
             {
-                parentCodeCounter++;   
+                parentCodeCounter++;
                 foreach (string childCode in group.ChildCodes)
                 {
                     childCodes.Add(childCode);
@@ -205,8 +208,8 @@ namespace PCAxis.Sql.QueryLib_24
             return tempTabellId;
         }
 
-       
-     
+
+
         #endregion creating and populating temptables
 
         /// <summary>
@@ -214,24 +217,36 @@ namespace PCAxis.Sql.QueryLib_24
         /// Hmm, perhaps auxiliary tables would have been a better word.
         /// Temporary Table in Oracle is a permanent table with temorary rows
         /// </summary>
-        public void DropTempTables() {
-            
-            if (!DB.UseTemporaryTables) {
-                foreach (string tableName in dropTheseTables) {
-                    try {
+        public void DropTempTables()
+        {
+
+            if (!DB.UseTemporaryTables)
+            {
+                foreach (string tableName in dropTheseTables)
+                {
+                    try
+                    {
 
                         mSqlCommand.ExecuteNonQuery("DROP TABLE " + tableName);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         log.Error("DROP TABLE failed:", e);
                         //don't want to stop because of this... 
                     }
                 }
-            } else if (mSqlCommand.getProgramMustTruncAndDropTempTable()) {
-                foreach (string tableName in dropTheseTables) {
-                    try {
+            }
+            else if (mSqlCommand.getProgramMustTruncAndDropTempTable())
+            {
+                foreach (string tableName in dropTheseTables)
+                {
+                    try
+                    {
                         mSqlCommand.ExecuteNonQuery("TRUNCATE TABLE " + tableName);
                         mSqlCommand.ExecuteNonQuery("DROP TABLE " + tableName);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         log.Error("TRUNC or DROP TABLE failed:", e);
                         //don't want to stop because of this... 
                     }

@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_24;
-using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
-using PCAxis.PlugIn.Sql;
 using System.Data;
-using log4net;
 using System.Linq;
+
+using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.Pxs;
+using PCAxis.Sql.QueryLib_24;
 
 
 namespace PCAxis.Sql.Parser_24
@@ -1066,14 +1067,14 @@ namespace PCAxis.Sql.Parser_24
             {
                 if (!pxsqlCont.AggregPossible)
                 {
-                    foreach (KeyValuePair<string,PXSqlValueSet> vs in this.ValueSets)
+                    foreach (KeyValuePair<string, PXSqlValueSet> vs in this.ValueSets)
                     {
-                        if (vs.Value.Elimination== PXConstant.YES)
-                            {
+                        if (vs.Value.Elimination == PXConstant.YES)
+                        {
                             return true;
                         }
                     }
-                
+
                 }
             }
             return false;
@@ -1081,7 +1082,7 @@ namespace PCAxis.Sql.Parser_24
 
 
 
-    internal void ParseForApplyValueSet(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
+        internal void ParseForApplyValueSet(PCAxis.Paxiom.IPXModelParser.MetaHandler handler, StringCollection LanguageCodes, string preferredLanguage)
         {
             string subkey = this.Name;
 

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections.Specialized;
-using PCAxis.Sql.QueryLib_23;
-using PCAxis.Paxiom;
-using PCAxis.Sql.Pxs;
-using PCAxis.PlugIn.Sql;
+
 using log4net;
+
+using PCAxis.Paxiom;
+using PCAxis.PlugIn.Sql;
+using PCAxis.Sql.QueryLib_23;
 
 namespace PCAxis.Sql.Parser_23
 {
@@ -52,7 +52,7 @@ namespace PCAxis.Sql.Parser_23
         private string mVariableType;
 
         private String mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-        
+
         //protected const string allValuesets = "_ALL_";
         protected string selectedValueset;
         internal string SelectedValueset
@@ -211,14 +211,18 @@ namespace PCAxis.Sql.Parser_23
         protected internal PXSqlValuepool ValuePool
         {
             get { return mValuePool; }
-            protected set { mValuePool = value; 
-            if (mValuePool == null)
+            protected set
             {
-                mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
-            } else {
-                mValueTextOption = mValuePool.ValueTextOption;
-                this.addMetaId(mValuePool.MetaId);
-            }
+                mValuePool = value;
+                if (mValuePool == null)
+                {
+                    mValueTextOption = PXConstant.VALUETEXTOPTION_NORMAL;
+                }
+                else
+                {
+                    mValueTextOption = mValuePool.ValueTextOption;
+                    this.addMetaId(mValuePool.MetaId);
+                }
             }
         }
 
@@ -254,7 +258,7 @@ namespace PCAxis.Sql.Parser_23
 
         #endregion constructors
 
-       
+
         /// <summary>
         /// The metaID propperty of a Variable in Paxiom, must hold the MetaIds from different tables in CNMM.
         /// MetaId from tables Variable,ValuePool,ValueSet and Grouping are all mapped to the same in paxiom.
@@ -262,10 +266,10 @@ namespace PCAxis.Sql.Parser_23
         /// <param name="aMetaIdEntry">a MetaId to be added. If null it is not added</param>
         internal void addMetaId(string aMetaIdEntry)
         {
-            if (! String.IsNullOrEmpty(aMetaIdEntry))
+            if (!String.IsNullOrEmpty(aMetaIdEntry))
             {
-                if (!metaids.Contains(aMetaIdEntry)) 
-                { 
+                if (!metaids.Contains(aMetaIdEntry))
+                {
                     metaids.Add(aMetaIdEntry);
                 }
             }
@@ -299,16 +303,16 @@ namespace PCAxis.Sql.Parser_23
         /// </summary>
         internal virtual bool UsesGroupingOnNonstoredData()
         {
-            return false; 
+            return false;
         }
 
 
         #region CompareTo
         public int CompareTo(object obj)
 
-       {
-              PXSqlVariable SqlVariableCompare = (PXSqlVariable)obj;
-           // return this.Index.CompareTo(SqlVariableCompare.Index);   //will not compare time-,classification and contens
+        {
+            PXSqlVariable SqlVariableCompare = (PXSqlVariable)obj;
+            // return this.Index.CompareTo(SqlVariableCompare.Index);   //will not compare time-,classification and contens
             if (this.Index == SqlVariableCompare.Index)
             {
                 return (0);
@@ -327,7 +331,7 @@ namespace PCAxis.Sql.Parser_23
             }
 
         }
- 
+
         #endregion
 
 
@@ -345,7 +349,7 @@ namespace PCAxis.Sql.Parser_23
             {
                 StringCollection values = new StringCollection();
                 string subkey = this.Name;
-                
+
 
                 //VARIABLENAME  //OBS located in PXSQLBuilder near SetVariableName
 
@@ -361,7 +365,7 @@ namespace PCAxis.Sql.Parser_23
 
                 // PRESTEXT
                 ParsePresTextOption(handler, LanguageCodes, preferredLanguage);
-                
+
                 // VALUE_TEXT_OPTION
                 ParseValueTextOption(handler);
 
@@ -388,7 +392,7 @@ namespace PCAxis.Sql.Parser_23
         /// </PXKeyword>
         private void ParseVariableType(PCAxis.Paxiom.IPXModelParser.MetaHandler handler)
         {
-            if (this.VariableType != null )
+            if (this.VariableType != null)
             {
 
                 StringCollection values = new StringCollection();
@@ -612,7 +616,7 @@ namespace PCAxis.Sql.Parser_23
                 {
                     values.Clear();
                     values.Add(valuepair.Value);
-                    myKey = this.Name +"\",\"" +valuepair.Key;
+                    myKey = this.Name + "\",\"" + valuepair.Key;
                     handler(PXKeywords.META_ID, noLanguage, myKey, values);
                 }
             }

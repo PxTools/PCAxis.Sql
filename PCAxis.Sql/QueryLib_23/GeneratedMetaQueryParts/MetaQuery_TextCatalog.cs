@@ -1,13 +1,4 @@
 using System;
-using System.Data;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
-
-using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 //This code is generated. 
@@ -48,7 +39,7 @@ namespace PCAxis.Sql.QueryLib_23
             {
                 if (DB.isSecondaryLanguage(langCode))
                 {
-                    sqlString += " LEFT JOIN "  + DB.TextCatalogLang2.GetNameAndAlias(langCode);
+                    sqlString += " LEFT JOIN " + DB.TextCatalogLang2.GetNameAndAlias(langCode);
                     sqlString += " ON " + DB.TextCatalog.TextCatalogNoCol.Is(DB.TextCatalogLang2.TextCatalogNoCol, langCode);
                 }
             }

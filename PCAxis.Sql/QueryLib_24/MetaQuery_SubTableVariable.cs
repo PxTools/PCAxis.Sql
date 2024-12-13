@@ -1,9 +1,6 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-
-using PCAxis.Sql.DbConfig;
 
 namespace PCAxis.Sql.QueryLib_24
 {
@@ -55,10 +52,10 @@ namespace PCAxis.Sql.QueryLib_24
         {
             string sqlString = "SELECT DISTINCT " +
             DB.SubTableVariable.ValueSetCol.ForSelect() + ", " +
-            DB.SubTableVariable.SortCodeCol.ForSelect() ;
+            DB.SubTableVariable.SortCodeCol.ForSelect();
 
             sqlString += " /" + "*** SQLID:  SubTableVariable_02 ***" + "/";
-            sqlString += " FROM " + DB.SubTableVariable.GetNameAndAlias() ;
+            sqlString += " FROM " + DB.SubTableVariable.GetNameAndAlias();
 
             sqlString += " WHERE " + DB.SubTableVariable.MainTableCol.Is() +
                            " AND " + DB.SubTableVariable.VariableCol.Is();
@@ -79,7 +76,7 @@ namespace PCAxis.Sql.QueryLib_24
                 string valuesetId = myRow[DB.SubTableVariable.ValueSetCol.Label()].ToString();
                 if (myOut.Contains(valuesetId))
                 {
-                    throw new PCAxis.Sql.Exceptions.DbException(49, maintable, variable,valuesetId);
+                    throw new PCAxis.Sql.Exceptions.DbException(49, maintable, variable, valuesetId);
                 }
                 myOut.Add(valuesetId);
             }

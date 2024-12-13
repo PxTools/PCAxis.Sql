@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
 using System.Data;
-using PCAxis.Sql.DbClient; //For executing SQLs.
+
 using PCAxis.Sql.DbConfig; // ReadSqlDbConfig;
 //using PCAxis.Sql.QueryLib;
 
-using log4net;
 
 namespace PCAxis.Sql.QueryLib_21
 

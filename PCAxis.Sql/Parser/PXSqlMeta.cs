@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+
+using log4net;
 
 using PCAxis.Paxiom;
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Pxs;
-
-using log4net;
 
 namespace PCAxis.Sql.Parser
 {

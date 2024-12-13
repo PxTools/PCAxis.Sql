@@ -1,6 +1,6 @@
-using System.Data;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
 
@@ -26,7 +26,7 @@ namespace PCAxis.Sql.QueryLib_24
             }
             bool sortOnPrimaryLanguage = !this.mDbConfig.isSecondaryLanguage(sortOrderLanguage);
             List<GroupingRow> myOut = new List<GroupingRow>();
-            if(aGroupings.Count == 0)
+            if (aGroupings.Count == 0)
             {
                 return myOut;
             }
@@ -34,7 +34,7 @@ namespace PCAxis.Sql.QueryLib_24
 
             SqlDbConfig dbconf = DB;
 
-            
+
 
             string sqlString = GetGrouping_SQLString_NoWhere();
 
@@ -54,7 +54,7 @@ namespace PCAxis.Sql.QueryLib_24
             }
             else
             {
-                sqlString += " ORDER BY " + DB.GroupingLang2.SortCodeCol.Id(sortOrderLanguage) + ", "+
+                sqlString += " ORDER BY " + DB.GroupingLang2.SortCodeCol.Id(sortOrderLanguage) + ", " +
                                             DB.GroupingLang2.PresTextCol.Id(sortOrderLanguage) + ", ";
             }
             sqlString += DB.Grouping.GroupingCol.Id();

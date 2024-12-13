@@ -1,23 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Xml.Serialization;
 using System.Xml;
+using System.Xml.XPath;
+
 using log4net;
 
-
-using PCAxis.Sql.Exceptions;
-
-namespace PCAxis.Sql.DbConfig {
+namespace PCAxis.Sql.DbConfig
+{
     /// <summary>
     /// Configuration of the SQL base read from file.</summary>
-    public class SqlDbConfigs {
+    public class SqlDbConfigs
+    {
         private static readonly ILog log = LogManager.GetLogger(typeof(SqlDbConfigs));
 
         private XPathNavigator nav;
-       
+
         private SqlDbConfig mDatabase;
         public SqlDbConfig database;
         private string mDefaultDbId;
@@ -28,26 +24,27 @@ namespace PCAxis.Sql.DbConfig {
 
         private Dictionary<string, SqlDbConfig> mDataBases;
         public Dictionary<string, SqlDbConfig> Databases
-    {
-        get { return mDataBases; }
-    }
+        {
+            get { return mDataBases; }
+        }
 
-       
+
         private Dictionary<string, string> mDatabaselistDescById = new Dictionary<string, string>();
         /// <summary>
         /// Use this to select which database to use
         /// </summary>
-        public Dictionary<string, string> DatabaselistDescById {
+        public Dictionary<string, string> DatabaselistDescById
+        {
             get { return mDatabaselistDescById; }
 
         }
 
-   
+
         public SqlDbConfigs(string SqlDbConfigPath)
         {
 
             XPathDocument doc = new XPathDocument(SqlDbConfigPath);
-            log.Debug("SqlDbConfigPath = "+SqlDbConfigPath);
+            log.Debug("SqlDbConfigPath = " + SqlDbConfigPath);
             nav = doc.CreateNavigator();
             //makes list of available databases:
             XPathNodeIterator dbs = nav.Select("//SqlDbConfig/Database");
@@ -72,7 +69,7 @@ namespace PCAxis.Sql.DbConfig {
 
             mDataBases = new Dictionary<string, SqlDbConfig>();
             foreach (string databaseId in mDatabaselistDescById.Keys)
-            {                
+            {
                 string xPathToDb = "//SqlDbConfig/Database[@id='" + databaseId + "']";
                 XmlNode node = xdoc.SelectSingleNode(xPathToDb);
                 XmlReader xmlReader = new XmlNodeReader(node);
@@ -80,7 +77,7 @@ namespace PCAxis.Sql.DbConfig {
 
                 //mDatabase = new SqlDbConfig(xmlReader,nav);
                 mDatabase = SqlDbConfig.GetSqlDbConfig(xmlReader, nav);
-                mDataBases.Add(databaseId, mDatabase);              
+                mDataBases.Add(databaseId, mDatabase);
             }
         }
     }

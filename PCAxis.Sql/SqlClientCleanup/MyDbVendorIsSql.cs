@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-
-using System.Data; // For DataSet-objects.
-
-using System.Collections.Specialized;
-
 using System.Data.Common;
+
 using log4net;
+
 using Microsoft.Data.SqlClient;
 
 namespace PCAxis.Sql.SqlClientCleanup
@@ -16,16 +9,18 @@ namespace PCAxis.Sql.SqlClientCleanup
 
     /// <summary> The (MS)Sql version of MyDbVendor.
     /// </summary>
-    internal class MyDbVendorIsSql : MyDbVendor {
+    internal class MyDbVendorIsSql : MyDbVendor
+    {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(MyDbVendorIsSql));
         private static int? CommandTimeout { get; set; }
 
         internal MyDbVendorIsSql(string connectionString)
-            : base(new SqlConnection(connectionString), connectionString) {
-               mXtraDotForDatatables = ".";
-               PrefixIndicatingTempTable = "#";
-               KeywordAfterCreateIndicatingTempTable = "";
+            : base(new SqlConnection(connectionString), connectionString)
+        {
+            mXtraDotForDatatables = ".";
+            PrefixIndicatingTempTable = "#";
+            KeywordAfterCreateIndicatingTempTable = "";
         }
 
         internal override DbConnection CreateDbConnection()
@@ -53,7 +48,8 @@ namespace PCAxis.Sql.SqlClientCleanup
             return new SqlConnectionStringBuilder(connectionString);
         }
 
-        internal override DbCommand GetDbCommand(string commandString ) {
+        internal override DbCommand GetDbCommand(string commandString)
+        {
             var cmd = new SqlCommand(commandString, (SqlConnection)this.dbconn);
 
             if (CommandTimeout.HasValue) cmd.CommandTimeout = CommandTimeout.Value;
@@ -61,7 +57,8 @@ namespace PCAxis.Sql.SqlClientCleanup
             return cmd;
         }
 
-        internal override DbDataAdapter GetDbDataAdapter(string selectString) {
+        internal override DbDataAdapter GetDbDataAdapter(string selectString)
+        {
             var cmd = new SqlCommand(selectString, (SqlConnection)this.dbconn);
 
             if (CommandTimeout.HasValue) cmd.CommandTimeout = CommandTimeout.Value;
@@ -85,7 +82,7 @@ namespace PCAxis.Sql.SqlClientCleanup
             string ConcatedString = "";
             for (int i = 0; i < myStrings.Length; i++)
             {
-                    ConcatedString += "ISNULL("+ myStrings[i] + ",'')" + "+";
+                ConcatedString += "ISNULL(" + myStrings[i] + ",'')" + "+";
             }
             return ConcatedString.TrimEnd('+');
         }

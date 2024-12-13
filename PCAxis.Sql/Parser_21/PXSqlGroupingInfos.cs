@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using PCAxis.Paxiom;
+
     using log4net;
+
+    using PCAxis.Paxiom;
 
     /// <summary>
     /// Holds the information on which groupings may be used with this variable. This applies to selected variables when build4selection.
@@ -33,27 +35,27 @@
         /// <param name="valueSetIds">The valueSets that apply to this builder </param>
         internal PXSqlGroupingInfos(PXSqlMeta_21 meta, string variableName, StringCollection valueSetIds)
         {
-            foreach ( PCAxis.Sql.QueryLib_21.GroupingRow gRow in meta.MetaQuery.GetRelevantGroupingRows(valueSetIds))
+            foreach (PCAxis.Sql.QueryLib_21.GroupingRow gRow in meta.MetaQuery.GetRelevantGroupingRows(valueSetIds))
             {
-                infos.Add(new PXSqlGroupingInfo(gRow,meta.Config.Codes));
+                infos.Add(new PXSqlGroupingInfo(gRow, meta.Config.Codes));
             }
             this.variableName = variableName;
         }
 
-       
 
-      //  internal List<PXSqlGroupingInfo> GetGroupsSorted(List<PXSqlGroupingInfo> groupingInfoList,string langCode)
-       // {
-           // List<PXSqlGroupingInfo> sortedGrouposList = new List<PXSqlGroupingInfo>();
-           // foreach (PXSqlGroupingInfo group in groups)
-           // {
-           //     sortedGrouposList.Add(group);
-           // }
-           //return groupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
-            //sortedGrouposList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
-            //return sortedGrouposList;
 
-       // }
+        //  internal List<PXSqlGroupingInfo> GetGroupsSorted(List<PXSqlGroupingInfo> groupingInfoList,string langCode)
+        // {
+        // List<PXSqlGroupingInfo> sortedGrouposList = new List<PXSqlGroupingInfo>();
+        // foreach (PXSqlGroupingInfo group in groups)
+        // {
+        //     sortedGrouposList.Add(group);
+        // }
+        //return groupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+        //sortedGrouposList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+        //return sortedGrouposList;
+
+        // }
 
 
         /// <summary>Sends the list of Grouping Info to paxiom</summary>
@@ -85,14 +87,14 @@
                 //List<PXSqlGroupingInfo> sortedGroupingInfoList;
                 foreach (string langCode in this.infos[0].PresTextByLanguage.Keys)
                 {
-                //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
-                //    foreach (PXSqlGroupingInfo info in this.infos)
-                //    {
-                //        sortedGroupingInfoList.Add(info);
-                //    }
-                //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
+                    //    sortedGroupingInfoList = new List<PXSqlGroupingInfo>();
+                    //    foreach (PXSqlGroupingInfo info in this.infos)
+                    //    {
+                    //        sortedGroupingInfoList.Add(info);
+                    //    }
+                    //    sortedGroupingInfoList.Sort(PXSqlGroupingInfo.SortGroupingInfo(langCode));
 
-                    
+
                     values.Clear();
                     //foreach (PXSqlGroupingInfo info in sortedGroupingInfoList)
                     foreach (PXSqlGroupingInfo info in this.infos)

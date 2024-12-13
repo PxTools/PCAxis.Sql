@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
-using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 using System.Xml.Serialization;
-using PCAxis.Sql.Exceptions;
-using System.Data.Common;
+using System.Xml.XPath;
 
 using log4net;
-using log4net.Config;
+
+using PCAxis.Sql.Exceptions;
 
 
 namespace PCAxis.Sql.DbConfig
@@ -65,7 +62,7 @@ namespace PCAxis.Sql.DbConfig
             }
         }
 
-    
+
         /// <summary>
         /// the @id of this part of the config-file, get value in construktor, has no value in the beginning of the Factory-method, usefull in errormessages.
         /// </summary>
@@ -78,7 +75,7 @@ namespace PCAxis.Sql.DbConfig
         /// </summary>
         private string defaultConnectionString;
 
-       
+
         /// <summary>
         /// keyForUserName in the connectionstring (depends on vendor)
         /// </summary>
@@ -127,9 +124,9 @@ namespace PCAxis.Sql.DbConfig
         {
             get { return mMetatablesSchema; }
         }
-        
 
-        
+
+
 
         /// <summary>Reads the part of the config file that corresponds to SqlDbConfig/Database[@id='_this_database_']"
         /// and returns a SqlDbConfig for the CNMM-version (@metaModel).
@@ -185,10 +182,10 @@ namespace PCAxis.Sql.DbConfig
             }
         }
 
-      
+
         protected SqlDbConfig(XmlReader xmlReader, XPathNavigator nav)
         {
-            
+
             string docPath = ".";
             XPathNavigator node = nav.SelectSingleNode(docPath);
             myID = node.SelectSingleNode("@id").Value;
@@ -200,7 +197,7 @@ namespace PCAxis.Sql.DbConfig
             mDatabase = (Database)serializer.Deserialize(xmlReader);
             mDatabase.postSerialize();
 
-            
+
 
             foreach (LanguageType lang in mDatabase.Languages)
             {
@@ -208,12 +205,12 @@ namespace PCAxis.Sql.DbConfig
             }
             //had to use v2_1 not 2.1 in xsd, the xsd.exe dont like "."
             this.mMetaModel = mDatabase.metaModel.ToString();
-            this.mMainLanguage = mDatabase.MainLanguage; 
-            
-            
+            this.mMainLanguage = mDatabase.MainLanguage;
+
+
             this.mUseTemporaryTables = mDatabase.Connection.useTemporaryTables;
             this.setMetatablesSchema();
-            
+
             //
 
             this.defaultConnectionString = mDatabase.Connection.ConnectionString;
@@ -250,10 +247,10 @@ namespace PCAxis.Sql.DbConfig
                 }
                 this.defaultConnectionString = this.GetConnectionString(mDatabase.Connection.DefaultUser, mDatabase.Connection.DefaultPassword);
             }
-            
-            
 
-            if ( MetaModel.Equals("2.1") || MetaModel.Equals("2.0"))
+
+
+            if (MetaModel.Equals("2.1") || MetaModel.Equals("2.0"))
             {
                 allowConfigDefaults = false;
             }
@@ -262,7 +259,7 @@ namespace PCAxis.Sql.DbConfig
                 allowConfigDefaults = mDatabase.allowConfigDefaults;
             }
         }
-       
+
 
 
         #region Methods
@@ -270,7 +267,8 @@ namespace PCAxis.Sql.DbConfig
 
         internal void ResetConnectionString(string newConnectionstring)
         {
-            if (newConnectionstring.IndexOf("=USER;") > -1) {
+            if (newConnectionstring.IndexOf("=USER;") > -1)
+            {
                 throw new ConfigException("The text =USER is present in the newConnectionstring or it is empty");
             }
             this.defaultConnectionString = newConnectionstring;
@@ -282,7 +280,8 @@ namespace PCAxis.Sql.DbConfig
             if (mDatabase.Connection.metatablesSchema == null)
             {
                 mMetatablesSchema = "";
-            } else
+            }
+            else
             {
                 mMetatablesSchema = mDatabase.Connection.metatablesSchema.Trim() + ".";
             }
@@ -290,7 +289,7 @@ namespace PCAxis.Sql.DbConfig
 
 
 
-       
+
 
         /// <summary>
         /// Gets the description for the database so the user may choose a nice one
@@ -307,7 +306,7 @@ namespace PCAxis.Sql.DbConfig
                 }
             }
             // if description for lang not found, then throw exception
-            throw new ConfigException(41, "Description for lanuage " + langCode + " does not exist." );
+            throw new ConfigException(41, "Description for lanuage " + langCode + " does not exist.");
         }
 
         private string GetDatabaseType()
@@ -331,13 +330,13 @@ namespace PCAxis.Sql.DbConfig
         /// <returns></returns>
         public InfoForDbConnection GetInfoForDbConnection(String user, String password)
         {
-	        return GetInfoForDbConnection(this.GetConnectionString(user, password));
+            return GetInfoForDbConnection(this.GetConnectionString(user, password));
         }
 
-		public InfoForDbConnection GetInfoForDbConnection(string connectionString)
-		{
+        public InfoForDbConnection GetInfoForDbConnection(string connectionString)
+        {
 
-			return new InfoForDbConnection(this.GetDatabaseType(), this.GetDataProvider(), connectionString);
+            return new InfoForDbConnection(this.GetDatabaseType(), this.GetDataProvider(), connectionString);
         }
 
         /// <summary>
@@ -348,12 +347,12 @@ namespace PCAxis.Sql.DbConfig
         /// <returns>The ready to use connectionstring</returns>
         private string GetConnectionString(String user, String password)
         {
-            return  GetDbStringProvider().GetConnectionString(this, user, password);
+            return GetDbStringProvider().GetConnectionString(this, user, password);
         }
 
         private IDbStringProvider GetDbStringProvider()
         {
-            
+
             if (string.IsNullOrEmpty(this.Database.Connection.ConnectionStringProvider))
             {
                 return new DefaultDbStringProvider();
@@ -362,8 +361,8 @@ namespace PCAxis.Sql.DbConfig
             return Activator.CreateInstance(Type.GetType(this.Database.Connection.ConnectionStringProvider)) as IDbStringProvider;
         }
 
-        
-        
+
+
         /// <summary>
         /// replaces the user and password in the connection string  with default user and password
         /// </summary>
@@ -411,7 +410,7 @@ namespace PCAxis.Sql.DbConfig
             return !mDatabase.MainLanguage.code.Equals(langCode);
         }
 
-        
+
 
         /// <summary>
         /// return all the language codes spesifyed in this config( intended to be used when
@@ -465,7 +464,7 @@ namespace PCAxis.Sql.DbConfig
 
                 XPathNavigator tableNode = node.SelectSingleNode("@tableName");
 
-                 if (tableNode == null)
+                if (tableNode == null)
                 {
                     if (allowConfigDefaults)
                     {
@@ -475,10 +474,12 @@ namespace PCAxis.Sql.DbConfig
 
 
                 return tableNode.Value;
-            } catch (System.Xml.XPath.XPathException XPathExp)
+            }
+            catch (System.Xml.XPath.XPathException XPathExp)
             {
                 throw new ConfigException(XPathExp.Message);
-            } catch (System.Exception otherExp)
+            }
+            catch (System.Exception otherExp)
             {
                 throw new ConfigException(errFindTable + ModelName, otherExp);
             }
@@ -519,7 +520,7 @@ namespace PCAxis.Sql.DbConfig
                         return defaultTableAlias;
                     }
                 }
-                XPathNavigator aliasNode =node.SelectSingleNode("@alias");
+                XPathNavigator aliasNode = node.SelectSingleNode("@alias");
                 if (aliasNode == null)
                 {
                     if (allowConfigDefaults)
@@ -529,10 +530,12 @@ namespace PCAxis.Sql.DbConfig
                 }
 
                 return aliasNode.Value;
-            } catch (System.Xml.XPath.XPathException XPathExp)
+            }
+            catch (System.Xml.XPath.XPathException XPathExp)
             {
                 throw new ConfigException(XPathExp.Message);
-            } catch (System.Exception otherExp)
+            }
+            catch (System.Exception otherExp)
             {
                 throw new ConfigException(errFindAlias + ModelName, otherExp);
             }
@@ -560,12 +563,12 @@ namespace PCAxis.Sql.DbConfig
         /// <param name="defaultLocalColumnName">If the column is not spesified in the config-xml and allowConfigDefaults, this value is returned.</param>
         /// <returns>the local column name</returns>
         protected string ExtractColumnName(string tableModelName, string columnModelName, string defaultLocalColumnName)
-        {            
-            
+        {
+
             string docPath;
             try
             {
-                
+
 
                 docPath = "Tables/Table[@modelName='" + tableModelName + "']";
                 XPathNavigator tableNode = nav.SelectSingleNode(docPath);
@@ -583,7 +586,7 @@ namespace PCAxis.Sql.DbConfig
                 }
 
                 string colPath = "Columns/Column[@modelName='" + columnModelName + "']";
-                XPathNavigator colNode = tableNode.SelectSingleNode( colPath );
+                XPathNavigator colNode = tableNode.SelectSingleNode(colPath);
 
                 if (colNode == null)
                 {
@@ -607,14 +610,17 @@ namespace PCAxis.Sql.DbConfig
                 }
                 return theNode.Value;
 
-            } catch (ConfigException e)
+            }
+            catch (ConfigException e)
             {
-                    throw e;
+                throw e;
 
-            } catch (System.Xml.XPath.XPathException XPathExp)
+            }
+            catch (System.Xml.XPath.XPathException XPathExp)
             {
                 throw new ConfigException(XPathExp.Message);
-            } catch (System.Exception otherExp)
+            }
+            catch (System.Exception otherExp)
             {
                 throw new ConfigException(errFindColumn1 + tableModelName + errFindColumn2 + columnModelName, otherExp);
             }
@@ -691,8 +697,8 @@ namespace PCAxis.Sql.DbConfig
         protected string ExtractKeyword(string modelName)
         {
             this.allowConfigDefaults = false;
-            
-            return this.ExtractKeyword(modelName,"BUGBUGBUG");
+
+            return this.ExtractKeyword(modelName, "BUGBUGBUG");
         }
 
         /// <summary>
@@ -710,7 +716,7 @@ namespace PCAxis.Sql.DbConfig
             XPathNavigator node = nav.SelectSingleNode(docPath);
             if (node == null)
             {
-                
+
                 if (allowConfigDefaults)
                 {
                     return defaultKeywordName;
@@ -719,7 +725,7 @@ namespace PCAxis.Sql.DbConfig
                 {
                     throw new ConfigException(503, modelName, myID);
                 }
-            
+
             }
 
 
@@ -735,11 +741,11 @@ namespace PCAxis.Sql.DbConfig
             return theNode.Value;
         }
 
-  
 
-   
+
+
 
     }
-        #endregion
+    #endregion
 }
 

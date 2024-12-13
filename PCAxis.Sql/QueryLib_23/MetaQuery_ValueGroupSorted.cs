@@ -1,21 +1,17 @@
-using System;
-using System.Data;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Text;
-using System.Xml.XPath;
-using System.Globalization;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
-using PCAxis.Sql.Exceptions;
 
 
 
-namespace PCAxis.Sql.QueryLib_23 {
+namespace PCAxis.Sql.QueryLib_23
+{
 
-    public partial class MetaQuery {
+    public partial class MetaQuery
+    {
         #region for ValueGroup
-        public List<ValueGroupRow> GetValueGroupRowsSorted(string aGrouping,string aLevel, bool emptyRowSetIsOK, string aSortOrderLanguage)
+        public List<ValueGroupRow> GetValueGroupRowsSorted(string aGrouping, string aLevel, bool emptyRowSetIsOK, string aSortOrderLanguage)
         {
             string sortOrderLanguage = aSortOrderLanguage;
             if (!this.mLanguageCodes.Contains(aSortOrderLanguage))
@@ -40,8 +36,8 @@ namespace PCAxis.Sql.QueryLib_23 {
 
                 parameters = new System.Data.Common.DbParameter[2];
                 parameters[0] = DB.ValueGroup.GroupingCol.GetStringParameter(aGrouping);
-                parameters[1] =  DB.ValueGroup.GroupLevelCol.GetStringParameter(aLevel);
-            } 
+                parameters[1] = DB.ValueGroup.GroupLevelCol.GetStringParameter(aLevel);
+            }
             else
             {
                 parameters = new System.Data.Common.DbParameter[1];
@@ -55,28 +51,30 @@ namespace PCAxis.Sql.QueryLib_23 {
             else
             {
                 sqlString += " ORDER BY "
-                    + DB.ValueGroupLang2.SortCodeCol.Id(sortOrderLanguage) + ", " ;
+                    + DB.ValueGroupLang2.SortCodeCol.Id(sortOrderLanguage) + ", ";
             }
             sqlString += DB.ValueGroup.GroupCodeCol.Id() + ", " +
             DB.ValueGroup.ValueCodeCol.Id();
-            
+
 
             DataSet ds = mSqlCommand.ExecuteSelect(sqlString, parameters);
-             
+
             DataRowCollection myRows = ds.Tables[0].Rows;
 
-            if (myRows.Count < 1 && ! emptyRowSetIsOK) {
-                throw new PCAxis.Sql.Exceptions.DbException(35,  " Grouping = " + aGrouping);
+            if (myRows.Count < 1 && !emptyRowSetIsOK)
+            {
+                throw new PCAxis.Sql.Exceptions.DbException(35, " Grouping = " + aGrouping);
             }
 
-            foreach (DataRow sqlRow in myRows) {
+            foreach (DataRow sqlRow in myRows)
+            {
                 ValueGroupRow outRow = new ValueGroupRow(sqlRow, DB, mLanguageCodes);
                 myOut.Add(outRow);
             }
             return myOut;
         }
 
- 
+
 
         #endregion for ValueGroup
 

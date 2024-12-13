@@ -1,30 +1,32 @@
 namespace PCAxis.Sql.SqlClientCleanup
 {
 
-using System;
-using System.Collections.Specialized;
-using System.Data; 
-using System.Data.Common;
-using System.Text;
-using log4net;
+    using System;
+    using System.Collections.Specialized;
+    using System.Data;
+    using System.Data.Common;
+    using System.Text;
+
+    using log4net;
 
     /// <summary>
     /// The purpose of this class is to hide the diffence of the classnames the database vendors.
     /// The handeling of differences in SQL is left to PxSQLCommand. 
     /// </summary>
-    internal abstract class MyDbVendor : IDisposable  {
+    internal abstract class MyDbVendor : IDisposable
+    {
         #region Properties and Member variables
 
         private static readonly ILog log = LogManager.GetLogger(typeof(MyDbVendor));
-        
+
         protected readonly DbConnection dbconn;
 
-        internal  string mXtraDotForDatatables="";
-        internal  string PrefixIndicatingTempTable = "";
-        internal  string KeywordAfterCreateIndicatingTempTable = "";
+        internal string mXtraDotForDatatables = "";
+        internal string PrefixIndicatingTempTable = "";
+        internal string KeywordAfterCreateIndicatingTempTable = "";
         //Only oracle?
-        internal  string TempTableCreateCommandEndClause = "";
-        internal  Boolean ProgramMustTrunCAndDropTempTable = false;
+        internal string TempTableCreateCommandEndClause = "";
+        internal Boolean ProgramMustTrunCAndDropTempTable = false;
 
         //In rare cases 1? in 12000? a distinct in the footnote sql caused an 40 second increase in executing time, but/and the rowset was empty,
         //which must mean that the distinct somehow changed how the query was executed. 
@@ -39,13 +41,14 @@ using log4net;
 
         #endregion Properties and Member variables
 
-        internal MyDbVendor(DbConnection aDbconn, string connectionString) {
+        internal MyDbVendor(DbConnection aDbconn, string connectionString)
+        {
             this.dbconn = aDbconn;
             ConnectionString = connectionString;
         }
 
         internal abstract DbConnectionStringBuilder GetDbConnectionStringBuilder(string connectionString);
-        internal abstract DbCommand GetDbCommand(string commandString) ;
+        internal abstract DbCommand GetDbCommand(string commandString);
 
         internal abstract DbDataAdapter GetDbDataAdapter(string selectString);
 
@@ -56,7 +59,7 @@ using log4net;
         /// <summary>
         /// The reference to a parameter, e.g. @maintable,:maintable or just ? depending on your db
         /// </summary>
-        internal abstract string GetParameterRef(string propertyName) ;
+        internal abstract string GetParameterRef(string propertyName);
 
 
         internal virtual string ConcatString(params string[] myStrings)
@@ -84,8 +87,9 @@ using log4net;
         /// <summary>
         /// Disposes the connection
         /// </summary>
-        public void Dispose() {
-            
+        public void Dispose()
+        {
+
             if (dbconn.State == ConnectionState.Open)
             {
                 dbconn.Close();
@@ -111,10 +115,12 @@ using log4net;
         /// </summary>
         /// <param name="commandStrings">The commandstrings to join</param>
         /// <returns></returns>
-        internal virtual string joinCommandStrings(StringCollection commandStrings) {
+        internal virtual string joinCommandStrings(StringCollection commandStrings)
+        {
             StringBuilder sb = new StringBuilder(commandStrings.Count * 50); // or ?
-            
-            foreach (string commandString in commandStrings) {
+
+            foreach (string commandString in commandStrings)
+            {
                 sb.Append(commandString + ";");
             }
 

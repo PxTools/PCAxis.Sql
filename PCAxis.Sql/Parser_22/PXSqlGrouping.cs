@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Collections.Specialized;
-    using PCAxis.Sql.QueryLib_22;
-    using PCAxis.Paxiom;
+
     using log4net;
+
+    using PCAxis.Paxiom;
+    using PCAxis.Sql.QueryLib_22;
 
     public class PXSqlGrouping
     {
@@ -565,7 +566,7 @@
             Grouping paxGrouping = new Grouping();
             paxGrouping.Name = this.GroupingId;
             paxGrouping.ID = this.GroupingId;
-         //   if (this.mIncludeType.Equals(GroupingIncludesType.All))
+            //   if (this.mIncludeType.Equals(GroupingIncludesType.All))
             {
                 foreach (PXSqlGroup group in this.mGroups)
                 {

@@ -1,7 +1,7 @@
 using System;
-using System.Globalization;
 using System.Xml;
 using System.Xml.XPath;
+
 using log4net;
 
 //This code is generated. 
@@ -220,7 +220,7 @@ namespace PCAxis.Sql.DbConfig
 
         #region  structs
 
-         
+
 
         /// <summary>
         /// The table contains information on the attribute on the observation values.
@@ -267,25 +267,25 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized ColumnLengthCol;
 
             internal TblAttribute(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Attribute","ATT"), config.ExtractTableName("Attribute","ATTRIBUTE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Attribute", "ATT"), config.ExtractTableName("Attribute", "ATTRIBUTE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Attribute", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "Attribute", "ATTRIBUTE");
-                this.AttributeCol = new Column4Parameterized(tmpColumnName, this.Alias,"Attribute",config.GetDataProvider());
+                this.AttributeCol = new Column4Parameterized(tmpColumnName, this.Alias, "Attribute", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "AttributeColumn", "ATTRIBUTECOLUMN");
-                this.AttributeColumnCol = new Column4Parameterized(tmpColumnName, this.Alias,"AttributeColumn",config.GetDataProvider());
+                this.AttributeColumnCol = new Column4Parameterized(tmpColumnName, this.Alias, "AttributeColumn", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "SequenceNo", "SEQUENCENO");
-                this.SequenceNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"SequenceNo",config.GetDataProvider());
+                this.SequenceNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "SequenceNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Attribute", "ColumnLength", "COLUMNLENGTH");
-                this.ColumnLengthCol = new Column4Parameterized(tmpColumnName, this.Alias,"ColumnLength",config.GetDataProvider());
+                this.ColumnLengthCol = new Column4Parameterized(tmpColumnName, this.Alias, "ColumnLength", config.GetDataProvider());
 
             }
 
@@ -315,16 +315,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized DescriptionCol;
 
             internal TblAttributeLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("AttributeLang2","AT2"), config.ExtractTableName("AttributeLang2","ATTRIBUTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("AttributeLang2", "AT2"), config.ExtractTableName("AttributeLang2", "ATTRIBUTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("AttributeLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("AttributeLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("AttributeLang2", "Attribute"  , "ATTRIBUTE");
+                tmpColumnName = config.ExtractColumnName("AttributeLang2", "Attribute", "ATTRIBUTE");
                 this.AttributeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("AttributeLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("AttributeLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("AttributeLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("AttributeLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -517,61 +517,61 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized MetaIdCol;
 
             internal TblContents(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Contents","CNT"), config.ExtractTableName("Contents","CONTENTS"), config.MetaOwner)
+            : base(config.ExtractAliasName("Contents", "CNT"), config.ExtractTableName("Contents", "CONTENTS"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Contents", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresTextS", "PRESTEXTS");
-                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresTextS",config.GetDataProvider());
+                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresTextS", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresCode", "PRESCODE");
-                this.PresCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCode",config.GetDataProvider());
+                this.PresCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "Copyright", "COPYRIGHT");
-                this.CopyrightCol = new Column4Parameterized(tmpColumnName, this.Alias,"Copyright",config.GetDataProvider());
+                this.CopyrightCol = new Column4Parameterized(tmpColumnName, this.Alias, "Copyright", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StatAuthority", "STATAUTHORITY");
-                this.StatAuthorityCol = new Column4Parameterized(tmpColumnName, this.Alias,"StatAuthority",config.GetDataProvider());
+                this.StatAuthorityCol = new Column4Parameterized(tmpColumnName, this.Alias, "StatAuthority", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "Producer", "PRODUCER");
-                this.ProducerCol = new Column4Parameterized(tmpColumnName, this.Alias,"Producer",config.GetDataProvider());
+                this.ProducerCol = new Column4Parameterized(tmpColumnName, this.Alias, "Producer", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "LastUpdated", "LASTUPDATED");
-                this.LastUpdatedCol = new Column4Parameterized(tmpColumnName, this.Alias,"LastUpdated",config.GetDataProvider());
+                this.LastUpdatedCol = new Column4Parameterized(tmpColumnName, this.Alias, "LastUpdated", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "Published", "PUBLISHED");
-                this.PublishedCol = new Column4Parameterized(tmpColumnName, this.Alias,"Published",config.GetDataProvider());
+                this.PublishedCol = new Column4Parameterized(tmpColumnName, this.Alias, "Published", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "Unit", "UNIT");
-                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias,"Unit",config.GetDataProvider());
+                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias, "Unit", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresDecimals", "PRESDECIMALS");
-                this.PresDecimalsCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresDecimals",config.GetDataProvider());
+                this.PresDecimalsCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresDecimals", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresCellsZero", "PRESCELLSZERO");
-                this.PresCellsZeroCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCellsZero",config.GetDataProvider());
+                this.PresCellsZeroCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCellsZero", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "PresMissingLine", "PRESMISSINGLINE");
-                this.PresMissingLineCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresMissingLine",config.GetDataProvider());
+                this.PresMissingLineCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresMissingLine", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "AggregPossible", "AGGREGPOSSIBLE");
-                this.AggregPossibleCol = new Column4Parameterized(tmpColumnName, this.Alias,"AggregPossible",config.GetDataProvider());
+                this.AggregPossibleCol = new Column4Parameterized(tmpColumnName, this.Alias, "AggregPossible", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "RefPeriod", "REFPERIOD");
-                this.RefPeriodCol = new Column4Parameterized(tmpColumnName, this.Alias,"RefPeriod",config.GetDataProvider());
+                this.RefPeriodCol = new Column4Parameterized(tmpColumnName, this.Alias, "RefPeriod", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StockFA", "STOCKFA");
-                this.StockFACol = new Column4Parameterized(tmpColumnName, this.Alias,"StockFA",config.GetDataProvider());
+                this.StockFACol = new Column4Parameterized(tmpColumnName, this.Alias, "StockFA", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "BasePeriod", "BASEPERIOD");
-                this.BasePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias,"BasePeriod",config.GetDataProvider());
+                this.BasePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias, "BasePeriod", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "CFPrices", "CFPRICES");
-                this.CFPricesCol = new Column4Parameterized(tmpColumnName, this.Alias,"CFPrices",config.GetDataProvider());
+                this.CFPricesCol = new Column4Parameterized(tmpColumnName, this.Alias, "CFPrices", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "DayAdj", "DAYADJ");
-                this.DayAdjCol = new Column4Parameterized(tmpColumnName, this.Alias,"DayAdj",config.GetDataProvider());
+                this.DayAdjCol = new Column4Parameterized(tmpColumnName, this.Alias, "DayAdj", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "SeasAdj", "SEASADJ");
-                this.SeasAdjCol = new Column4Parameterized(tmpColumnName, this.Alias,"SeasAdj",config.GetDataProvider());
+                this.SeasAdjCol = new Column4Parameterized(tmpColumnName, this.Alias, "SeasAdj", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StoreColumnNo", "STORECOLUMNNO");
-                this.StoreColumnNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreColumnNo",config.GetDataProvider());
+                this.StoreColumnNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreColumnNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StoreFormat", "STOREFORMAT");
-                this.StoreFormatCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreFormat",config.GetDataProvider());
+                this.StoreFormatCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreFormat", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StoreNoChar", "STORENOCHAR");
-                this.StoreNoCharCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreNoChar",config.GetDataProvider());
+                this.StoreNoCharCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreNoChar", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "StoreDecimals", "STOREDECIMALS");
-                this.StoreDecimalsCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreDecimals",config.GetDataProvider());
+                this.StoreDecimalsCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreDecimals", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Contents", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
 
             }
 
@@ -634,22 +634,22 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized BasePeriodCol;
 
             internal TblContentsLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ContentsLang2","CN2"), config.ExtractTableName("ContentsLang2","CONTENTS_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ContentsLang2", "CN2"), config.ExtractTableName("ContentsLang2", "CONTENTS_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Contents"  , "CONTENTS");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Contents", "CONTENTS");
                 this.ContentsCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "RefPeriod"  , "REFPERIOD");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "RefPeriod", "REFPERIOD");
                 this.RefPeriodCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ContentsLang2", "BasePeriod"  , "BASEPERIOD");
+                tmpColumnName = config.ExtractColumnName("ContentsLang2", "BasePeriod", "BASEPERIOD");
                 this.BasePeriodCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -679,15 +679,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized TimePeriodCol;
 
             internal TblContentsTime(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ContentsTime","CTM"), config.ExtractTableName("ContentsTime","CONTENTSTIME"), config.MetaOwner)
+            : base(config.ExtractAliasName("ContentsTime", "CTM"), config.ExtractTableName("ContentsTime", "CONTENTSTIME"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ContentsTime", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ContentsTime", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ContentsTime", "TimePeriod", "TIMEPERIOD");
-                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimePeriod",config.GetDataProvider());
+                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimePeriod", config.GetDataProvider());
 
             }
 
@@ -713,15 +713,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized DatabaseNameCol;
 
             internal TblDataStorage(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("DataStorage","DST"), config.ExtractTableName("DataStorage","DATASTORAGE"), config.MetaOwner)
+            : base(config.ExtractAliasName("DataStorage", "DST"), config.ExtractTableName("DataStorage", "DATASTORAGE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("DataStorage", "ProductCode", "PRODUCTCODE");
-                this.ProductCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ProductCode",config.GetDataProvider());
+                this.ProductCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ProductCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("DataStorage", "ServerName", "SERVERNAME");
-                this.ServerNameCol = new Column4Parameterized(tmpColumnName, this.Alias,"ServerName",config.GetDataProvider());
+                this.ServerNameCol = new Column4Parameterized(tmpColumnName, this.Alias, "ServerName", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("DataStorage", "DatabaseName", "DATABASENAME");
-                this.DatabaseNameCol = new Column4Parameterized(tmpColumnName, this.Alias,"DatabaseName",config.GetDataProvider());
+                this.DatabaseNameCol = new Column4Parameterized(tmpColumnName, this.Alias, "DatabaseName", config.GetDataProvider());
 
             }
 
@@ -786,21 +786,21 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized PresCharacterCol;
 
             internal TblFootnote(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Footnote","FNT"), config.ExtractTableName("Footnote","FOOTNOTE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Footnote", "FNT"), config.ExtractTableName("Footnote", "FOOTNOTE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Footnote", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Footnote", "FootnoteType", "FOOTNOTETYPE");
-                this.FootnoteTypeCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteType",config.GetDataProvider());
+                this.FootnoteTypeCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteType", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Footnote", "ShowFootnote", "SHOWFOOTNOTE");
-                this.ShowFootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"ShowFootnote",config.GetDataProvider());
+                this.ShowFootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "ShowFootnote", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Footnote", "MandOpt", "MANDOPT");
-                this.MandOptCol = new Column4Parameterized(tmpColumnName, this.Alias,"MandOpt",config.GetDataProvider());
+                this.MandOptCol = new Column4Parameterized(tmpColumnName, this.Alias, "MandOpt", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Footnote", "FootnoteText", "FOOTNOTETEXT");
-                this.FootnoteTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteText",config.GetDataProvider());
+                this.FootnoteTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Footnote", "PresCharacter", "PRESCHARACTER");
-                this.PresCharacterCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCharacter",config.GetDataProvider());
+                this.PresCharacterCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCharacter", config.GetDataProvider());
 
             }
 
@@ -824,12 +824,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized FootnoteTextCol;
 
             internal TblFootnoteLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteLang2","FN2"), config.ExtractTableName("FootnoteLang2","FOOTNOTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("FootnoteLang2", "FN2"), config.ExtractTableName("FootnoteLang2", "FOOTNOTE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteNo"  , "FOOTNOTENO");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteNo", "FOOTNOTENO");
                 this.FootnoteNoCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteText"  , "FOOTNOTETEXT");
+                tmpColumnName = config.ExtractColumnName("FootnoteLang2", "FootnoteText", "FOOTNOTETEXT");
                 this.FootnoteTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -875,19 +875,19 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized CellnoteCol;
 
             internal TblFootnoteContTime(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteContTime","FCT"), config.ExtractTableName("FootnoteContTime","FOOTNOTECONTTIME"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContTime", "FCT"), config.ExtractTableName("FootnoteContTime", "FOOTNOTECONTTIME"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "TimePeriod", "TIMEPERIOD");
-                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimePeriod",config.GetDataProvider());
+                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimePeriod", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContTime", "Cellnote", "CELLNOTE");
-                this.CellnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"Cellnote",config.GetDataProvider());
+                this.CellnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "Cellnote", config.GetDataProvider());
 
             }
 
@@ -944,23 +944,23 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized CellnoteCol;
 
             internal TblFootnoteContValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteContValue","FCA"), config.ExtractTableName("FootnoteContValue","FOOTNOTECONTVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContValue", "FCA"), config.ExtractTableName("FootnoteContValue", "FOOTNOTECONTVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContValue", "Cellnote", "CELLNOTE");
-                this.CellnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"Cellnote",config.GetDataProvider());
+                this.CellnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "Cellnote", config.GetDataProvider());
 
             }
 
@@ -998,17 +998,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteContVbl(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteContVbl","FCB"), config.ExtractTableName("FootnoteContVbl","FOOTNOTECONTVBL"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContVbl", "FCB"), config.ExtractTableName("FootnoteContVbl", "FOOTNOTECONTVBL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContVbl", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1040,15 +1040,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteContents(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteContents","FCO"), config.ExtractTableName("FootnoteContents","FOOTNOTECONTENTS"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteContents", "FCO"), config.ExtractTableName("FootnoteContents", "FOOTNOTECONTENTS"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteContents", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContents", "Contents", "CONTENTS");
-                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias,"Contents",config.GetDataProvider());
+                this.ContentsCol = new Column4Parameterized(tmpColumnName, this.Alias, "Contents", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteContents", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1072,13 +1072,13 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteGrouping(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteGrouping","FCO"), config.ExtractTableName("FootnoteGrouping","FOOTNOTEGROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteGrouping", "FCO"), config.ExtractTableName("FootnoteGrouping", "FOOTNOTEGROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteGrouping", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteGrouping", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1106,13 +1106,13 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteMainTable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteMainTable","FMT"), config.ExtractTableName("FootnoteMainTable","FOOTNOTEMAINTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMainTable", "FMT"), config.ExtractTableName("FootnoteMainTable", "FOOTNOTEMAINTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMainTable", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMainTable", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1140,15 +1140,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteMaintTime(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteMaintTime","FNM"), config.ExtractTableName("FootnoteMaintTime","FOOTNOTEMAINTTIME"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMaintTime", "FNM"), config.ExtractTableName("FootnoteMaintTime", "FOOTNOTEMAINTTIME"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintTime", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintTime", "TimePeriod", "TIMEPERIOD");
-                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimePeriod",config.GetDataProvider());
+                this.TimePeriodCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimePeriod", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintTime", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1192,19 +1192,19 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteMaintValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteMaintValue","FMV"), config.ExtractTableName("FootnoteMaintValue","FOOTNOTEMAINTVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMaintValue", "FMV"), config.ExtractTableName("FootnoteMaintValue", "FOOTNOTEMAINTVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMaintValue", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1234,15 +1234,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteMenuSel(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteMenuSel","FMS"), config.ExtractTableName("FootnoteMenuSel","FOOTNOTEMENUSEL"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteMenuSel", "FMS"), config.ExtractTableName("FootnoteMenuSel", "FOOTNOTEMENUSEL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteMenuSel", "Menu", "MENU");
-                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias,"Menu",config.GetDataProvider());
+                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias, "Menu", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMenuSel", "Selection", "SELECTION");
-                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Selection",config.GetDataProvider());
+                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Selection", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteMenuSel", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1274,15 +1274,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteSubTable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteSubTable","FST"), config.ExtractTableName("FootnoteSubTable","FOOTNOTESUBTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteSubTable", "FST"), config.ExtractTableName("FootnoteSubTable", "FOOTNOTESUBTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteSubTable", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteSubTable", "SubTable", "SUBTABLE");
-                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"SubTable",config.GetDataProvider());
+                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "SubTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteSubTable", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1314,15 +1314,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteValue","FVL"), config.ExtractTableName("FootnoteValue","FOOTNOTEVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteValue", "FVL"), config.ExtractTableName("FootnoteValue", "FOOTNOTEVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteValue", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteValue", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteValue", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1360,17 +1360,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteValueSetValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteValueSetValue","FVS"), config.ExtractTableName("FootnoteValueSetValue","FOOTNOTEVALUESETVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteValueSetValue", "FVS"), config.ExtractTableName("FootnoteValueSetValue", "FOOTNOTEVALUESETVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteValueSetValue", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteValueSetValue", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteValueSetValue", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteValueSetValue", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1396,13 +1396,13 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteNoCol;
 
             internal TblFootnoteVariable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("FootnoteVariable","FVB"), config.ExtractTableName("FootnoteVariable","FOOTNOTEVARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("FootnoteVariable", "FVB"), config.ExtractTableName("FootnoteVariable", "FOOTNOTEVARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("FootnoteVariable", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("FootnoteVariable", "FootnoteNo", "FOOTNOTENO");
-                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FootnoteNo",config.GetDataProvider());
+                this.FootnoteNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FootnoteNo", config.GetDataProvider());
 
             }
 
@@ -1474,25 +1474,25 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized MetaIdCol;
 
             internal TblGrouping(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Grouping","GRP"), config.ExtractTableName("Grouping","GROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("Grouping", "GRP"), config.ExtractTableName("Grouping", "GROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Grouping", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "Hierarchy", "HIERARCHY");
-                this.HierarchyCol = new Column4Parameterized(tmpColumnName, this.Alias,"Hierarchy",config.GetDataProvider());
+                this.HierarchyCol = new Column4Parameterized(tmpColumnName, this.Alias, "Hierarchy", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "GroupPres", "GROUPPRES");
-                this.GroupPresCol = new Column4Parameterized(tmpColumnName, this.Alias,"GroupPres",config.GetDataProvider());
+                this.GroupPresCol = new Column4Parameterized(tmpColumnName, this.Alias, "GroupPres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Grouping", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
 
             }
 
@@ -1527,14 +1527,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized SortCodeCol;
 
             internal TblGroupingLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("GroupingLang2","GR2"), config.ExtractTableName("GroupingLang2","GROUPING_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("GroupingLang2", "GR2"), config.ExtractTableName("GroupingLang2", "GROUPING_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("GroupingLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1571,17 +1571,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized GeoAreaNoCol;
 
             internal TblGroupingLevel(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("GroupingLevel","GRP"), config.ExtractTableName("GroupingLevel","GROUPINGLEVEL"), config.MetaOwner)
+            : base(config.ExtractAliasName("GroupingLevel", "GRP"), config.ExtractTableName("GroupingLevel", "GROUPINGLEVEL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "LevelNo", "LEVELNO");
-                this.LevelNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"LevelNo",config.GetDataProvider());
+                this.LevelNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "LevelNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "LevelText", "LEVELTEXT");
-                this.LevelTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"LevelText",config.GetDataProvider());
+                this.LevelTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "LevelText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("GroupingLevel", "GeoAreaNo", "GEOAREANO");
-                this.GeoAreaNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"GeoAreaNo",config.GetDataProvider());
+                this.GeoAreaNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "GeoAreaNo", config.GetDataProvider());
 
             }
 
@@ -1608,14 +1608,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized LevelTextCol;
 
             internal TblGroupingLevelLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("GroupingLevelLang2","GR2"), config.ExtractTableName("GroupingLevelLang2","GROUPINGLEVEL_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("GroupingLevelLang2", "GR2"), config.ExtractTableName("GroupingLevelLang2", "GROUPINGLEVEL_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelNo"  , "LEVELNO");
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelNo", "LEVELNO");
                 this.LevelNoCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelText"  , "LEVELTEXT");
+                tmpColumnName = config.ExtractColumnName("GroupingLevelLang2", "LevelText", "LEVELTEXT");
                 this.LevelTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1693,27 +1693,27 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized DescriptionCol;
 
             internal TblLink(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Link","LNK"), config.ExtractTableName("Link","LINK"), config.MetaOwner)
+            : base(config.ExtractAliasName("Link", "LNK"), config.ExtractTableName("Link", "LINK"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Link", "LinkId", "LINKID");
-                this.LinkIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkId",config.GetDataProvider());
+                this.LinkIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "Link", "LINK");
-                this.LinkCol = new Column4Parameterized(tmpColumnName, this.Alias,"Link",config.GetDataProvider());
+                this.LinkCol = new Column4Parameterized(tmpColumnName, this.Alias, "Link", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "LinkType", "LINKTYPE");
-                this.LinkTypeCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkType",config.GetDataProvider());
+                this.LinkTypeCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkType", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "LinkFormat", "LINKFORMAT");
-                this.LinkFormatCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkFormat",config.GetDataProvider());
+                this.LinkFormatCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkFormat", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "LinkText", "LINKTEXT");
-                this.LinkTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkText",config.GetDataProvider());
+                this.LinkTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "PresCategory", "PRESCATEGORY");
-                this.PresCategoryCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCategory",config.GetDataProvider());
+                this.PresCategoryCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCategory", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "LinkPres", "LINKPRES");
-                this.LinkPresCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkPres",config.GetDataProvider());
+                this.LinkPresCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkPres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Link", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
 
             }
 
@@ -1750,18 +1750,18 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized DescriptionCol;
 
             internal TblLinkLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("LinkLang2","LN2"), config.ExtractTableName("LinkLang2","LINK_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("LinkLang2", "LN2"), config.ExtractTableName("LinkLang2", "LINK_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkId"  , "LINKID");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkId", "LINKID");
                 this.LinkIdCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "Link"  , "LINK");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "Link", "LINK");
                 this.LinkCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkText"  , "LINKTEXT");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "LinkText", "LINKTEXT");
                 this.LinkTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("LinkLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("LinkLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -1790,15 +1790,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized LinkIdCol;
 
             internal TblLinkMenuSelection(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("LinkMenuSelection","LMS"), config.ExtractTableName("LinkMenuSelection","LINKMENUSELECTION"), config.MetaOwner)
+            : base(config.ExtractAliasName("LinkMenuSelection", "LMS"), config.ExtractTableName("LinkMenuSelection", "LINKMENUSELECTION"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("LinkMenuSelection", "Menu", "MENU");
-                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias,"Menu",config.GetDataProvider());
+                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias, "Menu", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("LinkMenuSelection", "Selection", "SELECTION");
-                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Selection",config.GetDataProvider());
+                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Selection", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("LinkMenuSelection", "LinkId", "LINKID");
-                this.LinkIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"LinkId",config.GetDataProvider());
+                this.LinkIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "LinkId", config.GetDataProvider());
 
             }
 
@@ -1899,35 +1899,35 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized TimeScaleCol;
 
             internal TblMainTable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MainTable","MTA"), config.ExtractTableName("MainTable","MAINTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTable", "MTA"), config.ExtractTableName("MainTable", "MAINTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTable", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "TableStatus", "TABLESTATUS");
-                this.TableStatusCol = new Column4Parameterized(tmpColumnName, this.Alias,"TableStatus",config.GetDataProvider());
+                this.TableStatusCol = new Column4Parameterized(tmpColumnName, this.Alias, "TableStatus", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "PresTextS", "PRESTEXTS");
-                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresTextS",config.GetDataProvider());
+                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresTextS", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "ContentsVariable", "CONTENTSVARIABLE");
-                this.ContentsVariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"ContentsVariable",config.GetDataProvider());
+                this.ContentsVariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "ContentsVariable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "TableId", "TABLEID");
-                this.TableIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"TableId",config.GetDataProvider());
+                this.TableIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "TableId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "PresCategory", "PRESCATEGORY");
-                this.PresCategoryCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCategory",config.GetDataProvider());
+                this.PresCategoryCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCategory", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "FirstPublished", "FIRSTPUBLISHED");
-                this.FirstPublishedCol = new Column4Parameterized(tmpColumnName, this.Alias,"FirstPublished",config.GetDataProvider());
+                this.FirstPublishedCol = new Column4Parameterized(tmpColumnName, this.Alias, "FirstPublished", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "SpecCharExists", "SPECCHAREXISTS");
-                this.SpecCharExistsCol = new Column4Parameterized(tmpColumnName, this.Alias,"SpecCharExists",config.GetDataProvider());
+                this.SpecCharExistsCol = new Column4Parameterized(tmpColumnName, this.Alias, "SpecCharExists", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "SubjectCode", "SUBJECTCODE");
-                this.SubjectCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SubjectCode",config.GetDataProvider());
+                this.SubjectCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SubjectCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "ProductCode", "PRODUCTCODE");
-                this.ProductCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ProductCode",config.GetDataProvider());
+                this.ProductCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ProductCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTable", "TimeScale", "TIMESCALE");
-                this.TimeScaleCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimeScale",config.GetDataProvider());
+                this.TimeScaleCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimeScale", config.GetDataProvider());
 
             }
 
@@ -1971,16 +1971,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized ContentsVariableCol;
 
             internal TblMainTableLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MainTableLang2","MT2"), config.ExtractTableName("MainTableLang2","MAINTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("MainTableLang2", "MT2"), config.ExtractTableName("MainTableLang2", "MAINTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MainTableLang2", "ContentsVariable"  , "CONTENTSVARIABLE");
+                tmpColumnName = config.ExtractColumnName("MainTableLang2", "ContentsVariable", "CONTENTSVARIABLE");
                 this.ContentsVariableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2017,15 +2017,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized RolePersonCol;
 
             internal TblMainTablePerson(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MainTablePerson","MTP"), config.ExtractTableName("MainTablePerson","MAINTABLEPERSON"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTablePerson", "MTP"), config.ExtractTableName("MainTablePerson", "MAINTABLEPERSON"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTablePerson", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTablePerson", "PersonCode", "PERSONCODE");
-                this.PersonCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"PersonCode",config.GetDataProvider());
+                this.PersonCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "PersonCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTablePerson", "RolePerson", "ROLEPERSON");
-                this.RolePersonCol = new Column4Parameterized(tmpColumnName, this.Alias,"RolePerson",config.GetDataProvider());
+                this.RolePersonCol = new Column4Parameterized(tmpColumnName, this.Alias, "RolePerson", config.GetDataProvider());
 
             }
 
@@ -2068,19 +2068,19 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized AllLevelsStoredCol;
 
             internal TblMainTableVariableHierarchy(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MainTableVariableHierarchy","MTP"), config.ExtractTableName("MainTableVariableHierarchy","MAINTABLEVARIABLEHIERARCHY"), config.MetaOwner)
+            : base(config.ExtractAliasName("MainTableVariableHierarchy", "MTP"), config.ExtractTableName("MainTableVariableHierarchy", "MAINTABLEVARIABLEHIERARCHY"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "ShowLevels", "SHOWLEVELS");
-                this.ShowLevelsCol = new Column4Parameterized(tmpColumnName, this.Alias,"ShowLevels",config.GetDataProvider());
+                this.ShowLevelsCol = new Column4Parameterized(tmpColumnName, this.Alias, "ShowLevels", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MainTableVariableHierarchy", "AllLevelsStored", "ALLLEVELSSTORED");
-                this.AllLevelsStoredCol = new Column4Parameterized(tmpColumnName, this.Alias,"AllLevelsStored",config.GetDataProvider());
+                this.AllLevelsStoredCol = new Column4Parameterized(tmpColumnName, this.Alias, "AllLevelsStored", config.GetDataProvider());
 
             }
 
@@ -2144,27 +2144,27 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized MetaIdCol;
 
             internal TblMenuSelection(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MenuSelection","MSL"), config.ExtractTableName("MenuSelection","MENUSELECTION"), config.MetaOwner)
+            : base(config.ExtractAliasName("MenuSelection", "MSL"), config.ExtractTableName("MenuSelection", "MENUSELECTION"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Menu", "MENU");
-                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias,"Menu",config.GetDataProvider());
+                this.MenuCol = new Column4Parameterized(tmpColumnName, this.Alias, "Menu", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Selection", "SELECTION");
-                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Selection",config.GetDataProvider());
+                this.SelectionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Selection", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "PresTextS", "PRESTEXTS");
-                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresTextS",config.GetDataProvider());
+                this.PresTextSCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresTextS", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "LevelNo", "LEVELNO");
-                this.LevelNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"LevelNo",config.GetDataProvider());
+                this.LevelNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "LevelNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "Presentation", "PRESENTATION");
-                this.PresentationCol = new Column4Parameterized(tmpColumnName, this.Alias,"Presentation",config.GetDataProvider());
+                this.PresentationCol = new Column4Parameterized(tmpColumnName, this.Alias, "Presentation", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MenuSelection", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
 
             }
 
@@ -2219,22 +2219,22 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresentationCol;
 
             internal TblMenuSelectionLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MenuSelectionLang2","MS2"), config.ExtractTableName("MenuSelectionLang2","MENUSELECTION_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("MenuSelectionLang2", "MS2"), config.ExtractTableName("MenuSelectionLang2", "MENUSELECTION_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Menu"  , "MENU");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Menu", "MENU");
                 this.MenuCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Selection"  , "SELECTION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Selection", "SELECTION");
                 this.SelectionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresTextS"  , "PRESTEXTS");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "PresTextS", "PRESTEXTS");
                 this.PresTextSCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Presentation"  , "PRESENTATION");
+                tmpColumnName = config.ExtractColumnName("MenuSelectionLang2", "Presentation", "PRESENTATION");
                 this.PresentationCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2322,15 +2322,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized DescriptionCol;
 
             internal TblMetaAdm(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MetaAdm","MAD"), config.ExtractTableName("MetaAdm","METAADM"), config.MetaOwner)
+            : base(config.ExtractAliasName("MetaAdm", "MAD"), config.ExtractTableName("MetaAdm", "METAADM"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MetaAdm", "Property", "PROPERTY");
-                this.PropertyCol = new Column4Parameterized(tmpColumnName, this.Alias,"Property",config.GetDataProvider());
+                this.PropertyCol = new Column4Parameterized(tmpColumnName, this.Alias, "Property", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MetaAdm", "Value", "VALUE");
-                this.ValueCol = new Column4Parameterized(tmpColumnName, this.Alias,"Value",config.GetDataProvider());
+                this.ValueCol = new Column4Parameterized(tmpColumnName, this.Alias, "Value", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MetaAdm", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
 
             }
 
@@ -2361,15 +2361,15 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized DatabaseRoleCol;
 
             internal TblMetabaseInfo(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("MetabaseInfo","MBI"), config.ExtractTableName("MetabaseInfo","METABASEINFO"), config.MetaOwner)
+            : base(config.ExtractAliasName("MetabaseInfo", "MBI"), config.ExtractTableName("MetabaseInfo", "METABASEINFO"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("MetabaseInfo", "Model", "MODEL");
-                this.ModelCol = new Column4Parameterized(tmpColumnName, this.Alias,"Model",config.GetDataProvider());
+                this.ModelCol = new Column4Parameterized(tmpColumnName, this.Alias, "Model", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MetabaseInfo", "ModelVersion", "MODELVERSION");
-                this.ModelVersionCol = new Column4Parameterized(tmpColumnName, this.Alias,"ModelVersion",config.GetDataProvider());
+                this.ModelVersionCol = new Column4Parameterized(tmpColumnName, this.Alias, "ModelVersion", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("MetabaseInfo", "DatabaseRole", "DATABASEROLE");
-                this.DatabaseRoleCol = new Column4Parameterized(tmpColumnName, this.Alias,"DatabaseRole",config.GetDataProvider());
+                this.DatabaseRoleCol = new Column4Parameterized(tmpColumnName, this.Alias, "DatabaseRole", config.GetDataProvider());
 
             }
 
@@ -2412,21 +2412,21 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized MetaIdCol;
 
             internal TblOrganization(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Organization","ORG"), config.ExtractTableName("Organization","ORGANIZATION"), config.MetaOwner)
+            : base(config.ExtractAliasName("Organization", "ORG"), config.ExtractTableName("Organization", "ORGANIZATION"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Organization", "OrganizationCode", "ORGANIZATIONCODE");
-                this.OrganizationCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"OrganizationCode",config.GetDataProvider());
+                this.OrganizationCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "OrganizationCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Organization", "OrganizationName", "ORGANIZATIONNAME");
-                this.OrganizationNameCol = new Column4Parameterized(tmpColumnName, this.Alias,"OrganizationName",config.GetDataProvider());
+                this.OrganizationNameCol = new Column4Parameterized(tmpColumnName, this.Alias, "OrganizationName", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Organization", "Department", "DEPARTMENT");
-                this.DepartmentCol = new Column4Parameterized(tmpColumnName, this.Alias,"Department",config.GetDataProvider());
+                this.DepartmentCol = new Column4Parameterized(tmpColumnName, this.Alias, "Department", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Organization", "Unit", "UNIT");
-                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias,"Unit",config.GetDataProvider());
+                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias, "Unit", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Organization", "WebAddress", "WEBADDRESS");
-                this.WebAddressCol = new Column4Parameterized(tmpColumnName, this.Alias,"WebAddress",config.GetDataProvider());
+                this.WebAddressCol = new Column4Parameterized(tmpColumnName, this.Alias, "WebAddress", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Organization", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
 
             }
 
@@ -2466,18 +2466,18 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized WebAddressCol;
 
             internal TblOrganizationLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("OrganizationLang2","OR2"), config.ExtractTableName("OrganizationLang2","ORGANIZATION_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("OrganizationLang2", "OR2"), config.ExtractTableName("OrganizationLang2", "ORGANIZATION_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationCode"  , "ORGANIZATIONCODE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationCode", "ORGANIZATIONCODE");
                 this.OrganizationCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationName"  , "ORGANIZATIONNAME");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "OrganizationName", "ORGANIZATIONNAME");
                 this.OrganizationNameCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Department"  , "DEPARTMENT");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Department", "DEPARTMENT");
                 this.DepartmentCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "WebAddress"  , "WEBADDRESS");
+                tmpColumnName = config.ExtractColumnName("OrganizationLang2", "WebAddress", "WEBADDRESS");
                 this.WebAddressCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2537,25 +2537,25 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized EmailCol;
 
             internal TblPerson(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Person","PRS"), config.ExtractTableName("Person","PERSON"), config.MetaOwner)
+            : base(config.ExtractAliasName("Person", "PRS"), config.ExtractTableName("Person", "PERSON"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Person", "PersonCode", "PERSONCODE");
-                this.PersonCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"PersonCode",config.GetDataProvider());
+                this.PersonCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "PersonCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "OrganizationCode", "ORGANIZATIONCODE");
-                this.OrganizationCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"OrganizationCode",config.GetDataProvider());
+                this.OrganizationCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "OrganizationCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "Forename", "FORENAME");
-                this.ForenameCol = new Column4Parameterized(tmpColumnName, this.Alias,"Forename",config.GetDataProvider());
+                this.ForenameCol = new Column4Parameterized(tmpColumnName, this.Alias, "Forename", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "Surname", "SURNAME");
-                this.SurnameCol = new Column4Parameterized(tmpColumnName, this.Alias,"Surname",config.GetDataProvider());
+                this.SurnameCol = new Column4Parameterized(tmpColumnName, this.Alias, "Surname", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "PhonePrefix", "PHONEPREFIX");
-                this.PhonePrefixCol = new Column4Parameterized(tmpColumnName, this.Alias,"PhonePrefix",config.GetDataProvider());
+                this.PhonePrefixCol = new Column4Parameterized(tmpColumnName, this.Alias, "PhonePrefix", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "PhoneNo", "PHONENO");
-                this.PhoneNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"PhoneNo",config.GetDataProvider());
+                this.PhoneNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "PhoneNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "FaxNo", "FAXNO");
-                this.FaxNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"FaxNo",config.GetDataProvider());
+                this.FaxNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "FaxNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Person", "Email", "EMAIL");
-                this.EmailCol = new Column4Parameterized(tmpColumnName, this.Alias,"Email",config.GetDataProvider());
+                this.EmailCol = new Column4Parameterized(tmpColumnName, this.Alias, "Email", config.GetDataProvider());
 
             }
 
@@ -2601,21 +2601,21 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized LogDateCol;
 
             internal TblSecondaryLanguage(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SecondaryLanguage","SLA"), config.ExtractTableName("SecondaryLanguage","SECONDARYLANGUAGE"), config.MetaOwner)
+            : base(config.ExtractAliasName("SecondaryLanguage", "SLA"), config.ExtractTableName("SecondaryLanguage", "SECONDARYLANGUAGE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "Language", "LANGUAGE");
-                this.LanguageCol = new Column4Parameterized(tmpColumnName, this.Alias,"Language",config.GetDataProvider());
+                this.LanguageCol = new Column4Parameterized(tmpColumnName, this.Alias, "Language", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "CompletelyTranslated", "COMPLETELYTRANSLATED");
-                this.CompletelyTranslatedCol = new Column4Parameterized(tmpColumnName, this.Alias,"CompletelyTranslated",config.GetDataProvider());
+                this.CompletelyTranslatedCol = new Column4Parameterized(tmpColumnName, this.Alias, "CompletelyTranslated", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "Published", "PUBLISHED");
-                this.PublishedCol = new Column4Parameterized(tmpColumnName, this.Alias,"Published",config.GetDataProvider());
+                this.PublishedCol = new Column4Parameterized(tmpColumnName, this.Alias, "Published", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "UserId", "USERID");
-                this.UserIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"UserId",config.GetDataProvider());
+                this.UserIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "UserId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SecondaryLanguage", "LogDate", "LOGDATE");
-                this.LogDateCol = new Column4Parameterized(tmpColumnName, this.Alias,"LogDate",config.GetDataProvider());
+                this.LogDateCol = new Column4Parameterized(tmpColumnName, this.Alias, "LogDate", config.GetDataProvider());
 
             }
 
@@ -2673,21 +2673,21 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized PresTextCol;
 
             internal TblSpecialCharacter(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SpecialCharacter","SPC"), config.ExtractTableName("SpecialCharacter","SPECIALCHARACTER"), config.MetaOwner)
+            : base(config.ExtractAliasName("SpecialCharacter", "SPC"), config.ExtractTableName("SpecialCharacter", "SPECIALCHARACTER"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "CharacterType", "CHARACTERTYPE");
-                this.CharacterTypeCol = new Column4Parameterized(tmpColumnName, this.Alias,"CharacterType",config.GetDataProvider());
+                this.CharacterTypeCol = new Column4Parameterized(tmpColumnName, this.Alias, "CharacterType", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "PresCharacter", "PRESCHARACTER");
-                this.PresCharacterCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresCharacter",config.GetDataProvider());
+                this.PresCharacterCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresCharacter", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "AggregPossible", "AGGREGPOSSIBLE");
-                this.AggregPossibleCol = new Column4Parameterized(tmpColumnName, this.Alias,"AggregPossible",config.GetDataProvider());
+                this.AggregPossibleCol = new Column4Parameterized(tmpColumnName, this.Alias, "AggregPossible", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "DataCellPres", "DATACELLPRES");
-                this.DataCellPresCol = new Column4Parameterized(tmpColumnName, this.Alias,"DataCellPres",config.GetDataProvider());
+                this.DataCellPresCol = new Column4Parameterized(tmpColumnName, this.Alias, "DataCellPres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "DataCellFilled", "DATACELLFILLED");
-                this.DataCellFilledCol = new Column4Parameterized(tmpColumnName, this.Alias,"DataCellFilled",config.GetDataProvider());
+                this.DataCellFilledCol = new Column4Parameterized(tmpColumnName, this.Alias, "DataCellFilled", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SpecialCharacter", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
 
             }
 
@@ -2718,14 +2718,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresTextCol;
 
             internal TblSpecialCharacterLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SpecialCharacterLang2","SP2"), config.ExtractTableName("SpecialCharacterLang2","SPECIALCHARACTER_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("SpecialCharacterLang2", "SP2"), config.ExtractTableName("SpecialCharacterLang2", "SPECIALCHARACTER_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "CharacterType"  , "CHARACTERTYPE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "CharacterType", "CHARACTERTYPE");
                 this.CharacterTypeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresCharacter"  , "PRESCHARACTER");
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresCharacter", "PRESCHARACTER");
                 this.PresCharacterCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("SpecialCharacterLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2767,17 +2767,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized CleanTableCol;
 
             internal TblSubTable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SubTable","STB"), config.ExtractTableName("SubTable","SUBTABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("SubTable", "STB"), config.ExtractTableName("SubTable", "SUBTABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SubTable", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTable", "SubTable", "SUBTABLE");
-                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"SubTable",config.GetDataProvider());
+                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "SubTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTable", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTable", "CleanTable", "CLEANTABLE");
-                this.CleanTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"CleanTable",config.GetDataProvider());
+                this.CleanTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "CleanTable", config.GetDataProvider());
 
             }
 
@@ -2813,14 +2813,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresTextCol;
 
             internal TblSubTableLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SubTableLang2","ST2"), config.ExtractTableName("SubTableLang2","SUBTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("SubTableLang2", "ST2"), config.ExtractTableName("SubTableLang2", "SUBTABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "MainTable"  , "MAINTABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "MainTable", "MAINTABLE");
                 this.MainTableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "SubTable"  , "SUBTABLE");
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "SubTable", "SUBTABLE");
                 this.SubTableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("SubTableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("SubTableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -2872,21 +2872,21 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized StoreColumnNoCol;
 
             internal TblSubTableVariable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("SubTableVariable","STV"), config.ExtractTableName("SubTableVariable","SUBTABLEVARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("SubTableVariable", "STV"), config.ExtractTableName("SubTableVariable", "SUBTABLEVARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "MainTable", "MAINTABLE");
-                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"MainTable",config.GetDataProvider());
+                this.MainTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "MainTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "SubTable", "SUBTABLE");
-                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias,"SubTable",config.GetDataProvider());
+                this.SubTableCol = new Column4Parameterized(tmpColumnName, this.Alias, "SubTable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "VariableType", "VARIABLETYPE");
-                this.VariableTypeCol = new Column4Parameterized(tmpColumnName, this.Alias,"VariableType",config.GetDataProvider());
+                this.VariableTypeCol = new Column4Parameterized(tmpColumnName, this.Alias, "VariableType", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("SubTableVariable", "StoreColumnNo", "STORECOLUMNNO");
-                this.StoreColumnNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreColumnNo",config.GetDataProvider());
+                this.StoreColumnNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreColumnNo", config.GetDataProvider());
 
             }
 
@@ -2923,17 +2923,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized DescriptionCol;
 
             internal TblTextCatalog(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("TextCatalog","TXC"), config.ExtractTableName("TextCatalog","TEXTCATALOG"), config.MetaOwner)
+            : base(config.ExtractAliasName("TextCatalog", "TXC"), config.ExtractTableName("TextCatalog", "TEXTCATALOG"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "TextCatalogNo", "TEXTCATALOGNO");
-                this.TextCatalogNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"TextCatalogNo",config.GetDataProvider());
+                this.TextCatalogNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "TextCatalogNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "TextType", "TEXTTYPE");
-                this.TextTypeCol = new Column4Parameterized(tmpColumnName, this.Alias,"TextType",config.GetDataProvider());
+                this.TextTypeCol = new Column4Parameterized(tmpColumnName, this.Alias, "TextType", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TextCatalog", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
 
             }
 
@@ -2970,16 +2970,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized DescriptionCol;
 
             internal TblTextCatalogLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("TextCatalogLang2","TX2"), config.ExtractTableName("TextCatalogLang2","TEXTCATALOG_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("TextCatalogLang2", "TX2"), config.ExtractTableName("TextCatalogLang2", "TEXTCATALOG_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextCatalogNo"  , "TEXTCATALOGNO");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextCatalogNo", "TEXTCATALOGNO");
                 this.TextCatalogNoCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextType"  , "TEXTTYPE");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "TextType", "TEXTTYPE");
                 this.TextTypeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("TextCatalogLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3057,23 +3057,23 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized StoreFormatCol;
 
             internal TblTimeScale(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("TimeScale","TSC"), config.ExtractTableName("TimeScale","TIMESCALE"), config.MetaOwner)
+            : base(config.ExtractAliasName("TimeScale", "TSC"), config.ExtractTableName("TimeScale", "TIMESCALE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("TimeScale", "TimeScale", "TIMESCALE");
-                this.TimeScaleCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimeScale",config.GetDataProvider());
+                this.TimeScaleCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimeScale", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "TimeScalePres", "TIMESCALEPRES");
-                this.TimeScalePresCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimeScalePres",config.GetDataProvider());
+                this.TimeScalePresCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimeScalePres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "Regular", "REGULAR");
-                this.RegularCol = new Column4Parameterized(tmpColumnName, this.Alias,"Regular",config.GetDataProvider());
+                this.RegularCol = new Column4Parameterized(tmpColumnName, this.Alias, "Regular", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "TimeUnit", "TIMEUNIT");
-                this.TimeUnitCol = new Column4Parameterized(tmpColumnName, this.Alias,"TimeUnit",config.GetDataProvider());
+                this.TimeUnitCol = new Column4Parameterized(tmpColumnName, this.Alias, "TimeUnit", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "Frequency", "FREQUENCY");
-                this.FrequencyCol = new Column4Parameterized(tmpColumnName, this.Alias,"Frequency",config.GetDataProvider());
+                this.FrequencyCol = new Column4Parameterized(tmpColumnName, this.Alias, "Frequency", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("TimeScale", "StoreFormat", "STOREFORMAT");
-                this.StoreFormatCol = new Column4Parameterized(tmpColumnName, this.Alias,"StoreFormat",config.GetDataProvider());
+                this.StoreFormatCol = new Column4Parameterized(tmpColumnName, this.Alias, "StoreFormat", config.GetDataProvider());
 
             }
 
@@ -3095,12 +3095,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresTextCol;
 
             internal TblTimeScaleLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("TimeScaleLang2","TS2"), config.ExtractTableName("TimeScaleLang2","TIMESCALE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("TimeScaleLang2", "TS2"), config.ExtractTableName("TimeScaleLang2", "TIMESCALE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "TimeScale"  , "TIMESCALE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "TimeScale", "TIMESCALE");
                 this.TimeScaleCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("TimeScaleLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3141,17 +3141,17 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized SortCodeCol;
 
             internal TblVSValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("VSValue","VVL"), config.ExtractTableName("VSValue","VSVALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("VSValue", "VVL"), config.ExtractTableName("VSValue", "VSVALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("VSValue", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("VSValue", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("VSValue", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("VSValue", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
 
             }
 
@@ -3191,16 +3191,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized SortCodeCol;
 
             internal TblVSValueLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("VSValueLang2","VV2"), config.ExtractTableName("VSValueLang2","VSVALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("VSValueLang2", "VV2"), config.ExtractTableName("VSValueLang2", "VSVALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueSet"  , "VALUESET");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValuePool"  , "VALUEPOOL");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VSValueLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("VSValueLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3282,25 +3282,25 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteCol;
 
             internal TblValue(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Value","VAL"), config.ExtractTableName("Value","VALUE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Value", "VAL"), config.ExtractTableName("Value", "VALUE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Value", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "Unit", "UNIT");
-                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias,"Unit",config.GetDataProvider());
+                this.UnitCol = new Column4Parameterized(tmpColumnName, this.Alias, "Unit", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "ValueTextS", "VALUETEXTS");
-                this.ValueTextSCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueTextS",config.GetDataProvider());
+                this.ValueTextSCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueTextS", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "ValueTextL", "VALUETEXTL");
-                this.ValueTextLCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueTextL",config.GetDataProvider());
+                this.ValueTextLCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueTextL", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Value", "Footnote", "FOOTNOTE");
-                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"Footnote",config.GetDataProvider());
+                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "Footnote", config.GetDataProvider());
 
             }
 
@@ -3370,20 +3370,20 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized ValueTextLCol;
 
             internal TblValueLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueLang2","VA2"), config.ExtractTableName("ValueLang2","VALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueLang2", "VA2"), config.ExtractTableName("ValueLang2", "VALUE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValuePool"  , "VALUEPOOL");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "Unit"  , "UNIT");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "Unit", "UNIT");
                 this.UnitCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextS"  , "VALUETEXTS");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextS", "VALUETEXTS");
                 this.ValueTextSCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextL"  , "VALUETEXTL");
+                tmpColumnName = config.ExtractColumnName("ValueLang2", "ValueTextL", "VALUETEXTL");
                 this.ValueTextLCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3436,23 +3436,23 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized SortCodeCol;
 
             internal TblValueGroup(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueGroup","VPL"), config.ExtractTableName("ValueGroup","VALUEGROUP"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueGroup", "VPL"), config.ExtractTableName("ValueGroup", "VALUEGROUP"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "GroupCode", "GROUPCODE");
-                this.GroupCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"GroupCode",config.GetDataProvider());
+                this.GroupCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "GroupCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "ValueCode", "VALUECODE");
-                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueCode",config.GetDataProvider());
+                this.ValueCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueCode", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "GroupLevel", "GROUPLEVEL");
-                this.GroupLevelCol = new Column4Parameterized(tmpColumnName, this.Alias,"GroupLevel",config.GetDataProvider());
+                this.GroupLevelCol = new Column4Parameterized(tmpColumnName, this.Alias, "GroupLevel", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "ValueLevel", "VALUELEVEL");
-                this.ValueLevelCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueLevel",config.GetDataProvider());
+                this.ValueLevelCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueLevel", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueGroup", "SortCode", "SORTCODE");
-                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCode",config.GetDataProvider());
+                this.SortCodeCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCode", config.GetDataProvider());
 
             }
 
@@ -3489,16 +3489,16 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized SortCodeCol;
 
             internal TblValueGroupLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueGroupLang2","VL2"), config.ExtractTableName("ValueGroupLang2","VALUEGROUP_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueGroupLang2", "VL2"), config.ExtractTableName("ValueGroupLang2", "VALUEGROUP_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "Grouping"  , "GROUPING");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "Grouping", "GROUPING");
                 this.GroupingCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "GroupCode"  , "GROUPCODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "GroupCode", "GROUPCODE");
                 this.GroupCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValueCode"  , "VALUECODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "ValueCode", "VALUECODE");
                 this.ValueCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "SortCode"  , "SORTCODE");
+                tmpColumnName = config.ExtractColumnName("ValueGroupLang2", "SortCode", "SORTCODE");
                 this.SortCodeCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3565,23 +3565,23 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized MetaIdCol;
 
             internal TblValuePool(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValuePool","VPL"), config.ExtractTableName("ValuePool","VALUEPOOL"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValuePool", "VPL"), config.ExtractTableName("ValuePool", "VALUEPOOL"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValuePoolAlias", "VALUEPOOLALIAS");
-                this.ValuePoolAliasCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePoolAlias",config.GetDataProvider());
+                this.ValuePoolAliasCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePoolAlias", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValueTextExists", "VALUETEXTEXISTS");
-                this.ValueTextExistsCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueTextExists",config.GetDataProvider());
+                this.ValueTextExistsCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueTextExists", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "ValuePres", "VALUEPRES");
-                this.ValuePresCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePres",config.GetDataProvider());
+                this.ValuePresCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValuePool", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
 
             }
 
@@ -3612,14 +3612,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresTextCol;
 
             internal TblValuePoolLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValuePoolLang2","VP2"), config.ExtractTableName("ValuePoolLang2","VALUEPOOL_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValuePoolLang2", "VP2"), config.ExtractTableName("ValuePoolLang2", "VALUEPOOL_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePool"  , "VALUEPOOL");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePool", "VALUEPOOL");
                 this.ValuePoolCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePoolAlias"  , "VALUEPOOLALIAS");
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "ValuePoolAlias", "VALUEPOOLALIAS");
                 this.ValuePoolAliasCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ValuePoolLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3708,29 +3708,29 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteCol;
 
             internal TblValueSet(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueSet","VST"), config.ExtractTableName("ValueSet","VALUESET"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueSet", "VST"), config.ExtractTableName("ValueSet", "VALUESET"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueSet", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "Description", "DESCRIPTION");
-                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias,"Description",config.GetDataProvider());
+                this.DescriptionCol = new Column4Parameterized(tmpColumnName, this.Alias, "Description", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "Elimination", "ELIMINATION");
-                this.EliminationCol = new Column4Parameterized(tmpColumnName, this.Alias,"Elimination",config.GetDataProvider());
+                this.EliminationCol = new Column4Parameterized(tmpColumnName, this.Alias, "Elimination", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "ValuePool", "VALUEPOOL");
-                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePool",config.GetDataProvider());
+                this.ValuePoolCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePool", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "ValuePres", "VALUEPRES");
-                this.ValuePresCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValuePres",config.GetDataProvider());
+                this.ValuePresCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValuePres", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "GeoAreaNo", "GEOAREANO");
-                this.GeoAreaNoCol = new Column4Parameterized(tmpColumnName, this.Alias,"GeoAreaNo",config.GetDataProvider());
+                this.GeoAreaNoCol = new Column4Parameterized(tmpColumnName, this.Alias, "GeoAreaNo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "SortCodeExists", "SORTCODEEXISTS");
-                this.SortCodeExistsCol = new Column4Parameterized(tmpColumnName, this.Alias,"SortCodeExists",config.GetDataProvider());
+                this.SortCodeExistsCol = new Column4Parameterized(tmpColumnName, this.Alias, "SortCodeExists", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSet", "Footnote", "FOOTNOTE");
-                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"Footnote",config.GetDataProvider());
+                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "Footnote", config.GetDataProvider());
 
             }
 
@@ -3763,14 +3763,14 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized DescriptionCol;
 
             internal TblValueSetLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueSetLang2","VS2"), config.ExtractTableName("ValueSetLang2","VALUESET_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("ValueSetLang2", "VS2"), config.ExtractTableName("ValueSetLang2", "VALUESET_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "ValueSet"  , "VALUESET");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "ValueSet", "VALUESET");
                 this.ValueSetCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "Description"  , "DESCRIPTION");
+                tmpColumnName = config.ExtractColumnName("ValueSetLang2", "Description", "DESCRIPTION");
                 this.DescriptionCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
@@ -3797,13 +3797,13 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized GroupingCol;
 
             internal TblValueSetGrouping(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("ValueSetGrouping","VBL"), config.ExtractTableName("ValueSetGrouping","VALUESETGROUPING"), config.MetaOwner)
+            : base(config.ExtractAliasName("ValueSetGrouping", "VBL"), config.ExtractTableName("ValueSetGrouping", "VALUESETGROUPING"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("ValueSetGrouping", "ValueSet", "VALUESET");
-                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias,"ValueSet",config.GetDataProvider());
+                this.ValueSetCol = new Column4Parameterized(tmpColumnName, this.Alias, "ValueSet", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("ValueSetGrouping", "Grouping", "GROUPING");
-                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias,"Grouping",config.GetDataProvider());
+                this.GroupingCol = new Column4Parameterized(tmpColumnName, this.Alias, "Grouping", config.GetDataProvider());
 
             }
 
@@ -3850,19 +3850,19 @@ namespace PCAxis.Sql.DbConfig
             public Column4Parameterized FootnoteCol;
 
             internal TblVariable(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("Variable","VBL"), config.ExtractTableName("Variable","VARIABLE"), config.MetaOwner)
+            : base(config.ExtractAliasName("Variable", "VBL"), config.ExtractTableName("Variable", "VARIABLE"), config.MetaOwner)
             {
-                string tmpColumnName ="";
+                string tmpColumnName = "";
                 tmpColumnName = config.ExtractColumnName("Variable", "Variable", "VARIABLE");
-                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias,"Variable",config.GetDataProvider());
+                this.VariableCol = new Column4Parameterized(tmpColumnName, this.Alias, "Variable", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Variable", "PresText", "PRESTEXT");
-                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias,"PresText",config.GetDataProvider());
+                this.PresTextCol = new Column4Parameterized(tmpColumnName, this.Alias, "PresText", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Variable", "VariableInfo", "VARIABLEINFO");
-                this.VariableInfoCol = new Column4Parameterized(tmpColumnName, this.Alias,"VariableInfo",config.GetDataProvider());
+                this.VariableInfoCol = new Column4Parameterized(tmpColumnName, this.Alias, "VariableInfo", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Variable", "MetaId", "METAID");
-                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias,"MetaId",config.GetDataProvider());
+                this.MetaIdCol = new Column4Parameterized(tmpColumnName, this.Alias, "MetaId", config.GetDataProvider());
                 tmpColumnName = config.ExtractColumnName("Variable", "Footnote", "FOOTNOTE");
-                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias,"Footnote",config.GetDataProvider());
+                this.FootnoteCol = new Column4Parameterized(tmpColumnName, this.Alias, "Footnote", config.GetDataProvider());
 
             }
 
@@ -3888,12 +3888,12 @@ namespace PCAxis.Sql.DbConfig
             public Lang2Column4Parameterized PresTextCol;
 
             internal TblVariableLang2(SqlDbConfig_23 config)
-            : base(config.ExtractAliasName("VariableLang2","VB2"), config.ExtractTableName("VariableLang2","VARIABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
+            : base(config.ExtractAliasName("VariableLang2", "VB2"), config.ExtractTableName("VariableLang2", "VARIABLE_"), config.MetaOwner, config.MetaSuffixByLanguage)
             {
-                string tmpColumnName ="";
-                tmpColumnName = config.ExtractColumnName("VariableLang2", "Variable"  , "VARIABLE");
+                string tmpColumnName = "";
+                tmpColumnName = config.ExtractColumnName("VariableLang2", "Variable", "VARIABLE");
                 this.VariableCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
-                tmpColumnName = config.ExtractColumnName("VariableLang2", "PresText"  , "PRESTEXT");
+                tmpColumnName = config.ExtractColumnName("VariableLang2", "PresText", "PRESTEXT");
                 this.PresTextCol = new Lang2Column4Parameterized(tmpColumnName, this.Alias, this.Suffixes);
             }
 
