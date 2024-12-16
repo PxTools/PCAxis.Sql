@@ -426,7 +426,18 @@ namespace PCAxis.Sql.DbConfig
             return myOut;
         }
 
-
+        /// <summary>
+        /// String List version of  GetAllLanguages() used by apiutils
+        /// </summary>
+        public List<string> ListAllLanguages()
+        {
+            List<string> myOut = new List<string>();
+            foreach (LanguageType langType in mDatabase.Languages)
+            {
+                myOut.Add(langType.code);
+            }
+            return myOut;
+        }
 
         /// <summary>
         /// Gets the local table name for the given model name
