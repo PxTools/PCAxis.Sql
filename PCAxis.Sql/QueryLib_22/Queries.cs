@@ -6,6 +6,16 @@ namespace PCAxis.Sql.QueryLib_22
 {
     public class Queries
     {
+        public static string GetValueSetExistsIn(SqlDbConfig_22 db, string lang, PxSqlCommand sqlCommand)
+        {
+            if (db == null) throw new ArgumentNullException("db");
+
+            return $@"select '{lang}' As Language
+                        from 
+                         {db.ValueSetLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
+                        where
+                         {db.ValueSetLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}";
+        }
 
         public static string GetValueSetQuery(SqlDbConfig_22 db, string lang, PxSqlCommand sqlCommand)
         {
