@@ -58,6 +58,18 @@ namespace PCAxis.Sql.QueryLib_22
                             {db.ValueLang2.ValueCodeCol.Id(lang)}";
 
         }
+
+        public static string GetGroupingExistsIn(SqlDbConfig_22 db, string lang, PxSqlCommand sqlCommand)
+        {
+            if (db == null) throw new ArgumentNullException("db");
+
+            return $@"select '{lang}' As Language
+                        from 
+                          {db.GroupingLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
+                        where
+                          {db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
+        }
+
         public static string GetGroupingQuery(SqlDbConfig_22 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");

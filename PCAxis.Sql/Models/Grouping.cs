@@ -9,9 +9,12 @@ namespace PCAxis.Sql.Models
 
         public List<GroupedValue> Values { get; set; }
 
+        public List<string> AvailableLanguages { get; set; }
+
         public Grouping()
         {
             Values = new List<GroupedValue>();
+            AvailableLanguages = new List<string>();
         }
 
     }

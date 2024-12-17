@@ -90,8 +90,12 @@ namespace ManualTests
             string getId = _okGrouping;
 
             PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new();
-            PCAxis.Sql.Models.Grouping data_no = entryPoint.GetGrouping(getId, _mainLanguage);
+            PCAxis.Sql.Models.Grouping actual_data = entryPoint.GetGrouping(getId, _mainLanguage);
 
+            Assert.IsNotNull(actual_data);
+            Assert.AreEqual(2, actual_data.AvailableLanguages.Count);
+            Assert.IsTrue(actual_data.AvailableLanguages.Contains(_mainLanguage));
+            Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
 
 
             PCAxis.Sql.Models.Grouping data_en = entryPoint.GetGrouping(getId, "en");

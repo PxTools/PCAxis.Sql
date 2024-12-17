@@ -14,7 +14,6 @@ namespace PCAxis.Sql.Repositories
         internal ValueSetRepository()
         {
             _languagesInDbConfig = SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages();
-
         }
 
         internal ValueSet GetValueSet(string name, string language)
@@ -40,14 +39,15 @@ namespace PCAxis.Sql.Repositories
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
             parameters[0] = cmd.GetStringParameter("aValueSet", name);
-            var valuesetDS = cmd.ExecuteSelect(sqlValueset, parameters);
 
+            var valuesetDS = cmd.ExecuteSelect(sqlValueset, parameters);
             var valueDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlValuesetExistsInLang) ? null : cmd.ExecuteSelect(sqlValuesetExistsInLang, parameters);
 
             valueset = Parse(name, valuesetDS, valueDS, extraLangsDS);
 
+            //Adding langs we know exists without checking the DB 
             valueset.AvailableLanguages.Add(config.MainLanguage.code);
             if (!config.MainLanguage.code.Equals(language))
             {
