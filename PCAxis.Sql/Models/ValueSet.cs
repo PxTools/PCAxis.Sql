@@ -10,7 +10,7 @@ namespace PCAxis.Sql.Models
         public List<Value> Values { get; set; }
 
         /// <summary>
-        /// Always contains the primary language and the language of the request. Other secondary languages is added if the grouping is translated to that language. 
+        /// Always contains the primary language and the language of the request. Other secondary languages is added if the valueset is translated to that language. 
         /// </summary>
         public List<string> AvailableLanguages { get; set; }
 
