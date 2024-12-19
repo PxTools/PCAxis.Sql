@@ -10,38 +10,43 @@ namespace PCAxis.Sql.ApiUtils
 {
     //For things not found in PXSQLBuilder
     //needed by Pxwebapi2
-    //returned data should be defined in PCAxis.Sql.Models if complex 
-    public class ApiUtil
+    //returned data should be defined in PCAxis.Sql.Models if complex
+
+    //In Pxwebapi2 only 1 database is possible, so SqlDbConfigsStatic.DefaultDatabase is the only one.
+    //It is therefore simpler to prepare some of the sqls at startup.
+
+    public static class ApiUtilStatic
     {
-        readonly List<string> _languagesInDbConfig;
-        public ApiUtil()
+
+        private static readonly List<string> LanguagesInDbConfig;
+        static ApiUtilStatic()
         {
+            Console.WriteLine("Start ApiUtilStatic");
             var config = SqlDbConfigsStatic.DefaultDatabase;
-            _languagesInDbConfig = config.ListAllLanguages();
+            LanguagesInDbConfig = config.ListAllLanguages();
         }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
-        public ValueSet GetValueSet(string name, string language)
+        static public ValueSet GetValueSet(string name, string language)
         {
             //validate input
             string valueSetId = ValidateIdString(name);
-            string languageCode = ValidateLangCodeString(language, _languagesInDbConfig);
+            string languageCode = ValidateLangCodeString(language);
 
-            ValueSetRepository mValueSetRepository = new ValueSetRepository();
-            return mValueSetRepository.GetValueSet(valueSetId, languageCode);
+            return ValueSetRepositoryStatic.GetValueSet(valueSetId, languageCode);
         }
 
-        public Grouping GetGrouping(string name, string language)
+        static public Grouping GetGrouping(string name, string language)
         {
             //validate input
             string groupingId = ValidateIdString(name);
-            string languageCode = ValidateLangCodeString(language, _languagesInDbConfig);
+            string languageCode = ValidateLangCodeString(language);
 
-            GroupingRepository mGroupingRepository = new GroupingRepository();
-            return mGroupingRepository.GetGrouping(groupingId, languageCode);
+            return GroupingRepositoryStatic.GetGrouping(groupingId, languageCode);
         }
 
 
+        //TODO:
         // liste med tabellid og publ dato
         // tabellid er unik, mens publ dato er det vi spørr mot
 
@@ -75,13 +80,13 @@ namespace PCAxis.Sql.ApiUtils
 
         //dump to pxfile ?
 
-        private static string ValidateLangCodeString(string input, List<string> languagesInDbConfig)
+        private static string ValidateLangCodeString(string input)
         {
             if (input == null)
             {
                 throw new ArgumentException("The language cannot be null.");
             }
-            if (!languagesInDbConfig.Contains(input))
+            if (!LanguagesInDbConfig.Contains(input))
             {
                 throw new ArgumentException("Cant find language in config.");
             }

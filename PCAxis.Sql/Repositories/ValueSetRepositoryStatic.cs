@@ -8,15 +8,33 @@ using PCAxis.Sql.Models;
 
 namespace PCAxis.Sql.Repositories
 {
-    internal class ValueSetRepository
+    internal static class ValueSetRepositoryStatic
     {
-        readonly List<string> _languagesInDbConfig;
-        internal ValueSetRepository()
+        private static readonly List<string> LanguagesInDbConfig;
+
+        private static readonly Dictionary<string, List<string>> SqlquerysByLanguage;
+        static ValueSetRepositoryStatic()
         {
-            _languagesInDbConfig = SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages();
+            LanguagesInDbConfig = SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages();
+
+            //Prepares the sqls. 3 per language. 
+            SqlquerysByLanguage = new Dictionary<string, List<string>>();
+
+            var config = SqlDbConfigsStatic.DefaultDatabase;
+
+            InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
+            var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
+
+            foreach (var language in LanguagesInDbConfig)
+            {
+                GetQueries(language, out string sqlValueset, out string sqlValues, out string sqlValuesetExistsInLang, config, cmd);
+                List<string> sqlquerys = new List<string> { sqlValueset, sqlValues, sqlValuesetExistsInLang };
+                SqlquerysByLanguage[language] = sqlquerys;
+            }
+
         }
 
-        internal ValueSet GetValueSet(string name, string language)
+        internal static Models.ValueSet GetValueSet(string name, string language)
         {
             //validate input
             if (name == null || language == null)
@@ -24,18 +42,13 @@ namespace PCAxis.Sql.Repositories
                 return null;
             }
 
-            ValueSet valueset = null;
-            string sqlValueset;
-            string sqlValues;
+            string sqlValueset = SqlquerysByLanguage[language][0];
+            string sqlValues = SqlquerysByLanguage[language][1];
+            string sqlValuesetExistsInLang = SqlquerysByLanguage[language][2];
 
             var config = SqlDbConfigsStatic.DefaultDatabase;
-
-            InfoForDbConnection info;
-
-            info = config.GetInfoForDbConnection(config.GetDefaultConnString());
+            InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
-
-            GetQueries(language, out sqlValueset, out sqlValues, out string sqlValuesetExistsInLang, config, cmd);
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
             parameters[0] = cmd.GetStringParameter("aValueSet", name);
@@ -45,7 +58,7 @@ namespace PCAxis.Sql.Repositories
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlValuesetExistsInLang) ? null : cmd.ExecuteSelect(sqlValuesetExistsInLang, parameters);
 
-            valueset = Parse(name, valuesetDS, valueDS, extraLangsDS);
+            ValueSet valueset = Parse(name, valuesetDS, valueDS, extraLangsDS);
 
             //Adding langs we know exists without checking the DB 
             valueset.AvailableLanguages.Add(config.MainLanguage.code);
@@ -67,7 +80,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValueset = QueryLib_21.Queries.GetValueSetQuery((SqlDbConfig_21)config, language, sqlCommand);
                 sqlValues = QueryLib_21.Queries.GetValueSetValuesQuery((SqlDbConfig_21)config, language, sqlCommand);
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -84,7 +97,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_22.Queries.GetValueSetValuesQuery((SqlDbConfig_22)config, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -101,7 +114,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_23.Queries.GetValueSetValuesQuery((SqlDbConfig_23)config, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -119,7 +132,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_24.Queries.GetValueSetValuesQuery((SqlDbConfig_24)config, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -132,7 +145,7 @@ namespace PCAxis.Sql.Repositories
             }
         }
 
-        private static ValueSet Parse(string name, DataSet valuesetDS, DataSet vsValue, DataSet extraLangsDS)
+        private static Models.ValueSet Parse(string name, DataSet valuesetDS, DataSet vsValue, DataSet extraLangsDS)
         {
             if (valuesetDS.Tables.Count == 0 || valuesetDS.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
             {

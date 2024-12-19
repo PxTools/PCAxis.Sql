@@ -1,5 +1,6 @@
 using System.Configuration;
 
+using PCAxis.Sql.ApiUtils;
 using PCAxis.Sql.DbConfig;
 
 namespace ManualTests
@@ -11,7 +12,6 @@ namespace ManualTests
         private readonly string _mainLanguage;
         private readonly string _okVS;
         private readonly string _okGrouping;
-        private readonly PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new();
 
         public ConfigTest()
         {
@@ -32,7 +32,6 @@ namespace ManualTests
         [TestMethod]
         public void TestReadsConfig()
         {
-
             var k = ConfigurationManager.AppSettings["dbconfigFile"];
             Assert.AreEqual("SqlDb.config", k);
         }
@@ -43,7 +42,6 @@ namespace ManualTests
         public void TestGetsDefaultDatabase()
         {
             var dbConf = SqlDbConfigsStatic.DefaultDatabase;
-
             var langCount = dbConf.GetAllLanguages().Count;
             Assert.IsTrue(langCount > 1);
         }
@@ -53,7 +51,7 @@ namespace ManualTests
         {
             string getId = _okVS;
 
-            PCAxis.Sql.Models.ValueSet actual_data = entryPoint.GetValueSet(getId, _mainLanguage);
+            PCAxis.Sql.Models.ValueSet actual_data = ApiUtilStatic.GetValueSet(getId, _mainLanguage);
             Assert.IsNotNull(actual_data);
             Assert.AreEqual(2, actual_data.AvailableLanguages.Count);
             Assert.IsTrue(actual_data.AvailableLanguages.Contains(_mainLanguage));
@@ -66,7 +64,7 @@ namespace ManualTests
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Text));
 
 
-            actual_data = entryPoint.GetValueSet(getId, "en");
+            actual_data = ApiUtilStatic.GetValueSet(getId, "en");
             Assert.IsNotNull(actual_data);
             Assert.AreEqual(2, actual_data.AvailableLanguages.Count);
             Assert.IsTrue(actual_data.AvailableLanguages.Contains(_mainLanguage));
@@ -89,8 +87,7 @@ namespace ManualTests
             //string getId = "GrkretsBydel2002";
             string getId = _okGrouping;
 
-            PCAxis.Sql.ApiUtils.ApiUtil entryPoint = new();
-            PCAxis.Sql.Models.Grouping actual_data = entryPoint.GetGrouping(getId, _mainLanguage);
+            PCAxis.Sql.Models.Grouping actual_data = ApiUtilStatic.GetGrouping(getId, _mainLanguage);
 
             Assert.IsNotNull(actual_data);
             Assert.AreEqual(2, actual_data.AvailableLanguages.Count);
@@ -98,7 +95,7 @@ namespace ManualTests
             Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
 
 
-            PCAxis.Sql.Models.Grouping data_en = entryPoint.GetGrouping(getId, "en");
+            PCAxis.Sql.Models.Grouping data_en = ApiUtilStatic.GetGrouping(getId, "en");
 
 
         }
@@ -110,7 +107,7 @@ namespace ManualTests
             // ApplicationException means not found (does no exist in this db)
 
             string vsId = "Spa3ce ok.   _ :sdfsdDSÆØ";
-            Assert.ThrowsException<ApplicationException>(() => entryPoint.GetValueSet(vsId, "en")
+            Assert.ThrowsException<ApplicationException>(() => ApiUtilStatic.GetValueSet(vsId, "en")
                  );
 
             List<string> badIds = new();
@@ -124,7 +121,7 @@ namespace ManualTests
 
             foreach (string badId in badIds)
             {
-                Assert.ThrowsException<ArgumentException>(() => entryPoint.GetValueSet(badId, "en"), "Does not fail for: " + badId
+                Assert.ThrowsException<ArgumentException>(() => ApiUtilStatic.GetValueSet(badId, "en"), "Does not fail for: " + badId
                     );
             }
 

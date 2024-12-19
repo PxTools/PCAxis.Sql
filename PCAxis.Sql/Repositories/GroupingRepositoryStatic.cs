@@ -8,15 +8,33 @@ using PCAxis.Sql.Models;
 
 namespace PCAxis.Sql.Repositories
 {
-    internal class GroupingRepository
+    internal static class GroupingRepositoryStatic
     {
-        readonly List<string> _languagesInDbConfig;
-        internal GroupingRepository()
+        private static readonly List<string> LanguagesInDbConfig;
+
+        private static readonly Dictionary<string, List<string>> SqlquerysByLanguage;
+        static GroupingRepositoryStatic()
         {
-            _languagesInDbConfig = SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages();
+            LanguagesInDbConfig = SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages();
+
+            //Prepares the sqls. 3 per language. 
+            SqlquerysByLanguage = new Dictionary<string, List<string>>();
+
+            var config = SqlDbConfigsStatic.DefaultDatabase;
+
+            InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
+            var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
+
+            foreach (var language in LanguagesInDbConfig)
+            {
+                GetQueries(language, out string sqlGrouping, out string sqlValues, out string sqlGroupingExistsInLang, config, cmd);
+                List<string> sqlquerys = new List<string> { sqlGrouping, sqlValues, sqlGroupingExistsInLang };
+                SqlquerysByLanguage[language] = sqlquerys;
+            }
+
         }
 
-        internal Models.Grouping GetGrouping(string name, string language)
+        internal static Models.Grouping GetGrouping(string name, string language)
         {
             //validate input
             if (name == null || language == null)
@@ -24,28 +42,24 @@ namespace PCAxis.Sql.Repositories
                 return null;
             }
 
-            var grouping = new Models.Grouping();
-            string sqlGrouping;
-            string sqlValues;
+            string sqlGrouping = SqlquerysByLanguage[language][0];
+            string sqlValues = SqlquerysByLanguage[language][1];
+            string sqlGroupingExistsInLang = SqlquerysByLanguage[language][2];
 
             var config = SqlDbConfigsStatic.DefaultDatabase;
-
-            InfoForDbConnection info;
-
-            info = config.GetInfoForDbConnection(config.GetDefaultConnString());
+            InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
-
-            GetQueries(language, out sqlGrouping, out sqlValues, out string sqlGroupingExistsInLang, config, cmd);
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
             parameters[0] = cmd.GetStringParameter("aGrouping", name);
 
-            var valueGroup = cmd.ExecuteSelect(sqlGrouping, parameters);
-            var vsValue = cmd.ExecuteSelect(sqlValues, parameters);
+            var groupingDS = cmd.ExecuteSelect(sqlGrouping, parameters);
+            var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlGroupingExistsInLang) ? null : cmd.ExecuteSelect(sqlGroupingExistsInLang, parameters);
 
-            grouping = Parse(valueGroup, vsValue, extraLangsDS);
+
+            Grouping grouping = Parse(groupingDS, valuesDS, extraLangsDS);
 
             //Adding langs we know exists without checking the DB 
             grouping.AvailableLanguages.Add(config.MainLanguage.code);
@@ -70,7 +84,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_21.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -89,7 +103,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_22.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -107,7 +121,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_23.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -126,7 +140,7 @@ namespace PCAxis.Sql.Repositories
                 sqlValues = QueryLib_24.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
 
                 string glue = String.Empty;
-                foreach (var lang in config.ListAllLanguages())
+                foreach (var lang in LanguagesInDbConfig)
                 {
                     if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                     {
@@ -140,7 +154,7 @@ namespace PCAxis.Sql.Repositories
 
         }
 
-        private static PCAxis.Sql.Models.Grouping Parse(DataSet valueGroup, DataSet vsValue, DataSet extraLangsDS)
+        private static Models.Grouping Parse(DataSet valueGroup, DataSet vsValue, DataSet extraLangsDS)
         {
             //Make sure we have a grouping
             if (valueGroup.Tables.Count == 0 || valueGroup.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
@@ -149,7 +163,7 @@ namespace PCAxis.Sql.Repositories
             }
 
             var grouping = new PCAxis.Sql.Models.Grouping();
-            grouping.Id = valueGroup.Tables[0].Rows[0][0].ToString(); ;
+            grouping.Id = valueGroup.Tables[0].Rows[0][0].ToString();
             grouping.Name = valueGroup.Tables[0].Rows[0][1].ToString();
 
 
