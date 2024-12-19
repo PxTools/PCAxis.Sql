@@ -6,6 +6,16 @@ namespace PCAxis.Sql.QueryLib_24
 {
     public class Queries
     {
+        public static string GetValueSetExistsIn(SqlDbConfig_24 db, string lang, PxSqlCommand sqlCommand)
+        {
+            if (db == null) throw new ArgumentNullException("db");
+
+            return $@"select '{lang}' As Language
+                        from 
+                         {db.ValueSetLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
+                        where
+                         {db.ValueSetLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}";
+        }
 
         public static string GetValueSetQuery(SqlDbConfig_24 db, string lang, PxSqlCommand sqlCommand)
         {
@@ -47,6 +57,8 @@ namespace PCAxis.Sql.QueryLib_24
                             {db.ValueLang2.ValueCodeCol.Id(lang)}";
 
         }
+
+
         public static string GetGroupingQuery(SqlDbConfig_24 db, string lang, PxSqlCommand sqlCommand)
         {
             if (db == null) throw new ArgumentNullException("db");
@@ -57,8 +69,20 @@ namespace PCAxis.Sql.QueryLib_24
                         FROM 
 	                        {db.GroupingLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
                         WHERE
-	                        {db.GroupingLang2.GroupingCol.Id(lang)} =  {sqlCommand.GetParameterRef("aGrouping")}";
+	                        {db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
         }
+
+        public static string GetGroupingExistsIn(SqlDbConfig_24 db, string lang, PxSqlCommand sqlCommand)
+        {
+            if (db == null) throw new ArgumentNullException("db");
+
+            return $@"select '{lang}' As Language
+                        from 
+                          {db.GroupingLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
+                        where
+                          {db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
+        }
+
 
         public static string GetGroupingValuesQuery(SqlDbConfig_24 db, string lang, PxSqlCommand sqlCommand)
         {

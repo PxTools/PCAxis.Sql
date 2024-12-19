@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 using PCAxis.Sql.DbConfig;
@@ -18,8 +17,7 @@ namespace PCAxis.Sql.ApiUtils
         public ApiUtil()
         {
             var config = SqlDbConfigsStatic.DefaultDatabase;
-            //stringCollection  --> List<string>
-            _languagesInDbConfig = config.GetAllLanguages().Cast<string>().ToList();
+            _languagesInDbConfig = config.ListAllLanguages();
         }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
@@ -45,6 +43,7 @@ namespace PCAxis.Sql.ApiUtils
 
 
         // liste med tabellid og publ dato
+        // tabellid er unik, mens publ dato er det vi spørr mot
 
         //GetMenuLookupTables
         //GetMenuLookupFolders

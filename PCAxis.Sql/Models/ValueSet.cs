@@ -9,12 +9,15 @@ namespace PCAxis.Sql.Models
 
         public List<Value> Values { get; set; }
 
-        //To do: public List<string> AvailableLanguages { get; set; }
+        /// <summary>
+        /// Always contains the primary language and the language of the request. Other secondary languages is added if the valueset is translated to that language. 
+        /// </summary>
+        public List<string> AvailableLanguages { get; set; }
 
         public ValueSet()
         {
             Values = new List<Value>();
-            //  AvailableLanguages = new List<string>();
+            AvailableLanguages = new List<string>();
         }
 
     }

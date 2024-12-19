@@ -9,9 +9,15 @@ namespace PCAxis.Sql.Models
 
         public List<GroupedValue> Values { get; set; }
 
+        /// <summary>
+        /// Always contains the primary language and the language of the request. Other secondary languages is added if the grouping is translated to that language. 
+        /// </summary>
+        public List<string> AvailableLanguages { get; set; }
+
         public Grouping()
         {
             Values = new List<GroupedValue>();
+            AvailableLanguages = new List<string>();
         }
 
     }
