@@ -103,7 +103,7 @@ namespace PCAxis.Sql.Repositories
 
             var grouping = new PCAxis.Sql.Models.Grouping();
             grouping.Id = groupingDS.Tables[0].Rows[0][0].ToString();
-            grouping.Name = groupingDS.Tables[0].Rows[0][1].ToString();
+            grouping.Label = groupingDS.Tables[0].Rows[0][1].ToString();
 
 
             var values = new Dictionary<string, GroupedValue>();

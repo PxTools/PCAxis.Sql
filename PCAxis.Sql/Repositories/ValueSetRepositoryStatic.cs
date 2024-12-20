@@ -100,11 +100,11 @@ namespace PCAxis.Sql.Repositories
 
             ValueSet valueset = new ValueSet();
             valueset.Id = valuesetId;
-            valueset.Name = valuesetDS.Tables[0].Rows[0][1].ToString();
+            valueset.Label = valuesetDS.Tables[0].Rows[0][1].ToString();
 
 
             //PresText came in version 2.1 and is optional  ...  desciption is up to 200 chars
-            if (String.IsNullOrEmpty(valueset.Name))
+            if (String.IsNullOrEmpty(valueset.Label))
             {
                 var asPresText = valuesetDS.Tables[0].Rows[0][2].ToString(); ;
                 int gridPosition = asPresText.IndexOf('#');
@@ -112,7 +112,7 @@ namespace PCAxis.Sql.Repositories
                 {
                     asPresText = asPresText.Substring(0, gridPosition);
                 }
-                valueset.Name = asPresText;
+                valueset.Label = asPresText;
             }
 
 

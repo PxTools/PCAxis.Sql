@@ -5,7 +5,7 @@ namespace PCAxis.Sql.Models
     public class ValueSet
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Label { get; set; }
 
         public List<Value> Values { get; set; }
 

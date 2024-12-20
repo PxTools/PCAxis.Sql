@@ -5,7 +5,7 @@ namespace PCAxis.Sql.Models
     public class Grouping
     {
         public string Id { get; set; }
-        public string Name { get; set; }
+        public string Label { get; set; }
 
         public List<GroupedValue> Values { get; set; }
 
