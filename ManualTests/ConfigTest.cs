@@ -58,7 +58,7 @@ namespace ManualTests
             Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
 
             Assert.AreEqual(actual_data.Id, getId);
-            Assert.IsFalse(String.IsNullOrEmpty(actual_data.Name));
+            Assert.IsFalse(String.IsNullOrEmpty(actual_data.Label));
             Assert.IsTrue(actual_data.Values.Count > 0);
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Code));
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Text));
@@ -71,7 +71,7 @@ namespace ManualTests
             Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
 
             Assert.AreEqual(actual_data.Id, getId);
-            Assert.IsFalse(String.IsNullOrEmpty(actual_data.Name));
+            Assert.IsFalse(String.IsNullOrEmpty(actual_data.Label));
             Assert.IsTrue(actual_data.Values.Count > 0);
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Code));
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Text));

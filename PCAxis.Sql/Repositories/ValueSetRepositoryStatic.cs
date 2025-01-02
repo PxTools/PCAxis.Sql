@@ -21,23 +21,26 @@ namespace PCAxis.Sql.Repositories
             SqlquerysByLanguage = new Dictionary<string, List<string>>();
 
             var config = SqlDbConfigsStatic.DefaultDatabase;
+            AbstractQueries queries = AbstractQueries.GetSqlqueries(config);
 
             InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
-            var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
+            var sqlCommand = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
 
             foreach (var language in LanguagesInDbConfig)
             {
-                GetQueries(language, out string sqlValueset, out string sqlValues, out string sqlValuesetExistsInLang, config, cmd);
+                string sqlValueset = queries.GetValueSetQuery(language, sqlCommand);
+                string sqlValues = queries.GetValueSetValuesQuery(language, sqlCommand);
+                string sqlValuesetExistsInLang = GetOtherLanguagesSql(queries, language, config, sqlCommand);
                 List<string> sqlquerys = new List<string> { sqlValueset, sqlValues, sqlValuesetExistsInLang };
                 SqlquerysByLanguage[language] = sqlquerys;
             }
 
         }
 
-        internal static Models.ValueSet GetValueSet(string name, string language)
+        internal static Models.ValueSet GetValueSet(string valuesetId, string language)
         {
             //validate input
-            if (name == null || language == null)
+            if (valuesetId == null || language == null)
             {
                 return null;
             }
@@ -51,14 +54,14 @@ namespace PCAxis.Sql.Repositories
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("aValueSet", name);
+            parameters[0] = cmd.GetStringParameter("aValueSet", valuesetId);
 
             var valuesetDS = cmd.ExecuteSelect(sqlValueset, parameters);
-            var valueDS = cmd.ExecuteSelect(sqlValues, parameters);
+            var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlValuesetExistsInLang) ? null : cmd.ExecuteSelect(sqlValuesetExistsInLang, parameters);
 
-            ValueSet valueset = Parse(name, valuesetDS, valueDS, extraLangsDS);
+            ValueSet valueset = Parse(valuesetId, valuesetDS, valuesDS, extraLangsDS);
 
             //Adding langs we know exists without checking the DB 
             valueset.AvailableLanguages.Add(config.MainLanguage.code);
@@ -69,96 +72,39 @@ namespace PCAxis.Sql.Repositories
             return valueset;
         }
 
-        private static void GetQueries(string language, out string sqlValueset, out string sqlValues, out string sqlValuesetExistsInLang, SqlDbConfig config, PxSqlCommand sqlCommand)
+        private static string GetOtherLanguagesSql(AbstractQueries queries, string language, SqlDbConfig config, PxSqlCommand sqlCommand)
         {
-            sqlValueset = string.Empty;
-            sqlValues = string.Empty;
-            sqlValuesetExistsInLang = string.Empty;
+            string sqlValuesetExistsInLang = string.Empty;
 
-            if (config.MetaModel.Equals("2.1"))
+            string glue = String.Empty;
+            foreach (var lang in LanguagesInDbConfig)
             {
-                sqlValueset = QueryLib_21.Queries.GetValueSetQuery((SqlDbConfig_21)config, language, sqlCommand);
-                sqlValues = QueryLib_21.Queries.GetValueSetValuesQuery((SqlDbConfig_21)config, language, sqlCommand);
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
+                if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                 {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
+                    //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
 
-                        sqlValuesetExistsInLang += glue + QueryLib_21.Queries.GetValueSetExistsIn((SqlDbConfig_21)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
+                    sqlValuesetExistsInLang += glue + queries.GetValueSetExistsIn(lang, sqlCommand);
+                    glue = " UNION ";
                 }
             }
-            else if (config.MetaModel.Equals("2.2"))
-            {
-                sqlValueset = QueryLib_22.Queries.GetValueSetQuery((SqlDbConfig_22)config, language, sqlCommand);
-                sqlValues = QueryLib_22.Queries.GetValueSetValuesQuery((SqlDbConfig_22)config, language, sqlCommand);
+            return sqlValuesetExistsInLang;
 
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
-
-                        sqlValuesetExistsInLang += glue + QueryLib_22.Queries.GetValueSetExistsIn((SqlDbConfig_22)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-            }
-            else if (config.MetaModel.Equals("2.3"))
-            {
-                sqlValueset = QueryLib_23.Queries.GetValueSetQuery((SqlDbConfig_23)config, language, sqlCommand);
-                sqlValues = QueryLib_23.Queries.GetValueSetValuesQuery((SqlDbConfig_23)config, language, sqlCommand);
-
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
-
-                        sqlValuesetExistsInLang += glue + QueryLib_23.Queries.GetValueSetExistsIn((SqlDbConfig_23)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-
-            }
-            else if (config.MetaModel.Equals("2.4"))
-            {
-                sqlValueset = QueryLib_24.Queries.GetValueSetQuery((SqlDbConfig_24)config, language, sqlCommand);
-                sqlValues = QueryLib_24.Queries.GetValueSetValuesQuery((SqlDbConfig_24)config, language, sqlCommand);
-
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
-
-                        sqlValuesetExistsInLang += glue + QueryLib_24.Queries.GetValueSetExistsIn((SqlDbConfig_24)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-            }
         }
 
-        private static Models.ValueSet Parse(string name, DataSet valuesetDS, DataSet vsValue, DataSet extraLangsDS)
+        private static Models.ValueSet Parse(string valuesetId, DataSet valuesetDS, DataSet valuesDS, DataSet extraLangsDS)
         {
-            if (valuesetDS.Tables.Count == 0 || valuesetDS.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
+            if (valuesetDS.Tables.Count == 0 || valuesetDS.Tables[0].Rows.Count < 1 || valuesDS.Tables.Count == 0)
             {
-                throw new ApplicationException("Bad ValueSet");
+                throw new ApplicationException("ValueSet " + valuesetId + " not found or empty");
             }
 
             ValueSet valueset = new ValueSet();
-            valueset.Id = name;
-            valueset.Name = valuesetDS.Tables[0].Rows[0][1].ToString();
+            valueset.Id = valuesetId;
+            valueset.Label = valuesetDS.Tables[0].Rows[0][1].ToString();
 
 
             //PresText came in version 2.1 and is optional  ...  desciption is up to 200 chars
-            if (String.IsNullOrEmpty(valueset.Name))
+            if (String.IsNullOrEmpty(valueset.Label))
             {
                 var asPresText = valuesetDS.Tables[0].Rows[0][2].ToString(); ;
                 int gridPosition = asPresText.IndexOf('#');
@@ -166,17 +112,17 @@ namespace PCAxis.Sql.Repositories
                 {
                     asPresText = asPresText.Substring(0, gridPosition);
                 }
-                valueset.Name = asPresText;
+                valueset.Label = asPresText;
             }
 
 
 
 
-            for (int i = 0; i < vsValue.Tables[0].Rows.Count; i++)
+            for (int i = 0; i < valuesDS.Tables[0].Rows.Count; i++)
             {
                 var v = new Models.Value();
-                v.Code = vsValue.Tables[0].Rows[i][0].ToString();
-                v.Text = vsValue.Tables[0].Rows[i][3] == DBNull.Value ? vsValue.Tables[0].Rows[i][4].ToString() : vsValue.Tables[0].Rows[i][3].ToString();
+                v.Code = valuesDS.Tables[0].Rows[i][0].ToString();
+                v.Text = valuesDS.Tables[0].Rows[i][3] == DBNull.Value ? valuesDS.Tables[0].Rows[i][4].ToString() : valuesDS.Tables[0].Rows[i][3].ToString();
                 valueset.Values.Add(v);
             }
 

@@ -21,23 +21,26 @@ namespace PCAxis.Sql.Repositories
             SqlquerysByLanguage = new Dictionary<string, List<string>>();
 
             var config = SqlDbConfigsStatic.DefaultDatabase;
+            AbstractQueries queries = AbstractQueries.GetSqlqueries(config);
 
             InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
-            var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
+            var sqlCommand = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
 
             foreach (var language in LanguagesInDbConfig)
             {
-                GetQueries(language, out string sqlGrouping, out string sqlValues, out string sqlGroupingExistsInLang, config, cmd);
+                string sqlGrouping = queries.GetGroupingQuery(language, sqlCommand);
+                string sqlValues = queries.GetGroupingValuesQuery(language, sqlCommand); ;
+                string sqlGroupingExistsInLang = GetOtherLanguagesSql(queries, language, config, sqlCommand);
                 List<string> sqlquerys = new List<string> { sqlGrouping, sqlValues, sqlGroupingExistsInLang };
                 SqlquerysByLanguage[language] = sqlquerys;
             }
 
         }
 
-        internal static Models.Grouping GetGrouping(string name, string language)
+        internal static Models.Grouping GetGrouping(string groupingId, string language)
         {
             //validate input
-            if (name == null || language == null)
+            if (groupingId == null || language == null)
             {
                 return null;
             }
@@ -51,7 +54,7 @@ namespace PCAxis.Sql.Repositories
             var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString);
 
             System.Data.Common.DbParameter[] parameters = new System.Data.Common.DbParameter[1];
-            parameters[0] = cmd.GetStringParameter("aGrouping", name);
+            parameters[0] = cmd.GetStringParameter("aGrouping", groupingId);
 
             var groupingDS = cmd.ExecuteSelect(sqlGrouping, parameters);
             var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
@@ -59,7 +62,7 @@ namespace PCAxis.Sql.Repositories
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlGroupingExistsInLang) ? null : cmd.ExecuteSelect(sqlGroupingExistsInLang, parameters);
 
 
-            Grouping grouping = Parse(groupingDS, valuesDS, extraLangsDS);
+            Models.Grouping grouping = Parse(groupingId, groupingDS, valuesDS, extraLangsDS);
 
             //Adding langs we know exists without checking the DB 
             grouping.AvailableLanguages.Add(config.MainLanguage.code);
@@ -71,106 +74,42 @@ namespace PCAxis.Sql.Repositories
             return grouping;
         }
 
-        private static void GetQueries(string language, out string sqlGrouping, out string sqlValues, out string sqlGroupingExistsInLang, SqlDbConfig config, PxSqlCommand sqlCommand)
+        private static string GetOtherLanguagesSql(AbstractQueries queries, string language, SqlDbConfig config, PxSqlCommand sqlCommand)
         {
-            sqlGrouping = string.Empty;
-            sqlValues = string.Empty;
-            sqlGroupingExistsInLang = string.Empty;
-
-            if (config.MetaModel.Equals("2.1"))
+            string sqlGroupingExistsInLang = String.Empty;
+            string glue = String.Empty;
+            foreach (var lang in LanguagesInDbConfig)
             {
-                SqlDbConfig_21 cfg = config as SqlDbConfig_21;
-                sqlGrouping = QueryLib_21.Queries.GetGroupingQuery(cfg, language, sqlCommand);
-                sqlValues = QueryLib_21.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
-
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
+                if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
                 {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
+                    //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
 
-                        sqlGroupingExistsInLang += glue + QueryLib_21.Queries.GetGroupingExistsIn((SqlDbConfig_21)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-
-            }
-            else if (config.MetaModel.Equals("2.2"))
-            {
-                SqlDbConfig_22 cfg = config as SqlDbConfig_22;
-                sqlGrouping = QueryLib_22.Queries.GetGroupingQuery(cfg, language, sqlCommand);
-                sqlValues = QueryLib_22.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
-
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        sqlGroupingExistsInLang += glue + QueryLib_22.Queries.GetGroupingExistsIn((SqlDbConfig_22)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
+                    sqlGroupingExistsInLang += glue + queries.GetGroupingExistsIn(lang, sqlCommand);
+                    glue = " UNION ";
                 }
             }
-            else if (config.MetaModel.Equals("2.3"))
-            {
-                //var meta = new QueryLib_23.MetaQuery((SqlDbConfig_23)config, config.GetInfoForDbConnection("", ""));
-                //meta.LanguageCodes = config.GetAllLanguages();
-                SqlDbConfig_23 cfg = config as SqlDbConfig_23;
-                sqlGrouping = QueryLib_23.Queries.GetGroupingQuery(cfg, language, sqlCommand);
-                sqlValues = QueryLib_23.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
+            return sqlGroupingExistsInLang;
 
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
-
-                        sqlGroupingExistsInLang += glue + QueryLib_23.Queries.GetGroupingExistsIn((SqlDbConfig_23)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-
-            }
-            else if (config.MetaModel.Equals("2.4"))
-            {
-                SqlDbConfig_24 cfg = config as SqlDbConfig_24;
-                sqlGrouping = QueryLib_24.Queries.GetGroupingQuery(cfg, language, sqlCommand);
-                sqlValues = QueryLib_24.Queries.GetGroupingValuesQuery(cfg, language, sqlCommand);
-
-                string glue = String.Empty;
-                foreach (var lang in LanguagesInDbConfig)
-                {
-                    if (!lang.Equals(config.MainLanguage.code) && !lang.Equals(language))
-                    {
-                        //skips: config.MainLanguage has to exist and language will fail in GetValueSetQuery if vaulset is not translated
-
-                        sqlGroupingExistsInLang += glue + QueryLib_24.Queries.GetGroupingExistsIn((SqlDbConfig_24)config, lang, sqlCommand);
-                        glue = " UNION ";
-                    }
-                }
-            }
 
         }
 
-        private static Models.Grouping Parse(DataSet valueGroup, DataSet vsValue, DataSet extraLangsDS)
+        private static Models.Grouping Parse(string groupingId, DataSet groupingDS, DataSet valuesDS, DataSet extraLangsDS)
         {
             //Make sure we have a grouping
-            if (valueGroup.Tables.Count == 0 || valueGroup.Tables[0].Rows.Count < 1 || vsValue.Tables.Count == 0)
+            if (groupingDS.Tables.Count == 0 || groupingDS.Tables[0].Rows.Count < 1 || valuesDS.Tables.Count == 0)
             {
-                throw new ApplicationException("Bad Grouping");
+                throw new ApplicationException("Grouping " + groupingId + " not found or empty");
             }
 
             var grouping = new PCAxis.Sql.Models.Grouping();
-            grouping.Id = valueGroup.Tables[0].Rows[0][0].ToString();
-            grouping.Name = valueGroup.Tables[0].Rows[0][1].ToString();
+            grouping.Id = groupingDS.Tables[0].Rows[0][0].ToString();
+            grouping.Label = groupingDS.Tables[0].Rows[0][1].ToString();
 
 
             var values = new Dictionary<string, GroupedValue>();
-            for (int i = 0; i < vsValue.Tables[0].Rows.Count; i++)
+            for (int i = 0; i < valuesDS.Tables[0].Rows.Count; i++)
             {
-                string groupCode = vsValue.Tables[0].Rows[i][0].ToString();
+                string groupCode = valuesDS.Tables[0].Rows[i][0].ToString();
                 GroupedValue gValue;
 
                 if (values.ContainsKey(groupCode))
@@ -181,11 +120,11 @@ namespace PCAxis.Sql.Repositories
                 {
                     gValue = new GroupedValue();
                     gValue.Code = groupCode;
-                    gValue.Text = vsValue.Tables[0].Rows[i][2] == DBNull.Value ? vsValue.Tables[0].Rows[i][3].ToString() : vsValue.Tables[0].Rows[i][2].ToString();
+                    gValue.Text = valuesDS.Tables[0].Rows[i][2] == DBNull.Value ? valuesDS.Tables[0].Rows[i][3].ToString() : valuesDS.Tables[0].Rows[i][2].ToString();
                     grouping.Values.Add(gValue);
                     values.Add(groupCode, gValue);
                 }
-                gValue.Codes.Add(vsValue.Tables[0].Rows[i][1].ToString());
+                gValue.Codes.Add(valuesDS.Tables[0].Rows[i][1].ToString());
             }
 
             if (extraLangsDS != null)

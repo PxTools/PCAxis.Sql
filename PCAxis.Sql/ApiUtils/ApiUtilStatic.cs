@@ -27,22 +27,22 @@ namespace PCAxis.Sql.ApiUtils
         }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
-        static public ValueSet GetValueSet(string name, string language)
+        static public ValueSet GetValueSet(string valueSetId, string language)
         {
             //validate input
-            string valueSetId = ValidateIdString(name);
+            string okValueSetId = ValidateIdString(valueSetId);
             string languageCode = ValidateLangCodeString(language);
 
-            return ValueSetRepositoryStatic.GetValueSet(valueSetId, languageCode);
+            return ValueSetRepositoryStatic.GetValueSet(okValueSetId, languageCode);
         }
 
-        static public Grouping GetGrouping(string name, string language)
+        static public Grouping GetGrouping(string groupingId, string language)
         {
             //validate input
-            string groupingId = ValidateIdString(name);
+            string okGroupingId = ValidateIdString(groupingId);
             string languageCode = ValidateLangCodeString(language);
 
-            return GroupingRepositoryStatic.GetGrouping(groupingId, languageCode);
+            return GroupingRepositoryStatic.GetGrouping(okGroupingId, languageCode);
         }
 
 
