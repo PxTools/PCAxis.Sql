@@ -18,6 +18,9 @@ namespace PCAxis.Sql.Repositories
 
         internal abstract string GetGroupingValuesQuery(string lang, PxSqlCommand sqlCommand);
 
+
+        internal abstract string GetMenuLookupTablesQuery(string lang);
+
         internal static AbstractQueries GetSqlqueries(SqlDbConfig config)
         {
             if (config.MetaModel.Equals("2.1"))

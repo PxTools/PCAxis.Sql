@@ -122,6 +122,34 @@ namespace PCAxis.Sql.QueryLib_23
                         {_db.ValueGroup.GroupCodeCol.Id()}";
 
         }
+
+        internal override string GetMenuLookupTablesQuery(string lang)
+        {
+            if (!_db.isSecondaryLanguage(lang))
+            {
+                return $@"SELECT 
+                            {_db.MenuSelection.MenuCol.ForSelect()}, 
+                            {_db.MainTable.MainTableCol.ForSelect()}, 
+                            {_db.MainTable.TableIdCol.ForSelect()} 
+                        FROM 
+                            {_db.MainTable.GetNameAndAlias()} 
+                            JOIN {_db.MenuSelection.GetNameAndAlias()} ON {_db.MenuSelection.SelectionCol.Id()} = {_db.MainTable.MainTableCol.Id()}";
+            }
+            else
+            {
+                return $@"SELECT 
+                            {_db.MenuSelection.MenuCol.ForSelect()}, 
+                            {_db.MainTable.MainTableCol.ForSelect()}, 
+                            {_db.MainTable.TableIdCol.ForSelect()} 
+                        FROM 
+                            {_db.MainTable.GetNameAndAlias()} 
+                            JOIN {_db.SecondaryLanguage.GetNameAndAlias()} ON {_db.MainTable.MainTableCol.Id()} = {_db.SecondaryLanguage.MainTableCol.Id()} 
+                            JOIN {_db.MenuSelection.GetNameAndAlias()} ON {_db.MenuSelection.SelectionCol.Id()} = {_db.MainTable.MainTableCol.Id()}
+                        WHERE 
+                            {_db.SecondaryLanguage.LanguageCol.Id()} = '{lang}' AND
+                            {_db.SecondaryLanguage.CompletelyTranslatedCol.Id()} = '{_db.Codes.Yes}'";
+            }
+        }
     }
 
 

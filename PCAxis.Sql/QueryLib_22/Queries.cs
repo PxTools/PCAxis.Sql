@@ -98,6 +98,34 @@ namespace PCAxis.Sql.QueryLib_22
                         {_db.ValueLang2.SortCodeCol.Id(lang)},
                         {_db.ValueGroupLang2.GroupCodeCol.Id(lang)}";
         }
+
+        internal override string GetMenuLookupTablesQuery(string lang)
+        {
+            if (!_db.isSecondaryLanguage(lang))
+            {
+                return $@"SELECT 
+                            {_db.MenuSelection.MenuCol.ForSelect()}, 
+                            {_db.MainTable.MainTableCol.ForSelect()}, 
+                            {_db.MainTable.TableIdCol.ForSelect()} 
+                        FROM 
+                            {_db.MainTable.GetNameAndAlias()} 
+                            JOIN {_db.MenuSelection.GetNameAndAlias()} ON {_db.MenuSelection.SelectionCol.Id()} = {_db.MainTable.MainTableCol.Id()}";
+            }
+            else
+            {
+                return $@"SELECT 
+                            {_db.MenuSelection.MenuCol.ForSelect()}, 
+                            {_db.MainTable.MainTableCol.ForSelect()}, 
+                            {_db.MainTable.TableIdCol.ForSelect()} 
+                    FROM 
+                            {_db.MainTable.GetNameAndAlias()} 
+                            JOIN 
+                {_db.MenuSelectionLang2.GetNameAndAlias(lang)} ON {_db.MainTable.MainTableCol.Id()} = {_db.MainTableLang2.MainTableCol.Id(lang)} 
+                            JOIN {_db.MenuSelection.GetNameAndAlias()} ON {_db.MenuSelection.SelectionCol.Id()} = {_db.MainTable.MainTableCol.Id()}
+                    WHERE 
+                            {_db.MainTableLang2.StatusCol.Id(lang)} = '{_db.Codes.Yes}'";
+            }
+        }
     }
 
 
