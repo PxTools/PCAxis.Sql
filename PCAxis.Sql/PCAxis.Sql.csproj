@@ -47,7 +47,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.260" />
-    <PackageReference Include="PCAxis.Core" Version="1.2.4" />
+    <PackageReference Include="PCAxis.Core" Version="1.2.5" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="7.0.1" />
   </ItemGroup>
 
