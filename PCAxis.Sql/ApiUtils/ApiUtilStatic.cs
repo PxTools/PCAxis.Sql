@@ -45,40 +45,43 @@ namespace PCAxis.Sql.ApiUtils
             return GroupingRepositoryStatic.GetGrouping(okGroupingId, languageCode);
         }
 
+        /// <summary>
+        /// returns an entry for all tables in MenuSelection table that are CompletelyTranslatedCol.
+        /// No checks on any other colums (like "has data") 
+        ///
+        /// ToDo: Is MenuSelectionItem.Menu used anywhere ?
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static MenuLookupTables GetMenuLookupTables(string language)
+        {
+            string languageCode = ValidateLangCodeString(language);
+            return MenuLookupTablesRepositoryStatic.GetMenuLookupTables(languageCode);
+        }
+
+        /// <summary>
+        /// SELECT MENU ,SELECTION , SELECTION FROM MENUSELECTION  WHERE LEVELNO NOT = 6
+        /// SELECT MENU, SELECTION , SELECTION FROM MENUSELECTION_ENG JOIN MENUSELECTION ON  MENU = MENU AND SELECTION = SELECTION WHERE LEVELNO NOT = 6
+        ///
+        /// For converting a "url-id" to a "backend-id"
+        /// Lists all entries regardless of if they are decendats of "the root" (means there can be multiples roots)
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
+        public static MenuLookupFolders GetMenuLookupFolders(string language)
+        {
+            string languageCode = ValidateLangCodeString(language);
+            return MenuLookupFoldersRepositoryStatic.GetMenuLookupFolders(languageCode);
+        }
+
+
 
         //TODO:
+        //For use by indexer. IndexDatabase endpoint v2
         // liste med tabellid og publ dato
         // tabellid er unik, mens publ dato er det vi spørr mot
 
-        //GetMenuLookupTables
-        //GetMenuLookupFolders
-        /*namespace PxWeb.Code.Api2.DataSource.Cnmm
-            {
-                public static class SqlDbConfigExtensions
-                {
-                    public static Dictionary<string, ItemSelection>? GetMenuLookupTables(this SqlDbConfig DB, string language, IOptions<PxApiConfigurationOptions> configOptions)
-                    {
-                        return GetMenuLookup(DB, language, false, configOptions);
-                    }
-                    public static Dictionary<string, ItemSelection>? GetMenuLookupFolders(this SqlDbConfig DB, string language, IOptions<PxApiConfigurationOptions> configOptions)
-                    {
-                        return GetMenuLookup(DB, language, true, configOptions);
-                    }
-
-
-
-                    private static Dictionary<string, ItemSelection>? GetMenuLookup(this SqlDbConfig DB, string language, bool folders, IOptions<PxApiConfigurationOptions> configOptions)
-                    {
-                        // Check language to avoid SQL injection
-                        if (!configOptions.Value.Languages.Any(l => l.Id == language))
-                        {
-                            throw new ArgumentException($"Illegal language {language}");
-
-                        }
-
-        */
-
-        //dump to pxfile ?
+        //List<table_id> get_tables_published_since(DateTime)but_not_in_future
 
         private static string ValidateLangCodeString(string input)
         {
