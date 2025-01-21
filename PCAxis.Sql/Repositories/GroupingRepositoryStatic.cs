@@ -57,6 +57,8 @@ namespace PCAxis.Sql.Repositories
             parameters[0] = cmd.GetStringParameter("aGrouping", groupingId);
 
             var groupingDS = cmd.ExecuteSelect(sqlGrouping, parameters);
+            parameters = new System.Data.Common.DbParameter[1];
+            parameters[0] = cmd.GetStringParameter("aGrouping", groupingId);
             var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlGroupingExistsInLang) ? null : cmd.ExecuteSelect(sqlGroupingExistsInLang, parameters);
