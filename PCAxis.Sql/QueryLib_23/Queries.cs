@@ -150,6 +150,34 @@ namespace PCAxis.Sql.QueryLib_23
                             {_db.SecondaryLanguage.CompletelyTranslatedCol.Id()} = '{_db.Codes.Yes}'";
             }
         }
+        internal override string GetMenuLookupFolderQuery(string lang)
+        {
+            if (!_db.isSecondaryLanguage(lang))
+            {
+                return $@"SELECT 
+                            {_db.MenuSelection.MenuCol.ForSelect()}, 
+                            {_db.MenuSelection.SelectionCol.ForSelect()}, 
+                            {_db.MenuSelection.SelectionCol.ForSelect()} 
+                        FROM 
+                            {_db.MenuSelection.GetNameAndAlias()}
+                        WHERE 
+                            {_db.MenuSelection.LevelNoCol.Id()} NOT IN (SELECT {_db.MetaAdm.ValueCol.Id()} FROM {_db.MetaAdm.GetNameAndAlias()} WHERE upper({_db.MetaAdm.PropertyCol.Id()}) = 'MENULEVELS')";
+            }
+            else
+            {
+                return $@"SELECT 
+                            {_db.MenuSelectionLang2.MenuCol.ForSelect(lang)}, 
+                            {_db.MenuSelectionLang2.SelectionCol.ForSelect(lang)}, 
+                            {_db.MenuSelectionLang2.SelectionCol.ForSelect(lang)}
+                        FROM 
+                            {_db.MenuSelectionLang2.GetNameAndAlias(lang)} 
+                        JOIN 
+                            {_db.MenuSelection.GetNameAndAlias()} ON {_db.MenuSelectionLang2.MenuCol.Id(lang)} = {_db.MenuSelection.MenuCol.Id()} AND {_db.MenuSelectionLang2.SelectionCol.Id(lang)} = {_db.MenuSelection.SelectionCol.Id()}
+                        WHERE 
+                            {_db.MenuSelection.LevelNoCol.Id()} NOT IN (SELECT {_db.MetaAdm.ValueCol.Id()} FROM {_db.MetaAdm.GetNameAndAlias()} WHERE upper({_db.MetaAdm.PropertyCol.Id()}) = 'MENULEVELS')";
+            }
+        }
+
     }
 
 

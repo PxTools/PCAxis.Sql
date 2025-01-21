@@ -60,15 +60,18 @@ namespace PCAxis.Sql.ApiUtils
         }
 
         /// <summary>
-        /// What does this do?
+        /// SELECT MENU ,SELECTION , SELECTION FROM MENUSELECTION  WHERE LEVELNO NOT = 6
+        /// SELECT MENU, SELECTION , SELECTION FROM MENUSELECTION_ENG JOIN MENUSELECTION ON  MENU = MENU AND SELECTION = SELECTION WHERE LEVELNO NOT = 6
+        ///
+        /// For converting a "url-id" to a "backend-id"
+        /// Lists all entries regardless of if they are decendats of "the root" (means there can be multiples roots)
         /// </summary>
         /// <param name="language"></param>
         /// <returns></returns>
         public static MenuLookupFolders GetMenuLookupFolders(string language)
         {
             string languageCode = ValidateLangCodeString(language);
-            throw new NotImplementedException();
-            //return new MenuLookupFolders();
+            return MenuLookupFoldersRepositoryStatic.GetMenuLookupFolders(languageCode);
         }
 
 
@@ -79,10 +82,6 @@ namespace PCAxis.Sql.ApiUtils
         // tabellid er unik, mens publ dato er det vi spørr mot
 
         //List<table_id> get_tables_published_since(DateTime)but_not_in_future
-
-
-
-        //dump to pxfile ?
 
         private static string ValidateLangCodeString(string input)
         {
