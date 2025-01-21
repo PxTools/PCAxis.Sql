@@ -2,7 +2,7 @@ using PCAxis.Sql.ApiUtils;
 
 namespace ManualTests
 {
-    [Ignore]
+    //[Ignore]
     [TestClass]
     public class CodelistsTest
     {
@@ -18,8 +18,9 @@ namespace ManualTests
 
             /*
             _mainLanguage = "sv";
-            _okVS="";
-            _okGrouping="";
+            _okVS = "RegionKommun07";
+            _okGrouping = "RegionA-region_2";
+
             */
         }
 
