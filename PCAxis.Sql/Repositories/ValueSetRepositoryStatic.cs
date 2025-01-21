@@ -57,6 +57,10 @@ namespace PCAxis.Sql.Repositories
             parameters[0] = cmd.GetStringParameter("aValueSet", valuesetId);
 
             var valuesetDS = cmd.ExecuteSelect(sqlValueset, parameters);
+
+            parameters = new System.Data.Common.DbParameter[1];
+            parameters[0] = cmd.GetStringParameter("aValueSet", valuesetId);
+
             var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlValuesetExistsInLang) ? null : cmd.ExecuteSelect(sqlValuesetExistsInLang, parameters);
