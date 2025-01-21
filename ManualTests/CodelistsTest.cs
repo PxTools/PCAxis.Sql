@@ -2,7 +2,7 @@ using PCAxis.Sql.ApiUtils;
 
 namespace ManualTests
 {
-    //[Ignore]
+    [Ignore]
     [TestClass]
     public class CodelistsTest
     {
