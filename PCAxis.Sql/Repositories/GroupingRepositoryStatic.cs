@@ -64,6 +64,10 @@ namespace PCAxis.Sql.Repositories
 
             var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
+            //Oracle works without the 2 next lines, but mssql does not. 
+            parameters = new System.Data.Common.DbParameter[1];
+            parameters[0] = cmd.GetStringParameter("aGrouping", groupingId);
+
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlGroupingExistsInLang) ? null : cmd.ExecuteSelect(sqlGroupingExistsInLang, parameters);
 
 

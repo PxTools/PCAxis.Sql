@@ -64,6 +64,10 @@ namespace PCAxis.Sql.Repositories
 
             var valuesDS = cmd.ExecuteSelect(sqlValues, parameters);
 
+            //Oracle works without the 2 next lines, but mssql does not.  
+            parameters = new System.Data.Common.DbParameter[1];
+            parameters[0] = cmd.GetStringParameter("aValueSet", valuesetId);
+
             DataSet extraLangsDS = String.IsNullOrEmpty(sqlValuesetExistsInLang) ? null : cmd.ExecuteSelect(sqlValuesetExistsInLang, parameters);
 
             ValueSet valueset = Parse(valuesetId, valuesetDS, valuesDS, extraLangsDS);
