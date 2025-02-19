@@ -8,7 +8,9 @@ namespace PCAxis.Sql.Repositories
     {
         internal abstract string GetValueSetExistsIn(string lang, PxSqlCommand sqlCommand);
 
-        internal abstract string GetValueSetQuery(string lang, PxSqlCommand sqlCommand);
+        //internal abstract string GetValueSetQuery(string lang, PxSqlCommand sqlCommand);
+
+        internal abstract Models.ValueSet GetPartialValueset(string lang, string myValueSetId);
 
         internal abstract string GetValueSetValuesQuery(string lang, PxSqlCommand sqlCommand);
 

@@ -7,6 +7,9 @@ namespace PCAxis.Sql.Models
         public string Id { get; set; }
         public string Label { get; set; }
 
+        public bool Elimination { get; set; }
+        public string EliminationValueCode { get; set; }
+
         public List<Value> Values { get; set; }
 
         /// <summary>
