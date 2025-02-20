@@ -89,7 +89,15 @@ namespace PCAxis.Sql.QueryLib_24
 
         }
 
+        /*
         internal override Models.Grouping GetPartialGrouping(string lang, string myGroupingId)
+        {
+            Models.Grouping myOut = new Models.Grouping();
+            var cnmmRow = _metaQuery.GetGroupingRow(myGroupingId);
+
+            return myOut;
+        }
+        */
 
 
 
