@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 
 using PCAxis.Sql.DbConfig;
 
@@ -49,6 +51,21 @@ namespace PCAxis.Sql.Repositories
             }
 
 
+        }
+
+
+        internal static List<string> ParseLangs(DataSet langsDS)
+        {
+            List<string> myOut = new List<string>();
+            if (langsDS != null)
+            {
+                for (int i = 0; i < langsDS.Tables[0].Rows.Count; i++)
+                {
+                    var lang = langsDS.Tables[0].Rows[i][0].ToString();
+                    myOut.Add(lang);
+                }
+            }
+            return myOut;
         }
     }
 }

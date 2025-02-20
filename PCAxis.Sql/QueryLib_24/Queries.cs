@@ -19,6 +19,13 @@ namespace PCAxis.Sql.QueryLib_24
             _metaQuery = new MetaQuery(_db, info, false);
         }
 
+        private void SetLang(string lang)
+        {
+            var langs = new System.Collections.Specialized.StringCollection();
+            langs.Add(lang);
+            _metaQuery.LanguageCodes = langs;
+        }
+
         internal override string GetValueSetExistsIn(string lang, PxSqlCommand sqlCommand)
         {
             return $@"select '{lang}' As Language
@@ -32,9 +39,7 @@ namespace PCAxis.Sql.QueryLib_24
         internal override Models.ValueSet GetPartialValueset(string lang, string myValueSetId)
         {
             Models.ValueSet myOut = new Models.ValueSet();
-            var langs = new System.Collections.Specialized.StringCollection();
-            langs.Add(lang);
-            _metaQuery.LanguageCodes = langs;
+            SetLang(lang);
 
             var cnmmRow = _metaQuery.GetValueSetRow(myValueSetId);
 
@@ -83,6 +88,10 @@ namespace PCAxis.Sql.QueryLib_24
                             {_db.ValueLang2.ValueCodeCol.Id(lang)}";
 
         }
+
+        internal override Models.Grouping GetPartialGrouping(string lang, string myGroupingId)
+
+
 
         internal override string GetGroupingQuery(string lang, PxSqlCommand sqlCommand)
         {

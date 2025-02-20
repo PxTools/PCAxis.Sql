@@ -47,7 +47,7 @@ namespace PCAxis.Sql.Repositories
 
             DbParameter[] parameters = GetParameters(valuesetId, cmd);
             DataSet ExistsInLangDS = cmd.ExecuteSelect(ExistsInLangQuery, parameters);
-            var availableLanguages = ParseLangs(ExistsInLangDS);
+            var availableLanguages = AbstractQueries.ParseLangs(ExistsInLangDS);
 
             if (!availableLanguages.Contains(language))
             {
@@ -88,22 +88,6 @@ namespace PCAxis.Sql.Repositories
             }
             return sqlValuesetExistsInLang;
         }
-
-
-        private static List<string> ParseLangs(DataSet langsDS)
-        {
-            List<string> myOut = new List<string>();
-            if (langsDS != null)
-            {
-                for (int i = 0; i < langsDS.Tables[0].Rows.Count; i++)
-                {
-                    var lang = langsDS.Tables[0].Rows[i][0].ToString();
-                    myOut.Add(lang);
-                }
-            }
-            return myOut;
-        }
-
 
         private static List<Models.Value> ParseValues(string valuesetId, DataSet valuesDS)
         {
