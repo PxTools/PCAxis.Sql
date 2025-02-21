@@ -116,9 +116,13 @@ namespace ManualTests
         [TestMethod]
         public void TestGetGrouping()
         {
-            //string getId = "AldGrupp19Grp5";
+            //string getId = "AlleAldre48e3";  // pres I  1 mother 5 children 
             //string getId = "GrkretsBydel2002";
-            string getId = _okGrouping;
+            //string getId = "KommSummer"; //tab 07459 pres A
+            string getId = "AlleVUtd";  // pres I  12 mother 118 children 
+            //string getId = _okGrouping;
+
+
 
             PCAxis.Sql.Models.Grouping actual_data = ApiUtilStatic.GetGrouping(getId, _mainLanguage);
 
@@ -126,7 +130,6 @@ namespace ManualTests
             Assert.AreEqual(2, actual_data.AvailableLanguages.Count);
             Assert.IsTrue(actual_data.AvailableLanguages.Contains(_mainLanguage));
             Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
-
 
             PCAxis.Sql.Models.Grouping data_en = ApiUtilStatic.GetGrouping(getId, "en");
         }

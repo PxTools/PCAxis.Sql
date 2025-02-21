@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
+using Microsoft.IdentityModel.Tokens;
 
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Repositories;
@@ -110,6 +114,65 @@ namespace PCAxis.Sql.QueryLib_23
                           {_db.GroupingLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
                         where
                           {_db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
+        }
+
+        internal override Models.Grouping FixGrouping(string lang, string mGroupingId, List<Models.GroupedValue> groupedValues)
+        {
+            SetLang(lang);
+            var cnmmRow = _metaQuery.GetGroupingRow(mGroupingId);
+            Models.Grouping myOut = new Models.Grouping();
+            myOut.Id = mGroupingId;
+            myOut.Label = cnmmRow.texts[lang].PresText;
+
+            bool isSelectionGrouping = cnmmRow.GroupPres.Equals(_db.Codes.GroupPresI);
+
+            if (isSelectionGrouping)
+            {
+                // remaking the groupedValues
+                myOut.Values = RemakeValues(lang, cnmmRow.ValuePool, groupedValues);
+            }
+            else
+            {
+                myOut.Values = groupedValues;
+            }
+            return myOut;
+        }
+
+        private List<Models.GroupedValue> RemakeValues(string lang, string valuePoolId, List<Models.GroupedValue> groupedValues)
+        {
+            List<Models.GroupedValue> myOut = new List<Models.GroupedValue>();
+
+            //the Codes is needed as a StringCollection since GetValueRowsByValuePool is old :-)
+            StringCollection stringCollection = new StringCollection();
+            foreach (Models.GroupedValue gvalue in groupedValues)
+            {
+                foreach (string item in gvalue.Codes)
+                {
+                    stringCollection.Add(item);
+                }
+            }
+            Dictionary<string, Models.GroupedValue> groupsByCode = new Dictionary<string, Models.GroupedValue>();
+
+            foreach (ValueRowHM row in _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method only 2.2"))
+            {
+                Models.GroupedValue tmp = new Models.GroupedValue();
+
+                tmp.Text = row.texts[lang].ValueTextL;
+                if (tmp.Text.IsNullOrEmpty())
+                {
+                    tmp.Text = row.texts[lang].ValueTextS;
+                }
+                tmp.Code = row.ValueCode;
+                tmp.Codes.Add(tmp.Code);
+                groupsByCode.Add(tmp.Code, tmp);
+            }
+
+
+            foreach (string item in stringCollection)
+            {
+                myOut.Add(groupsByCode[item]);
+            }
+            return myOut;
         }
 
 
