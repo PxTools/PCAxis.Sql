@@ -9,31 +9,28 @@ permissions:
 
 jobs:
   release:
-    runs-on: windows-2022
+
+    runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - uses: microsoft/setup-msbuild@v2
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+    - uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce #v2
 
-      - uses: NuGet/setup-nuget@v2
+    - uses: NuGet/setup-nuget@323ab0502cd38fdc493335025a96c8fdb0edc71f #v2.0.1
 
-      - name: Restore NuGet packages
-        run: nuget restore
+    - name: Restore NuGet packages
+      run: nuget restore
 
-      - name: Build the application
-        run: msbuild /p:Configuration=Release
+    - name: Build the application
+      run: msbuild /p:Configuration=Release
 
-      - name: Depoly to Nuget
-        run: |
-          $package = Get-ChildItem -Recurse -Filter *.nupkg
-          nuget push $package $env:nuget_api_key -src https://nuget.org
-        env:
-          nuget_api_key: ${{ secrets.NUGET_API_KEY }}
+    - name: Depoly to Nuget
+      run: |
+           $package = Get-ChildItem -Recurse -Filter *.nupkg
+           nuget push $package $env:nuget_api_key -src https://nuget.org
+      env:
+        nuget_api_key: ${{ secrets.NUGET_API_KEY }}
