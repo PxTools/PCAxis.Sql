@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Repositories;
@@ -114,6 +115,10 @@ namespace PCAxis.Sql.QueryLib_21
                           {_db.GroupingLang2.GroupingCol.Id(lang)} = {sqlCommand.GetParameterRef("aGrouping")}";
         }
 
+        internal override Models.Grouping FixGrouping(string lang, string mGroupingId, List<Models.GroupedValue> groupedValues)
+        {
+            throw new NotImplementedException();
+        }
 
         internal override string GetGroupingValuesQuery(string lang, PxSqlCommand sqlCommand)
         {

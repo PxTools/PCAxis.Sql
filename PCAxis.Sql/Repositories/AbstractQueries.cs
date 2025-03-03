@@ -20,6 +20,8 @@ namespace PCAxis.Sql.Repositories
 
         internal abstract string GetGroupingQuery(string lang, PxSqlCommand sqlCommand);
 
+        internal abstract Models.Grouping FixGrouping(string lang, string mGroupingId, List<Models.GroupedValue> groupedValues);
+
         internal abstract string GetGroupingValuesQuery(string lang, PxSqlCommand sqlCommand);
 
 
