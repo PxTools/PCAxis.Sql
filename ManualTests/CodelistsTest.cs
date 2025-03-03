@@ -8,12 +8,31 @@ namespace ManualTests
     {
         private readonly string _mainLanguage;
         private readonly string _okVS;
+        private readonly int _okVS_values;
+
+        private readonly string _badVS;
         private readonly string _okGrouping;
+
+        private readonly string _elimMethodC_VS;
+        private readonly string _elimMethodC_Code;
+
+        private readonly string _elimMethodA_VS;
+        private readonly string _elimMethodN_VS;
 
         public CodelistsTest()
         {
             _mainLanguage = "no";
             _okVS = "KOKkommuneregion0000008";
+            _okVS_values = 467;
+
+            _elimMethodC_VS = "AlleAldre14c";
+            _elimMethodC_Code = "999";
+
+            _elimMethodA_VS = "ArbstyrkStat6";
+            _elimMethodN_VS = "Beredskap";
+
+
+
             _okGrouping = "EUlandNY";
 
             /*
@@ -22,9 +41,42 @@ namespace ManualTests
             _okGrouping = "RegionA-region_2";
 
             */
+
+            _badVS = "NoSuchVS";
         }
 
 
+        [TestMethod]
+        public void TestElimCValueSet()
+        {
+            PCAxis.Sql.Models.ValueSet actual_data = ApiUtilStatic.GetValueSet(_elimMethodC_VS, _mainLanguage);
+            Assert.IsTrue(actual_data.Elimination);
+            Assert.AreEqual(_elimMethodC_Code, actual_data.EliminationValueCode);
+        }
+
+        [TestMethod]
+        public void TestElimNValueSet()
+        {
+            PCAxis.Sql.Models.ValueSet actual_data = ApiUtilStatic.GetValueSet(_elimMethodN_VS, _mainLanguage);
+            Assert.IsFalse(actual_data.Elimination);
+        }
+
+        [TestMethod]
+        public void TestElimAValueSet()
+        {
+            PCAxis.Sql.Models.ValueSet actual_data = ApiUtilStatic.GetValueSet(_elimMethodA_VS, _mainLanguage);
+            Assert.IsTrue(actual_data.Elimination);
+        }
+
+
+        [TestMethod]
+        public void TestBadValueSet()
+        {
+            string getId = _badVS;
+            var exception = Assert.ThrowsException<ApplicationException>(() => ApiUtilStatic.GetValueSet(_badVS, "en"));
+
+            StringAssert.StartsWith(exception.Message, "ValueSet NoSuchVS not found for language ");
+        }
 
 
         [TestMethod]
@@ -56,7 +108,7 @@ namespace ManualTests
             Assert.IsTrue(actual_data.Values.Count > 0);
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Code));
             Assert.IsFalse(String.IsNullOrEmpty(actual_data.Values[0].Text));
-
+            Assert.AreEqual(_okVS_values, actual_data.Values.Count);
         }
 
 

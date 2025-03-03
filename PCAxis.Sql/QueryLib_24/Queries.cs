@@ -8,11 +8,22 @@ namespace PCAxis.Sql.QueryLib_24
     internal class Queries : AbstractQueries
     {
         private readonly SqlDbConfig_24 _db;
+        private readonly MetaQuery _metaQuery;
         internal Queries(SqlDbConfig db)
         {
             if (db == null) throw new ArgumentNullException("db");
 
             _db = (SqlDbConfig_24)db;
+
+            InfoForDbConnection info = _db.GetInfoForDbConnection(String.Empty, String.Empty);
+            _metaQuery = new MetaQuery(_db, info, false);
+        }
+
+        private void SetLang(string lang)
+        {
+            var langs = new System.Collections.Specialized.StringCollection();
+            langs.Add(lang);
+            _metaQuery.LanguageCodes = langs;
         }
 
         internal override string GetValueSetExistsIn(string lang, PxSqlCommand sqlCommand)
@@ -24,16 +35,33 @@ namespace PCAxis.Sql.QueryLib_24
                          {_db.ValueSetLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}";
         }
 
-        internal override string GetValueSetQuery(string lang, PxSqlCommand sqlCommand)
+        //Returns a ValueSet with some of the properties set
+        internal override Models.ValueSet GetPartialValueset(string lang, string myValueSetId)
         {
-            return $@"select 
-                         {_db.ValueSetLang2.ValueSetCol.Id(lang)} AS ValueSet,
-                         {_db.ValueSetLang2.PresTextCol.Id(lang)} AS PresText,
-                         {_db.ValueSetLang2.DescriptionCol.Id(lang)} AS Description
-                        from 
-                         {_db.ValueSetLang2.GetNameAndAlias(lang).RemoveUnderscoreForDefaultLanguage()}
-                        where
-                         {_db.ValueSetLang2.ValueSetCol.Id(lang)} = {sqlCommand.GetParameterRef("aValueSet")}";
+            Models.ValueSet myOut = new Models.ValueSet();
+            SetLang(lang);
+
+            var cnmmRow = _metaQuery.GetValueSetRow(myValueSetId);
+
+            myOut.Id = cnmmRow.ValueSet;
+            myOut.Label = cnmmRow.texts[lang].PresText;
+            //PresText came in version 2.1 and is optional  ...  desciption is up to 200 chars
+            if (String.IsNullOrEmpty(myOut.Label))
+            {
+                var asPresText = cnmmRow.texts[lang].Description;
+                int gridPosition = asPresText.IndexOf('#');
+                if (gridPosition > 0)
+                {
+                    asPresText = asPresText.Substring(0, gridPosition);
+                }
+                myOut.Label = asPresText;
+            }
+
+            // N:no elimination
+            myOut.Elimination = !cnmmRow.EliminationMethod.Equals(_db.Codes.EliminationN);
+            myOut.EliminationValueCode = cnmmRow.EliminationCode;
+
+            return myOut;
         }
 
         internal override string GetValueSetValuesQuery(string lang, PxSqlCommand sqlCommand)
@@ -60,6 +88,18 @@ namespace PCAxis.Sql.QueryLib_24
                             {_db.ValueLang2.ValueCodeCol.Id(lang)}";
 
         }
+
+        /*
+        internal override Models.Grouping GetPartialGrouping(string lang, string myGroupingId)
+        {
+            Models.Grouping myOut = new Models.Grouping();
+            var cnmmRow = _metaQuery.GetGroupingRow(myGroupingId);
+
+            return myOut;
+        }
+        */
+
+
 
         internal override string GetGroupingQuery(string lang, PxSqlCommand sqlCommand)
         {

@@ -64,6 +64,7 @@ namespace PCAxis.Sql.QueryLib_24
 
         #endregion
 
+        //This is only/new in 24.
         private bool _useTempTables = false;
 
         public MetaQuery(SqlDbConfig_24 config, InfoForDbConnection selectedDbInfo, bool useTempTables)
