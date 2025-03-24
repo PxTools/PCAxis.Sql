@@ -756,7 +756,6 @@ namespace PCAxis.Sql.DbConfig {
             }
         }
     }
-}
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
