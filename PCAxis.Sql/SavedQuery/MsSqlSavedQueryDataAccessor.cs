@@ -82,13 +82,13 @@ namespace PCAxis.Sql.SavedQuery
 
         }
 
-        public bool MarkAsRunned(int id)
+        public bool MarkAsRunned(int queryId)
         {
             using (var conn = new Microsoft.Data.SqlClient.SqlConnection(_connectionString))
             {
                 conn.Open();
                 var cmd = new Microsoft.Data.SqlClient.SqlCommand("update SavedQueryMeta set UsedDate = @lastUsed, Runs = Runs + 1 where QueryId = @queryId", conn);
-                cmd.Parameters.AddWithValue("queryId", id);
+                cmd.Parameters.AddWithValue("queryId", queryId);
                 cmd.Parameters.AddWithValue("lastUsed", DateTime.Now);
                 return cmd.ExecuteNonQuery() == 1;
             }

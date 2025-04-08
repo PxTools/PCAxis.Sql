@@ -33,7 +33,7 @@ namespace PCAxis.Sql.SavedQuery
             }
         }
 
-        public int Save(string savedQuery, string mainTable, int? id = null)
+        public int Save(string savedQuery, string mainTable, int? id)
         {
 
             using (var conn = new OracleConnection(_connectionString))
@@ -121,13 +121,13 @@ namespace PCAxis.Sql.SavedQuery
 
         }
 
-        public bool MarkAsRunned(int id)
+        public bool MarkAsRunned(int queryId)
         {
             using (var conn = new OracleConnection(_connectionString))
             {
                 conn.Open();
                 var cmd = new OracleCommand("update " + _savedQueryTableOwner + ".SavedQueryMeta set UsedDate = sysdate, Runs = Runs + 1 where QueryId = :queryId", conn);
-                cmd.Parameters.Add("queryId", id);
+                cmd.Parameters.Add("queryId", queryId);
 
                 return cmd.ExecuteNonQuery() == 1;
             }

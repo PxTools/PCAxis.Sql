@@ -8,6 +8,6 @@
 
         int Save(string savedQuery, string mainTable, int? id);
 
-        bool MarkAsRunned(int name);
+        bool MarkAsRunned(int queryId);
     }
 }
