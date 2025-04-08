@@ -4,15 +4,15 @@ namespace PCAxis.Sql.SavedQuery
 {
     public class MsSqlSavedQueryDataAccessor : ISavedQueryDatabaseAccessor
     {
-        private string _connectionString;
+        private readonly string _connectionString;
+        private readonly string _databaseType;
+        private readonly string _database;
 
-        public MsSqlSavedQueryDataAccessor()
+        public MsSqlSavedQueryDataAccessor(string connectionString, string databaseType, string database)
         {
-            if (string.IsNullOrWhiteSpace(System.Configuration.ConfigurationManager.AppSettings["SavedQueryConnectionString"]))
-            {
-                throw new System.Configuration.ConfigurationErrorsException("AppSetting SavedQueryConnectionString not set in config file");
-            }
-            _connectionString = System.Configuration.ConfigurationManager.AppSettings["SavedQueryConnectionString"];
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _databaseType = databaseType ?? throw new ArgumentNullException(nameof(databaseType));
+            _database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public string Load(int id)
@@ -20,19 +20,16 @@ namespace PCAxis.Sql.SavedQuery
             using (var conn = new Microsoft.Data.SqlClient.SqlConnection(_connectionString))
             {
                 conn.Open();
-                var cmd = new Microsoft.Data.SqlClient.SqlCommand("select QueryText from SavedQueryMeta where QueryId = @queryId", conn);
+                var cmd = new Microsoft.Data.SqlClient.SqlCommand("select QueryText from SavedQueryMeta2 where QueryId = @queryId", conn);
                 cmd.Parameters.AddWithValue("queryId", id);
                 string query = cmd.ExecuteScalar() as string;
 
                 return query;
             }
-
-            return null;
         }
 
-        public int Save(string savedQuery, int? id)
+        public int Save(string savedQuery, string mainTable, int? id)
         {
-
             using (var conn = new Microsoft.Data.SqlClient.SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -73,9 +70,9 @@ namespace PCAxis.Sql.SavedQuery
 	                        0
                         );
                         SELECT @@IDENTITY AS 'Identity';", conn);
-                cmd.Parameters.AddWithValue("databaseType", "TODO");
-                cmd.Parameters.AddWithValue("databaseId", "TODO");
-                cmd.Parameters.AddWithValue("mainTable", "TODO");
+                cmd.Parameters.AddWithValue("databaseType", _databaseType);
+                cmd.Parameters.AddWithValue("databaseId", _database);
+                cmd.Parameters.AddWithValue("mainTable", mainTable);
                 cmd.Parameters.AddWithValue("title", "");
                 cmd.Parameters.AddWithValue("creationDate", DateTime.Now);
                 cmd.Parameters.AddWithValue("query", savedQuery);
@@ -83,7 +80,6 @@ namespace PCAxis.Sql.SavedQuery
                 return newid;
             }
 
-            return -1;
         }
 
         public bool MarkAsRunned(int id)
@@ -98,5 +94,9 @@ namespace PCAxis.Sql.SavedQuery
             }
         }
 
+        public string LoadDefaultSelection(string tableId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

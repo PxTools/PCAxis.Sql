@@ -1,27 +1,22 @@
-﻿using Oracle.ManagedDataAccess.Client;
+﻿using System;
+
+using Oracle.ManagedDataAccess.Client;
 
 namespace PCAxis.Sql.SavedQuery
 {
     public class OracleSavedQueryDataAccessor : ISavedQueryDatabaseAccessor
     {
-        private string _connectionString;
+        private readonly string _connectionString;
+        private readonly string _savedQueryTableOwner;
+        private readonly string _databaseType;
+        private readonly string _database;
 
-        private string _savedQueryTableOwner;
-
-        public OracleSavedQueryDataAccessor()
+        public OracleSavedQueryDataAccessor(string connectionString, string savedQueryTableOwner, string databaseType, string database)
         {
-            if (string.IsNullOrWhiteSpace(System.Configuration.ConfigurationManager.AppSettings["SavedQueryConnectionString"]))
-            {
-                throw new System.Configuration.ConfigurationErrorsException("AppSetting SavedQueryConnectionString not set in config file");
-            }
-            _connectionString = System.Configuration.ConfigurationManager.AppSettings["SavedQueryConnectionString"];
-
-
-            if (string.IsNullOrWhiteSpace(System.Configuration.ConfigurationManager.AppSettings["SavedQueryTableOwner"]))
-            {
-                throw new System.Configuration.ConfigurationErrorsException("AppSetting SavedQueryTableOwner not set in config file");
-            }
-            _savedQueryTableOwner = System.Configuration.ConfigurationManager.AppSettings["SavedQueryTableOwner"];
+            _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _savedQueryTableOwner = savedQueryTableOwner ?? throw new ArgumentNullException(nameof(savedQueryTableOwner));
+            _databaseType = databaseType ?? throw new ArgumentNullException(nameof(databaseType));
+            _database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
         public string Load(int id)
@@ -30,7 +25,7 @@ namespace PCAxis.Sql.SavedQuery
             {
                 conn.Open();
 
-                var cmd = new OracleCommand("select QueryText from " + _savedQueryTableOwner + ".SavedQueryMeta where QueryId = :queryId", conn);
+                var cmd = new OracleCommand($"select QueryText from {_savedQueryTableOwner}.SavedQueryMeta where QueryId = :queryId", conn);
                 cmd.Parameters.Add("queryId", id);
                 string query = cmd.ExecuteScalar() as string;
 
@@ -38,7 +33,7 @@ namespace PCAxis.Sql.SavedQuery
             }
         }
 
-        public int Save(string savedQuery, int? id = null)
+        public int Save(string savedQuery, string mainTable, int? id = null)
         {
 
             using (var conn = new OracleConnection(_connectionString))
@@ -99,9 +94,9 @@ namespace PCAxis.Sql.SavedQuery
                 conn.Open();
                 var cmd = new OracleCommand(insertSQL, conn);
                 cmd.BindByName = true;
-                cmd.Parameters.Add("databaseType", "TODO");
-                cmd.Parameters.Add("databaseId", "TODO");
-                cmd.Parameters.Add("mainTable", "TODO");
+                cmd.Parameters.Add("databaseType", _databaseType);
+                cmd.Parameters.Add("databaseId", _database);
+                cmd.Parameters.Add("mainTable", mainTable);
                 cmd.Parameters.Add("title", " ");
                 cmd.Parameters.Add("query", OracleDbType.Clob, savedQuery, System.Data.ParameterDirection.Input);
                 cmd.Parameters.Add("identity", OracleDbType.Int16, System.Data.ParameterDirection.ReturnValue);
@@ -136,10 +131,11 @@ namespace PCAxis.Sql.SavedQuery
 
                 return cmd.ExecuteNonQuery() == 1;
             }
-
-            return false;
         }
 
-
+        public string LoadDefaultSelection(string tableId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
