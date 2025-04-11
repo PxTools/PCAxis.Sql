@@ -126,7 +126,7 @@ namespace PCAxis.Sql.SavedQuery
             using (var conn = new OracleConnection(_connectionString))
             {
                 conn.Open();
-                var cmd = new OracleCommand("update " + _savedQueryTableOwner + ".SavedQueryMeta set UsedDate = sysdate, Runs = Runs + 1 where QueryId = :queryId", conn);
+                var cmd = new OracleCommand("update " + _savedQueryTableOwner + ".SavedQueryMeta2 set UsedDate = sysdate, Runs = Runs + 1 where QueryId = :queryId", conn);
                 cmd.Parameters.Add("queryId", queryId);
 
                 return cmd.ExecuteNonQuery() == 1;
@@ -135,7 +135,21 @@ namespace PCAxis.Sql.SavedQuery
 
         public string LoadDefaultSelection(string tableId)
         {
-            throw new NotImplementedException();
+            using (var conn = new OracleConnection(_connectionString))
+            {
+                conn.Open();
+                var cmd = new OracleCommand(
+                      $@"select 
+                          QueryText 
+                        from {_savedQueryTableOwner}.SavedQueryMeta2 
+                          join {_savedQueryTableOwner}.DefaultSelection on 
+                            {_savedQueryTableOwner}.SavedQueryMeta2.QueryId = {_savedQueryTableOwner}.DefaultSelection.SavedQueryId
+                        where {_savedQueryTableOwner}.DefaultSelection.TableId = :tableId", conn);
+                cmd.Parameters.Add("tableId", tableId);
+                string query = cmd.ExecuteScalar() as string;
+
+                return query;
+            }
         }
     }
 }

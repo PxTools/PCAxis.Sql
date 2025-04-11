@@ -87,7 +87,7 @@ namespace PCAxis.Sql.SavedQuery
             using (var conn = new Microsoft.Data.SqlClient.SqlConnection(_connectionString))
             {
                 conn.Open();
-                var cmd = new Microsoft.Data.SqlClient.SqlCommand("update SavedQueryMeta set UsedDate = @lastUsed, Runs = Runs + 1 where QueryId = @queryId", conn);
+                var cmd = new Microsoft.Data.SqlClient.SqlCommand("update SavedQueryMeta2 set UsedDate = @lastUsed, Runs = Runs + 1 where QueryId = @queryId", conn);
                 cmd.Parameters.AddWithValue("queryId", queryId);
                 cmd.Parameters.AddWithValue("lastUsed", DateTime.Now);
                 return cmd.ExecuteNonQuery() == 1;
@@ -96,7 +96,22 @@ namespace PCAxis.Sql.SavedQuery
 
         public string LoadDefaultSelection(string tableId)
         {
-            throw new NotImplementedException();
+            using (var conn = new Microsoft.Data.SqlClient.SqlConnection(_connectionString))
+            {
+                conn.Open();
+                var cmd = new Microsoft.Data.SqlClient.SqlCommand(
+                      @"select 
+                          QueryText 
+                        from SavedQueryMeta2 
+                          join DefaultSelection on 
+                            SavedQueryMeta2.QueryId = DefaultSelection.SavedQueryId
+                        where DefaultSelection.TableId = @tableId", conn);
+                cmd.Parameters.AddWithValue("tableId", tableId);
+
+                string query = cmd.ExecuteScalar() as string;
+
+                return query;
+            }
         }
     }
 }
