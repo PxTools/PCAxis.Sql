@@ -8,8 +8,8 @@
     <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Reading Sql-database into Paxiom.</Description>
-    <PackageProjectUrl>https://github.com/statisticssweden/PCAxis.Sql</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/statisticssweden/PCAxis.Sql.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/PxTools/PCAxis.Sql</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PxTools/PCAxis.Sql.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
