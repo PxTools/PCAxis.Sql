@@ -131,14 +131,9 @@ namespace PCAxis.Sql.QueryLib_24
             List<Models.GroupedValue> myOut = new List<Models.GroupedValue>();
 
             //the Codes is needed as a StringCollection since GetValueRowsByValuePool is old :-)
-            StringCollection stringCollection = new StringCollection();
-            foreach (Models.GroupedValue gvalue in groupedValues)
-            {
-                foreach (string item in gvalue.Codes)
-                {
-                    stringCollection.Add(item);
-                }
-            }
+
+
+            StringCollection stringCollection = GetAllChildrenAsStringCollection(groupedValues);
 
             List<ValueRowHM> unsortedChildren = _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method only 2.2");
             List<ValueRowHM> sortedChildren = unsortedChildren.Where(x => x.texts != null && x.texts.Count > 0 && x.texts[lang] != null)
@@ -165,6 +160,7 @@ namespace PCAxis.Sql.QueryLib_24
 
             return myOut;
         }
+
 
         internal override string GetGroupingQuery(string lang, PxSqlCommand sqlCommand)
         {

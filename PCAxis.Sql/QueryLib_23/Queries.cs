@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data;
-using System.Linq;
 
 using Microsoft.IdentityModel.Tokens;
 
@@ -140,14 +138,6 @@ namespace PCAxis.Sql.QueryLib_23
             return myOut;
         }
 
-        /// <summary>
-        /// For selection groupings: each childcode of the incoming mothers is "promoted" to a mother with itself as the only child.
-        /// A sorted list of these new mothers is returned.
-        /// </summary>
-        /// <param name="lang"></param>
-        /// <param name="valuePoolId"></param>
-        /// <param name="groupedValues"></param>
-        /// <returns></returns>
         private List<Models.GroupedValue> RemakeValues(string lang, string valuePoolId, List<Models.GroupedValue> groupedValues)
         {
             List<Models.GroupedValue> myOut = new List<Models.GroupedValue>();
@@ -161,17 +151,9 @@ namespace PCAxis.Sql.QueryLib_23
                     stringCollection.Add(item);
                 }
             }
+            Dictionary<string, Models.GroupedValue> groupsByCode = new Dictionary<string, Models.GroupedValue>();
 
-            List<ValueRowHM> unsortedChildren = _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method only 2.2");
-            List<ValueRowHM> sortedChildren = unsortedChildren.Where(x => x.texts != null && x.texts.Count > 0 && x.texts[lang] != null)
-                .OrderBy(x => x.texts[lang].SortCode).ToList();
-
-            if (sortedChildren.Count != unsortedChildren.Count)
-            {
-                throw new DataException("Some values are missing texts in the db.");
-            }
-
-            foreach (ValueRowHM row in sortedChildren)
+            foreach (ValueRowHM row in _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method only 2.2"))
             {
                 Models.GroupedValue tmp = new Models.GroupedValue();
 
@@ -182,9 +164,14 @@ namespace PCAxis.Sql.QueryLib_23
                 }
                 tmp.Code = row.ValueCode;
                 tmp.Codes.Add(tmp.Code);
-                myOut.Add(tmp);
+                groupsByCode.Add(tmp.Code, tmp);
             }
 
+
+            foreach (string item in stringCollection)
+            {
+                myOut.Add(groupsByCode[item]);
+            }
             return myOut;
         }
 
@@ -234,8 +221,6 @@ namespace PCAxis.Sql.QueryLib_23
                             {_db.SecondaryLanguage.CompletelyTranslatedCol.Id()} = '{_db.Codes.Yes}'";
             }
         }
-
-
         internal override string GetMenuLookupFolderQuery(string lang)
         {
             if (!_db.isSecondaryLanguage(lang))
@@ -262,9 +247,10 @@ namespace PCAxis.Sql.QueryLib_23
                         WHERE 
                             {_db.MenuSelection.LevelNoCol.Id()} NOT IN (SELECT {_db.MetaAdm.ValueCol.Id()} FROM {_db.MetaAdm.GetNameAndAlias()} WHERE upper({_db.MetaAdm.PropertyCol.Id()}) = 'MENULEVELS')";
             }
-
         }
+
     }
+
 
     public static class TableLangFixer
     {
