@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Text;
 
 using PCAxis.Sql.DbClient;
 using PCAxis.Sql.DbConfig;
@@ -81,15 +82,15 @@ namespace PCAxis.Sql.Repositories
 
         private static string GetValuesetExistsInLangSql(AbstractQueries queries, PxSqlCommand sqlCommand)
         {
-            string sqlGroupingExistsInLang = String.Empty;
-            string glue = String.Empty;
+            var sqlGroupingExistsInLang = new StringBuilder();
+            string glue = string.Empty;
             foreach (var lang in LanguagesInDbConfig)
             {
-                sqlGroupingExistsInLang += glue + queries.GetGroupingExistsIn(lang, sqlCommand);
+                sqlGroupingExistsInLang.Append(glue);
+                sqlGroupingExistsInLang.Append(queries.GetGroupingExistsIn(lang, sqlCommand));
                 glue = " UNION ";
-
             }
-            return sqlGroupingExistsInLang;
+            return sqlGroupingExistsInLang.ToString();
         }
 
         private static List<GroupedValue> ParseValues(string groupingId, DataSet valuesDS)
@@ -97,7 +98,7 @@ namespace PCAxis.Sql.Repositories
             //Make sure we have a grouping
             if (valuesDS.Tables.Count == 0)
             {
-                throw new ApplicationException("Grouping " + groupingId + " empty");
+                throw new ArgumentException("Grouping " + groupingId + " empty");
             }
 
             List<GroupedValue> myOut = new List<GroupedValue>();
