@@ -72,7 +72,6 @@ namespace ManualTests
         [TestMethod]
         public void TestBadValueSet()
         {
-            string getId = _badVS;
             var exception = Assert.ThrowsException<ApplicationException>(() => ApiUtilStatic.GetValueSet(_badVS, "en"));
 
             StringAssert.StartsWith(exception.Message, "ValueSet NoSuchVS not found for language ");
@@ -119,8 +118,8 @@ namespace ManualTests
             //string getId = "AlleAldre48e3";  // pres I  1 mother 5 children 
             //string getId = "GrkretsBydel2002";
             //string getId = "KommSummer"; //tab 07459 pres A
-            string getId = "AlleVUtd";  // pres I  12 mother 118 children 
-            //string getId = _okGrouping;
+            //string getId = "AlleVUtd";  // pres I  12 mother 118 children 
+            string getId = _okGrouping;
 
 
 
@@ -132,7 +131,30 @@ namespace ManualTests
             Assert.IsTrue(actual_data.AvailableLanguages.Contains("en"));
 
             PCAxis.Sql.Models.Grouping data_en = ApiUtilStatic.GetGrouping(getId, "en");
+            Assert.IsNotNull(data_en);
         }
+
+
+
+
+        [TestMethod]
+        public void TestSSBSortedSelectionGrouping()
+        {
+            string getId = "KommNyeste";
+
+            PCAxis.Sql.Models.Grouping actual_data = ApiUtilStatic.GetGrouping(getId, "en");
+
+            Assert.IsNotNull(actual_data);
+            Assert.AreEqual(423, actual_data.Values.Count);
+            Assert.AreEqual("Municipalities 2018-2019", actual_data.Label);
+            Assert.AreEqual("0101", actual_data.Values[0].Code);
+            Assert.AreEqual("Halden (-2019)", actual_data.Values[0].Text);
+            Assert.AreEqual("0104", actual_data.Values[1].Code);
+            Assert.AreEqual("Moss (-2019)", actual_data.Values[1].Text);
+            Assert.AreEqual("2030", actual_data.Values[422].Code);
+
+        }
+
 
         [TestMethod]
         public void TestValidNames()

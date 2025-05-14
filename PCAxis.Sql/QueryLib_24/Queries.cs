@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
+using System.Linq;
 
 using Microsoft.IdentityModel.Tokens;
 
@@ -116,23 +118,33 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
-
+        /// <summary>
+        /// For selection groupings: each childcode of the incoming mothers is "promoted" to a mother with itself as the only child.
+        /// A sorted list of these new mothers is returned.
+        /// </summary>
+        /// <param name="lang"></param>
+        /// <param name="valuePoolId"></param>
+        /// <param name="groupedValues"></param>
+        /// <returns></returns>
         private List<Models.GroupedValue> RemakeValues(string lang, string valuePoolId, List<Models.GroupedValue> groupedValues)
         {
             List<Models.GroupedValue> myOut = new List<Models.GroupedValue>();
 
             //the Codes is needed as a StringCollection since GetValueRowsByValuePool is old :-)
-            StringCollection stringCollection = new StringCollection();
-            foreach (Models.GroupedValue gvalue in groupedValues)
-            {
-                foreach (string item in gvalue.Codes)
-                {
-                    stringCollection.Add(item);
-                }
-            }
-            Dictionary<string, Models.GroupedValue> groupsByCode = new Dictionary<string, Models.GroupedValue>();
 
-            foreach (ValueRowHM row in _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method"))
+
+            StringCollection stringCollection = GetAllChildrenAsStringCollection(groupedValues);
+
+            List<ValueRowHM> unsortedChildren = _metaQuery.GetValueRowsByValuePool(valuePoolId, stringCollection, "this param is not used by method only 2.2");
+            List<ValueRowHM> sortedChildren = unsortedChildren.Where(x => x.texts != null && x.texts.Count > 0 && x.texts[lang] != null)
+                .OrderBy(x => x.texts[lang].SortCode).ToList();
+
+            if (sortedChildren.Count != unsortedChildren.Count)
+            {
+                throw new DataException("Some values are missing texts in the db.");
+            }
+
+            foreach (ValueRowHM row in sortedChildren)
             {
                 Models.GroupedValue tmp = new Models.GroupedValue();
 
@@ -143,16 +155,12 @@ namespace PCAxis.Sql.QueryLib_24
                 }
                 tmp.Code = row.ValueCode;
                 tmp.Codes.Add(tmp.Code);
-                groupsByCode.Add(tmp.Code, tmp);
+                myOut.Add(tmp);
             }
 
-
-            foreach (string item in stringCollection)
-            {
-                myOut.Add(groupsByCode[item]);
-            }
             return myOut;
         }
+
 
         internal override string GetGroupingQuery(string lang, PxSqlCommand sqlCommand)
         {
