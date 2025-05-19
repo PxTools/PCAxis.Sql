@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 
 using PCAxis.Sql.DbConfig;
+using PCAxis.Sql.Models;
 
 namespace PCAxis.Sql.Repositories
 {
@@ -68,6 +70,20 @@ namespace PCAxis.Sql.Repositories
                 }
             }
             return myOut;
+        }
+
+        internal static StringCollection GetAllChildrenAsStringCollection(List<GroupedValue> groupedValues)
+        {
+            StringCollection stringCollection = new StringCollection();
+            foreach (Models.GroupedValue gvalue in groupedValues)
+            {
+                foreach (string item in gvalue.Codes)
+                {
+                    stringCollection.Add(item);
+                }
+            }
+
+            return stringCollection;
         }
     }
 }
