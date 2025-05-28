@@ -75,13 +75,21 @@ namespace PCAxis.Sql.ApiUtils
         }
 
 
+        /// <summary> The intended for the (Lucene) indexer in the IndexDatabase endpoint. 
+        /// Returns a list of maintable.tableid for  tables where content.published is in the intervall [from,to]
+        /// TODO should we restrict to DB.MainTable.TableStatusCol.Is("'A'") + " AND " + DB.MainTable.PresCategoryCol.Is("'O'") ? 
+        /// </summary>
+        /// <param name="from">Earliest. MinDate. Inclusive</param>
+        /// <param name="to">Lastest. MaxDate. Inclusive</param>
+        /// <returns>a list of maintable.tableid which may be empty</returns>
+        public static List<string> GetTablesPublishedBetween(DateTime from, DateTime to)
+        {
+            if (from > to)
+                throw new ArgumentException("'from' date cannot be later than 'to' date.");
 
-        //TODO:
-        //For use by indexer. IndexDatabase endpoint v2
-        // liste med tabellid og publ dato
-        // tabellid er unik, mens publ dato er det vi spørr mot
+            return TablesPublishedBetweenRepositoryStatic.GetTablesPublishedBetween(from, to);
+        }
 
-        //List<table_id> get_tables_published_since(DateTime)but_not_in_future
 
         private static string ValidateLangCodeString(string input)
         {

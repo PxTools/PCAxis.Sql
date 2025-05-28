@@ -31,6 +31,8 @@ namespace PCAxis.Sql.Repositories
 
         internal abstract string GetMenuLookupFolderQuery(string lang);
 
+        internal abstract string GetTablesPublishedSinceQuery(PxSqlCommand sqlCommand);
+
         internal static AbstractQueries GetSqlqueries(SqlDbConfig config)
         {
             if (config.MetaModel.Equals("2.1"))
