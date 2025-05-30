@@ -212,6 +212,19 @@ namespace PCAxis.Sql.DbClient
         }
 
         /// <summary>
+        /// Returns a DbParameter with type= DateTime and  parameterName and parameterValue as given.
+        /// </summary>
+        public DbParameter GetDateParameter(string parameterName, DateTime parameterValue)
+        {
+            DbParameter myOut = myDbVendor.GetEmptyDbParameter();
+            myOut.DbType = DbType.DateTime;
+            myOut.ParameterName = parameterName;
+            myOut.Value = parameterValue;
+            return myOut;
+        }
+
+
+        /// <summary>
         /// The reference to a parameter, e.g. @maintable,:maintable or just ? depending on your db
         /// </summary>
         /// <param name="propertyName">The "base" e.g. maintable</param>

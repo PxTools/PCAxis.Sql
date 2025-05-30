@@ -180,6 +180,10 @@ namespace PCAxis.Sql.QueryLib_21
                             {_db.MenuSelection.LevelNoCol.Id()} NOT IN (SELECT {_db.MetaAdm.ValueCol} FROM {_db.MetaAdm.GetNameAndAlias()} WHERE upper({_db.MetaAdm.PropertyCol.Id()}) = 'MENULEVELS')";
             }
         }
+        internal override string GetTablesPublishedSinceQuery(PxSqlCommand sqlCommand)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public static class TableLangFixer
