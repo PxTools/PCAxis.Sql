@@ -2,7 +2,7 @@ using PCAxis.Sql.ApiUtils;
 
 namespace ManualTests
 {
-    [Ignore("Need to connect to the to to run this, so Github actions cant do it.")]
+    [Ignore("Need to connect to a DB to run this, so Github actions can't do it.")]
     [TestClass]
     public class TablesPublishTest
     {

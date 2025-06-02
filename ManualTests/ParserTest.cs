@@ -3,7 +3,7 @@ using PCAxis.Sql.ApiUtils;
 
 namespace ManualTests
 {
-    [Ignore]
+    [Ignore("Need to connect to a DB to run this, so Github actions can't do it.")]
     [TestClass]
     public class ParserTest
     {
