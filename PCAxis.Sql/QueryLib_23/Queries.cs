@@ -259,6 +259,13 @@ namespace PCAxis.Sql.QueryLib_23
             }
 
         }
+        internal override string GetTablesPublishedSinceQuery(PxSqlCommand sqlCommand)
+        {
+            return $@"SELECT  DISTINCT {_db.MainTable.TableIdCol.ForSelect()} FROM {_db.MainTable.GetNameAndAlias()} 
+                      JOIN {_db.Contents.GetNameAndAlias()} ON {_db.Contents.MainTableCol.Id()} = {_db.MainTable.MainTableCol.Id()}
+                        WHERE {_db.Contents.PublishedCol.Id()} >=  {sqlCommand.GetParameterRef("aFrom")}
+                          AND {_db.Contents.PublishedCol.Id()} <=  {sqlCommand.GetParameterRef("aTo")} ";
+        }
     }
 
     public static class TableLangFixer

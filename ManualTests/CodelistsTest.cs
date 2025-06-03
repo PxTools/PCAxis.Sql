@@ -2,7 +2,7 @@ using PCAxis.Sql.ApiUtils;
 
 namespace ManualTests
 {
-    [Ignore]
+    [Ignore("Need to connect to the to to run this")]
     [TestClass]
     public class CodelistsTest
     {
