@@ -110,7 +110,7 @@ namespace PCAxis.Sql.QueryLib_24
             {
                 if (valuesFromPxs.Count < Column4Parameterized.InSplitTreshold)
                 {
-                    sqlString += " AND " + DB.ContentsTime.TimePeriodCol.In(mSqlCommand.GetParameterRef("valuesFromPxs"), valuesFromPxs.Count);
+                    sqlString += " AND " + DB.ContentsTime.TimePeriodCol.In(mSqlCommand.GetParameterRef("aTimePeriod"), valuesFromPxs.Count);
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace PCAxis.Sql.QueryLib_24
             int counter = 0;
             foreach (string valueFromPxs in valuesFromPxs)
             {
-                parameters[counter + 1] = mSqlCommand.GetStringParameter("valuesFromPxs" + (counter + 1), valueFromPxs);
+                parameters[counter + 1] = mSqlCommand.GetStringParameter("aTimePeriod" + (counter + 1), valueFromPxs);
                 counter++;
             }
 
