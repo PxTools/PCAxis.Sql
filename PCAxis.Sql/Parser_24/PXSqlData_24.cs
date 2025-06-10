@@ -450,9 +450,18 @@ namespace PCAxis.Sql.Parser_24
 
             if (needGroupingFactor)
             {
-                sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactorInner ";
-                // Modification for NMP && SUM
-                sqlOuterString += ", MAX(GroupFactorInner) GroupFactor ";
+                if (npm)
+                {
+                    sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactorInner ";
+                    // Modification for NMP && SUM
+                    sqlOuterString += ", MAX(GroupFactorInner) GroupFactor ";
+                }
+                else
+                {
+                    sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactor ";
+                    // Modification for NMP && SUM
+                    sqlOuterString += ", MAX(GroupFactor) GroupFactor ";
+                }
             }
             //TODO piv
             if (hasAttributes)
