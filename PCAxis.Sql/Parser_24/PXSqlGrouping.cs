@@ -227,19 +227,23 @@
             }
 
             var parentGroupCodes = mGroups.Select(x => x.ParentCode).ToArray();
-            Dictionary<string, ValueGroupRow> templist = meta.MetaQuery.GetValueGroupRowskeyValueCode(mGroupingId, parentGroupCodes, true);
+            Dictionary<string, List<ValueGroupRow>> templist = meta.MetaQuery.GetValueGroupRowskeyValueCode(mGroupingId, parentGroupCodes, true);
             Dictionary<string, List<string>> childCodesByParentCode = new Dictionary<string, List<string>>();
 
             foreach (var listItem in templist)
             {
-                string parentCode = listItem.Value.GroupCode;
-
-                if (!childCodesByParentCode.ContainsKey(parentCode))
+                foreach (var valueGroup in listItem.Value)
                 {
-                    childCodesByParentCode[parentCode] = new List<string>();
+                    string parentCode = valueGroup.GroupCode;
+
+                    if (!childCodesByParentCode.ContainsKey(parentCode))
+                    {
+                        childCodesByParentCode[parentCode] = new List<string>();
+                    }
+
+                    childCodesByParentCode[parentCode].Add(listItem.Key);
                 }
 
-                childCodesByParentCode[parentCode].Add(listItem.Key);
             }
 
             foreach (PXSqlGroup group in mGroups)

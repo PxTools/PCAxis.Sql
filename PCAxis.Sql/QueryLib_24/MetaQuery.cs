@@ -1226,9 +1226,9 @@ namespace PCAxis.Sql.QueryLib_24
             return result;
         }
 
-        public Dictionary<string, ValueGroupRow> GetValueGroupRowskeyValueCode(string aGrouping, IEnumerable<string> groupCodes, bool emptyRowSetIsOK)
+        public Dictionary<string, List<ValueGroupRow>> GetValueGroupRowskeyValueCode(string aGrouping, IEnumerable<string> groupCodes, bool emptyRowSetIsOK)
         {
-            Dictionary<string, ValueGroupRow> myOut = new Dictionary<string, ValueGroupRow>();
+            Dictionary<string, List<ValueGroupRow>> myOut = new Dictionary<string, List<ValueGroupRow>>();
             var buckets = CreateGroupCodeBuckets(groupCodes);
 
             foreach (var bucket in buckets)
@@ -1244,9 +1244,9 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
-        private Dictionary<string, ValueGroupRow> GetValueGroupRowskeyValueCodeFromBucket(string aGrouping, IEnumerable<string> groupCodesBucket, bool emptyRowSetIsOK)
+        private Dictionary<string, List<ValueGroupRow>> GetValueGroupRowskeyValueCodeFromBucket(string aGrouping, IEnumerable<string> groupCodesBucket, bool emptyRowSetIsOK)
         {
-            Dictionary<string, ValueGroupRow> myOut = new Dictionary<string, ValueGroupRow>();
+            Dictionary<string, List<ValueGroupRow>> myOut = new Dictionary<string, List<ValueGroupRow>>();
             SqlDbConfig dbconf = DB;
             string sqlString = GetValueGroup_SQLString_NoWhere();
             //
@@ -1276,7 +1276,16 @@ namespace PCAxis.Sql.QueryLib_24
                 foreach (DataRow sqlRow in myRows)
                 {
                     ValueGroupRow outRow = new ValueGroupRow(sqlRow, DB, mLanguageCodes);
-                    myOut.Add(outRow.ValueCode, outRow);
+
+                    if (myOut.ContainsKey(outRow.ValueCode))
+                    {
+                        myOut[outRow.ValueCode].Add(outRow);
+                    }
+                    else
+                    {
+                        myOut.Add(outRow.ValueCode, new List<ValueGroupRow>() { outRow });
+                    }
+
                     foundGroupCodes.Add(outRow.GroupCode);
                 }
             }
