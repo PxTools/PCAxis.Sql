@@ -14,6 +14,34 @@ namespace ManualTests
         }
 
         [TestMethod]
+        public void Test2()
+        {
+            var myLang = "no";
+            var builder = new PCAxis.PlugIn.Sql.PXSQLBuilder();
+            var id2id = ApiUtilStatic.GetMenuLookupTables(myLang);
+            var urlId = "06266";
+            var dbId = id2id[urlId].Selection;
+            builder.SetPath(dbId);
+            builder.SetPreferredLanguage(myLang);
+            builder.BuildForSelection();
+
+            var selectAll = Selection.SelectAll(builder.Model.Meta);
+            var select3 = new List<Selection>();
+            select3.Add(selectAll.ElementAt(0));
+            select3.Add(new Selection(selectAll.ElementAt(1).VariableCode));
+            select3.Add(new Selection(selectAll.ElementAt(2).VariableCode));
+            select3.Add(selectAll.ElementAt(3));
+            select3.Add(selectAll.ElementAt(4));
+            var select = select3.ToArray();
+
+            builder.BuildForPresentation(select);
+
+            Assert.IsNotNull(builder.Model);
+            string actual = "";
+
+        }
+
+        [TestMethod]
         public void TestAnnual()
         {
             var myLang = "no";
@@ -37,10 +65,6 @@ namespace ManualTests
             Assert.AreEqual(TimeScaleType.Annual, mTimeScale);
             Assert.IsNotNull(builder.Model);
             string actual = "";
-
-
-
-
 
         }
 

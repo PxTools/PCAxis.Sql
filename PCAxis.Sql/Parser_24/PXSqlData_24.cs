@@ -40,11 +40,11 @@ namespace PCAxis.Sql.Parser_24
 
 
         //these booleans influence the SQL-query
-        private bool npm = false;
-        private bool hasGrouping = false;
+        private readonly bool npm = false;
+        private readonly bool hasGrouping = false;
 
-        private bool eliminationBySum = false;
-        private bool useSum = false;// = hasGrouping || eliminationBySum
+        private readonly bool eliminationBySum = false;
+        private readonly bool useSum = false;// = hasGrouping || eliminationBySum
 
         //number of output variables:( does not include eleminated variables  )
         // hva med eleminated by value?
@@ -147,11 +147,11 @@ namespace PCAxis.Sql.Parser_24
         private readonly Dictionary<double, PXSqlNpm.NPMCharacter> npmCharachterByMissingRowValue = new Dictionary<double, PXSqlNpm.NPMCharacter>();
 
         //false if missing row means 0.0 for all cont variables
-        private bool anyDefaultMRNotZero;
-        private bool anyDefaultMROfCat3;
+        private readonly bool anyDefaultMRNotZero;
+        private readonly bool anyDefaultMROfCat3;
 
         //true if anyDefaultMROfCat3 && hasGrouping
-        private bool needGroupingFactor;
+        private readonly bool needGroupingFactor;
 
         #endregion members and propreties
 
@@ -167,13 +167,13 @@ namespace PCAxis.Sql.Parser_24
 
             this.npm = mMeta.SpecCharExists;
             this.hasGrouping = mMeta.Variables.HasAnyoneGroupingOnNonstoredData();
-            //                .HasAnyoneGrouping();
+
             log.Info("mMeta.Variables.HasAnyoneGroupingOnNonstoredData: " + mMeta.Variables.HasAnyoneGroupingOnNonstoredData());
             this.eliminationBySum = mMeta.EliminatedVariablesExist;
 
-            //System.Console.WriteLine("DEBUG tukler med nmp og summ");
-            //npm = true;
-            //alwaysUseSum = true;
+
+
+
 
             this.useSum = hasGrouping || eliminationBySum;
             log.Info("hasGrouping:" + hasGrouping + " | eliminationBySum:" + eliminationBySum);
@@ -209,25 +209,25 @@ namespace PCAxis.Sql.Parser_24
 
             #region init contKeys
             if (String.IsNullOrEmpty(theKeyOfTheContentsVariableVariable))
-            { //just one contVar
+            { //exactly one contVar
                 throw new ApplicationException("Bug");
-                // the size of ContentsVariableVariable should not influence how it is stored 
-                //                contKeys.Add( mMeta.FirstContents );
-            }
-            else
-            {
-                PXSqlVariable theContentsVariable = mMeta.Variables[theKeyOfTheContentsVariableVariable];
-                foreach (PXSqlValue contCode in theContentsVariable.GetValuesForParsing())
-                {
-                    //contKeys.Add(contCode.ValueCode);
-                    contKeys.Add(contCode.ContentsCode); // 2010.05.07  replaces line above because valuecode is now Prescode from contents. New contentscode added to PXSqlValue
-                }
-                foreach (string contCode in theContentsVariable.Values.Keys)
-                {
-                    //    contKeys.Add(contCode);
-                }
+
 
             }
+
+
+            PXSqlVariable theContentsVariable = mMeta.Variables[theKeyOfTheContentsVariableVariable];
+            foreach (PXSqlValue contCode in theContentsVariable.GetValuesForParsing())
+            {
+                //contKeys.Add(contCode.ValueCode);
+                contKeys.Add(contCode.ContentsCode); // 2010.05.07  replaces line above because valuecode is now Prescode from contents. New contentscode added to PXSqlValue
+            }
+
+
+
+
+
+
 
             #endregion init contKeys
 
@@ -264,8 +264,8 @@ namespace PCAxis.Sql.Parser_24
                 contCount2++;
             }
             #endregion init defaults for missing rows
-
-
+            needGroupingFactor = anyDefaultMROfCat3 && hasGrouping;
+            log.Debug("Post needGroupingFactor=" + needGroupingFactor.ToString() + " because: anyDefaultMROfCat3= " + anyDefaultMROfCat3.ToString() + " , hasGrouping= " + hasGrouping.ToString());
             log.Debug("eliminationFactor: " + eliminationFactor);
 
 
@@ -447,12 +447,21 @@ namespace PCAxis.Sql.Parser_24
             sqlStringTemp += mindexSQLString;
             // Modification for NMP && SUM
             sqlOuterString += mindexSQLString;
-
+            //needGroupingFactor:true if anyDefaultMROfCat3 && hasGrouping (=mMeta.Variables.HasAnyoneGroupingOnNonstoredData())
+            //useSum : hasGrouping || eliminationBySum;  , so  needGroupingFactor:true -> useSum :true
             if (needGroupingFactor)
             {
-                sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactorInner ";
-                // Modification for NMP && SUM
-                sqlOuterString += ", MAX(GroupFactorInner) GroupFactor ";
+                if (npm)
+                {
+                    sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactorInner ";
+                    // Modification for NMP && SUM
+                    sqlOuterString += ", MAX(GroupFactorInner) GroupFactor ";
+                }
+                else
+                {
+                    sqlStringTemp += ", " + tempGroupFactorSQL + " GroupFactor ";
+                    // sqlOuterString is not used when npm is false;
+                }
             }
             //TODO piv
             if (hasAttributes)
@@ -480,7 +489,7 @@ namespace PCAxis.Sql.Parser_24
             {
                 if (npm)
                 {
-                    //sqlString += " GROUP BY " + sqlGroupByString.Substring(1);
+
                     sqlString = "select /* useSum = true & NPM=TRUE */ " + sqlOuterString + " from ( select " + sqlOuterJoinString + sqlStringTemp + " GROUP BY " + sqlGroupByString.Substring(1);
                     sqlString += sqlJoinStringOuter + " ) npmFix " + " GROUP BY " + sqlGroupByString.Substring(1);
                 }
@@ -510,9 +519,6 @@ namespace PCAxis.Sql.Parser_24
         override public double[] CreateMatrix()
         {
             log.Debug("Start CreateMatrix()");
-
-            needGroupingFactor = anyDefaultMROfCat3 && hasGrouping;
-            log.Debug("Post needGroupingFactor=" + needGroupingFactor.ToString() + " because: anyDefaultMROfCat3= " + anyDefaultMROfCat3.ToString() + " , hasGrouping= " + hasGrouping.ToString());
 
             string sqlString = CreateSqlString();
 
