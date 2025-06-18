@@ -1226,14 +1226,14 @@ namespace PCAxis.Sql.QueryLib_24
             return result;
         }
 
-        public Dictionary<string, List<ValueGroupRow>> GetValueGroupRowskeyValueCode(string aGrouping, IEnumerable<string> groupCodes, bool emptyRowSetIsOK)
+        public Dictionary<string, List<ValueGroupRow>> GetValueGroupRowsByParentCode(string aGrouping, IEnumerable<string> groupCodes, bool emptyRowSetIsOK)
         {
             Dictionary<string, List<ValueGroupRow>> myOut = new Dictionary<string, List<ValueGroupRow>>();
             var buckets = CreateGroupCodeBuckets(groupCodes);
 
             foreach (var bucket in buckets)
             {
-                var bucketDictionary = GetValueGroupRowskeyValueCodeFromBucket(aGrouping, bucket, emptyRowSetIsOK);
+                var bucketDictionary = GetValueGroupRowsByParentCodeFromBucket(aGrouping, bucket, emptyRowSetIsOK);
 
                 foreach (var keyValueItem in bucketDictionary)
                 {
@@ -1244,7 +1244,7 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
-        private Dictionary<string, List<ValueGroupRow>> GetValueGroupRowskeyValueCodeFromBucket(string aGrouping, IEnumerable<string> groupCodesBucket, bool emptyRowSetIsOK)
+        private Dictionary<string, List<ValueGroupRow>> GetValueGroupRowsByParentCodeFromBucket(string aGrouping, IEnumerable<string> groupCodesBucket, bool emptyRowSetIsOK)
         {
             Dictionary<string, List<ValueGroupRow>> myOut = new Dictionary<string, List<ValueGroupRow>>();
             SqlDbConfig dbconf = DB;
@@ -1277,13 +1277,13 @@ namespace PCAxis.Sql.QueryLib_24
                 {
                     ValueGroupRow outRow = new ValueGroupRow(sqlRow, DB, mLanguageCodes);
 
-                    if (myOut.ContainsKey(outRow.ValueCode))
+                    if (myOut.ContainsKey(outRow.GroupCode))
                     {
-                        myOut[outRow.ValueCode].Add(outRow);
+                        myOut[outRow.GroupCode].Add(outRow);
                     }
                     else
                     {
-                        myOut.Add(outRow.ValueCode, new List<ValueGroupRow>() { outRow });
+                        myOut.Add(outRow.GroupCode, new List<ValueGroupRow>() { outRow });
                     }
 
                     foundGroupCodes.Add(outRow.GroupCode);
