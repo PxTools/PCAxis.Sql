@@ -37,8 +37,40 @@ namespace ManualTests
             builder.BuildForPresentation(select);
 
             Assert.IsNotNull(builder.Model);
-            string actual = "";
 
+        }
+
+        [TestMethod]
+        public void Test3()
+        {
+            var myLang = "no";
+            var builder = new PCAxis.PlugIn.Sql.PXSQLBuilder();
+            var id2id = ApiUtilStatic.GetMenuLookupTables(myLang);
+            var urlId = "04321";
+            var dbId = id2id[urlId].Selection;
+            builder.SetPath(dbId);
+            builder.SetPreferredLanguage(myLang);
+            builder.BuildForSelection();
+
+            var aGrouping = new PCAxis.Paxiom.GroupingInfo("KommuneXTtSted");
+            builder.ApplyGrouping("Region", aGrouping, GroupingIncludesType.AggregatedValues);
+
+            var selectAll = Selection.SelectAll(builder.Model.Meta);
+            var select3 = new List<Selection>();
+            select3.Add(selectAll.ElementAt(0));
+            select3.Add(new Selection(selectAll.ElementAt(1).VariableCode));
+            select3.Add(new Selection(selectAll.ElementAt(2).VariableCode));
+            select3.Add(selectAll.ElementAt(3));
+            select3.Add(selectAll.ElementAt(4));
+            var select = select3.ToArray();
+
+            builder.BuildForPresentation(select);
+
+            Assert.IsNotNull(builder.Model);
+            int expectedVarieblesCount = 3;
+            Assert.AreEqual(expectedVarieblesCount, builder.Model.Meta.Variables.Count);
+            int expectedMatrixSize = 932;
+            Assert.AreEqual(expectedMatrixSize, builder.Model.Data.MatrixSize);
         }
 
         [TestMethod]
