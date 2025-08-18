@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using PCAxis.Sql.DbClient;
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Models;
 using PCAxis.Sql.Repositories;
@@ -89,6 +90,25 @@ namespace PCAxis.Sql.ApiUtils
                 throw new ArgumentException("'from' date cannot be later than 'to' date.");
 
             return TablesPublishedBetweenRepositoryStatic.GetTablesPublishedBetween(from, to);
+        }
+
+        public static bool IsDbConnectionHealthy()
+        {
+            try
+            {
+                // Try to get the default database config and check if it can connect
+                var config = SqlDbConfigsStatic.DefaultDatabase;
+                InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
+                using (var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString))
+                {
+                    cmd.ExecuteSelect("SELECT 1");
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
