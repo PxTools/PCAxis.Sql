@@ -92,7 +92,7 @@ namespace PCAxis.Sql.ApiUtils
             return TablesPublishedBetweenRepositoryStatic.GetTablesPublishedBetween(from, to);
         }
 
-        public static bool IsDbConnectionHealthy()
+        public static bool IsDbConnectionHealthy(string queryText)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace PCAxis.Sql.ApiUtils
                 InfoForDbConnection info = config.GetInfoForDbConnection(config.GetDefaultConnString());
                 using (var cmd = new PxSqlCommandForTempTables(info.DataBaseType, info.DataProvider, info.ConnectionString))
                 {
-                    cmd.ExecuteSelect("SELECT 1");
+                    cmd.ExecuteSelect(queryText);
                 }
                 return true;
             }
