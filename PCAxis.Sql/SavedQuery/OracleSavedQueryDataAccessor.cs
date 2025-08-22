@@ -25,7 +25,7 @@ namespace PCAxis.Sql.SavedQuery
             {
                 conn.Open();
 
-                var cmd = new OracleCommand($"select QueryText from {_savedQueryTableOwner}.SavedQueryMeta where QueryId = :queryId", conn);
+                var cmd = new OracleCommand($"select QueryText from {_savedQueryTableOwner}.SavedQueryMeta2 where QueryId = :queryId", conn);
                 cmd.Parameters.Add("queryId", id);
                 string query = cmd.ExecuteScalar() as string;
 
