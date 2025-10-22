@@ -68,7 +68,7 @@ namespace ManualTests
 
             Assert.IsNotNull(builder.Model);
             int expectedVarieblesCount = 3;
-            Assert.AreEqual(expectedVarieblesCount, builder.Model.Meta.Variables.Count);
+            Assert.HasCount(expectedVarieblesCount, builder.Model.Meta.Variables);
             int expectedMatrixSize = 932;
             Assert.AreEqual(expectedMatrixSize, builder.Model.Data.MatrixSize);
         }

@@ -18,7 +18,7 @@ namespace PCAxis.Encryption.UnitTest
 
 
             //Assert
-            Assert.AreEqual(result, false);
+            Assert.IsFalse(result);
 
         }
     }

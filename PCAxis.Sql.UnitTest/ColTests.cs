@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PCAxis.Sql.DbConfig;
+[assembly: Parallelize(Scope = ExecutionScope.MethodLevel)]
 
 namespace PCAxis.Sql.UnitTest
 {
@@ -129,7 +130,7 @@ namespace PCAxis.Sql.UnitTest
         [TestCategory("Unit")]
         public void Is_GivenTwoCol_ReturnsIdEqualSQLPartExpresssion()
         {
-            //Arrange 
+            //Arrange
             var col = new Col("ColName", "TableAlias");
             var col2 = new Col("ColName", "TableAlias2");
 
