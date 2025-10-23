@@ -96,7 +96,6 @@ namespace ManualTests
             mTimeScale = builder.Model.Meta.Variables[1].TimeScale;
             Assert.AreEqual(TimeScaleType.Annual, mTimeScale);
             Assert.IsNotNull(builder.Model);
-            string actual = "";
 
         }
 
@@ -140,7 +139,6 @@ namespace ManualTests
             builder.SetPath(dbId);
             builder.SetPreferredLanguage(myLang);
             builder.BuildForSelection();
-            int timeIndex = 2;
 
             var mTimeScale = builder.Model.Meta.Variables[2].TimeScale;
             Assert.AreEqual(TimeScaleType.Weekly, mTimeScale);
