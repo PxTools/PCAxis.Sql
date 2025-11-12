@@ -26,7 +26,7 @@ namespace ManualTests
         {
             var dbConf = SqlDbConfigsStatic.DefaultDatabase;
             var langCount = dbConf.GetAllLanguages().Count;
-            Assert.IsTrue(langCount > 1);
+            Assert.IsGreaterThan(1, langCount);
         }
 
     }
