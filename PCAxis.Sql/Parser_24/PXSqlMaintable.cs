@@ -212,9 +212,16 @@ namespace PCAxis.Sql.Parser_24
             string subkey = null;
             StringCollection values = new StringCollection();
 
-            // MATRIX
+            // MATRIX   =  TABLEID if not empty (2025 nov)
             values.Clear();
-            values.Add(meta.Contents[meta.FirstContents].PresCode);
+            if (!string.IsNullOrEmpty(this.TableId.Trim(' ')))
+            {
+                values.Add(this.TableId);
+            }
+            else
+            {
+                values.Add(meta.Contents[meta.FirstContents].PresCode);
+            }
             handler(PXKeywords.MATRIX, noLanguage, subkey, values);
 
 
