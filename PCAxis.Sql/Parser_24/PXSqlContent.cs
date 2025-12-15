@@ -396,6 +396,13 @@ namespace PCAxis.Sql.Parser_24
                 values.Add(this.mUnit[langCode]);
                 handler(PXKeywords.UNITS, langCode, subkey, values);
 
+                // Public Const CNMM_ALTERNATIVE_CONTENTS_TEXT As String = "CNMM-ALTERNATIVE-CONTENTS-TEXT"
+                // change to const when nuget is ready: 
+
+                values.Clear();
+                values.Add(this.mPresText[langCode]);
+                handler("CNMM-ALTERNATIVE-CONTENTS-TEXT", langCode, subkey, values);
+
             }
 
             string noLanguage = null;
