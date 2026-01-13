@@ -100,8 +100,7 @@ namespace ManualTests
         [TestMethod]
         public void TestBugHunt_s687()
         {
-            //comment this out to get error
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+            //When bug is present the builder will throw
 
             var myLang = "no";
             var builder = new PCAxis.PlugIn.Sql.PXSQLBuilder();
@@ -113,7 +112,6 @@ namespace ManualTests
             builder.SetPreferredLanguage(myLang);
             builder.BuildForSelection();
 
-            var selectAll = Selection.SelectAll(builder.Model.Meta);
             var selections = new List<Selection>();
             var sel0 = new Selection("ContentsCode");
             sel0.ValueCodes.Add("SosMedieJobb");
