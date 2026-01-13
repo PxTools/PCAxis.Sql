@@ -166,7 +166,7 @@ namespace PCAxis.Sql.DbClient
             stopWatch.Start();
 #endif
 
-            DataSet pxDataSet = new DataSet();
+            DataSet pxDataSet = myDbVendor.GetDataSet();
             try
             {
                 using (DbDataAdapter pxDataAdapter = myDbVendor.GetDbDataAdapter(selectString))
