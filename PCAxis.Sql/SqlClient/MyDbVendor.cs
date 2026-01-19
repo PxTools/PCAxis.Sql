@@ -48,6 +48,11 @@ namespace PCAxis.Sql.DbClient
             this.dbconn = aDbconn;
         }
 
+        internal virtual DataSet GetDataSet()
+        {
+            return new DataSet();
+        }
+
         internal abstract DbConnectionStringBuilder GetDbConnectionStringBuilder(string connectionString);
         internal abstract DbCommand GetDbCommand(string commandString);
 

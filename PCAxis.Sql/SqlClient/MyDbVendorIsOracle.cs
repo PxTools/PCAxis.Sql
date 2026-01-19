@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data;
 using System.Data.Common;
+using System.Globalization;
 using System.Text;
 
 using log4net;
@@ -31,6 +33,14 @@ namespace PCAxis.Sql.DbClient
             OracleNinja1 = " * from (SELECT ";
             OracleNinja2 = " union all select null,   null, null,   null,   null,   null,  null,   null,  null from dual  ) a ";
 
+        }
+
+        internal override DataSet GetDataSet()
+        {
+            //See ManualTests.OracleCultureBugTest  
+            DataSet myOut = new DataSet();
+            myOut.Locale = CultureInfo.InvariantCulture;
+            return myOut;
         }
 
         internal override DbConnectionStringBuilder GetDbConnectionStringBuilder(string connectionString)
