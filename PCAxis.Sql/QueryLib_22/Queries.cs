@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-using Microsoft.IdentityModel.Tokens;
-
 using PCAxis.Sql.DbConfig;
 using PCAxis.Sql.Repositories;
 
@@ -162,7 +160,7 @@ namespace PCAxis.Sql.QueryLib_22
                 Models.GroupedValue tmp = new Models.GroupedValue();
 
                 tmp.Text = row.texts[lang].ValueTextL;
-                if (tmp.Text.IsNullOrEmpty())
+                if (String.IsNullOrEmpty(tmp.Text))
                 {
                     tmp.Text = row.texts[lang].ValueTextS;
                 }
