@@ -20,12 +20,6 @@ namespace PCAxis.Sql.ApiUtils
     {
 
         private static readonly Lazy<List<string>> LanguagesInDbConfig = new Lazy<List<string>>(() => SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages());
-        static ApiUtilStatic()
-        {
-            Console.WriteLine("Start ApiUtilStatic");
-            //var config = SqlDbConfigsStatic.DefaultDatabase;
-            //LanguagesInDbConfig = new config.ListAllLanguages();
-        }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
         static public ValueSet GetValueSet(string valueSetId, string language)
