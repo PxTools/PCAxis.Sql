@@ -19,12 +19,12 @@ namespace PCAxis.Sql.ApiUtils
     public static class ApiUtilStatic
     {
 
-        private static readonly List<string> LanguagesInDbConfig;
+        private static readonly Lazy<List<string>> LanguagesInDbConfig = new Lazy<List<string>>(() => SqlDbConfigsStatic.DefaultDatabase.ListAllLanguages());
         static ApiUtilStatic()
         {
             Console.WriteLine("Start ApiUtilStatic");
-            var config = SqlDbConfigsStatic.DefaultDatabase;
-            LanguagesInDbConfig = config.ListAllLanguages();
+            //var config = SqlDbConfigsStatic.DefaultDatabase;
+            //LanguagesInDbConfig = new config.ListAllLanguages();
         }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
@@ -118,7 +118,7 @@ namespace PCAxis.Sql.ApiUtils
             {
                 throw new ArgumentException("The language cannot be null.");
             }
-            if (!LanguagesInDbConfig.Contains(input))
+            if (!LanguagesInDbConfig.Value.Contains(input))
             {
                 throw new ArgumentException("Cant find language in config.");
             }
@@ -133,9 +133,9 @@ namespace PCAxis.Sql.ApiUtils
                 throw new ArgumentException("The id string cannot be null.");
             }
 
-            if (!Regex.IsMatch(input, @"^[\w\t \-:.]+$", RegexOptions.None, TimeSpan.FromSeconds(2)))
+            if (!Regex.IsMatch(input, @"^[\w\t \-:.\(\)\+<>]+$", RegexOptions.None, TimeSpan.FromSeconds(2)))
             {
-                throw new ArgumentException("The string contains invalid characters. Only letters, digits, underscores, tabs, spaces, hyphens, colons and periods are allowed.");
+                throw new ArgumentException("The string contains invalid characters. Only letters, digits, underscores, tabs, spaces, hyphens, colons, periods, parentheses, plus and angle brackets are allowed.");
             }
             return input;
         }
