@@ -60,7 +60,7 @@ namespace PCAxis.Sql.QueryLib_24
         public PxSqlValues GetTimeValueList(string mainTable, Dictionary<string, int> mySelectedValues)
         {
 
-            DataSet ds = this.GetTimeValues(mainTable, mySelectedValues.Keys);
+            DataSet ds = this.GetTimeValues_outer(mainTable, mySelectedValues.Keys);
             PxSqlValues myOut = GetTimeValues(mainTable, ds, false);
 
 
@@ -79,7 +79,45 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
-        private DataSet GetTimeValues(string aMainTable, ICollection<string> valuesFromPxs)
+        private DataSet GetTimeValues_outer(string aMainTable, ICollection<string> valuesFromPxs)
+        {
+            // 2026: a few tables now hits the maximum number of parameters in a single stored procedure or parameterized query to 2,100.
+            // see https://github.com/PxTools/PxWebApi/issues/635
+            // This is different problem than max no in a IN-list and max length of sql-query.
+            // Using merge datasets to get around this limit, since the worst number of periods is close to the limit.
+            // Another solution would be to use a temp table and join with that, but that would require more changes in the code.
+
+            if (valuesFromPxs.Count() < 2090)
+            {
+                // almost all go her
+                return GetTimeValues_inner(aMainTable, valuesFromPxs);
+            }
+
+            List<DataSet> dsChunks = new List<DataSet>();
+
+            const int chunkSize = 2089;
+            List<string> pxsValues = valuesFromPxs.ToList();
+
+            for (int i = 0; i < pxsValues.Count; i += chunkSize)
+            {
+                int count = Math.Min(chunkSize, pxsValues.Count - i);
+                List<string> chunk = pxsValues.GetRange(i, count);
+                dsChunks.Add(GetTimeValues_inner(aMainTable, chunk));
+            }
+
+            DataSet mergedDataSet = new DataSet();
+            foreach (DataSet dsChunk in dsChunks)
+            {
+                mergedDataSet.Merge(dsChunk, true, MissingSchemaAction.Add);
+            }
+
+            return mergedDataSet;
+        }
+
+
+
+
+        private DataSet GetTimeValues_inner(string aMainTable, ICollection<string> valuesFromPxs)
         {
 
             // Get the name of the current method.
@@ -134,6 +172,7 @@ namespace PCAxis.Sql.QueryLib_24
             // Execute the SQL and return the result (records) as a System.Data.DataSet-object.
             return mSqlCommand.ExecuteSelect(sqlString, parameters);
         }
+
         #endregion fixed list of timevalues
 
         #region  the last timevalue ( N=1 below)
