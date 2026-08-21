@@ -60,7 +60,7 @@ namespace PCAxis.Sql.QueryLib_24
         public PxSqlValues GetTimeValueList(string mainTable, Dictionary<string, int> mySelectedValues)
         {
 
-            DataSet ds = this.GetTimeValues_outer(mainTable, mySelectedValues.Keys);
+            DataSet ds = this.GetTimeValues(mainTable, mySelectedValues.Keys);
             PxSqlValues myOut = GetTimeValues(mainTable, ds, false);
 
 
@@ -79,7 +79,7 @@ namespace PCAxis.Sql.QueryLib_24
             return myOut;
         }
 
-        private DataSet GetTimeValues_outer(string aMainTable, ICollection<string> valuesFromPxs)
+        private DataSet GetTimeValues(string aMainTable, ICollection<string> valuesFromPxs)
         {
             // 2026: a few tables now hits the maximum number of parameters in a single stored procedure or parameterized query to 2,100.
             // see https://github.com/PxTools/PxWebApi/issues/635
@@ -113,9 +113,6 @@ namespace PCAxis.Sql.QueryLib_24
 
             return mergedDataSet;
         }
-
-
-
 
         private DataSet GetTimeValues_inner(string aMainTable, ICollection<string> valuesFromPxs)
         {
