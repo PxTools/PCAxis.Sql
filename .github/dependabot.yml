@@ -16,6 +16,9 @@ updates:
           - "minor"
     cooldown:
       default-days: 9
+      exclude:
+        - "PCAxis.Core"
+      
 
   - package-ecosystem: "github-actions"
     directory: "/"
