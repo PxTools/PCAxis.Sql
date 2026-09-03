@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>PcAxis.Sql</PackageId>
+    <PackageId>PCAxis.Sql</PackageId>
     <MinVerTagPrefix>v</MinVerTagPrefix>
     <MinVerDefaultPreReleasePhase>beta</MinVerDefaultPreReleasePhase>
     <MinVerSkip Condition="'$(Configuration)' == 'Debug'">true</MinVerSkip>
