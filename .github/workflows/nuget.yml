@@ -9,7 +9,8 @@ permissions:
 
 jobs:
   release:
-
+    permissions:
+      id-token: write
     runs-on: windows-latest
 
     steps:
@@ -22,6 +23,13 @@ jobs:
 
     - uses: NuGet/setup-nuget@fd55a6f3b34392fa83fde1454582407d8c714123 # v4.0
 
+    # Get a short-lived NuGet API key
+    - name: NuGet login (OIDC → temp API key)
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+      id: login
+      with:
+          user: ${{ secrets.NUGET_USER }}
+
     - name: Restore NuGet packages
       run: nuget restore
 
@@ -33,4 +41,4 @@ jobs:
            $package = Get-ChildItem -Recurse -Filter *.nupkg
            nuget push $package $env:nuget_api_key -src https://nuget.org
       env:
-        nuget_api_key: ${{ secrets.NUGET_API_KEY }}
+        nuget_api_key: ${{ steps.login.outputs.NUGET_API_KEY }}
