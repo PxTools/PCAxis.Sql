@@ -25,7 +25,7 @@ namespace PCAxis.Sql.UnitTest
         [DataRow("F_AntalBarn>6Bakgr")]
         public void UnModifiedPattern_ValidateIdString_GivenValidValues_ReturnsSameValue(string value)
         {
-            //ApiUtilStatic.SetValidIdString(@"^[\w\t \-:.<>]+$");
+            //ApiUtilStatic.SetValidIdRegExp(@"^[\w\t \-:.<>]+$");
             Assert.ThrowsExactly<ArgumentException>(() => InvokeValidateIdString(null));
         }
 
@@ -37,7 +37,7 @@ namespace PCAxis.Sql.UnitTest
         [DataRow("F_AntalBarn>6Bakgr")]
         public void ValidateIdString_GivenValidValues_ThrowsException(string value)
         {
-            ApiUtilStatic.SetValidIdString(@"^[\w\t \-:.\(\)\+<>]+$");
+            ApiUtilStatic.SetValidIdRegExp(@"^[\w\t \-:.\(\)\+<>]+$");
             string result = InvokeValidateIdString(value);
             Assert.AreEqual(value, result);
         }
@@ -56,7 +56,7 @@ namespace PCAxis.Sql.UnitTest
         {
             // Arrange
             var invalidId = "table/id";
-            ApiUtilStatic.SetValidIdString(@"^[\w\t \-:.<>]+$");
+            ApiUtilStatic.SetValidIdRegExp(@"^[\w\t \-:.<>]+$");
 
             Assert.ThrowsExactly<ArgumentException>(() => InvokeValidateIdString(invalidId));
         }

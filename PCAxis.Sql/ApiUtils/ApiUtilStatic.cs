@@ -29,23 +29,14 @@ namespace PCAxis.Sql.ApiUtils
         /// </summary>
         /// <param name="pattern"></param>
         /// <returns>false if the pattern is invalid, true otherwise</returns>
-        public static bool SetValidIdString(string pattern)
+        public static void SetValidIdRegExp(string pattern)
         {
-            if (string.IsNullOrEmpty(pattern))
-                return false;
 
             // Validate that the pattern is a valid regex pattern
-            try
-            {
-                Regex.Match(string.Empty, pattern, RegexOptions.None, TimeSpan.FromSeconds(2));
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
+            // If faulty it will throw exception
+            Regex.Match(string.Empty, pattern, RegexOptions.None, TimeSpan.FromSeconds(2));
 
             s_validIdPattern = pattern;
-            return true;
         }
 
         //Exceptions ?  What if the valueset only exists in another language: Exceptions!
